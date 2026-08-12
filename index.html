@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f4f1">
+<title>Pinnacle Navigator</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f4f1;color:#111;font-family:Arial,Helvetica,sans-serif}.app{max-width:650px;margin:auto;padding:12px 12px 88px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.brand{font-size:19px;font-weight:900}.small{font-size:11px;color:#666}.live{font-size:11px;font-weight:900;padding:6px 9px;border-radius:999px;background:#ddd;border:0}.live.ok{background:#e5f5e9;color:#176b3b}.live.bad{background:#fee;color:#922}.card{background:#fff;border:1px solid #ddd;border-radius:16px;padding:16px;margin-bottom:10px}h1{font-size:23px;line-height:1.12;margin:5px 0 12px}.pin{width:100%;padding:15px;border:2px solid #bbb;border-radius:12px;text-align:center;font-size:24px;letter-spacing:.16em}.names{display:grid;gap:9px;margin-top:12px}.names button{background:#fff;border:2px solid #ccc;font-size:20px}.err{color:#922;font-size:12px;font-weight:900;margin-top:9px;min-height:17px}.job{border:2px solid #176b3b;background:#eaf6ed;border-radius:14px;padding:14px}.job.gap{border-color:#c98900;background:#fff2c9}.title{font-size:20px;font-weight:900;line-height:1.18;margin:6px 0}.tag{display:inline-block;font-size:10px;font-weight:900;background:#eef5fb;color:#205a8a;padding:5px 8px;border-radius:999px;margin:8px 5px 0 0}.tag.started{background:#dff3e5;color:#176b3b}.tag.pair{background:#111;color:#fff}.why{font-size:12px;line-height:1.42;margin-top:10px;border-top:1px solid #bbb;padding-top:9px}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}button{touch-action:manipulation;font:inherit;font-weight:900;border:0;border-radius:12px;padding:14px;cursor:pointer}.primary{background:#111;color:#fff}.hold{background:#fee;color:#922;border:1px solid #e5bcbc}.soft{background:#eee;color:#111}.wide{width:100%;margin-top:8px}.crew{border:1px solid #ddd;border-radius:12px;padding:11px;margin-top:8px}.task{display:block;width:100%;text-align:left;background:#fff;border:1px solid #ddd;margin-top:7px}.task.done{opacity:.55}.task.wait{border-color:#e0bd70}.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(8px,env(safe-area-inset-bottom));width:min(calc(100% - 18px),650px);display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px;background:rgba(244,244,241,.96);border:1px solid #ddd;border-radius:14px}.nav button{padding:10px 2px;font-size:10px;background:#ddd}.nav button.active{background:#111;color:#fff}.hide{display:none!important}.statusLine{font-size:12px;color:#666;margin-top:5px}.progress{height:12px;background:#e5e5df;border-radius:999px;overflow:hidden;margin-top:10px}.progress div{height:100%;background:#111}@media(max-width:420px){.app{padding:9px 9px 84px}.card{padding:13px}.row{grid-template-columns:1fr}.title{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div><div class="brand">Pinnacle Navigator</div><div class="small">Mundi POS 1 - LIVE SHARED CREW</div></div>
+    <button id="live" class="live">NOT CONNECTED</button>
+  </div>
+  <div id="view"></div>
+</div>
+<nav id="nav" class="nav hide">
+  <button data-screen="home">HOME</button>
+  <button data-screen="crew">CREW</button>
+  <button data-screen="progress">PROGRESS</button>
+  <button data-screen="tasks">ALL TASKS</button>
+</nav>
+<script>
+(function(){
+"use strict";
+const T=[
+["T01","CHECK UNDER EVERY BASE-PLATE POSITION",0,[]],
+["T02","CHECK THE NET-SIDE CONNECTION SPACE",0,["T01"]],
+["T03","RECHECK SETOUT + MARK THE REAL HOLES",0,["T01","T02"]],
+["T04","DRILL THE BASE-PLATE HOLES",0,["T03"]],
+["T05","BOLT THE BASE PLATES ON",0,["T04"]],
+["T06","SET THE UPRIGHTS",0,["T05"]],
+["T07","TACK THE 65NB TOP RAIL + CHECK 850 mm",0,["T06"]],
+["T08","CONFIRM THE REMOVABLE GALVANISING SPLITS",1,["T07"]],
+["T09","RESOLVE THE BOTTOM SS GUIDE-WIRE END FIXINGS",1,["T06"]],
+["T10","CHECK ALL PRE-GALV WELDED DETAILS ARE FINISHED",0,["T07","T08","T09"]],
+["T11","REMOVE + LABEL THE BALUSTRADE SECTIONS",0,["T10"]],
+["T12","CONFIRM GALVANISER VENT / DRAIN REQUIREMENTS + SEND",1,["T11"]],
+["T13","RE-SET THE JOISTS TO MISS PLATES + POLES",0,["T05"]],
+["T14","CONFIRM THE SLIDE-TO-TRUCK CONNECTION",1,[]],
+["T15","FABRICATE THE SLIDE PROFILE / STEP STEEL AFTER CONFIRMATION",0,["T14"]],
+["T16","PREPARE THE MODWOOD DECK BUILD-UP",0,["T13","T15","T11"]],
+["T17","INSTALL THE MODWOOD DECKING",0,["T16"]],
+["T18","REINSTALL THE GALVANISED BALUSTRADE",0,["T12","T17"]],
+["T19","INSTALL THE SS MESH SUPPORT / MESH SYSTEM",1,["T18"]],
+["T20","INSTALL + TENSION THE BOTTOM GUIDE WIRE / LACE THE MESH",1,["T19","T09"]],
+["T21","INSTALL THE CARGO CLIMBING NET TO THE APPROVED CONNECTIONS",0,["T18"]],
+["T22","COMPLETE THE TRUCK CAB DECOMMISSIONING ITEMS",0,[]],
+["T23","COMPLETE THE CAB ACCESS LADDER / STEP DETAIL",1,["T22"]],
+["T24","INSTALL THE UNDER-TRUCK ACCESS MESH",0,["T17","T23"]],
+["T25","FABRICATE THE CLIMBING-CRATE STEEL FRAMES",0,[]],
+["T26","FIX THE CRATE FRAMES TO THE CONCRETE / FOOTING DETAIL",0,["T25"]],
+["T27","INSTALL THE CRATE MODWOOD / CLADDING",0,["T26"]],
+["T28","COMPLETE THE PLAY-SAFETY INSPECTION / RECTIFICATIONS",1,["T20","T21","T23","T24","T27","T15"]],
+["T29","FINAL PLAN / REVISION CHECK BEFORE HANDOVER",1,["T28"]]
+];
+const API="https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-sync";
+const KEY="sb_publishable_VATM2AkVyl-yvxv28S2FXw_CqMpBr6q";
+const PROJECT="mundi-pos1";
+const N={me:"Mitchell",ronan:"Ronan",colin:"Colin"};
+const FLOW=["T01","T14","T02","T03","T04","T05","T15","T06","T07","T08","T09","T10","T11","T12","T13","T16","T17","T18","T19","T20","T21","T22","T23","T24","T25","T26","T27","T28","T29"];
+let who=localStorage.getItem("pn_live_person")||"";
+let pin=localStorage.getItem("pn_live_pin")||"";
+let state=null,version=0,screen="home",busy=false,poller=null;
+const view=document.getElementById("view"),nav=document.getElementById("nav"),live=document.getElementById("live");
+function task(id){return T.find(function(x){return x[0]===id})}
+function rank(id){const i=FLOW.indexOf(id);return i<0?999:i}
+function closed(id){return state.done.indexOf(id)>=0||state.skipped.indexOf(id)>=0}
+function held(id){return !!(state.holds&&state.holds[id])}
+function ready(){return T.filter(function(x){return !closed(x[0])&&!held(x[0])&&x[3].every(closed)})}
+function setLive(cls,text){live.className="live "+cls;live.textContent=text}
+function cleanPin(x){return String(x||"").replace(/[^0-9]/g,"")}
+function validPin(x){return /^[0-9]{6}$/.test(x)}
+function norm(x){x=x&&typeof x==="object"?x:{};x.done=Array.isArray(x.done)?x.done:[];x.skipped=Array.isArray(x.skipped)?x.skipped:[];x.holds=x.holds&&typeof x.holds==="object"?x.holds:{};x.assignments=x.assignments&&typeof x.assignments==="object"?x.assignments:{me:null,ronan:null,colin:null};x.startedByPerson=x.startedByPerson&&typeof x.startedByPerson==="object"?x.startedByPerson:{me:null,ronan:null,colin:null};x.activity=Array.isArray(x.activity)?x.activity:[];["me","ronan","colin"].forEach(function(p){if(!(p in x.assignments))x.assignments[p]=null;if(!(p in x.startedByPerson))x.startedByPerson[p]=null});return x}
+async function req(body){const r=await fetch(API,{method:"POST",headers:{"content-type":"application/json","apikey":KEY},body:JSON.stringify(Object.assign({projectId:PROJECT,pin:pin},body))});let d={};try{d=await r.json()}catch(e){}if(!r.ok){const er=new Error(d.error||"Request failed");er.status=r.status;er.data=d;throw er}return d}
+function recommend(){const r=ready();const ids=new Set(r.map(function(x){return x[0]}));["me","ronan","colin"].forEach(function(p){const st=state.startedByPerson[p];state.assignments[p]=st&&ids.has(st)?st:null});const used=new Set(Object.values(state.assignments).filter(Boolean));if(!state.assignments.colin){const gaps=r.filter(function(x){return x[2]===1&&!used.has(x[0])}).sort(function(a,b){return rank(a[0])-rank(b[0])});if(gaps[0]){state.assignments.colin=gaps[0][0];used.add(gaps[0][0])}}const free=["me","ronan"].filter(function(p){return !state.assignments[p]});const cand=r.filter(function(x){return x[2]===0&&!used.has(x[0])}).sort(function(a,b){return rank(a[0])-rank(b[0])});if(free.length===2&&cand[0]){state.assignments.me=cand[0][0];const alt=cand[1];state.assignments.ronan=!alt||rank(alt[0])>rank(cand[0][0])+3?cand[0][0]:alt[0]}else{free.forEach(function(p){const c=r.filter(function(x){return x[2]===0&&Object.values(state.assignments).indexOf(x[0])<0}).sort(function(a,b){return rank(a[0])-rank(b[0])})[0];if(c)state.assignments[p]=c[0]})}}
+function why(p,t){if(p==="colin")return "Earliest ready confirmation that can unlock later work.";const other=p==="me"?"ronan":"me";if(state.assignments[other]===t[0])return "Work together here: finishing this earlier workflow task is more useful than sending one worker far ahead.";return "Earliest sensible unblocked job available in the workflow."}
+function login(msg){clearInterval(poller);nav.classList.add("hide");setLive("","NOT CONNECTED");view.innerHTML='<section class="card"><h1>Who are you?</h1><div class="small">Enter the 6-digit crew PIN, then tap your name.</div><input id="pin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" value="'+cleanPin(pin)+'"><div class="names"><button data-p="me">MITCHELL</button><button data-p="ronan">RONAN</button><button data-p="colin">COLIN</button></div><div class="err">'+(msg||"")+'</div></section>';view.querySelectorAll("[data-p]").forEach(function(b){b.onclick=function(){pin=cleanPin(document.getElementById("pin").value);who=b.getAttribute("data-p");if(!validPin(pin)){login("Enter all 6 PIN digits first.");return}connect()}})}
+async function connect(){if(!who||!validPin(pin)){login("Enter all 6 PIN digits first.");return}setLive("","CONNECTING");view.innerHTML='<section class="card"><h1>Opening '+N[who]+'...</h1><div class="small">Loading the shared Mundi job.</div></section>';try{const d=await req({operation:"get"});state=norm(d.state);version=d.version;localStorage.setItem("pn_live_person",who);localStorage.setItem("pn_live_pin",pin);recommend();nav.classList.remove("hide");setLive("ok","LIVE");render();clearInterval(poller);poller=setInterval(sync,2500)}catch(e){setLive("bad",e.status===401?"PIN WRONG":"OFFLINE");login(e.status===401?"Incorrect crew PIN.":"Could not connect. Check internet and try again.")}}
+function addEvent(x,type,id,extra){x.activity=x.activity||[];x.activity.push(Object.assign({at:new Date().toISOString(),type:type,taskId:id,person:N[who]},extra||{}));x.activity=x.activity.slice(-150)}
+async function save(mut){if(busy||!state)return;busy=true;setLive("","SYNCING");const draft=JSON.parse(JSON.stringify(state));mut(draft);state=norm(draft);recommend();try{const d=await req({operation:"save",version:version,state:state,updatedBy:N[who]});state=norm(d.state);version=d.version;setLive("ok","LIVE");render()}catch(e){if(e.status===409&&e.data){state=norm(e.data.state);version=e.data.version;setLive("ok","UPDATED");render()}else{setLive("bad","SYNC ISSUE");alert("Shared state changed or the connection failed. Navigator has not silently guessed.")}}finally{busy=false}}
+function startCurrent(){const id=state.assignments[who];if(!id)return;save(function(x){x.startedByPerson[who]=id;addEvent(x,"start",id)})}
+function blockCurrent(){const id=state.assignments[who];if(!id)return;const r=prompt("Why is this blocked / waiting?");if(r===null)return;save(function(x){x.holds[id]={reason:(r||"Waiting"),person:N[who],at:new Date().toISOString()};["me","ronan","colin"].forEach(function(p){if(x.assignments[p]===id)x.assignments[p]=null;if(x.startedByPerson[p]===id)x.startedByPerson[p]=null});addEvent(x,"block",id,{reason:r||"Waiting"})})}
+function doneCurrent(){const id=state.assignments[who];if(!id)return;const pair=state.assignments.me===id&&state.assignments.ronan===id;if(pair&&!confirm("This is a shared Mitchell + Ronan task. Mark it DONE for the whole crew?"))return;save(function(x){if(x.done.indexOf(id)<0)x.done.push(id);x.skipped=x.skipped.filter(function(z){return z!==id});delete x.holds[id];["me","ronan","colin"].forEach(function(p){if(x.assignments[p]===id)x.assignments[p]=null;if(x.startedByPerson[p]===id)x.startedByPerson[p]=null});addEvent(x,"done",id)})}
+function home(){const id=state.assignments[who],t=id?task(id):null;if(!t){view.innerHTML='<section class="card"><div class="small">SIGNED IN AS '+N[who].toUpperCase()+'</div><h1>Your job right now</h1><div class="crew"><b>YOU ARE FREE</b><div class="statusLine">No unblocked task is assigned right now.</div></div></section>';return}const started=state.startedByPerson[who]===id,pair=state.assignments.me===id&&state.assignments.ronan===id;view.innerHTML='<section class="card"><div class="small">SIGNED IN AS '+N[who].toUpperCase()+'</div><h1>Your job right now</h1><div class="job '+(t[2]===1?"gap":"")+'"><div class="small">'+t[0]+'</div><div class="title">'+t[1]+'</div>'+(pair?'<span class="tag pair">MITCHELL + RONAN - WORK TOGETHER</span>':'')+'<span class="tag '+(started?"started":"")+'">'+(started?"STARTED - LOCKED":"RECOMMENDED - NOT STARTED")+'</span><div class="why"><b>WHY THIS NOW?</b><br>'+why(who,t)+'</div><div class="row"><button id="start" class="primary">'+(started?"STARTED":"START TASK")+'</button><button id="block" class="hold">BLOCK / WAIT</button></div>'+(started?'<button id="done" class="primary wide">DONE</button>':'')+'</div><button id="change" class="soft wide">CHANGE PERSON ON THIS PHONE</button></section>';document.getElementById("start").onclick=function(){if(!started)startCurrent()};document.getElementById("block").onclick=blockCurrent;const db=document.getElementById("done");if(db)db.onclick=doneCurrent;document.getElementById("change").onclick=function(){who="";localStorage.removeItem("pn_live_person");login("")}}
+function crew(){view.innerHTML='<section class="card"><h1>Who is doing what?</h1>'+["me","ronan","colin"].map(function(p){const id=state.assignments[p],t=id?task(id):null;return '<div class="crew"><b>'+N[p]+'</b><div>'+(t?t[0]+' - '+t[1]:"FREE")+'</div><div class="statusLine">'+(t?(state.startedByPerson[p]===id?"STARTED":"RECOMMENDED"):"No current task")+'</div></div>'}).join("")+'</section>'}
+function progress(){const c=state.done.length+state.skipped.length,pct=Math.round(c/T.length*100),acts=state.activity.slice().reverse().slice(0,20);view.innerHTML='<section class="card"><h1>Shared progress</h1><div style="font-size:32px;font-weight:900">'+c+' / '+T.length+'</div><div class="small">'+state.done.length+' done - '+state.skipped.length+' skipped</div><div class="progress"><div style="width:'+pct+'%"></div></div><h1 style="font-size:17px;margin-top:20px">Recent activity</h1>'+(acts.length?acts.map(function(a){return '<div class="crew"><b>'+(a.person||"Crew")+'</b> - '+String(a.type||"update").toUpperCase()+' '+(a.taskId||"")+'<div class="statusLine">'+(a.at?new Date(a.at).toLocaleString():"")+(a.reason?" - "+a.reason:"")+'</div></div>'}).join(""):'<div class="small">No activity recorded yet.</div>')+'</section>'}
+function taskStatus(t){const id=t[0];if(state.done.indexOf(id)>=0)return "DONE";if(state.skipped.indexOf(id)>=0)return "SKIPPED";if(held(id))return "BLOCKED";if(Object.values(state.startedByPerson).indexOf(id)>=0)return "STARTED";if(Object.values(state.assignments).indexOf(id)>=0)return "RECOMMENDED";if(t[3].every(closed))return "READY";return "WAITING"}
+function tasks(){view.innerHTML='<section class="card"><h1>All tasks</h1>'+T.map(function(t){const st=taskStatus(t);return '<button class="task '+((st==="DONE"||st==="SKIPPED")?"done":"")+' '+((st==="BLOCKED"||st==="WAITING")?"wait":"")+'"><b>'+t[0]+' - '+t[1]+'</b><div class="statusLine">'+st+'</div></button>'}).join("")+'</section>'}
+function render(){nav.querySelectorAll("button").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-screen")===screen)});if(screen==="home")home();else if(screen==="crew")crew();else if(screen==="progress")progress();else tasks()}
+async function sync(){if(busy||!state)return;try{const d=await req({operation:"get"});if(d.version!==version){state=norm(d.state);version=d.version;recommend();setLive("ok","LIVE UPDATED");render()}else setLive("ok","LIVE")}catch(e){setLive("bad","OFFLINE")}}
+nav.querySelectorAll("button").forEach(function(b){b.onclick=function(){screen=b.getAttribute("data-screen");render()}});
+live.onclick=function(){if(state&&confirm("Change person on this phone?")){who="";localStorage.removeItem("pn_live_person");login("")}};
+if(who&&validPin(pin))connect();else login("");
+})();
+</script>
+</body>
+</html>
