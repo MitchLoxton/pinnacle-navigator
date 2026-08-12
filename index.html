@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="app">
-  <div class="head"><div><div class="brand">Pinnacle Navigator</div><div class="sub">Mundi POS 1 · LIVE Shared Crew</div></div><div class="badge">FULL v41</div></div>
+  <div class="head"><div><div class="brand">Pinnacle Navigator</div><div class="sub">Mundi POS 1 · LIVE Shared Crew</div></div><div class="badge">PHONE EASY v42</div></div>
   <main id="view"></main>
 </div>
 <script>
@@ -34,7 +34,7 @@ function cleanPin(v){return String(v||'').replace(/[^0-9]/g,'').slice(0,6)}
 function validPin(v){return /^[0-9]{6}$/.test(v)}
 function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function login(message=''){
-  view.innerHTML=`<section class="card center"><div class="label">PINNACLE NAVIGATOR</div><h1>Who is using this phone?</h1><p class="intro">Enter the crew PIN, then tap your name. The full Navigator opens with the simple drawing first; real photos stay hidden until you choose to show them.</p><label class="pinLabel" for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="6 digits" value="${esc(cleanPin(pin))}"><div class="names"><button type="button" class="person" data-person="me">MITCHELL<small>Worker</small></button><button type="button" class="person" data-person="ronan">RONAN<small>Worker</small></button><button type="button" class="person" data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">${esc(message)}</div><div class="note">Use this hosted webpage on phones. Do not open the downloaded HTML file in the phone preview.</div></section>`;
+  view.innerHTML=`<section class="card center"><div class="label">PINNACLE NAVIGATOR</div><h1>Who is using this phone?</h1><p class="intro">Enter the crew PIN once, then tap your name. After that this phone remembers you and opens your live job as directly as possible.</p><label class="pinLabel" for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="6 digits" value="${esc(cleanPin(pin))}"><div class="names"><button type="button" class="person" data-person="me">MITCHELL<small>Worker</small></button><button type="button" class="person" data-person="ronan">RONAN<small>Worker</small></button><button type="button" class="person" data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">${esc(message)}</div><div class="note">Use this hosted webpage in Safari or Chrome. Do not open the downloaded HTML in a phone file preview.</div></section>`;
   view.querySelectorAll('[data-person]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const p=cleanPin(document.getElementById('crewPin').value);
@@ -46,7 +46,7 @@ function login(message=''){
     });
   });
 }
-function loading(){view.innerHTML=`<section class="card center loading"><div class="label">FULL v41 NAVIGATOR</div><h1>Opening ${esc(NAMES[person]||'Navigator')}…</h1><div class="spinner"></div><div class="intro">Loading the shared job, drawings, descriptions and optional photos.</div></section>`}
+function loading(){view.innerHTML=`<section class="card center loading"><div class="label">PHONE EASY v42</div><h1>Opening ${esc(NAMES[person]||'Navigator')}…</h1><div class="spinner"></div><div class="intro">Loading your shared job and the simple worker screen.</div></section>`}
 async function getBundle(){return fetch(ENDPOINT,{method:'POST',headers:{'content-type':'application/json','apikey':KEY},body:JSON.stringify({projectId:PROJECT,pin})})}
 async function openNavigator(){
   if(!person||!validPin(pin)){login();return}
@@ -62,21 +62,21 @@ async function openNavigator(){
   }catch(e){login('Could not connect. Check internet and try again.')}
 }
 function restore(){
-  view.innerHTML=`<section class="card restore"><div class="label">ONE-TIME SETUP</div><h1>Install the full v41 once</h1><p>The phone website is working. The private server just needs the full v41 file installed once. Do this on your computer; after that every phone only needs the normal PIN + name screen.</p><div class="feature"><b>v41 keeps:</b><br>simple drawings · plain-English instructions · Navigator plan check/insight · WHAT RIGHT LOOKS LIKE · STOP IF · DONE/BLOCK · full plan references.<br><br><b>Real photos stay hidden</b> until SHOW REAL PHOTO is tapped.</div><label class="fileBox"><b>SELECT Pinnacle_Navigator_v41_WORKER_CLEAR.html</b><br><br><input id="bundleFile" type="file" accept=".html,text/html"></label><button id="upload" class="primary">INSTALL FULL v41</button><button id="back" class="soft">BACK</button><div id="status" class="status">This does not reset the shared task progress.</div></section>`;
+  view.innerHTML=`<section class="card restore"><div class="label">ONE-TIME SETUP</div><h1>Install Phone Easy v42 once</h1><p>The live phone website is ready. The private server only needs the full v42 file installed once. After this, Mitchell, Ronan and Colin just use the normal live link.</p><div class="feature"><b>Normal worker screen:</b><br>DO THIS → WHY → simple drawing → optional PHOTO / PLAN / HELP → RIGHT LOOKS LIKE → STOP IF → DONE or BLOCKED.<br><br>Navigator only shows a plan warning when it sees a genuine conflict or gap. Real photos stay hidden until PHOTO is tapped.</div><label class="fileBox"><b>SELECT Pinnacle_Navigator_v42_PHONE_EASY.html</b><br><br><input id="bundleFile" type="file" accept=".html,text/html"></label><button id="upload" class="primary">INSTALL PHONE EASY v42</button><button id="back" class="soft">BACK</button><div id="status" class="status">This does not reset the shared task progress.</div></section>`;
   document.getElementById('back').onclick=()=>login();
   document.getElementById('upload').onclick=upload;
 }
 async function upload(){
   const file=document.getElementById('bundleFile').files[0];const status=document.getElementById('status');
-  if(!file){status.className='status bad';status.textContent='Choose the v41 HTML file first.';return}
+  if(!file){status.className='status bad';status.textContent='Choose the v42 HTML file first.';return}
   if(file.size<100000){status.className='status bad';status.textContent='That file is too small to be the full Navigator.';return}
-  status.className='status';status.textContent='Installing v41 privately…';
+  status.className='status';status.textContent='Installing Phone Easy v42 privately…';
   try{
     const res=await fetch(ENDPOINT,{method:'POST',headers:{'content-type':'text/html','apikey':KEY,'x-navigator-pin':pin,'x-navigator-project':PROJECT},body:file});
     let data={};try{data=await res.json()}catch(e){}
     if(res.status===401){status.className='status bad';status.textContent='Crew PIN was rejected.';return}
     if(!res.ok){status.className='status bad';status.textContent=data.error||'Install failed.';return}
-    status.className='status good';status.textContent='Installed. Opening full v41…';setTimeout(openNavigator,500);
+    status.className='status good';status.textContent='Installed. Opening Phone Easy v42…';setTimeout(openNavigator,500);
   }catch(e){status.className='status bad';status.textContent='Could not reach the private server. Check internet and try again.'}
 }
 if(person&&validPin(pin))openNavigator();else login();
