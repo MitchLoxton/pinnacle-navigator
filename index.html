@@ -6,19 +6,16 @@
 <meta name="theme-color" content="#111111">
 <title>Pinnacle Navigator</title>
 <style>
-:root{--bg:#f4f4f1;--card:#fff;--text:#111;--muted:#676762;--line:#ddd;--green:#176b3b;--greenbg:#eaf6ed;--blue:#205a8a;--bluebg:#eef5fb;--red:#9f2626;--redbg:#fff0f0;--amber:#8b5c00;--amberbg:#fff2c9}
+:root{--bg:#f4f4f1;--card:#fff;--text:#111;--muted:#676762;--line:#ddd;--green:#176b3b;--greenbg:#eaf6ed;--blue:#205a8a;--bluebg:#eef5fb;--red:#9f2626;--redbg:#fff0f0}
 *{box-sizing:border-box}html{background:var(--bg);-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text);min-height:100dvh;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-.app{width:100%;max-width:720px;margin:auto;padding:12px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.brand{font-size:22px;font-weight:900}.sub{font-size:12px;color:var(--muted);margin-top:3px}.badge{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:#111;color:#fff;font-size:10px;font-weight:900}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px}.identity{text-align:center;padding:22px 4px 8px}.label{font-size:11px;font-weight:900;letter-spacing:.07em;color:var(--muted);text-transform:uppercase}.identity h1{font-size:30px;line-height:1.05;margin:8px 0}.identity p{font-size:15px;color:var(--muted);line-height:1.45;margin:0 auto 18px;max-width:530px}.pinWrap{max-width:360px;margin:0 auto 14px;text-align:left}.pinWrap label{font-size:12px;font-weight:900;color:var(--muted)}.pin{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:22px;letter-spacing:.2em;text-align:center;margin:6px 0 8px}.names{display:grid;gap:10px}.names button{min-height:68px;padding:18px 14px;font-size:22px;border:2px solid var(--line);background:#fff;color:#111}.names small{display:block;font-size:12px;color:var(--muted);margin-top:4px}.err{color:var(--red);font-size:12px;font-weight:900;min-height:18px;margin-top:10px}.loading{padding:28px 10px;text-align:center}.loading h1{font-size:26px;margin:6px 0}.spinner{width:34px;height:34px;border:4px solid #ddd;border-top-color:#111;border-radius:50%;margin:18px auto;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.restore{border:2px solid var(--blue);background:var(--bluebg)}.restore h1{font-size:24px;margin:5px 0 10px}.restore p{font-size:14px;line-height:1.5}.restoreNote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px;line-height:1.45;margin:12px 0}.fileBox{display:block;border:2px dashed #8aa9c3;border-radius:14px;padding:16px;background:#fff;margin:12px 0}.fileBox input{width:100%;font-size:16px}.primary,.soft{width:100%;border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:900;margin-top:8px;min-height:50px;touch-action:manipulation}.primary{background:#111;color:#fff}.soft{background:#e4e4df;color:#111}.status{margin-top:10px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.4;background:#f7f7f4}.status.good{background:var(--greenbg);color:var(--green)}.status.bad{background:var(--redbg);color:var(--red)}.privacy{font-size:11px;color:var(--muted);line-height:1.4;margin-top:14px}
-@media(max-width:520px){.app{padding:9px}.card{padding:14px}.brand{font-size:21px}.identity h1{font-size:28px}.names button{font-size:21px}}
+.app{max-width:680px;margin:auto;padding:12px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.brand{font-size:22px;font-weight:900}.sub{font-size:12px;color:var(--muted);margin-top:3px}.badge{padding:7px 10px;border-radius:999px;background:#111;color:#fff;font-size:10px;font-weight:900}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:17px}.center{text-align:center}.label{font-size:11px;font-weight:900;letter-spacing:.07em;color:var(--muted)}h1{font-size:30px;line-height:1.05;margin:8px 0}.intro{font-size:15px;color:var(--muted);line-height:1.45;margin:0 auto 18px;max-width:520px}.pinLabel{display:block;text-align:left;font-size:12px;font-weight:900;color:var(--muted);max-width:360px;margin:auto}.pin{display:block;width:100%;max-width:360px;margin:6px auto 14px;border:2px solid #bbb;border-radius:13px;padding:14px;font-size:24px;letter-spacing:.18em;text-align:center;background:#fff}.names{display:grid;gap:11px}.person{width:100%;min-height:72px;border:2px solid var(--line);border-radius:14px;background:#fff;color:#111;font-size:22px;font-weight:900;touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,.08)}.person:active{transform:scale(.99);background:#f1f1ee}.person small{display:block;font-size:12px;color:var(--muted);margin-top:4px}.err{min-height:20px;margin-top:10px;font-size:12px;font-weight:900;color:var(--red)}.loading{padding:34px 10px}.spinner{width:36px;height:36px;border:4px solid #ddd;border-top-color:#111;border-radius:50%;margin:18px auto;animation:spin .75s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.restore{border:2px solid var(--blue);background:var(--bluebg)}.restore h1{font-size:25px}.restore p{font-size:14px;line-height:1.5}.feature{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;font-size:13px;line-height:1.5;margin:12px 0}.fileBox{display:block;border:2px dashed #8aa9c3;border-radius:14px;padding:16px;background:#fff;margin:12px 0;text-align:left}.fileBox input{width:100%;font-size:16px}.primary,.soft{width:100%;border:0;border-radius:12px;padding:14px;min-height:52px;font-size:15px;font-weight:900;margin-top:8px;touch-action:manipulation}.primary{background:#111;color:#fff}.soft{background:#e4e4df;color:#111}.status{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff;font-size:13px;line-height:1.4}.status.good{background:var(--greenbg);color:var(--green)}.status.bad{background:var(--redbg);color:var(--red)}.note{font-size:11px;color:var(--muted);line-height:1.4;margin-top:14px}
+@media(max-width:520px){.app{padding:9px}.card{padding:14px}h1{font-size:28px}.person{min-height:76px;font-size:22px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="head">
-    <div><div class="brand">Pinnacle Navigator</div><div class="sub">Mundi POS 1 · LIVE Shared Crew</div></div>
-    <div class="badge">FULL V32</div>
-  </div>
+  <div class="head"><div><div class="brand">Pinnacle Navigator</div><div class="sub">Mundi POS 1 · LIVE Shared Crew</div></div><div class="badge">FULL v41</div></div>
   <main id="view"></main>
 </div>
 <script>
@@ -35,45 +32,54 @@ let person=localStorage.getItem(PERSON_KEY)||'';
 let pin=localStorage.getItem(PIN_KEY)||'';
 function cleanPin(v){return String(v||'').replace(/[^0-9]/g,'').slice(0,6)}
 function validPin(v){return /^[0-9]{6}$/.test(v)}
-function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function showLogin(message){
-  view.innerHTML='<section class="card"><div class="identity"><div class="label">PINNACLE NAVIGATOR</div><h1>Who are you?</h1><p>This opens the original full Navigator — drawings, real photos, plan views, explanations, crew flow and job history.</p><div class="pinWrap"><label for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="6 digits" value="'+escapeHtml(cleanPin(pin))+'"></div><div class="names"><button data-person="me">MITCHELL<small>Worker</small></button><button data-person="ronan">RONAN<small>Worker</small></button><button data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">'+escapeHtml(message||'')+'</div><div class="privacy">Your name and PIN stay on this phone. Shared task progress remains in the existing live Mundi project.</div></div></section>';
-  view.querySelectorAll('[data-person]').forEach(function(btn){btn.addEventListener('click',function(){const p=cleanPin(document.getElementById('crewPin').value);if(!validPin(p)){document.getElementById('err').textContent='Enter all 6 PIN digits first.';return}person=btn.dataset.person;pin=p;localStorage.setItem(PERSON_KEY,person);localStorage.setItem(PIN_KEY,pin);loadBundle();})});
+function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function login(message=''){
+  view.innerHTML=`<section class="card center"><div class="label">PINNACLE NAVIGATOR</div><h1>Who is using this phone?</h1><p class="intro">Enter the crew PIN, then tap your name. The full Navigator opens with the simple drawing first; real photos stay hidden until you choose to show them.</p><label class="pinLabel" for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="6 digits" value="${esc(cleanPin(pin))}"><div class="names"><button type="button" class="person" data-person="me">MITCHELL<small>Worker</small></button><button type="button" class="person" data-person="ronan">RONAN<small>Worker</small></button><button type="button" class="person" data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">${esc(message)}</div><div class="note">Use this hosted webpage on phones. Do not open the downloaded HTML file in the phone preview.</div></section>`;
+  view.querySelectorAll('[data-person]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const p=cleanPin(document.getElementById('crewPin').value);
+      const err=document.getElementById('err');
+      if(!validPin(p)){err.textContent='Enter all 6 PIN digits first.';return}
+      pin=p;person=btn.dataset.person;
+      localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);
+      openNavigator();
+    });
+  });
 }
-function showLoading(text){view.innerHTML='<section class="card loading"><div class="label">FULL NAVIGATOR</div><h1>'+escapeHtml(text||'Opening Navigator…')+'</h1><div class="spinner"></div><div class="sub">Loading the original v32 interface and shared Mundi state.</div></section>'}
-async function bundleRequest(){return fetch(ENDPOINT,{method:'POST',headers:{'content-type':'application/json','apikey':KEY},body:JSON.stringify({projectId:PROJECT,pin:pin})})}
-async function loadBundle(){
-  if(!person||!validPin(pin)){showLogin('');return}
-  showLoading('Opening '+NAMES[person]+'…');
+function loading(){view.innerHTML=`<section class="card center loading"><div class="label">FULL v41 NAVIGATOR</div><h1>Opening ${esc(NAMES[person]||'Navigator')}…</h1><div class="spinner"></div><div class="intro">Loading the shared job, drawings, descriptions and optional photos.</div></section>`}
+async function getBundle(){return fetch(ENDPOINT,{method:'POST',headers:{'content-type':'application/json','apikey':KEY},body:JSON.stringify({projectId:PROJECT,pin})})}
+async function openNavigator(){
+  if(!person||!validPin(pin)){login();return}
+  loading();
   try{
-    const res=await bundleRequest();
-    if(res.status===401){pin='';localStorage.removeItem(PIN_KEY);showLogin('Incorrect crew PIN.');return}
-    if(res.status===404){showRestore();return}
-    if(!res.ok){showLogin('Could not load the full Navigator. Check internet and try again.');return}
+    const res=await getBundle();
+    if(res.status===401){pin='';localStorage.removeItem(PIN_KEY);login('Incorrect crew PIN.');return}
+    if(res.status===404){restore();return}
+    if(!res.ok){login('Could not load Navigator. Check internet and try again.');return}
     const html=await res.text();
-    if(!html.toLowerCase().includes('<html')||!html.includes('Pinnacle Navigator')){showLogin('The stored Navigator bundle did not look valid.');return}
+    if(!html.toLowerCase().includes('<html')||!html.includes('Pinnacle Navigator')){login('The stored Navigator file was not valid.');return}
     document.open();document.write(html);document.close();
-  }catch(err){showLogin('Could not connect to the full Navigator. Check internet and try again.')}
+  }catch(e){login('Could not connect. Check internet and try again.')}
 }
-function showRestore(){
-  view.innerHTML='<section class="card restore"><div class="label">ONE-TIME RESTORE</div><h1>Put the good v32 back</h1><p>The hosting is fixed, but the private server does not yet have the 1.3 MB full Navigator file. Choose the exact <b>Pinnacle_Navigator_v32_GO_BACK_ANY_TASK…html</b> file once below.</p><div class="restoreNote"><b>This is the version we are restoring:</b><br>simple task drawings · SHOW REAL PHOTO · SHOW ACTUAL PLAN · full explanations · Colin/site notes · Crew · Progress/history · All Tasks · shared live workflow.</div><label class="fileBox"><b>SELECT FULL V32 HTML FILE</b><br><br><input id="bundleFile" type="file" accept=".html,text/html"></label><button id="uploadBtn" class="primary">RESTORE FULL V32</button><button id="backBtn" class="soft">BACK / CHANGE PERSON</button><div id="uploadStatus" class="status">Nothing in the shared task progress will be reset by this upload.</div></section>';
-  document.getElementById('backBtn').onclick=function(){person='';localStorage.removeItem(PERSON_KEY);showLogin('')};
-  document.getElementById('uploadBtn').onclick=uploadBundle;
+function restore(){
+  view.innerHTML=`<section class="card restore"><div class="label">ONE-TIME SETUP</div><h1>Install the full v41 once</h1><p>The phone website is working. The private server just needs the full v41 file installed once. Do this on your computer; after that every phone only needs the normal PIN + name screen.</p><div class="feature"><b>v41 keeps:</b><br>simple drawings · plain-English instructions · Navigator plan check/insight · WHAT RIGHT LOOKS LIKE · STOP IF · DONE/BLOCK · full plan references.<br><br><b>Real photos stay hidden</b> until SHOW REAL PHOTO is tapped.</div><label class="fileBox"><b>SELECT Pinnacle_Navigator_v41_WORKER_CLEAR.html</b><br><br><input id="bundleFile" type="file" accept=".html,text/html"></label><button id="upload" class="primary">INSTALL FULL v41</button><button id="back" class="soft">BACK</button><div id="status" class="status">This does not reset the shared task progress.</div></section>`;
+  document.getElementById('back').onclick=()=>login();
+  document.getElementById('upload').onclick=upload;
 }
-async function uploadBundle(){
-  const file=document.getElementById('bundleFile').files[0];const s=document.getElementById('uploadStatus');
-  if(!file){s.className='status bad';s.textContent='Choose the full v32 .html file first.';return}
-  if(file.size<100000){s.className='status bad';s.textContent='That file is too small to be the full v32 Navigator.';return}
-  s.className='status';s.textContent='Uploading the full Navigator privately…';
+async function upload(){
+  const file=document.getElementById('bundleFile').files[0];const status=document.getElementById('status');
+  if(!file){status.className='status bad';status.textContent='Choose the v41 HTML file first.';return}
+  if(file.size<100000){status.className='status bad';status.textContent='That file is too small to be the full Navigator.';return}
+  status.className='status';status.textContent='Installing v41 privately…';
   try{
     const res=await fetch(ENDPOINT,{method:'POST',headers:{'content-type':'text/html','apikey':KEY,'x-navigator-pin':pin,'x-navigator-project':PROJECT},body:file});
     let data={};try{data=await res.json()}catch(e){}
-    if(res.status===401){s.className='status bad';s.textContent='Crew PIN was rejected.';return}
-    if(!res.ok){s.className='status bad';s.textContent=data.error||'Upload failed. Try again.';return}
-    s.className='status good';s.textContent='Full v32 restored. Opening it now…';setTimeout(loadBundle,500);
-  }catch(err){s.className='status bad';s.textContent='Upload could not reach the server. Check internet and try again.'}
+    if(res.status===401){status.className='status bad';status.textContent='Crew PIN was rejected.';return}
+    if(!res.ok){status.className='status bad';status.textContent=data.error||'Install failed.';return}
+    status.className='status good';status.textContent='Installed. Opening full v41…';setTimeout(openNavigator,500);
+  }catch(e){status.className='status bad';status.textContent='Could not reach the private server. Check internet and try again.'}
 }
-if(person&&validPin(pin))loadBundle();else showLogin('');
+if(person&&validPin(pin))openNavigator();else login();
 })();
 </script>
 </body>
