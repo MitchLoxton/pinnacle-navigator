@@ -1,4 +1,4 @@
-const CACHE='pn-shell-v44';
+const CACHE='pn-shell-v45';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
@@ -13,7 +13,7 @@ self.addEventListener('fetch',event=>{
   if(url.origin!==self.location.origin) return;
   // The authenticated full Navigator is cached directly by the launcher under this synthetic key.
   // Never expose that cache entry as a normal web route.
-  if(url.pathname.endsWith('/.private-navigator-v44')) return;
+  if(url.pathname.endsWith('/.private-navigator-v44')||url.pathname.endsWith('/.private-navigator-v45')) return;
   if(req.mode==='navigate'){
     event.respondWith(fetch(req).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put('./index.html',copy));return res;}).catch(()=>caches.match('./index.html').then(r=>r||caches.match('./'))));
     return;
