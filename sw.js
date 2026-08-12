@@ -1,4 +1,4 @@
-const CACHE='pn-shell-v48';
+const CACHE='pn-shell-v50';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
