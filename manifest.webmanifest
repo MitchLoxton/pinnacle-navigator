@@ -1,8 +1,9 @@
 {
+  "id": "./",
   "name": "Pinnacle Navigator",
   "short_name": "Navigator",
-  "description": "Pinnacle Builders workshop task navigator",
-  "start_url": "./",
+  "description": "Pinnacle Builders live workshop task navigator",
+  "start_url": "./?v=51",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f4f1",
