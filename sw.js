@@ -1,11 +1,12 @@
 const CACHE='pn-shell-v51';
-const PRIVATE_CACHE='pn-private-bundle-v51';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
 self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('pn-shell-')&&k!==CACHE)||(k.startsWith('pn-private-bundle-')&&k!==PRIVATE_CACHE)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+  // Only retire old PUBLIC shell caches here. Private authenticated bundles are
+  // removed transactionally by the launcher *after* a replacement is verified.
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pn-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
 });
 self.addEventListener('fetch',event=>{
   const req=event.request;
