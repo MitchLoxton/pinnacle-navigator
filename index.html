@@ -33,7 +33,31 @@ async function saveCachedBundle(html){try{if(!('caches' in window)||!bundleLooks
 async function readCachedBundle(){try{if(!('caches' in window))return null;const c=await caches.open(BUNDLE_CACHE);const r=await c.match(BUNDLE_CACHE_URL);if(!r||r.headers.get('x-pn-version')!=='v51')return null;const html=await r.text();return bundleLooksValid(html)?html:null;}catch(e){return null}}
 function launch(html){document.open();document.write(html);document.close();}
 async function fetchBundle(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{return await fetch(ENDPOINT,{method:'POST',headers:{'content-type':'application/json','apikey':KEY},body:JSON.stringify({projectId:PROJECT,pin}),signal:controller.signal,cache:'no-store'});}finally{clearTimeout(timer)}}
-async function openNavigator(){if(!person||!valid(pin)){login();return}loading();const previouslyValidated=localStorage.getItem(PIN_KEY)||'';try{await purgeOldPrivateCaches();const res=await fetchBundle();if(res.status===401){if(previouslyValidated===pin)localStorage.removeItem(PIN_KEY);pin='';login('Incorrect crew PIN.');return}if(!res.ok)throw new Error('Navigator server returned '+res.status);const serverVersion=res.headers.get('x-navigator-bundle')||'',integrity=res.headers.get('x-navigator-integrity')||'';if(serverVersion!=='v51-workshop'||integrity!=='ok')throw new Error('Navigator build did not pass verification');const html=await res.text();if(!bundleLooksValid(html))throw new Error('Navigator bundle failed device verification');localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);await saveCachedBundle(html);launch(html);}catch(e){const cached=await readCachedBundle();if(cached&&previouslyValidated&&previouslyValidated===pin){localStorage.setItem(PERSON_KEY,person);loading('Connection is unavailable — opening this device’s last verified workshop copy. Changes will queue and merge when connection returns.');setTimeout(()=>launch(cached),100);return}showError(e&&e.message&&e.message.includes('verification')?'Navigator update could not be verified. Tap TRY AGAIN.':'Could not connect to Navigator. Check the connection and try again.');}}
+async function openNavigator(){
+  if(!person||!valid(pin)){login();return}
+  loading();
+  const previouslyValidated=localStorage.getItem(PIN_KEY)||'';
+  try{
+    await purgeOldPrivateCaches();
+    const forceFresh=(()=>{try{return new URLSearchParams(location.search).get('fresh')==='1'}catch(e){return false}})();
+    if(!forceFresh&&previouslyValidated===pin){
+      const cached=await readCachedBundle();
+      if(cached){localStorage.setItem(PERSON_KEY,person);loading('Opening the verified workshop copy on this device…');setTimeout(()=>launch(cached),20);return;}
+    }
+    const res=await fetchBundle();
+    if(res.status===401){if(previouslyValidated===pin)localStorage.removeItem(PIN_KEY);pin='';login('Incorrect crew PIN.');return}
+    if(!res.ok)throw new Error('Navigator server returned '+res.status);
+    const serverVersion=res.headers.get('x-navigator-bundle')||'',integrity=res.headers.get('x-navigator-integrity')||'';
+    if(serverVersion!=='v51-workshop'||integrity!=='ok')throw new Error('Navigator build did not pass verification');
+    const html=await res.text();
+    if(!bundleLooksValid(html))throw new Error('Navigator bundle failed device verification');
+    localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);await saveCachedBundle(html);launch(html);
+  }catch(e){
+    const cached=await readCachedBundle();
+    if(cached&&previouslyValidated&&previouslyValidated===pin){localStorage.setItem(PERSON_KEY,person);loading('Connection is unavailable — opening this device’s last verified workshop copy. Changes will queue and merge when connection returns.');setTimeout(()=>launch(cached),100);return}
+    showError(e&&e.message&&e.message.includes('verification')?'Navigator update could not be verified. Tap TRY AGAIN.':'Could not connect to Navigator. Check the connection and try again.');
+  }
+}
 function showError(message){view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · v51</div><h1>Could not open</h1><p class="intro">${esc(message)}</p><button id="retry" class="retry">TRY AGAIN</button><div class="note">Your shared job progress has not been reset or marked DONE.</div></section>`;document.getElementById('retry').onclick=openNavigator;}
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});}
 if(person&&valid(pin))openNavigator();else login();
