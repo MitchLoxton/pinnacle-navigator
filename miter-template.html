@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>65NB CHS 90° Fishmouth Template · Pinnacle Navigator</title>
+<style>
+@page{size:A4 landscape;margin:7mm}
+*{box-sizing:border-box}
+html,body{margin:0;background:#ecece8;color:#111;font-family:Arial,Helvetica,sans-serif}
+.controls{position:sticky;top:0;z-index:10;background:#111;color:#fff;padding:10px 12px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.controls button{border:0;border-radius:9px;padding:11px 16px;font-weight:900;font-size:14px;background:#fff;color:#111}
+.controls .back{background:#ddd}
+.screenNote{max-width:1100px;margin:10px auto;padding:10px 12px;background:#fff5cf;border:2px solid #bc7d00;border-radius:10px;font-size:13px;font-weight:800;line-height:1.4}
+.sheet{width:283mm;min-height:196mm;margin:10px auto;background:#fff;padding:4mm;box-shadow:0 2px 18px rgba(0,0,0,.2)}
+h1{font-size:20pt;text-align:center;margin:0 0 1.5mm;font-weight:900}h2{font-size:10pt;text-align:center;margin:0 0 3mm;letter-spacing:.04em}.warning{border:1.2mm solid #111;padding:2.5mm 3mm;margin:0 0 3mm;font-size:9.2pt;line-height:1.35}.warning b{font-weight:900}.instructions{font-size:8.8pt;line-height:1.35;margin:1mm 0 2.5mm}.templateWrap{display:flex;justify-content:center}.printSvg{display:block;width:259.0752mm;height:84mm;overflow:visible}.specs{display:grid;grid-template-columns:1.5fr 1fr;gap:7mm;margin-top:2mm;font-size:8.5pt;line-height:1.35}.scaleTitle{font-weight:900;font-size:9pt;margin-bottom:1mm}.scaleBar{width:100mm;border-top:1mm solid #111;height:4mm;position:relative;margin-top:4mm}.scaleBar:before,.scaleBar:after{content:"";position:absolute;top:-2.5mm;height:5mm;border-left:1mm solid #111}.scaleBar:before{left:0}.scaleBar:after{right:0}.scaleText{text-align:center;width:100mm;font-weight:900}.small{font-size:7.8pt;color:#333}.noPrint{display:block}
+@media print{html,body{background:#fff}.controls,.screenNote{display:none!important}.sheet{width:auto;min-height:auto;margin:0;padding:0;box-shadow:none}.noPrint{display:none!important}}
+@media(max-width:900px){.sheet{transform-origin:top left;margin:8px}.screenNote{margin:8px}.controls{justify-content:stretch}.controls button{flex:1}}
+</style>
+</head>
+<body>
+<div class="controls"><button type="button" onclick="window.print()">PRINT TEMPLATE</button><button class="back" type="button" onclick="history.back()">BACK TO NAVIGATOR</button></div>
+<div class="screenNote">PRINT SETTING: choose <b>Actual Size / 100%</b>. Do not use “Fit to page”. After printing, physically measure the 100 mm scale bar before using the template.</div>
+<main class="sheet">
+<h1>PIPE MITER TEMPLATE — 65NB CHS (76.1 mm OD)</h1>
+<h2>1:1 WRAP TEMPLATE · EQUAL-DIAMETER 90° FISHMOUTH / SADDLE</h2>
+<div class="warning"><b>CHECK THE REAL STEEL FIRST:</b> Use this template only when the upright OD measures <b>76.1 mm</b>, the top rail OD also measures <b>76.1 mm</b>, and Colin has confirmed they meet at a true <b>90° T-joint</b>. If either OD or the angle differs, STOP — this template is not the correct geometry.</div>
+<div class="instructions"><b>USE:</b> Cut out the template, wrap it tightly around the end of one test upright, bring LEFT EDGE and RIGHT EDGE together at the seam, tape it, and transfer the curved cut line to the steel. Cut just outside the line, deburr/lightly dress it, and test-fit it to the real top rail. <b>Do one test upright before batch cutting.</b></div>
+<div class="templateWrap">
+<svg id="template" class="printSvg" xmlns="http://www.w3.org/2000/svg" width="259.0752mm" height="84mm" viewBox="0 0 259.0752 84" aria-label="65NB CHS fishmouth wrap template">
+  <style>
+    .cut{fill:none;stroke:#000;stroke-width:.55;stroke-linejoin:round;stroke-linecap:round}.edge{stroke:#000;stroke-width:.4}.guide{stroke:#555;stroke-width:.25;stroke-dasharray:2 1.4}.dim{stroke:#000;stroke-width:.3;fill:none}.t{font-family:Arial,Helvetica,sans-serif;fill:#000;font-size:3.3px}.tb{font-family:Arial,Helvetica,sans-serif;fill:#000;font-size:3.4px;font-weight:700}.tiny{font-family:Arial,Helvetica,sans-serif;fill:#000;font-size:2.8px}
+  </style>
+  <defs><marker id="arrow" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse"><path d="M0,0 L5,2.5 L0,5 z" fill="#000"/></marker></defs>
+  <line class="edge" x1="10" y1="9" x2="10" y2="58.05"/><line class="edge" x1="249.0752" y1="9" x2="249.0752" y2="58.05"/>
+  <line class="edge" x1="10" y1="58.05" x2="249.0752" y2="58.05"/>
+  <line class="guide" x1="69.7688" y1="8" x2="69.7688" y2="58.05"/><line class="guide" x1="129.5376" y1="8" x2="129.5376" y2="58.05"/><line class="guide" x1="189.3064" y1="8" x2="189.3064" y2="58.05"/>
+  <path id="cutPath" class="cut" d=""/>
+  <text class="tb" x="10" y="7" text-anchor="start">0° · SEAM · HIGH POINT</text><text class="tb" x="69.7688" y="7" text-anchor="middle">90° · LOW POINT</text><text class="tb" x="129.5376" y="7" text-anchor="middle">180° · HIGH POINT</text><text class="tb" x="189.3064" y="7" text-anchor="middle">270° · LOW POINT</text><text class="tb" x="249.0752" y="7" text-anchor="end">360° · END</text>
+  <text class="tiny" x="10" y="62.2" text-anchor="start">LEFT EDGE</text><text class="tiny" x="249.0752" y="62.2" text-anchor="end">RIGHT EDGE</text>
+  <line class="dim" x1="10" y1="68" x2="249.0752" y2="68" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text class="tb" x="129.5376" y="66.3" text-anchor="middle">CIRCUMFERENCE / WRAP WIDTH = 239.075 mm</text>
+  <text class="tiny" x="129.5376" y="73" text-anchor="middle">Curve depth from low point to high point = 38.05 mm</text>
+  <text class="tiny" x="129.5376" y="78" text-anchor="middle">CUT LINE · transfer this curve to the pipe</text>
+</svg>
+</div>
+<div class="specs">
+  <div><div class="scaleTitle">SCALE CHECK — THIS LINE MUST MEASURE EXACTLY 100 mm</div><div class="scaleBar"></div><div class="scaleText">100 mm</div><div class="small">If it does not measure 100 mm with a ruler, do not use the printed template. Reprint at Actual Size / 100%.</div></div>
+  <div><b>Template geometry</b><br>Upright OD: 76.1 mm<br>Top rail OD: 76.1 mm<br>Wrap width: 239.075 mm<br>Intersection: 90°<br>Joint: equal-diameter saddle / fishmouth<br><br><b>Workshop hold point:</b> test-fit one upright and get the fit accepted before copying it to the remaining posts.</div>
+</div>
+</main>
+<script>
+(function(){
+  var OD=76.1,R=OD/2,C=Math.PI*OD,parts=[];
+  for(var i=0;i<=360;i++){
+    var phi=2*Math.PI*i/360;
+    var x=10+C*i/360;
+    var y=20+R-R*Math.abs(Math.cos(phi));
+    parts.push((i?'L':'M')+x.toFixed(4)+','+y.toFixed(4));
+  }
+  document.getElementById('cutPath').setAttribute('d',parts.join(' '));
+})();
+</script>
+</body>
+</html>
