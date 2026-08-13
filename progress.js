@@ -26,6 +26,15 @@ function commonNav(){
 }
 function cleanButtonClass(s){return String(s||'').split(/\s+/).filter(function(x){return x&&!/^(active|selected|current|on)$/i.test(x);}).join(' ');}
 
+function loadFabricationGuide(){
+  try{
+    if(window.__PN_BALUSTRADE_FAB_GUIDANCE__||document.getElementById('pnFabricationGuideScript'))return;
+    var s=document.createElement('script');s.id='pnFabricationGuideScript';s.src='./fabrication.js?v=1';s.async=false;
+    s.onerror=function(){try{if(window.__pnDiagLog)window.__pnDiagLog('fabrication_guidance_load_error','Could not load workshop fabrication guidance',{phase:'support_load'});}catch(e){}};
+    document.head.appendChild(s);
+  }catch(e){}
+}
+
 function installStyle(){
   if(document.getElementById('pnProgressStyle'))return;
   var s=document.createElement('style');s.id='pnProgressStyle';s.textContent='\
@@ -73,9 +82,9 @@ function openProgress(){
 }
 
 function boot(){
-  installStyle();installNav();setTimeout(installNav,250);setTimeout(installNav,1000);
+  loadFabricationGuide();installStyle();installNav();setTimeout(installNav,250);setTimeout(installNav,1000);
   navObserver=new MutationObserver(function(){installNav();});navObserver.observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('pageshow',installNav);document.addEventListener('visibilitychange',function(){if(!document.hidden)installNav();});
+  window.addEventListener('pageshow',function(){loadFabricationGuide();installNav();});document.addEventListener('visibilitychange',function(){if(!document.hidden){loadFabricationGuide();installNav();}});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
