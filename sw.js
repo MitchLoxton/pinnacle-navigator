@@ -1,5 +1,5 @@
 const CACHE='pn-shell-v51';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./foreman.js'];
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./foreman.js','./progress.js'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
@@ -21,7 +21,7 @@ self.addEventListener('fetch',event=>{
     return;
   }
   // Support code is network-first so same-version workshop hotfixes are not trapped behind an old cache.
-  if(url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/foreman.js')){
+  if(url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/foreman.js')||url.pathname.endsWith('/progress.js')){
     event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;}).catch(()=>caches.match(req)));
     return;
   }
