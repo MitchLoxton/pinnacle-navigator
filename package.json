@@ -1,8 +1,8 @@
 {
   "name": "pinnacle-navigator",
   "private": true,
-  "version": "51.7.0",
+  "version": "51.8.0",
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist && cp index.html manifest.webmanifest icon.svg sw.js v51.css v51.js foreman.js progress.js fabrication.js miter-template.html miter-template-colin-33.html miter-template-colin-30.html miter-template-colin-36.html version.json dist/"
+    "build": "rm -rf dist && mkdir -p dist && cp index.html manifest.webmanifest icon.svg sw.js v51.css v51.js foreman.js foreman-ux.js progress.js fabrication.js miter-template.html miter-template-colin-33.html miter-template-colin-30.html miter-template-colin-36.html version.json dist/"
   }
 }
