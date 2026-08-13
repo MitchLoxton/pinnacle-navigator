@@ -48,3 +48,48 @@ function boot(){document.title='Pinnacle Navigator · v51';ensurePlanOverlay();i
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 setTimeout(installPlanButton,1000);
 })();
+
+/* ===== Deck workflow hotfix: joists must be complete before ModWood ===== */
+(function(){
+'use strict';
+function applyDeckWorkflowFix(){
+  try{
+    if(window.__PN_DECK_WORKFLOW_FIX__)return true;
+    if(typeof TASKS==='undefined'||!Array.isArray(TASKS))return false;
+    var byId=function(id){return TASKS.find(function(x){return x&&x.id===id;});};
+    var t13=byId('T13'),t16=byId('T16'),t17=byId('T17');
+    if(!t13||!t16||!t17)return false;
+    t13.title='SET, LEVEL + FIX THE DECK JOISTS';
+    t13.action='Set the deck joists in their final positions around the posts, plates and bolts. Establish the correct deck support level from the current issued drawing or a confirmed site dimension, then level and securely fix the joists before moving on.';
+    t13.right='Every joist is in its final position, securely fixed, level to the approved deck height, and clear of posts, plates and bolts. Nothing is left loose for the ModWood stage.';
+    t13.stop='STOP if the joist height or finished ModWood height relative to the truck is not clearly confirmed, or if a joist clashes with steel or fixings. Do not choose a height by eye — BLOCK / WAIT and confirm it from the issued drawing or with Colin.';
+    t13.explain='The ModWood must not be used to set or pull the joists into position. The joists are the support structure, so their final height, level and fixing have to be settled first.';
+    t16.title='CHECK JOISTS + DECK LEVEL BEFORE MODWOOD';
+    t16.action='Before any ModWood is installed, check that T13 is genuinely complete: every joist is fixed, level, correctly supported and at the approved height. Confirm the support edges, clearances and board fixing conditions from the issued information.';
+    t16.right='No loose joists remain. The full support surface is fixed, level and ready to receive ModWood without using the boards to pull the frame into line.';
+    t16.stop='STOP if any joist is loose, the finished deck height is unknown, or the ModWood-to-truck height / clearance is not confirmed. Return to T13 and confirm the missing information before continuing.';
+    t16.explain='This is the hold point between steelwork and decking. Passing it means the joist structure is actually finished, not just sitting in place.';
+    t17.action='Install the ModWood only after the joists are fully fixed and the deck height has been confirmed. Follow the current issued information for board layout, support, gaps and fixings.';
+    t17.right='The ModWood is installed onto a fixed, level and verified joist structure at the approved finished deck height.';
+    t17.stop='STOP if a board would need to force a loose joist into position, if support is missing, or if finished height or clearance to the truck is uncertain.';
+    t17.explain='Decking comes after the steel support is complete. If the joists are still loose or their height is uncertain, the decking task is not ready.';
+    window.__PN_DECK_WORKFLOW_FIX__=true;
+    try{if(window.__pnDiagLog)window.__pnDiagLog('deck_workflow_fix','Applied joist-before-ModWood workflow correction',{phase:'task_patch'});}catch(_){ }
+    return true;
+  }catch(e){
+    try{if(window.__pnDiagLog)window.__pnDiagLog('deck_workflow_fix_error',e&&e.message?e.message:'Deck workflow patch failed',{phase:'task_patch'});}catch(_){ }
+    return false;
+  }
+}
+function refreshDeckWorkflow(){
+  if(!applyDeckWorkflowFix())return;
+  try{
+    var t=typeof currentPersonTask==='function'?currentPersonTask():null;
+    if(t&&/^(T13|T16|T17)$/.test(String(t.id||''))&&typeof renderTask==='function')renderTask();
+  }catch(e){}
+}
+refreshDeckWorkflow();
+setTimeout(refreshDeckWorkflow,250);
+window.addEventListener('pageshow',refreshDeckWorkflow);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshDeckWorkflow();});
+})();
