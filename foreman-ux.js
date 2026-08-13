@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-if(window.__PN_FOREMAN_UX_V2__)return;
-window.__PN_FOREMAN_UX_V2__=true;
+if(window.__PN_FOREMAN_UX_V3__)return;
+window.__PN_FOREMAN_UX_V3__=true;
 
 var API='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-foreman';
 var KEY='sb_publishable_VATM2AkVyl-yvxv28S2FXw_CqMpBr6q';
@@ -12,18 +12,34 @@ var modalObserver=null;
 
 function person(){try{return state&&state.currentUser?String(state.currentUser):'';}catch(e){return '';}}
 function pin(){try{if(typeof livePin!=='undefined'&&/^\d{6}$/.test(String(livePin)))return String(livePin);}catch(e){}try{return localStorage.getItem('pn_live_pin')||'';}catch(e){return '';}}
-function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c];});}
 function taskTitle(id){try{if(typeof TASKS!=='undefined'&&Array.isArray(TASKS)){var t=TASKS.find(function(x){return x&&x.id===id;});return t&&t.title?String(t.title):'';}}catch(e){}return '';}
 
 function installStyle(){
-  if(document.getElementById('pnForemanUxStyle'))return;
+  if(document.getElementById('pnForemanUxStyle'))document.getElementById('pnForemanUxStyle').remove();
   var s=document.createElement('style');s.id='pnForemanUxStyle';s.textContent='\
 #pnForemanAlert{position:fixed;z-index:99998;left:10px;right:10px;top:10px;max-width:720px;margin:auto;background:#123e63;color:#fff;border:2px solid #fff;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.38);padding:11px 12px;font-family:Arial,sans-serif}\
 #pnForemanAlert .pnFuK{font-size:10px;font-weight:900;letter-spacing:.08em;opacity:.85}#pnForemanAlert .pnFuT{font-size:16px;font-weight:900;line-height:1.2;margin-top:2px}#pnForemanAlert .pnFuB{font-size:12px;line-height:1.35;margin-top:5px;opacity:.96;white-space:pre-wrap}#pnForemanAlert .pnFuBtns{display:flex;gap:7px;margin-top:9px}#pnForemanAlert button{border:0;border-radius:9px;padding:9px 11px;font-weight:900}#pnForemanAlert .pnFuOpen{background:#fff;color:#123e63}#pnForemanAlert .pnFuDismiss{background:#d8e2ea;color:#111}\
-#pnForemanModal .pnFmViewport{overflow:auto!important;touch-action:pan-x pan-y!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;padding:10px!important;display:block!important;user-select:none!important;-webkit-user-select:none!important}\
-#pnForemanModal .pnFmStage{position:relative!important;left:auto!important;top:auto!important;transform:none!important;transform-origin:top center!important;will-change:auto!important;margin:0 auto 24px!important}\
-#pnForemanModal .pnFmMode{position:sticky!important;left:8px!important;bottom:8px!important;display:inline-block!important;width:max-content!important;margin:8px!important}\
-#pnForemanModal #pnFmFit,#pnForemanModal #pnFmMinus,#pnForemanModal #pnFmPlus{display:none!important}\
+#pnForemanModal{overflow:hidden!important}\
+#pnForemanModal .pnFmPanel{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}\
+#pnForemanModal .pnFmTop{padding:4px 8px!important;min-height:34px!important}\
+#pnForemanModal .pnFmTitle{font-size:13px!important}#pnForemanModal .pnFmSub{font-size:9px!important;margin-top:0!important}\
+#pnForemanModal .pnFmClose{padding:6px 9px!important;font-size:10px!important}\
+#pnForemanModal .pnFmNoteBar{padding:3px 6px!important}\
+#pnForemanModal .pnFmNoteLabel{font-size:8px!important}\
+#pnForemanModal .pnFmTextarea{height:42px!important;min-height:42px!important;margin-top:2px!important;padding:5px 7px!important;font-size:11px!important}\
+#pnForemanModal .pnFmReadNote{max-height:44px!important;padding:5px 7px!important;font-size:10px!important;margin-top:2px!important}\
+#pnForemanModal .pnFmTools{display:grid!important;grid-template-columns:repeat(11,minmax(0,1fr))!important;gap:3px!important;padding:4px!important;overflow:visible!important;white-space:normal!important;flex:0 0 auto!important;background:#fff!important}\
+#pnForemanModal .pnFmTool{min-width:0!important;width:100%!important;padding:7px 2px!important;font-size:9px!important;border-radius:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}\
+#pnForemanModal #pnFmFit,#pnForemanModal #pnFmMinus,#pnForemanModal #pnFmPlus{display:block!important}\
+#pnForemanModal .pnFmViewport{position:relative!important;flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;background:#333!important;touch-action:none!important;overscroll-behavior:none!important;padding:0!important;display:block!important}\
+#pnForemanModal .pnFmStage{position:absolute!important;left:50%!important;top:50%!important;margin:0!important;transform-origin:center center!important;will-change:transform!important}\
+#pnForemanModal .pnFmMode{position:absolute!important;left:6px!important;bottom:6px!important;margin:0!important}\
+#pnForemanModal .pnFmHint{padding:2px 6px!important;font-size:8px!important;line-height:1.15!important}\
+#pnForemanModal .pnFmError{font-size:9px!important;padding:0 6px!important}\
+#pnForemanModal .pnFmActions{padding:4px!important;gap:4px!important}\
+#pnForemanModal .pnFmActions button{padding:7px 5px!important;font-size:10px!important}\
+@media(max-width:760px){#pnForemanModal .pnFmTools{grid-template-columns:repeat(4,minmax(0,1fr))!important}#pnForemanModal .pnFmTool{font-size:9px!important;padding:6px 2px!important}#pnForemanModal .pnFmTextarea{height:36px!important;min-height:36px!important}}\
 ';document.head.appendChild(s);
 }
 
@@ -68,29 +84,33 @@ async function pollFeed(){
 }
 
 function syncMarkupMode(){
-  var m=document.getElementById('pnForemanModal');if(!m)return;var pan=m.querySelector('[data-tool="pan"]'),canvas=m.querySelector('#pnFmCanvas'),mode=m.querySelector('#pnFmMode'),hint=m.querySelector('.pnFmHint');
-  if(pan)pan.textContent='SCROLL';var scrolling=!!(pan&&pan.classList.contains('active'));
-  if(canvas){canvas.style.pointerEvents=scrolling?'none':'auto';}
-  if(mode&&scrolling)mode.textContent='SCROLL MODE · swipe up/down';
-  if(hint){var readonly=!m.querySelector('.pnFmPublish');hint.textContent=readonly?'Swipe or scroll normally to move through the plan. Colin\'s red markup is frozen to the drawing and moves with it.':'The plan and markup are locked together. Tap SCROLL to swipe up/down through the sheet; choose ARROW, CIRCLE, DRAW, TEXT or ERASER when you want to mark it.';}
+  var m=document.getElementById('pnForemanModal');if(!m)return;
+  var pan=m.querySelector('[data-tool="pan"]'),mode=m.querySelector('#pnFmMode'),hint=m.querySelector('.pnFmHint');
+  if(pan)pan.textContent='PAN / MOVE';
+  if(mode&&pan&&pan.classList.contains('active'))mode.textContent='PAN MODE · only needed after zoom';
+  if(hint){var readonly=!m.querySelector('.pnFmPublish');hint.textContent=readonly?'The complete marked-up sheet is fitted on screen. Zoom or pan only if you deliberately want a closer look.':'The complete sheet is fitted on screen. Choose ARROW, CIRCLE, DRAW, TEXT or ERASER. PAN / MOVE is only needed after you zoom in.';}
 }
 
-function reflowMarkup(){
-  var m=document.getElementById('pnForemanModal');if(!m)return;var viewport=m.querySelector('#pnFmViewport'),stage=m.querySelector('#pnFmStage'),img=m.querySelector('#pnFmImg');if(!viewport||!stage||!img)return;
-  if(img.naturalWidth&&img.naturalHeight){var w=Math.max(240,Math.min(1160,viewport.clientWidth-20)),h=w*(img.naturalHeight/img.naturalWidth);stage.style.setProperty('width',w+'px','important');stage.style.setProperty('height',h+'px','important');}
-  syncMarkupMode();
+function requestFit(){
+  try{window.dispatchEvent(new Event('resize'));}catch(e){}
 }
 
 function prepareModal(){
-  var m=document.getElementById('pnForemanModal');if(!m||m.getAttribute('data-pn-ux')==='1')return;m.setAttribute('data-pn-ux','1');
-  var img=m.querySelector('#pnFmImg');if(img)img.addEventListener('load',function(){setTimeout(reflowMarkup,0);});
-  m.addEventListener('click',function(){setTimeout(function(){reflowMarkup();syncMarkupMode();},0);},true);
-  setTimeout(reflowMarkup,0);setTimeout(reflowMarkup,120);setTimeout(reflowMarkup,450);
+  var m=document.getElementById('pnForemanModal');if(!m)return;
+  syncMarkupMode();
+  if(m.getAttribute('data-pn-fitall')==='1')return;
+  m.setAttribute('data-pn-fitall','1');
+  var img=m.querySelector('#pnFmImg');if(img)img.addEventListener('load',function(){setTimeout(requestFit,0);setTimeout(requestFit,80);});
+  m.addEventListener('click',function(){setTimeout(syncMarkupMode,0);},true);
+  setTimeout(requestFit,0);setTimeout(requestFit,120);setTimeout(requestFit,420);
 }
 
 function observeModals(){
-  if(modalObserver)return;modalObserver=new MutationObserver(function(){prepareModal();});modalObserver.observe(document.body,{childList:true,subtree:true});prepareModal();
-  window.addEventListener('resize',function(){setTimeout(reflowMarkup,80);},{passive:true});
+  if(modalObserver)return;
+  modalObserver=new MutationObserver(function(){prepareModal();});
+  modalObserver.observe(document.body,{childList:true,subtree:true});
+  prepareModal();
+  window.addEventListener('resize',function(){setTimeout(syncMarkupMode,0);},{passive:true});
 }
 
 function boot(){installStyle();observeModals();setTimeout(pollFeed,700);setInterval(pollFeed,5000);document.addEventListener('visibilitychange',function(){if(!document.hidden){pollFeed();prepareModal();}});window.addEventListener('pageshow',function(){pollFeed();prepareModal();});}
