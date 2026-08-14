@@ -1,10 +1,10 @@
-const CACHE='pn-shell-v52-1';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./foreman.js','./foreman-ux.js','./foreman-fit.js','./colin-pack.js','./fabrication.js','./v52-all.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
+const CACHE='pn-shell-v52-2';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
 self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pn-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('pn-shell-')||k.startsWith('pn-private-bundle-'))&&k!==CACHE&&k!=='pn-private-bundle-v52-2').map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
 });
 self.addEventListener('fetch',event=>{
   const req=event.request;
@@ -16,7 +16,7 @@ self.addEventListener('fetch',event=>{
     event.respondWith(fetch(req,{cache:'no-store'}));
     return;
   }
-  if(url.pathname.endsWith('/v52-all.js')||url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/foreman.js')||url.pathname.endsWith('/foreman-ux.js')||url.pathname.endsWith('/foreman-fit.js')||url.pathname.endsWith('/colin-pack.js')||url.pathname.endsWith('/fabrication.js')||url.pathname.endsWith('/miter-template.html')||url.pathname.endsWith('/miter-template-colin-33.html')||url.pathname.endsWith('/miter-template-colin-30.html')||url.pathname.endsWith('/miter-template-colin-36.html')){
+  if(url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/fabrication.js')||url.pathname.endsWith('/miter-template.html')||url.pathname.endsWith('/miter-template-colin-33.html')||url.pathname.endsWith('/miter-template-colin-30.html')||url.pathname.endsWith('/miter-template-colin-36.html')){
     event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;}).catch(()=>caches.match(req)));
     return;
   }
