@@ -1,5 +1,5 @@
-const CACHE='pn-shell-v52-4';
-const PRIVATE='pn-private-bundle-v52-4';
+const CACHE='pn-shell-v52-5';
+const PRIVATE='pn-private-bundle-v52-5';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith('pn-shell-')||k.startsWith('pn-private-bundle-'))&&k!==CACHE&&k!==PRIVATE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
