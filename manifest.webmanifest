@@ -3,7 +3,7 @@
   "name": "Pinnacle Navigator",
   "short_name": "Navigator",
   "description": "Pinnacle Builders live workshop task navigator",
-  "start_url": "./?latest=1",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f4f1",
