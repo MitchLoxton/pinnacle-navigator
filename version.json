@@ -1,1 +1,1 @@
-{"version":51,"label":"v52","build":52,"channel":"workshop","notes":"Focused task plans, crew chat and announcements, visible changelog, freeze fixes"}
+{"version":51,"label":"v52.2","build":522,"channel":"workshop","released":"2026-08-14","changes":["13 Aug LD Total design clarification auto-applied","Deck-to-SS-mesh gap must be greater than 25 mm; 30 mm working target","Stable Colin plan and markup replacement","Legacy freeze-prone foreman/progress scripts removed","Focused task plans and crew updates retained"]}
