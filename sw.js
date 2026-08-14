@@ -1,11 +1,9 @@
-const CACHE='pn-shell-v51-11';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./foreman.js','./foreman-ux.js','./colin-flow.js','./foreman-fit.js','./colin-pack.js','./progress.js','./fabrication.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
+const CACHE='pn-shell-v52-1';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./foreman.js','./foreman-ux.js','./foreman-fit.js','./colin-pack.js','./fabrication.js','./v52-all.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
 self.addEventListener('activate',event=>{
-  // Only retire old PUBLIC shell caches here. Private authenticated bundles are
-  // removed transactionally by the launcher *after* a replacement is verified.
   event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pn-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
 });
 self.addEventListener('fetch',event=>{
@@ -13,15 +11,12 @@ self.addEventListener('fetch',event=>{
   if(req.method!=='GET') return;
   const url=new URL(req.url);
   if(url.origin!==self.location.origin) return;
-  // Authenticated Navigator bundles are private launcher-cache entries, never public routes.
   if(url.pathname.includes('/.private-navigator-v')) return;
-  // Always ask the network for the version marker so an already-open app can notice a newer build.
   if(url.pathname.endsWith('/version.json')){
     event.respondWith(fetch(req,{cache:'no-store'}));
     return;
   }
-  // Support code and workshop print templates are network-first so hotfixes are not trapped behind an old cache.
-  if(url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/foreman.js')||url.pathname.endsWith('/foreman-ux.js')||url.pathname.endsWith('/colin-flow.js')||url.pathname.endsWith('/foreman-fit.js')||url.pathname.endsWith('/colin-pack.js')||url.pathname.endsWith('/progress.js')||url.pathname.endsWith('/fabrication.js')||url.pathname.endsWith('/miter-template.html')||url.pathname.endsWith('/miter-template-colin-33.html')||url.pathname.endsWith('/miter-template-colin-30.html')||url.pathname.endsWith('/miter-template-colin-36.html')){
+  if(url.pathname.endsWith('/v52-all.js')||url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/foreman.js')||url.pathname.endsWith('/foreman-ux.js')||url.pathname.endsWith('/foreman-fit.js')||url.pathname.endsWith('/colin-pack.js')||url.pathname.endsWith('/fabrication.js')||url.pathname.endsWith('/miter-template.html')||url.pathname.endsWith('/miter-template-colin-33.html')||url.pathname.endsWith('/miter-template-colin-30.html')||url.pathname.endsWith('/miter-template-colin-36.html')){
     event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;}).catch(()=>caches.match(req)));
     return;
   }
