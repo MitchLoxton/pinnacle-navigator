@@ -10,10 +10,11 @@ window.__PN_BALUSTRADE_FAB_GUIDANCE__=true;
   geometry and dimensions.
 
   The 76.1 mm wrap template surfaced below is a workshop fit-up aid for the
-  specific same-diameter 90-degree handrail corner being tested. It is not a
-  replacement for the issued design or required structural/weld checks.
+  specific same-diameter 90-degree corner being tested. It is the compound
+  SECOND-RAIL template: Rail A is fitted first, then Rail B is relieved so the
+  ordinary fishmouth horns do not collide.
 */
-var PIPE_TEMPLATE_URL='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-761-template';
+var PIPE_TEMPLATE_URL='https://mitchloxton.github.io/pinnacle-navigator/compound-761-template.html?v=5342';
 
 function removeLegacyExperimentUI(){
   try{
@@ -58,8 +59,8 @@ function ensureFixedButton(){
   b=document.createElement('button');
   b.id='pnPipeTemplateFixed';
   b.type='button';
-  b.setAttribute('aria-label','Open 76.1 millimetre one-to-one wrap cutting template');
-  b.innerHTML='<span style="font-size:20px">✂</span><span>76.1 PIPE CUT TEMPLATE<span class="pnPipeSub">TAP HERE · PRINT 100% / ACTUAL SIZE</span></span>';
+  b.setAttribute('aria-label','Open 76.1 millimetre compound second-rail wrap cutting template');
+  b.innerHTML='<span style="font-size:20px">✂</span><span>76.1 COMPOUND CUT TEMPLATE<span class="pnPipeSub">SECOND RAIL · TAP HERE · PRINT 100%</span></span>';
   b.onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}openPipeTemplate();};
   document.body.appendChild(b);
   return b;
@@ -77,7 +78,7 @@ function ensureTopButton(){
   if(!a)return null;
   x=document.createElement('section');
   x.id='pnPipeTemplateTop';
-  x.innerHTML='<div class="pnPipeTitle">✂ 76.1 PIPE CUT TEMPLATE</div><div class="pnPipeDesc">1:1 WRAP-AROUND PRINT SHEET FOR THE SAME-DIAMETER 90° CORNER. TAP BELOW.</div><button type="button">OPEN 1:1 TEMPLATE</button>';
+  x.innerHTML='<div class="pnPipeTitle">✂ 76.1 COMPOUND CUT TEMPLATE</div><div class="pnPipeDesc">SECOND RAIL · THREE 76.1 mm PIPES · TWO RAILS 90° APART · SAME HEIGHT. TAP BELOW.</div><button type="button">OPEN 1:1 WRAP TEMPLATE</button>';
   x.querySelector('button').onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}openPipeTemplate();};
   if(a.classList&&a.classList.contains('app'))a.insertBefore(x,a.firstChild);
   else a.insertAdjacentElement('afterend',x);
@@ -121,8 +122,8 @@ function boot(){
   setInterval(function(){if(!document.hidden)apply();},1400);
   try{
     if(window.__pnDiagLog)window.__pnDiagLog(
-      'fabrication_helper_pipe_template_live',
-      '76.1 pipe template launcher visible; legacy experimental overrides remain disabled.',
+      'fabrication_helper_compound_pipe_template_live',
+      '76.1 compound second-rail template launcher visible and opens GitHub Pages directly.',
       {phase:'fabrication_template'}
     );
   }catch(e){}
