@@ -22,6 +22,11 @@
     return 'wait';
   }
 
+  function pct(value, digits = 1) {
+    const n = Number(value);
+    return Number.isFinite(n) ? `${n.toFixed(digits)}%` : '—';
+  }
+
   function formatDateOnly(dateString) {
     if (!dateString) return '';
     const [y, m, d] = String(dateString).split('-').map(Number);
@@ -72,22 +77,61 @@
     const stateNo = Number(item.state);
     const priceGate = Number(item.priceGate || 0);
     const coreBase = Number(item.coreBaseReferenceAud || 0);
+    const histN = Number(item.histN);
+    const histWins = Number(item.histWins);
+    const histWinRate = Number(item.histWinRatePct);
+    const histProfitUnits = Number(item.histProfitUnits);
+    const histRoi = Number(item.histRoiPct);
+    const averageOdds = Number(item.averageOdds);
     const horse = item.provisionalHorse || 'Favourite TBC';
-    const metaBits = [item.venue || item.region || ''];
-    if (Number.isFinite(stateNo)) metaBits.push(`state ${stateNo}`);
-    if (item.qualifyingKey) metaBits.push(item.qualifyingKey);
-    if (item.why) metaBits.push(item.why);
     const gateText = priceGate > 0 ? `$${priceGate.toFixed(2)}+ screen` : 'PRICE TBC';
-    return `<div class="bet-row potential-row">
-      <div class="bet-main">
-        <strong>${escapeHTML(item.race || '')} · ${escapeHTML(horse)}</strong>
-        <div class="meta">${metaBits.filter(Boolean).map(escapeHTML).join(' · ')}</div>
+    const profitUnits = Number.isFinite(histProfitUnits) ? `${histProfitUnits >= 0 ? '+' : ''}${histProfitUnits.toFixed(1)}u` : '—';
+    const avgOddsText = Number.isFinite(averageOdds) && averageOdds > 0 ? averageOdds.toFixed(2) : '—';
+
+    return `<div class="potential-card">
+      <div class="potential-head">
+        <div class="bet-main">
+          <strong>${escapeHTML(item.race || '')} · ${escapeHTML(horse)}</strong>
+          <div class="meta">${escapeHTML(item.venue || item.region || '')} · state ${Number.isFinite(stateNo) ? stateNo : '—'} · ${escapeHTML(item.qualifyingKey || '')}</div>
+        </div>
+        <div class="bet-side">
+          <span class="code">${coreBase > 0 ? 'CORE REF ' + money.format(coreBase) : 'V11 STATE'}</span>
+          <span class="pill wait">${escapeHTML(gateText)}</span>
+        </div>
       </div>
-      <div class="bet-side">
-        <span class="code">${coreBase > 0 ? 'CORE REF ' + money.format(coreBase) : 'V11 STATE'}</span>
-        <span class="pill wait">${escapeHTML(gateText)}</span>
+      <div class="state-stat-grid">
+        <div><span>Hist bets</span><strong>${Number.isFinite(histN) ? histN : '—'}</strong></div>
+        <div><span>Wins</span><strong>${Number.isFinite(histWins) ? histWins : '—'}</strong></div>
+        <div><span>Win rate</span><strong>${pct(histWinRate)}</strong></div>
+        <div><span>Hist ROI</span><strong class="${histRoi >= 0 ? 'positive-text' : 'negative-text'}">${pct(histRoi)}</strong></div>
+        <div><span>Hist P/L</span><strong class="${histProfitUnits >= 0 ? 'positive-text' : 'negative-text'}">${profitUnits}</strong></div>
+        <div><span>Avg odds</span><strong>${avgOddsText}</strong></div>
       </div>
+      <div class="meta evidence-line">Frozen exact-state evidence through 1 Aug 2026. Avg odds stays blank until an exact source is reconciled.</div>
+      ${item.why ? `<div class="meta why-line">${escapeHTML(item.why)}</div>` : ''}
     </div>`;
+  }
+
+  function renderSeason(data) {
+    const season = data.season || {};
+    const profit = Number(season.modelProfitAud);
+    const turnover = Number(season.modelTurnoverAud);
+    const bets = Number(season.modelBets);
+    const wins = Number(season.modelWins);
+    const losses = Number(season.modelLosses);
+    const roi = Number(season.modelRoiPct);
+
+    $('seasonPill').textContent = season.status || 'MODEL';
+    $('seasonPill').className = 'pill wait';
+    $('seasonProfit').textContent = Number.isFinite(profit) ? money.format(profit) : '—';
+    $('seasonProfit').className = `season-profit ${profit > 0 ? 'positive' : profit < 0 ? 'negative' : ''}`;
+    $('seasonCaption').textContent = `${season.fy || 'Current FY'} model P/L${season.modelThrough ? ' through ' + formatDateOnly(season.modelThrough) : ''}`;
+    $('seasonRoi').textContent = pct(roi);
+    $('seasonBets').textContent = Number.isFinite(bets) ? String(bets) : '—';
+    $('seasonTurnover').textContent = Number.isFinite(turnover) ? money.format(turnover) : '—';
+    $('seasonRecord').textContent = Number.isFinite(wins) && Number.isFinite(losses) ? `${wins} / ${losses}` : '—';
+    $('cashStatus').innerHTML = `<strong>Actual cash P/L:</strong> ${escapeHTML(season.actualCashStatus || 'NOT VERIFIED')}`;
+    $('seasonNote').textContent = season.note || 'Model P/L and real accepted-cash P/L are kept separate.';
   }
 
   function renderData(data) {
@@ -102,6 +146,8 @@
     const cls = statusClass(data.overallStatus);
     $('statusDot').className = `status-dot ${cls}`;
     $('overallStatus').className = `status-label ${cls}`;
+
+    renderSeason(data);
 
     const locked = Array.isArray(data.lockedBets) ? data.lockedBets : [];
     $('lockedBets').innerHTML = locked.map(renderLockedBet).join('');
@@ -137,6 +183,7 @@
       ['App feed', health.appFeed || 'UNKNOWN'],
       ['Australia production', health.auProduction || 'UNKNOWN'],
       ['Pre-race watchlist', health.watchlist || 'UNKNOWN'],
+      ['FY ledger', health.seasonLedger || 'UNKNOWN'],
       ['Hong Kong', health.hkProduction || 'UNKNOWN'],
       ['Evidence boundary', health.source || 'Production dashboard is source of truth']
     ];
