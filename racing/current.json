@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "appVersion": "0.3.0",
-  "updatedAt": "2026-08-26T06:48:00+08:00",
+  "updatedAt": "2026-08-26T06:49:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
@@ -18,7 +18,7 @@
     "modelBets": 0,
     "modelWins": 0,
     "modelLosses": 0,
-    "modelRoiPct": null,
+    "modelRoiPct": "N/A",
     "actualCashProfitAud": null,
     "actualCashStatus": "CURRENT CASH TOTAL NOT VERIFIED — 22 AUG EXECUTION LEDGER MISSING",
     "trackingReplayProfitAud": 6000,
