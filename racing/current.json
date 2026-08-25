@@ -25,30 +25,99 @@
     "note": "Main scoreboard now starts at the beginning of FY 2026/27: 1 Jul 2026. The latest fully auditable model-equivalent accounting through 8 Aug is 5 bets, $39,000 turnover and -$3,000 P/L (1 win / 4 losses, -7.7% ROI). This includes the pre-10-Aug tracking/model period so the yearly total answers what the system path would have produced from FY start. It is not claimed cash P/L. 15 Aug and 22 Aug remain excluded until their released-signal/model-price and execution evidence are reconciled."
   },
   "meetings": [
-    {"region":"Perth","code":"PR1-PR7","venue":"Belmont Park","date":"2026-08-29","status":"WATCH"},
-    {"region":"Sydney","code":"SR1-SR7","venue":"Rosehill Gardens","date":"2026-08-29","status":"WATCH"},
-    {"region":"Melbourne","code":"MR1-MR7","venue":"Caulfield","date":"2026-08-29","status":"WATCH"},
-    {"region":"Hong Kong","code":"HK","venue":"No meeting this week","date":null,"status":"NO BET"}
+    {
+      "region": "Perth",
+      "code": "PR1-PR7",
+      "venue": "Belmont Park",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Sydney",
+      "code": "SR1-SR7",
+      "venue": "Rosehill Gardens",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Melbourne",
+      "code": "MR1-MR7",
+      "venue": "Caulfield",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Hong Kong",
+      "code": "HK",
+      "venue": "No meeting this week",
+      "date": null,
+      "status": "NO BET"
+    }
   ],
   "lockedBets": [],
   "watchlist": [
     {
-      "race":"PR2","region":"Perth","venue":"Belmont Park","date":"2026-08-29","state":4,"qualifyingKey":"PR2|4","status":"POTENTIAL","provisionalHorse":"Favourite TBC","priceGate":3.00,"coreBaseReferenceAud":4000,"histN":21,"histWins":7,"histWinRatePct":33.3333333333,"histProfitUnits":5.8,"histRoiPct":27.619047619,"averageOdds":null,"why":"22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.","evidenceStatus":"Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
+      "race": "PR2",
+      "region": "Perth",
+      "venue": "Belmont Park",
+      "date": "2026-08-29",
+      "state": 4,
+      "qualifyingKey": "PR2|4",
+      "status": "POTENTIAL",
+      "provisionalHorse": "Favourite TBC",
+      "priceGate": 3.00,
+      "coreBaseReferenceAud": 4000,
+      "histN": 21,
+      "histWins": 7,
+      "histWinRatePct": 33.3333333333,
+      "histProfitUnits": 5.8,
+      "histRoiPct": 27.619047619,
+      "averageOdds": null,
+      "why": "22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.",
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     },
     {
-      "race":"SR6","region":"Sydney","venue":"Rosehill Gardens","date":"2026-08-29","state":5,"qualifyingKey":"SR6|5","status":"POTENTIAL","provisionalHorse":"Favourite TBC","priceGate":3.00,"coreBaseReferenceAud":6000,"histN":23,"histWins":8,"histWinRatePct":34.7826086957,"histProfitUnits":7.2,"histRoiPct":31.3043478261,"averageOdds":null,"why":"22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.","evidenceStatus":"Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
+      "race": "SR6",
+      "region": "Sydney",
+      "venue": "Rosehill Gardens",
+      "date": "2026-08-29",
+      "state": 5,
+      "qualifyingKey": "SR6|5",
+      "status": "POTENTIAL",
+      "provisionalHorse": "Favourite TBC",
+      "priceGate": 3.00,
+      "coreBaseReferenceAud": 6000,
+      "histN": 23,
+      "histWins": 8,
+      "histWinRatePct": 34.7826086957,
+      "histProfitUnits": 7.2,
+      "histRoiPct": 31.3043478261,
+      "averageOdds": null,
+      "why": "22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.",
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     }
   ],
   "models": {
-    "australia": {"name":"V11 + V3.7 production risk policy","status":"PRODUCTION","historicalEquivalentProfitPer1000Stake":21900,"note":"Pre-race watchlist uses frozen stream/state logic only. Horse and executable price remain live gates."},
-    "hongKong": {"name":"R23 PLACE BACK","status":"RESEARCH","modelEquivalentProfitPer1000Stake":21400,"proxyMaxDrawdownUnits":37.33,"note":"Research only. Historical PLACE prices are synthetic and it is not production-approved."}
+    "australia": {
+      "name": "V11 + V3.7 production risk policy",
+      "status": "PRODUCTION",
+      "historicalEquivalentProfitPer1000Stake": 21900,
+      "note": "Pre-race watchlist uses frozen stream/state logic only. Horse and executable price remain live gates."
+    },
+    "hongKong": {
+      "name": "R23 PLACE BACK",
+      "status": "RESEARCH",
+      "modelEquivalentProfitPer1000Stake": 21400,
+      "proxyMaxDrawdownUnits": 37.33,
+      "note": "Research only. Historical PLACE prices are synthetic and it is not production-approved."
+    }
   },
   "health": {
-    "appFeed":"GREEN",
-    "auProduction":"2 POTENTIAL / 0 LOCKED",
-    "watchlist":"PR2 STATE 4 + SR6 STATE 5",
-    "seasonLedger":"FY MODEL: 1 JUL-8 AUG = -$3,000 / 5 BETS / $39,000 TURNOVER; 15/22 AUG PENDING",
-    "hkProduction":"RESEARCH ONLY",
-    "source":"Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
+    "appFeed": "GREEN",
+    "auProduction": "2 POTENTIAL / 0 LOCKED",
+    "watchlist": "PR2 STATE 4 + SR6 STATE 5",
+    "seasonLedger": "FY MODEL: 1 JUL-8 AUG = -$3,000 / 5 BETS / $39,000 TURNOVER; 15/22 AUG PENDING",
+    "hkProduction": "RESEARCH ONLY",
+    "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
   }
 }
