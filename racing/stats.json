@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "0.5.0",
+  "updatedAt": "2026-08-26T08:15:00+08:00",
+  "strategy": {
+    "name": "V11 + V3.7 + NET EXECUTION",
+    "status": "BEST EVIDENCED LIVE",
+    "objective": "Maximise sustainable accepted cash profit per year, not bet count.",
+    "rule": "Use frozen V11 selections and stakes, apply the V3.7 25% post-A$100K secured-high-water ratchet, and execute only when BET LOCKED at the best net executable price/fill available. The 30% non-core expansion remains shadow-only until genuinely forward evidence earns promotion.",
+    "selectionChange": "NONE — current evidence does not justify loosening V11 live selection rules. The improvement is execution priority plus the already-promoted V3.7 risk policy."
+  },
+  "historical": {
+    "completedFys": 18,
+    "avgCompletedFyAud": 178084.8611111111,
+    "totalProfitAud": 3205527.5,
+    "turnoverAud": 5683550,
+    "roiPct": 56.40009325157692,
+    "bets": 699,
+    "betsPerYear": 38.833333333333336,
+    "recordedMaxDrawdownAud": 79850,
+    "reorderStressMaxDrawdownAud": 108800,
+    "startAug10AvgAud": 163700.6944444444,
+    "startAug10Recent5Aud": 122646.5,
+    "startAug10WorstAud": -53060,
+    "startAug10PositiveYears": 17,
+    "startAug10Years": 18
+  },
+  "execution": {
+    "fivePctWorseStartAvgAud": 136550.757,
+    "executionSensitivityAud": 27149.937444444397,
+    "message": "The stored start-around-10-Aug replay falls by about A$27.1K/year when winning prices are 5% worse, so price/fill quality is a first-class profit lever."
+  },
+  "v37": {
+    "stressLabel": "5% central price stress",
+    "targetHits": 13,
+    "targetYears": 18,
+    "positiveYears": 18,
+    "meanAud": 106151,
+    "medianAud": 102755,
+    "annualSdAud": 77650,
+    "band90to130Years": 11,
+    "bandYears": 18,
+    "next12mPlanningMeanAud": 130751,
+    "currentFyFromAug12MeanAud": 118106,
+    "nextFyMeanAud": 106151,
+    "note": "V3.7 changes nothing before verified secured FY cash reaches A$100K. It is designed to reduce post-target give-back, not manufacture more predictive edge."
+  },
+  "challenger": {
+    "name": "30% non-core Australian expansion",
+    "status": "SHADOW ONLY",
+    "approxBetsPerYear": 65.4,
+    "hindsightRoiPct": 47.9,
+    "hindsightAvgFyAud": 253200,
+    "warning": "This is a same-history/hindsight screen, not a bankable forecast. Keep it shadow-only and record every added signal prospectively before any promotion."
+  },
+  "evidence": {
+    "historicalCutoff": "2026-08-01",
+    "planningNotPromise": "Historical averages and planning means are model-equivalent evidence, not guaranteed accepted-cash income.",
+    "cashRule": "Actual banked profit must use accepted stake, accepted price, charges/commission and settlement."
+  }
+}
