@@ -89,16 +89,38 @@ input:focus{border-color:#5f9edc;box-shadow:0 0 0 3px rgba(95,158,220,.15)}
 .install-card{display:grid;gap:5px;margin-top:13px;padding:15px}
 .install-card strong{font-size:16px}.install-card span{color:var(--muted);font-size:12px;line-height:1.4}
 footer{display:flex;justify-content:space-between;gap:12px;padding:16px 5px 0;color:#7f8da3;font-size:10px}
+
+.season-profit{margin-top:13px;font-size:40px;font-weight:950;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.season-profit.positive,.positive-text{color:var(--green)}
+.season-profit.negative,.negative-text{color:var(--red)}
+.season-caption{margin-top:6px;color:var(--muted);font-size:12px}
+.score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:13px}
+.score-cell{min-width:0;padding:10px 8px;border:1px solid var(--line);background:#0b1627;border-radius:12px}
+.score-cell span{display:block;color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.score-cell strong{display:block;margin-top:5px;font-size:16px;font-weight:900;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.cash-status{margin-top:10px;padding:10px 11px;border-radius:11px;background:#251820;border:1px solid #54313d;color:#ffc7cf;font-size:11px;line-height:1.45}
+.potential-card{padding:13px;border:1px solid var(--line);background:#0b1627;border-radius:14px}
+.potential-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.state-stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:11px}
+.state-stat-grid>div{min-width:0;padding:9px 8px;border-radius:10px;background:#081321;border:1px solid #1f3048}
+.state-stat-grid span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;font-weight:800;letter-spacing:.06em}
+.state-stat-grid strong{display:block;margin-top:4px;font-size:15px;font-weight:900;font-variant-numeric:tabular-nums}
+.evidence-line{margin-top:9px;padding-top:8px;border-top:1px solid #1e2f48}
+.why-line{margin-top:6px;color:#c4cfde}
+
 @media (max-width:460px){
   .app-shell{padding-left:11px;padding-right:11px}
   .field-grid{grid-template-columns:1fr}
   .kpi-grid{grid-template-columns:1fr 1fr}
+  .score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   h1{font-size:27px}
   .panel{padding:13px}
+  .season-profit{font-size:36px}
 }
 @media (max-width:350px){
   .kpi-grid{grid-template-columns:1fr}
-  .meeting-row,.health-row,.bet-row,.log-row{align-items:flex-start;flex-direction:column}
+  .state-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .meeting-row,.health-row,.bet-row,.log-row,.potential-head{align-items:flex-start;flex-direction:column}
   .meeting-side,.bet-side{text-align:left}
   .health-value{text-align:left;max-width:100%}
 }
