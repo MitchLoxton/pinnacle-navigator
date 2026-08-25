@@ -10,7 +10,7 @@
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="stylesheet" href="./styles.css">
   <title>MITCHELL Racing</title>
 </head>
@@ -59,7 +59,21 @@
       <div id="lockedBets" class="stack"></div>
       <div class="empty-state" id="noLockedBets">
         <strong>No BET LOCKED signal.</strong>
-        <span>That means no bet. This app will show horse, race, stake and minimum price only after the frozen system qualifies it.</span>
+        <span>That means no confirmed bet yet. Potential bets are shown below before race day.</span>
+      </div>
+
+      <div class="section-heading spaced">
+        <div>
+          <div class="eyebrow">PRE-RACE WATCHLIST</div>
+          <h3>Potential bets</h3>
+        </div>
+        <span class="pill wait" id="potentialPill">CHECKING</span>
+      </div>
+      <div class="rule-box">A potential bet means the stream is already sitting in a frozen V11 betting state. It is <strong>not</strong> a wager yet: the actual favourite, live price, readiness checks and MIN EXEC still have to pass.</div>
+      <div id="potentialBets" class="stack"></div>
+      <div class="empty-state" id="noPotentialBets">
+        <strong>No current V11 watchlist candidates.</strong>
+        <span>If a stream moves into a qualifying state after verified results, it will appear here before Saturday.</span>
       </div>
 
       <div class="section-heading spaced">
@@ -102,6 +116,8 @@
         <p id="auModelNote"></p>
         <div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro meeting sequence. No cherry-picking extra races.</div>
       </div>
+      <div class="section-heading spaced"><h3>Potential Australian bets</h3></div>
+      <div id="auPotentialBets" class="stack"></div>
       <div class="section-heading spaced"><h3>Current Australian meetings</h3></div>
       <div id="auMeetings" class="stack"></div>
     </section>
