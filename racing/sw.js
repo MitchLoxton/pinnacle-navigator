@@ -1,4 +1,4 @@
-const CACHE = 'mitchell-racing-shell-v3';
+const CACHE = 'mitchell-racing-shell-v4';
 const SHELL = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon.svg', './apple-touch-icon.png', './current.json'];
 
 self.addEventListener('install', event => {
