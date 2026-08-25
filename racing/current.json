@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 1,
-  "appVersion": "0.1.0",
-  "updatedAt": "2026-08-26T06:16:00+08:00",
+  "schemaVersion": 2,
+  "appVersion": "0.2.0",
+  "updatedAt": "2026-08-26T06:24:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
-  "overallStatus": "WAIT",
-  "overallMessage": "No frozen V11 BET LOCKED signal is available yet. Do not choose a horse early.",
-  "productionRule": "Only act on a green BET LOCKED row and only if the live executable price is at or above MIN EXEC.",
+  "overallStatus": "WATCHLIST",
+  "overallMessage": "2 potential Australian V11 bets are already identifiable for Saturday. No bet is confirmed yet.",
+  "productionRule": "Potential = the stream is already in a frozen V11 betting state. Confirmed = the actual favourite, live executable price, readiness checks and MIN EXEC all pass and production shows BET LOCKED.",
   "stakeDefaultAud": 1000,
   "meetings": [
     {
@@ -39,13 +39,42 @@
     }
   ],
   "lockedBets": [],
-  "watchlist": [],
+  "watchlist": [
+    {
+      "race": "PR2",
+      "region": "Perth",
+      "venue": "Belmont Park",
+      "date": "2026-08-29",
+      "state": 4,
+      "qualifyingKey": "PR2|4",
+      "status": "POTENTIAL",
+      "provisionalHorse": "Favourite TBC",
+      "priceGate": 3.00,
+      "coreBaseReferenceAud": 4000,
+      "why": "22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.",
+      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+    },
+    {
+      "race": "SR6",
+      "region": "Sydney",
+      "venue": "Rosehill Gardens",
+      "date": "2026-08-29",
+      "state": 5,
+      "qualifyingKey": "SR6|5",
+      "status": "POTENTIAL",
+      "provisionalHorse": "Favourite TBC",
+      "priceGate": 3.00,
+      "coreBaseReferenceAud": 6000,
+      "why": "22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.",
+      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+    }
+  ],
   "models": {
     "australia": {
       "name": "V11 + V3.7 production risk policy",
       "status": "PRODUCTION",
       "historicalEquivalentProfitPer1000Stake": 21900,
-      "note": "Historical-equivalent only; live execution evidence remains critical."
+      "note": "Pre-race watchlist uses frozen stream/state logic only. Horse and executable price remain live gates."
     },
     "hongKong": {
       "name": "R23 PLACE BACK",
@@ -57,8 +86,9 @@
   },
   "health": {
     "appFeed": "GREEN",
-    "auProduction": "WAIT FOR LIVE SIGNAL",
+    "auProduction": "2 POTENTIAL / 0 LOCKED",
+    "watchlist": "PR2 STATE 4 + SR6 STATE 5",
     "hkProduction": "RESEARCH ONLY",
-    "source": "Published companion data. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions."
+    "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
   }
 }
