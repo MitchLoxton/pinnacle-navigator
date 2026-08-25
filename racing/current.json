@@ -1,12 +1,12 @@
 {
   "schemaVersion": 3,
-  "appVersion": "0.3.1",
-  "updatedAt": "2026-08-26T06:49:00+08:00",
+  "appVersion": "0.3.2",
+  "updatedAt": "2026-08-26T07:16:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
-  "overallMessage": "2 potential Australian V11 bets are already identifiable for Saturday. No bet is confirmed yet.",
-  "productionRule": "Potential = the stream is already in a frozen V11 betting state. Confirmed = the actual favourite, live executable price, readiness checks and MIN EXEC all pass and production shows BET LOCKED.",
+  "overallMessage": "SAT 29 AUG: exactly 2 current Australian V11 race-level potentials — PR2 Belmont R2 and SR6 Rosehill R6. The horse is the official favourite only if the frozen production engine reaches BET LOCKED. No horse is confirmed yet.",
+  "productionRule": "THIS WEEK: watch PR2 and SR6 only. A potential becomes a real bet only when the official favourite is verified, best executable fixed price is at least $3.00, readiness/MIN EXEC checks pass and frozen V11 shows BET LOCKED. Do not bet a guessed Wednesday favourite.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
@@ -22,7 +22,7 @@
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": null,
     "actualCashStatus": "NOT VERIFIED — ACCEPTED STAKE/PRICE EVIDENCE INCOMPLETE",
-    "note": "Main scoreboard now starts at the beginning of FY 2026/27: 1 Jul 2026. The latest fully auditable model-equivalent accounting through 8 Aug is 5 bets, $39,000 turnover and -$3,000 P/L (1 win / 4 losses, -7.7% ROI). This includes the pre-10-Aug tracking/model period so the yearly total answers what the system path would have produced from FY start. It is not claimed cash P/L. 15 Aug and 22 Aug remain excluded until their released-signal/model-price and execution evidence are reconciled."
+    "note": "Main scoreboard starts at 1 Jul 2026. Latest fully auditable model-equivalent accounting is through 8 Aug: 5 bets, $39,000 turnover, -$3,000 P/L, 1 win / 4 losses, -7.7% ROI. 15 Aug and 22 Aug are still excluded until their released-signal/model-price and execution evidence are reconciled. This is model accounting, not claimed cash P/L."
   },
   "meetings": [
     {
@@ -44,7 +44,7 @@
       "code": "MR1-MR7",
       "venue": "Caulfield",
       "date": "2026-08-29",
-      "status": "WATCH"
+      "status": "NO CURRENT POTENTIAL"
     },
     {
       "region": "Hong Kong",
@@ -64,7 +64,7 @@
       "state": 4,
       "qualifyingKey": "PR2|4",
       "status": "POTENTIAL",
-      "provisionalHorse": "Favourite TBC",
+      "provisionalHorse": "OFFICIAL FAVOURITE (TBC)",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 4000,
       "histN": 21,
@@ -73,8 +73,10 @@
       "histProfitUnits": 5.8,
       "histRoiPct": 27.619047619,
       "averageOdds": null,
-      "why": "22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.",
-      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
+      "marketStatus": "Horse and current executable price not yet verified",
+      "betInstruction": "If V11 reaches BET LOCKED: bet the official Belmont R2 favourite only if best executable fixed price is >= $3.00. Do not substitute another runner. Core reference is $4,000; final production stake remains subject to the frozen V3.7/FY rules.",
+      "why": "SAT 29 AUG PLAN: Belmont R2 is a genuine race-level potential. If V11 reaches BET LOCKED, the bet is the official favourite only at $3.00+ executable fixed odds. Core reference $4,000; final production stake is still determined by the frozen live policy. 22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into state 4.",
+      "evidenceStatus": "RACE-LEVEL POTENTIAL VERIFIED; HORSE/PRICE STILL LIVE GATES"
     },
     {
       "race": "SR6",
@@ -84,7 +86,7 @@
       "state": 5,
       "qualifyingKey": "SR6|5",
       "status": "POTENTIAL",
-      "provisionalHorse": "Favourite TBC",
+      "provisionalHorse": "OFFICIAL FAVOURITE (TBC)",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 6000,
       "histN": 23,
@@ -93,8 +95,10 @@
       "histProfitUnits": 7.2,
       "histRoiPct": 31.3043478261,
       "averageOdds": null,
-      "why": "22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.",
-      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
+      "marketStatus": "Horse and current executable price not yet verified",
+      "betInstruction": "If V11 reaches BET LOCKED: bet the official Rosehill R6 favourite only if best executable fixed price is >= $3.00. Do not substitute another runner. Core reference is $6,000; final production stake remains subject to the frozen V3.7/FY rules.",
+      "why": "SAT 29 AUG PLAN: Rosehill R6 is a genuine race-level potential. If V11 reaches BET LOCKED, the bet is the official favourite only at $3.00+ executable fixed odds. Core reference $6,000; final production stake is still determined by the frozen live policy. 22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into state 5.",
+      "evidenceStatus": "RACE-LEVEL POTENTIAL VERIFIED; HORSE/PRICE STILL LIVE GATES"
     }
   ],
   "models": {
@@ -102,22 +106,22 @@
       "name": "V11 + V3.7 production risk policy",
       "status": "PRODUCTION",
       "historicalEquivalentProfitPer1000Stake": 21900,
-      "note": "Pre-race watchlist uses frozen stream/state logic only. Horse and executable price remain live gates."
+      "note": "V11 remains frozen. More-volume Australian experiments stay shadow only because generic extra states produced much weaker marginal ROI/stability. This week's live production watchlist is PR2 + SR6 only."
     },
     "hongKong": {
       "name": "R23 PLACE BACK",
       "status": "RESEARCH",
       "modelEquivalentProfitPer1000Stake": 21400,
       "proxyMaxDrawdownUnits": 37.33,
-      "note": "Research only. Historical PLACE prices are synthetic and it is not production-approved."
+      "note": "Research only. No Hong Kong meeting this week. Historical PLACE prices are synthetic, so R23 is not production-approved."
     }
   },
   "health": {
     "appFeed": "GREEN",
-    "auProduction": "2 POTENTIAL / 0 LOCKED",
-    "watchlist": "PR2 STATE 4 + SR6 STATE 5",
+    "auProduction": "29 AUG: 2 POTENTIAL / 0 LOCKED",
+    "watchlist": "EXACT RACE WATCHLIST: PR2 BELMONT R2 + SR6 ROSEHILL R6; OFFICIAL FAVOURITES TBC",
     "seasonLedger": "FY MODEL: 1 JUL-8 AUG = -$3,000 / 5 BETS / $39,000 TURNOVER; 15/22 AUG PENDING",
-    "hkProduction": "RESEARCH ONLY",
-    "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
+    "hkProduction": "NO MEETING THIS WEEK · R23 RESEARCH ONLY",
+    "source": "The app may identify the race days in advance, but horse, exact production stake and executable odds remain live gates. Only frozen V11 BET LOCKED is an actual instruction."
   }
 }
