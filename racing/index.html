@@ -34,14 +34,12 @@
         </div>
       </div>
       <div class="rule-box" id="productionRule"></div>
-      <div class="update-line">
-        <span id="updatedAt">Not updated yet</span>
-        <span id="refreshState">Checking…</span>
-      </div>
+      <div class="update-line"><span id="updatedAt">Not updated yet</span><span id="refreshState">Checking…</span></div>
     </section>
 
     <nav class="tabs" aria-label="Racing app sections">
       <button class="tab active" type="button" data-tab="today">Today</button>
+      <button class="tab" type="button" data-tab="review">All 21</button>
       <button class="tab" type="button" data-tab="au">Australia</button>
       <button class="tab" type="button" data-tab="hk">Hong Kong</button>
       <button class="tab" type="button" data-tab="money">Money</button>
@@ -50,10 +48,7 @@
 
     <section class="panel active" data-panel="today">
       <div class="section-heading">
-        <div>
-          <div class="eyebrow">2026/27 SCOREBOARD · FROM 1 JULY</div>
-          <h3>If you followed the system stakes from the start of the financial year</h3>
-        </div>
+        <div><div class="eyebrow">2026/27 SCOREBOARD · FROM 1 JULY</div><h3>If you followed the system stakes from the start of the financial year</h3></div>
         <span class="pill wait" id="seasonPill">LOADING</span>
       </div>
       <div class="season-profit" id="seasonProfit">—</div>
@@ -67,47 +62,19 @@
       <div class="cash-status" id="cashStatus"></div>
       <div class="rule-box" id="seasonNote"></div>
 
-      <div class="section-heading spaced">
-        <div>
-          <div class="eyebrow">ACTION BOARD</div>
-          <h3>What do I bet?</h3>
-        </div>
-        <span class="pill wait" id="actionPill">WAIT</span>
-      </div>
+      <div class="section-heading spaced"><div><div class="eyebrow">ACTION BOARD</div><h3>What do I bet?</h3></div><span class="pill wait" id="actionPill">WAIT</span></div>
       <div id="lockedBets" class="stack"></div>
-      <div class="empty-state" id="noLockedBets">
-        <strong>No BET LOCKED signal.</strong>
-        <span>That means no confirmed bet yet. Potential bets are shown below before race day.</span>
-      </div>
+      <div class="empty-state" id="noLockedBets"><strong>No BET LOCKED signal.</strong><span>Potential bets are shown below before race day.</span></div>
 
-      <div class="section-heading spaced">
-        <div>
-          <div class="eyebrow">PRE-RACE WATCHLIST</div>
-          <h3>Potential bets + state stats</h3>
-        </div>
-        <span class="pill wait" id="potentialPill">CHECKING</span>
-      </div>
-      <div class="rule-box">A potential bet means the stream is already sitting in a frozen V11 betting state. It is <strong>not</strong> a wager yet: the actual favourite, live price, readiness checks and MIN EXEC still have to pass.</div>
+      <div class="section-heading spaced"><div><div class="eyebrow">PRE-RACE WATCHLIST</div><h3>Potential bets + state stats</h3></div><span class="pill wait" id="potentialPill">CHECKING</span></div>
+      <div class="rule-box">Potential means the stream is sitting in a V11 betting state. It is <strong>not</strong> a wager yet: favourite, price, readiness and MIN EXEC still have to pass.</div>
       <div id="potentialBets" class="stack"></div>
-      <div class="empty-state" id="noPotentialBets">
-        <strong>No current V11 watchlist candidates.</strong>
-        <span>If a stream moves into a qualifying state after verified results, it will appear here before Saturday.</span>
-      </div>
+      <div class="empty-state" id="noPotentialBets"><strong>No current V11 watchlist candidates.</strong></div>
 
-      <div class="section-heading spaced">
-        <div>
-          <div class="eyebrow">THIS WEEK</div>
-          <h3>Meetings</h3>
-        </div>
-      </div>
+      <div class="section-heading spaced"><div><div class="eyebrow">THIS WEEK</div><h3>Meetings</h3></div></div>
       <div id="meetings" class="stack"></div>
 
-      <div class="section-heading spaced">
-        <div>
-          <div class="eyebrow">PHONE LOG</div>
-          <h3>Record actual execution</h3>
-        </div>
-      </div>
+      <div class="section-heading spaced"><div><div class="eyebrow">PHONE LOG</div><h3>Record actual execution</h3></div></div>
       <form id="executionForm" class="execution-form">
         <div class="field-grid">
           <label>Race<input id="logRace" maxlength="8" placeholder="SR6" autocomplete="off"></label>
@@ -121,82 +88,55 @@
       <div id="executionLog" class="stack compact"></div>
     </section>
 
-    <section class="panel" data-panel="au">
+    <section class="panel" data-panel="review">
       <div class="section-heading">
-        <div>
-          <div class="eyebrow">PRODUCTION</div>
-          <h3>Australia V11</h3>
-        </div>
-        <span class="pill green">LIVE SYSTEM</span>
+        <div><div class="eyebrow">V11 REVIEW BOARD</div><h3>Every Australian stream</h3></div>
+        <span class="pill wait" id="reviewPill">21 STREAMS</span>
       </div>
-      <div class="model-card">
-        <div class="model-title" id="auModelName">V11</div>
-        <p id="auModelNote"></p>
-        <div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro meeting sequence. No cherry-picking extra races.</div>
+      <div class="rule-box"><strong>How to read it:</strong> the coloured status is the current 29 Aug planning status. The numeric stats are the latest comparable sheet snapshot, so you can review the same information as your Excel table without confusing an old row with a current live bet.</div>
+      <div class="review-legend">
+        <span><i class="legend-dot potential"></i>Potential this week</span>
+        <span><i class="legend-dot no"></i>No current potential</span>
+        <span><i class="legend-dot old"></i>Last-sheet stats</span>
       </div>
-      <div class="section-heading spaced"><h3>Potential Australian bets + evidence</h3></div>
-      <div id="auPotentialBets" class="stack"></div>
-      <div class="section-heading spaced"><h3>Current Australian meetings</h3></div>
-      <div id="auMeetings" class="stack"></div>
+      <div id="reviewBoard" class="review-board"></div>
+      <div class="danger-box">A green-looking historical ROI is not enough by itself. The frozen stream/state rule and the $3.00+ live price gate decide whether a race can become a real V11 bet.</div>
+    </section>
+
+    <section class="panel" data-panel="au">
+      <div class="section-heading"><div><div class="eyebrow">PRODUCTION</div><h3>Australia V11</h3></div><span class="pill green">LIVE SYSTEM</span></div>
+      <div class="model-card"><div class="model-title" id="auModelName">V11</div><p id="auModelNote"></p><div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro sequence.</div></div>
+      <div class="section-heading spaced"><h3>Potential Australian bets + evidence</h3></div><div id="auPotentialBets" class="stack"></div>
+      <div class="section-heading spaced"><h3>Current Australian meetings</h3></div><div id="auMeetings" class="stack"></div>
     </section>
 
     <section class="panel" data-panel="hk">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">RESEARCH</div>
-          <h3>Hong Kong</h3>
-        </div>
-        <span class="pill research">NOT PRODUCTION</span>
-      </div>
-      <div class="model-card">
-        <div class="model-title" id="hkModelName">R23 PLACE BACK</div>
-        <p id="hkModelNote"></p>
-        <div class="danger-box">Do not turn a Hong Kong research row into a serious real-money bet just because the projected dollars look large. Real executable PLACE prices still need validation.</div>
-      </div>
+      <div class="section-heading"><div><div class="eyebrow">RESEARCH</div><h3>Hong Kong</h3></div><span class="pill research">NOT PRODUCTION</span></div>
+      <div class="model-card"><div class="model-title" id="hkModelName">R23 PLACE BACK</div><p id="hkModelNote"></p><div class="danger-box">Research only. Real executable PLACE prices still need validation.</div></div>
       <div id="hkMeeting" class="stack spaced"></div>
     </section>
 
     <section class="panel" data-panel="money">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">SCENARIO</div>
-          <h3>Stake calculator</h3>
-        </div>
-      </div>
-      <label class="stake-control">Flat stake per qualifying bet (A$)
-        <input id="stakeInput" type="number" min="1" max="100000" step="50" inputmode="decimal">
-      </label>
+      <div class="section-heading"><div><div class="eyebrow">SCENARIO</div><h3>Stake calculator</h3></div></div>
+      <label class="stake-control">Flat stake per qualifying bet (A$)<input id="stakeInput" type="number" min="1" max="100000" step="50" inputmode="decimal"></label>
       <div class="kpi-grid">
         <div class="kpi"><span>AU historical-equivalent</span><strong id="auProjection">—</strong><small>per year</small></div>
         <div class="kpi"><span>HK model-equivalent</span><strong id="hkProjection">—</strong><small>per year</small></div>
         <div class="kpi"><span>Combined model-equivalent</span><strong id="combinedProjection">—</strong><small>per year</small></div>
         <div class="kpi danger"><span>HK proxy max drawdown</span><strong id="hkDrawdown">—</strong><small>not a limit</small></div>
       </div>
-      <div class="danger-box">These are scaling scenarios, not income promises. Increasing the stake does not increase the quality of the edge; it increases the dollars at risk.</div>
+      <div class="danger-box">These are scaling scenarios, not income promises.</div>
     </section>
 
     <section class="panel" data-panel="health">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow">SYSTEM HEALTH</div>
-          <h3>What is trustworthy?</h3>
-        </div>
-      </div>
+      <div class="section-heading"><div><div class="eyebrow">SYSTEM HEALTH</div><h3>What is trustworthy?</h3></div></div>
       <div id="healthRows" class="stack"></div>
-      <div class="rule-box spaced"><strong>Source of truth:</strong> this phone app is a companion. A real Australian wager is valid only when the frozen production system itself produces BET LOCKED and the actual live price passes MIN EXEC.</div>
+      <div class="rule-box spaced"><strong>Source of truth:</strong> a real Australian wager is valid only when frozen production produces BET LOCKED and the actual price passes MIN EXEC.</div>
       <button class="secondary-button" id="clearLogButton" type="button">Clear phone execution log</button>
     </section>
 
-    <section class="install-card card" id="installHelp">
-      <div class="eyebrow">INSTALL ON IPHONE</div>
-      <strong>Safari → Share → Add to Home Screen</strong>
-      <span>You only do this once. Future published updates load into the same app.</span>
-    </section>
-
-    <footer>
-      <span>MITCHELL Racing companion</span>
-      <span id="appVersion">v—</span>
-    </footer>
+    <section class="install-card card" id="installHelp"><div class="eyebrow">INSTALL ON IPHONE</div><strong>Safari → Share → Add to Home Screen</strong><span>You only do this once. Future updates load into the same app.</span></section>
+    <footer><span>MITCHELL Racing companion</span><span id="appVersion">v—</span></footer>
   </main>
   <script src="./app.js" defer></script>
 </body>
