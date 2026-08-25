@@ -68,6 +68,28 @@
     </div>`;
   }
 
+  function renderPotentialBet(item) {
+    const stateNo = Number(item.state);
+    const priceGate = Number(item.priceGate || 0);
+    const coreBase = Number(item.coreBaseReferenceAud || 0);
+    const horse = item.provisionalHorse || 'Favourite TBC';
+    const metaBits = [item.venue || item.region || ''];
+    if (Number.isFinite(stateNo)) metaBits.push(`state ${stateNo}`);
+    if (item.qualifyingKey) metaBits.push(item.qualifyingKey);
+    if (item.why) metaBits.push(item.why);
+    const gateText = priceGate > 0 ? `$${priceGate.toFixed(2)}+ screen` : 'PRICE TBC';
+    return `<div class="bet-row potential-row">
+      <div class="bet-main">
+        <strong>${escapeHTML(item.race || '')} · ${escapeHTML(horse)}</strong>
+        <div class="meta">${metaBits.filter(Boolean).map(escapeHTML).join(' · ')}</div>
+      </div>
+      <div class="bet-side">
+        <span class="code">${coreBase > 0 ? 'CORE REF ' + money.format(coreBase) : 'V11 STATE'}</span>
+        <span class="pill wait">${escapeHTML(gateText)}</span>
+      </div>
+    </div>`;
+  }
+
   function renderData(data) {
     state.data = data;
     $('weekLabel').textContent = data.weekLabel || 'Current racing week';
@@ -84,8 +106,15 @@
     const locked = Array.isArray(data.lockedBets) ? data.lockedBets : [];
     $('lockedBets').innerHTML = locked.map(renderLockedBet).join('');
     $('noLockedBets').hidden = locked.length > 0;
-    $('actionPill').textContent = locked.length ? `${locked.length} LOCKED` : (data.overallStatus || 'WAIT');
-    $('actionPill').className = `pill ${locked.length ? 'green' : cls}`;
+    $('actionPill').textContent = locked.length ? `${locked.length} LOCKED` : 'NO LOCK YET';
+    $('actionPill').className = `pill ${locked.length ? 'green' : 'wait'}`;
+
+    const potential = Array.isArray(data.watchlist) ? data.watchlist : [];
+    $('potentialBets').innerHTML = potential.map(renderPotentialBet).join('');
+    $('auPotentialBets').innerHTML = potential.length ? potential.map(renderPotentialBet).join('') : '<div class="empty-state"><strong>No current Australian potential bets.</strong></div>';
+    $('noPotentialBets').hidden = potential.length > 0;
+    $('potentialPill').textContent = potential.length ? `${potential.length} POTENTIAL` : 'NONE';
+    $('potentialPill').className = `pill ${potential.length ? 'wait' : 'red'}`;
 
     const meetings = Array.isArray(data.meetings) ? data.meetings : [];
     $('meetings').innerHTML = meetings.map(renderMeeting).join('');
@@ -107,6 +136,7 @@
     const labels = [
       ['App feed', health.appFeed || 'UNKNOWN'],
       ['Australia production', health.auProduction || 'UNKNOWN'],
+      ['Pre-race watchlist', health.watchlist || 'UNKNOWN'],
       ['Hong Kong', health.hkProduction || 'UNKNOWN'],
       ['Evidence boundary', health.source || 'Production dashboard is source of truth']
     ];
