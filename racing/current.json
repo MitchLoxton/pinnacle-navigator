@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "updatedAt": "2026-08-26T06:16:00+08:00",
+  "timezone": "Australia/Perth",
+  "weekLabel": "Saturday 29 August 2026",
+  "overallStatus": "WAIT",
+  "overallMessage": "No frozen V11 BET LOCKED signal is available yet. Do not choose a horse early.",
+  "productionRule": "Only act on a green BET LOCKED row and only if the live executable price is at or above MIN EXEC.",
+  "stakeDefaultAud": 1000,
+  "meetings": [
+    {
+      "region": "Perth",
+      "code": "PR1-PR7",
+      "venue": "Belmont Park",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Sydney",
+      "code": "SR1-SR7",
+      "venue": "Rosehill Gardens",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Melbourne",
+      "code": "MR1-MR7",
+      "venue": "Caulfield",
+      "date": "2026-08-29",
+      "status": "WATCH"
+    },
+    {
+      "region": "Hong Kong",
+      "code": "HK",
+      "venue": "No meeting this week",
+      "date": null,
+      "status": "NO BET"
+    }
+  ],
+  "lockedBets": [],
+  "watchlist": [],
+  "models": {
+    "australia": {
+      "name": "V11 + V3.7 production risk policy",
+      "status": "PRODUCTION",
+      "historicalEquivalentProfitPer1000Stake": 21900,
+      "note": "Historical-equivalent only; live execution evidence remains critical."
+    },
+    "hongKong": {
+      "name": "R23 PLACE BACK",
+      "status": "RESEARCH",
+      "modelEquivalentProfitPer1000Stake": 21400,
+      "proxyMaxDrawdownUnits": 37.33,
+      "note": "Research only. Historical PLACE prices are synthetic and it is not production-approved."
+    }
+  },
+  "health": {
+    "appFeed": "GREEN",
+    "auProduction": "WAIT FOR LIVE SIGNAL",
+    "hkProduction": "RESEARCH ONLY",
+    "source": "Published companion data. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions."
+  }
+}
