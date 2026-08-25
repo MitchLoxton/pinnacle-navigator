@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "appVersion": "0.3.0",
-  "updatedAt": "2026-08-26T06:34:00+08:00",
+  "updatedAt": "2026-08-26T06:48:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
@@ -10,18 +10,21 @@
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "AUDITABLE THROUGH 8 AUG",
-    "modelThrough": "2026-08-08",
-    "modelProfitAud": -3000,
-    "modelTurnoverAud": 39000,
-    "modelBets": 5,
-    "modelWins": 1,
-    "modelLosses": 4,
-    "modelRoiPct": -7.6923076923,
-    "modelPeakProfitAud": 6500,
+    "status": "V11 LIVE · 22 AUG PENDING",
+    "liveStart": "2026-08-10",
+    "modelThrough": "2026-08-18",
+    "modelProfitAud": 0,
+    "modelTurnoverAud": 0,
+    "modelBets": 0,
+    "modelWins": 0,
+    "modelLosses": 0,
+    "modelRoiPct": null,
     "actualCashProfitAud": null,
-    "actualCashStatus": "NOT VERIFIED — ACCEPTED STAKE/PRICE INCOMPLETE",
-    "note": "This is production-model accounting from 1 Jul through the last fully auditable signal on 8 Aug: MR6 -$4,000; MR4 -$9,500; SR2 -$6,000; PR4 +$26,000; post-freeze SR2 -$9,500. It is not a complete cash P/L through today. 15 Aug and 22 Aug are excluded until their BET LOCKED/model-price and execution evidence are reconciled."
+    "actualCashStatus": "CURRENT CASH TOTAL NOT VERIFIED — 22 AUG EXECUTION LEDGER MISSING",
+    "trackingReplayProfitAud": 6000,
+    "trackingReplayBets": 4,
+    "trackingReplayThrough": "2026-08-01",
+    "note": "V11's workbook says live money begins 10 Aug 2026; earlier rows are TRACK ONLY. The latest auditable V11 dashboard snapshot after 15 Aug shows $0 model P/L and 0 released V11 signals. I do not have the settled 22 Aug V11 signal/execution ledger, so 22 Aug is excluded rather than guessed. The separate pre-start FYTD historical replay was +$6,000 from 4 bets through 1 Aug, but that is BACKTEST/TRACKING ONLY — not live V11 profit."
   },
   "meetings": [
     {
@@ -115,7 +118,7 @@
     "appFeed": "GREEN",
     "auProduction": "2 POTENTIAL / 0 LOCKED",
     "watchlist": "PR2 STATE 4 + SR6 STATE 5",
-    "seasonLedger": "MODEL FY AUDITABLE THROUGH 8 AUG; 15/22 AUG RECONCILIATION PENDING",
+    "seasonLedger": "V11 LIVE VERIFIED AT $0 / 0 RELEASED SIGNALS; 22 AUG RECONCILIATION PENDING",
     "hkProduction": "RESEARCH ONLY",
     "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
   }
