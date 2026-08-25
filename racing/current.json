@@ -1,13 +1,28 @@
 {
-  "schemaVersion": 2,
-  "appVersion": "0.2.0",
-  "updatedAt": "2026-08-26T06:24:00+08:00",
+  "schemaVersion": 3,
+  "appVersion": "0.3.0",
+  "updatedAt": "2026-08-26T06:34:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
   "overallMessage": "2 potential Australian V11 bets are already identifiable for Saturday. No bet is confirmed yet.",
   "productionRule": "Potential = the stream is already in a frozen V11 betting state. Confirmed = the actual favourite, live executable price, readiness checks and MIN EXEC all pass and production shows BET LOCKED.",
   "stakeDefaultAud": 1000,
+  "season": {
+    "fy": "2026/27",
+    "status": "AUDITABLE THROUGH 8 AUG",
+    "modelThrough": "2026-08-08",
+    "modelProfitAud": -3000,
+    "modelTurnoverAud": 39000,
+    "modelBets": 5,
+    "modelWins": 1,
+    "modelLosses": 4,
+    "modelRoiPct": -7.6923076923,
+    "modelPeakProfitAud": 6500,
+    "actualCashProfitAud": null,
+    "actualCashStatus": "NOT VERIFIED — ACCEPTED STAKE/PRICE INCOMPLETE",
+    "note": "This is production-model accounting from 1 Jul through the last fully auditable signal on 8 Aug: MR6 -$4,000; MR4 -$9,500; SR2 -$6,000; PR4 +$26,000; post-freeze SR2 -$9,500. It is not a complete cash P/L through today. 15 Aug and 22 Aug are excluded until their BET LOCKED/model-price and execution evidence are reconciled."
+  },
   "meetings": [
     {
       "region": "Perth",
@@ -51,8 +66,14 @@
       "provisionalHorse": "Favourite TBC",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 4000,
+      "histN": 21,
+      "histWins": 7,
+      "histWinRatePct": 33.3333333333,
+      "histProfitUnits": 5.8,
+      "histRoiPct": 27.619047619,
+      "averageOdds": null,
       "why": "22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.",
-      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     },
     {
       "race": "SR6",
@@ -65,8 +86,14 @@
       "provisionalHorse": "Favourite TBC",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 6000,
+      "histN": 23,
+      "histWins": 8,
+      "histWinRatePct": 34.7826086957,
+      "histProfitUnits": 7.2,
+      "histRoiPct": 31.3043478261,
+      "averageOdds": null,
       "why": "22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.",
-      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     }
   ],
   "models": {
@@ -88,6 +115,7 @@
     "appFeed": "GREEN",
     "auProduction": "2 POTENTIAL / 0 LOCKED",
     "watchlist": "PR2 STATE 4 + SR6 STATE 5",
+    "seasonLedger": "MODEL FY AUDITABLE THROUGH 8 AUG; 15/22 AUG RECONCILIATION PENDING",
     "hkProduction": "RESEARCH ONLY",
     "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
   }
