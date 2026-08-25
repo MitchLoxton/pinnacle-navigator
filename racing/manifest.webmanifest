@@ -1,0 +1,19 @@
+{
+  "name": "MITCHELL Racing",
+  "short_name": "MITCHELL",
+  "description": "Phone companion for the frozen Australian V11 system and Hong Kong research feed.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07101d",
+  "theme_color": "#08111f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
