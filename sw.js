@@ -1,6 +1,6 @@
-const CACHE='pn-shell-live-v5341';
-const PRIVATE='pn-private-bundle-live-v5341';
-const REFRESH='5341';
+const CACHE='pn-shell-live-v5343';
+const PRIVATE='pn-private-bundle-live-v5343';
+const REFRESH='5343';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-template.html','./miter-template-colin-33.html','./miter-template-colin-30.html','./miter-template-colin-36.html'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{
