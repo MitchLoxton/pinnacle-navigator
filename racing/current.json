@@ -1,13 +1,31 @@
 {
-  "schemaVersion": 2,
-  "appVersion": "0.2.0",
-  "updatedAt": "2026-08-26T06:24:00+08:00",
+  "schemaVersion": 3,
+  "appVersion": "0.3.0",
+  "updatedAt": "2026-08-26T06:49:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
   "overallMessage": "2 potential Australian V11 bets are already identifiable for Saturday. No bet is confirmed yet.",
   "productionRule": "Potential = the stream is already in a frozen V11 betting state. Confirmed = the actual favourite, live executable price, readiness checks and MIN EXEC all pass and production shows BET LOCKED.",
   "stakeDefaultAud": 1000,
+  "season": {
+    "fy": "2026/27",
+    "status": "V11 LIVE · 22 AUG PENDING",
+    "liveStart": "2026-08-10",
+    "modelThrough": "2026-08-18",
+    "modelProfitAud": 0,
+    "modelTurnoverAud": 0,
+    "modelBets": 0,
+    "modelWins": 0,
+    "modelLosses": 0,
+    "modelRoiPct": "N/A",
+    "actualCashProfitAud": null,
+    "actualCashStatus": "CURRENT CASH TOTAL NOT VERIFIED — 22 AUG EXECUTION LEDGER MISSING",
+    "trackingReplayProfitAud": 6000,
+    "trackingReplayBets": 4,
+    "trackingReplayThrough": "2026-08-01",
+    "note": "V11's workbook says live money begins 10 Aug 2026; earlier rows are TRACK ONLY. The latest auditable V11 dashboard snapshot after 15 Aug shows $0 model P/L and 0 released V11 signals. I do not have the settled 22 Aug V11 signal/execution ledger, so 22 Aug is excluded rather than guessed. The separate pre-start FYTD historical replay was +$6,000 from 4 bets through 1 Aug, but that is BACKTEST/TRACKING ONLY — not live V11 profit."
+  },
   "meetings": [
     {
       "region": "Perth",
@@ -51,8 +69,14 @@
       "provisionalHorse": "Favourite TBC",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 4000,
+      "histN": 21,
+      "histWins": 7,
+      "histWinRatePct": 33.3333333333,
+      "histProfitUnits": 5.8,
+      "histRoiPct": 27.619047619,
+      "averageOdds": null,
       "why": "22 Aug favourite NICCIMOTA lost from prior state 3, moving PR2 into frozen core state 4.",
-      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     },
     {
       "race": "SR6",
@@ -65,8 +89,14 @@
       "provisionalHorse": "Favourite TBC",
       "priceGate": 3.00,
       "coreBaseReferenceAud": 6000,
+      "histN": 23,
+      "histWins": 8,
+      "histWinRatePct": 34.7826086957,
+      "histProfitUnits": 7.2,
+      "histRoiPct": 31.3043478261,
+      "averageOdds": null,
       "why": "22 Aug favourite APOCALYPTIC lost from prior state 4, moving SR6 into frozen core state 5.",
-      "evidenceStatus": "TABtouch favourite/result cross-check plus frozen V11 state map"
+      "evidenceStatus": "Frozen exact-state history through 1 Aug plus verified 22 Aug state transition"
     }
   ],
   "models": {
@@ -88,6 +118,7 @@
     "appFeed": "GREEN",
     "auProduction": "2 POTENTIAL / 0 LOCKED",
     "watchlist": "PR2 STATE 4 + SR6 STATE 5",
+    "seasonLedger": "V11 LIVE VERIFIED AT $0 / 0 RELEASED SIGNALS; 22 AUG RECONCILIATION PENDING",
     "hkProduction": "RESEARCH ONLY",
     "source": "Potential list is a pre-race planning layer. The frozen production dashboard remains the source of truth for actual BET LOCKED decisions and exact stake/MIN EXEC."
   }
