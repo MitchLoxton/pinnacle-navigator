@@ -1,13 +1,13 @@
 {
-  "schemaVersion": 1,
-  "appVersion": "0.5.0",
-  "updatedAt": "2026-08-26T08:15:00+08:00",
+  "schemaVersion": 2,
+  "appVersion": "0.6.0",
+  "updatedAt": "2026-08-26T08:06:00+08:00",
   "strategy": {
-    "name": "V11 + V3.7 + NET EXECUTION",
-    "status": "BEST EVIDENCED LIVE",
+    "name": "V11 CORE + 30% EXTRAS + V3.7 + NET EXECUTION",
+    "status": "PRODUCTION · EXPERIMENTAL 30% EXTRAS",
     "objective": "Maximise sustainable accepted cash profit per year, not bet count.",
-    "rule": "Use frozen V11 selections and stakes, apply the V3.7 25% post-A$100K secured-high-water ratchet, and execute only when BET LOCKED at the best net executable price/fill available. The 30% non-core expansion remains shadow-only until genuinely forward evidence earns promotion.",
-    "selectionChange": "NONE — current evidence does not justify loosening V11 live selection rules. The improvement is execution priority plus the already-promoted V3.7 risk policy."
+    "rule": "Keep frozen V11 core cells/stakes. Add a non-core exact state only when prior $3+ exact-state N >= 50 and prior ROI is strictly >30%, using A$8,000 as the extra-state reference stake. Every wager still requires BET LOCKED, best net executable price >=$3.00, V3.7 risk controls and the A$10,000 cap.",
+    "selectionChange": "USER-AUTHORISED 30% EXTRA-STATE EXPANSION ACTIVE FROM 29 AUG 2026. The extra-state threshold was selected on known history and has not yet been independently forward-validated."
   },
   "historical": {
     "completedFys": 18,
@@ -23,15 +23,16 @@
     "startAug10Recent5Aud": 122646.5,
     "startAug10WorstAud": -53060,
     "startAug10PositiveYears": 17,
-    "startAug10Years": 18
+    "startAug10Years": 18,
+    "label": "V11 CORE HISTORY — NOT THE 30% EXPANSION"
   },
   "execution": {
     "fivePctWorseStartAvgAud": 136550.757,
     "executionSensitivityAud": 27149.937444444397,
-    "message": "The stored start-around-10-Aug replay falls by about A$27.1K/year when winning prices are 5% worse, so price/fill quality is a first-class profit lever."
+    "message": "The stored V11 core start-around-10-Aug replay falls by about A$27.1K/year when winning prices are 5% worse, so price/fill quality remains a first-class profit lever."
   },
   "v37": {
-    "stressLabel": "5% central price stress",
+    "stressLabel": "5% central price stress · V11 core path",
     "targetHits": 13,
     "targetYears": 18,
     "positiveYears": 18,
@@ -43,19 +44,35 @@
     "next12mPlanningMeanAud": 130751,
     "currentFyFromAug12MeanAud": 118106,
     "nextFyMeanAud": 106151,
-    "note": "V3.7 changes nothing before verified secured FY cash reaches A$100K. It is designed to reduce post-target give-back, not manufacture more predictive edge."
+    "note": "These V3.7 planning figures are based on the V11 core path, not a validated forecast for the newly activated 30% extra-state layer."
   },
   "challenger": {
     "name": "30% non-core Australian expansion",
-    "status": "SHADOW ONLY",
+    "status": "ACTIVE FROM 29 AUG · FORWARD EVIDENCE 0 EXTRA BETS",
     "approxBetsPerYear": 65.4,
     "hindsightRoiPct": 47.9,
     "hindsightAvgFyAud": 253200,
-    "warning": "This is a same-history/hindsight screen, not a bankable forecast. Keep it shadow-only and record every added signal prospectively before any promotion."
+    "warning": "ACTIVE BY USER INSTRUCTION, BUT UNVALIDATED FORWARD: the ~65.4 bets/year, 47.9% ROI and A$253.2K average FY figures are same-history/hindsight screens, not a forecast. Prospective extra-state tracking starts 29 Aug 2026."
+  },
+  "expansion": {
+    "activeFrom": "2026-08-29",
+    "minSamples": 50,
+    "roiThresholdPct": 30,
+    "operator": ">",
+    "extraReferenceStakeAud": 8000,
+    "forwardExtraBets": 0,
+    "eligibleHistoricalCells": [
+      "PR5|2",
+      "SR3|2",
+      "SR6|1",
+      "MR3|1",
+      "MR4|3",
+      "MR7|1"
+    ]
   },
   "evidence": {
     "historicalCutoff": "2026-08-01",
-    "planningNotPromise": "Historical averages and planning means are model-equivalent evidence, not guaranteed accepted-cash income.",
+    "planningNotPromise": "V11 historical averages and V3.7 planning means are not guarantees. 30% expansion headline stats are hindsight-selected and must be judged separately from prospective results.",
     "cashRule": "Actual banked profit must use accepted stake, accepted price, charges/commission and settlement."
   }
 }
