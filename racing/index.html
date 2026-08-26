@@ -68,9 +68,9 @@
       <div class="empty-state" id="noLockedBets"><strong>No BET LOCKED signal.</strong><span>Potential bets are shown below before race day.</span></div>
 
       <div class="section-heading spaced"><div><div class="eyebrow">PRE-RACE WATCHLIST</div><h3>Potential bets + state stats</h3></div><span class="pill wait" id="potentialPill">CHECKING</span></div>
-      <div class="rule-box">Potential means the stream is sitting in a V11 betting state. It is <strong>not</strong> a wager yet: favourite, price, readiness and MIN EXEC still have to pass.</div>
+      <div class="rule-box">Potential means the stream is sitting in an <strong>active Australia-model betting state</strong> — either a V11 core cell or a qualifying 30% extra cell. It is <strong>not</strong> a wager yet: favourite, price, readiness, V3.7 risk controls and BET LOCKED still have to pass.</div>
       <div id="potentialBets" class="stack"></div>
-      <div class="empty-state" id="noPotentialBets"><strong>No current V11 watchlist candidates.</strong></div>
+      <div class="empty-state" id="noPotentialBets"><strong>No current Australia-model watchlist candidates.</strong></div>
 
       <div class="section-heading spaced"><div><div class="eyebrow">THIS WEEK</div><h3>Meetings</h3></div></div>
       <div id="meetings" class="stack"></div>
@@ -91,38 +91,38 @@
 
     <section class="panel" data-panel="review">
       <div class="section-heading">
-        <div><div class="eyebrow">V11 REVIEW BOARD</div><h3>Every Australian stream</h3></div>
+        <div><div class="eyebrow">ACTIVE MODEL REVIEW BOARD</div><h3>Every Australian stream</h3></div>
         <span class="pill wait" id="reviewPill">21 STREAMS</span>
       </div>
-      <div class="rule-box"><strong>How to read it:</strong> the coloured status is the current 29 Aug planning status. The numeric stats are the latest comparable sheet snapshot, so you can review the same information as your Excel table without confusing an old row with a current live bet.</div>
+      <div class="rule-box"><strong>How to read it:</strong> the coloured status is the current 29 Aug planning status. The numeric stats are the latest comparable sheet snapshot, while the explanation tells you whether the current state qualifies through V11 core or the new 30% extra rule.</div>
       <div class="review-legend">
         <span><i class="legend-dot potential"></i>Potential this week</span>
         <span><i class="legend-dot no"></i>No current potential</span>
         <span><i class="legend-dot old"></i>Last-sheet stats</span>
       </div>
       <div id="reviewBoard" class="review-board"></div>
-      <div class="danger-box">A green-looking historical ROI is not enough by itself. The frozen stream/state rule and the $3.00+ live price gate decide whether a race can become a real V11 bet.</div>
+      <div class="danger-box">A green-looking historical ROI is not enough by itself. The current exact state must qualify under V11 core or the active N≥50 / ROI&gt;30% extra rule, and the live price/risk gates still have to pass.</div>
     </section>
 
     <section class="panel" data-panel="stats">
       <div class="section-heading">
         <div><div class="eyebrow">MAX BANK DOLLARS</div><h3>System stats</h3></div>
-        <span class="pill green" id="statsSystemPill">BEST EVIDENCED LIVE</span>
+        <span class="pill green" id="statsSystemPill">ACTIVE</span>
       </div>
       <div class="stats-system-card">
-        <div class="model-title" id="statsSystemName">V11 + V3.7 + NET EXECUTION</div>
+        <div class="model-title" id="statsSystemName">V11 CORE + 30% EXTRAS + V3.7 + NET EXECUTION</div>
         <p id="statsObjective">Maximise sustainable accepted cash profit per year, not bet count.</p>
         <div class="rule-box" id="statsSystemRule">Loading strategy rule…</div>
       </div>
 
-      <div class="section-heading spaced"><div><div class="eyebrow">PLANNING · NOT A PROMISE</div><h3>Money expectations</h3></div></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">PLANNING · NOT A PROMISE</div><h3>Core-path money expectations</h3></div></div>
       <div class="stats-grid stats-grid-3">
-        <div class="stat-tile hero-stat"><span>Next 12m planning mean</span><strong id="statsNext12m">—</strong><small>V3.7 · 5% central stress</small></div>
+        <div class="stat-tile hero-stat"><span>Next 12m planning mean</span><strong id="statsNext12m">—</strong><small>V11 core + V3.7 · 5% central stress</small></div>
         <div class="stat-tile"><span>V3.7 stressed FY mean</span><strong id="statsV37Mean">—</strong><small id="statsV37Positive">—</small></div>
-        <div class="stat-tile"><span>V3.7 median FY</span><strong id="statsV37Median">—</strong><small>ending-profit consistency</small></div>
+        <div class="stat-tile"><span>V3.7 median FY</span><strong id="statsV37Median">—</strong><small>core-path ending-profit consistency</small></div>
       </div>
 
-      <div class="section-heading spaced"><div><div class="eyebrow">V11 FULL HISTORY</div><h3>Interesting historical stats</h3></div></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">V11 CORE FULL HISTORY</div><h3>Established historical stats</h3></div></div>
       <div class="stats-grid">
         <div class="stat-tile"><span>Avg completed FY</span><strong id="statsHistAvgFy">—</strong></div>
         <div class="stat-tile"><span>Historical ROI</span><strong id="statsHistRoi">—</strong></div>
@@ -136,27 +136,27 @@
 
       <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION MATTERS</div><h3>What bad prices can cost</h3></div></div>
       <div class="execution-impact">
-        <div><span>Start-Aug10 historical avg</span><strong id="statsStartAvg">—</strong></div>
+        <div><span>Start-Aug10 V11-core avg</span><strong id="statsStartAvg">—</strong></div>
         <div class="impact-arrow">→</div>
         <div><span>At 5% worse winning prices</span><strong id="statsWorseAvg">—</strong></div>
       </div>
       <div class="cash-opportunity"><span>Historical execution sensitivity</span><strong id="statsExecutionCost">—</strong><small id="statsExecutionMessage">Price/fill quality is a first-class profit lever.</small></div>
 
-      <div class="section-heading spaced"><div><div class="eyebrow">SHADOW UPSIDE</div><h3>Best Australian expansion challenger</h3></div><span class="pill research">NOT LIVE</span></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">ACTIVE EXPANSION · FORWARD TRACKING</div><h3>30% non-core layer</h3></div><span class="pill wait">ACTIVE · UNVALIDATED</span></div>
       <div class="stats-grid stats-grid-3">
-        <div class="stat-tile"><span>Shadow bets / year</span><strong id="statsShadowBets">—</strong></div>
+        <div class="stat-tile"><span>Hindsight bets / year</span><strong id="statsShadowBets">—</strong></div>
         <div class="stat-tile"><span>Hindsight ROI</span><strong id="statsShadowRoi">—</strong></div>
         <div class="stat-tile"><span>Hindsight avg FY</span><strong id="statsShadowFy">—</strong></div>
       </div>
-      <div class="danger-box" id="statsShadowWarning">Same-history research is not bankable evidence.</div>
+      <div class="danger-box" id="statsShadowWarning">The 30% layer is active from 29 Aug, but its headline history is same-history selected. Judge the added bets separately from forward results.</div>
 
       <div class="section-heading spaced"><div><div class="eyebrow">EVIDENCE BOUNDARY</div><h3>What the numbers mean</h3></div></div>
       <div class="stats-notes" id="statsEvidenceNotes"></div>
     </section>
 
     <section class="panel" data-panel="au">
-      <div class="section-heading"><div><div class="eyebrow">PRODUCTION</div><h3>Australia</h3></div><span class="pill green">LIVE SYSTEM</span></div>
-      <div class="model-card"><div class="model-title" id="auModelName">V11</div><p id="auModelNote"></p><div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro sequence. Final execution should use the best net executable price/fill after the system reaches BET LOCKED.</div></div>
+      <div class="section-heading"><div><div class="eyebrow">ACTIVE MODEL</div><h3>Australia</h3></div><span class="pill green">LIVE SYSTEM</span></div>
+      <div class="model-card"><div class="model-title" id="auModelName">V11 CORE + 30% EXTRAS</div><p id="auModelNote"></p><div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the Saturday metro sequence. V11 core remains unchanged; extra cells require N≥50 and ROI&gt;30%. Final execution still requires BET LOCKED and the best net executable price/fill.</div></div>
       <div class="section-heading spaced"><h3>Potential Australian bets + evidence</h3></div><div id="auPotentialBets" class="stack"></div>
       <div class="section-heading spaced"><h3>Current Australian meetings</h3></div><div id="auMeetings" class="stack"></div>
     </section>
@@ -176,13 +176,13 @@
         <div class="kpi"><span>Combined model-equivalent</span><strong id="combinedProjection">—</strong><small>per year</small></div>
         <div class="kpi danger"><span>HK proxy max drawdown</span><strong id="hkDrawdown">—</strong><small>not a limit</small></div>
       </div>
-      <div class="danger-box">These are scaling scenarios, not income promises.</div>
+      <div class="danger-box">These are scaling scenarios, not income promises. The active 30% expansion does not yet have an independently validated cash forecast.</div>
     </section>
 
     <section class="panel" data-panel="health">
       <div class="section-heading"><div><div class="eyebrow">SYSTEM HEALTH</div><h3>What is trustworthy?</h3></div></div>
       <div id="healthRows" class="stack"></div>
-      <div class="rule-box spaced"><strong>Source of truth:</strong> a real Australian wager is valid only when frozen production produces BET LOCKED and the actual price passes MIN EXEC.</div>
+      <div class="rule-box spaced"><strong>Source of truth:</strong> a real Australian wager is valid only when the active Australia engine produces BET LOCKED and the actual executable price/risk controls pass.</div>
       <button class="secondary-button" id="clearLogButton" type="button">Clear phone execution log</button>
     </section>
 
