@@ -6,7 +6,8 @@
   - retire temporary 76.1 mm template UI;
   - show Mitchell's current big-picture work priorities;
   - keep the board compact on phones;
-  - surface a few high-value release hold points without inventing geometry.
+  - surface high-value release hold points without inventing geometry;
+  - keep the paid-work label aligned with the accepted Mundi PO source.
 */
 
 var BIG_JOBS=[
@@ -24,6 +25,21 @@ function removeTemplateUI(){
   ['pn5339PipeBtn','pn5339PipeTop','pn5339PipeStyle','pnPipeTemplateFixed','pnPipeTemplateTop','pnPipeTemplateStyle','pnMiterTemplateBox','pn5339PipeLoader','pn536PipeLoader'].forEach(function(id){
     try{var el=document.getElementById(id);if(el)el.remove();}catch(e){}
   });
+}
+
+function patchCommercialSource(){
+  try{
+    var body=document.getElementById('pn5327PaidBody');
+    if(!body)return;
+    var k=body.querySelector('.pn5327HeroK');
+    if(k)k.textContent='ACCEPTED PO + COMMERCIAL SCOPE';
+    var sub=body.querySelector('.pn5327HeroS');
+    if(sub)sub.textContent='Primary ordered truck / tractor scope is PO 813760AH Rev 1 dated 26 May 2026. Amount shown is accepted ordered scope loaded into Navigator, not a statement of money already invoiced or received.';
+    var hs=body.querySelectorAll('.pn5327H');
+    for(var i=0;i<hs.length;i++){
+      if(String(hs[i].textContent||'').trim()==='WE ARE QUOTED FOR')hs[i].textContent='ACCEPTED PO / RECORDED SCOPE';
+    }
+  }catch(e){}
 }
 
 function addBigJobStyle(){
@@ -84,6 +100,7 @@ function ensureTodayBigJobs(){
 
 function apply(){
   removeTemplateUI();
+  patchCommercialSource();
   addBigJobStyle();
   ensureHomeBigJobs();
   ensureTodayBigJobs();
