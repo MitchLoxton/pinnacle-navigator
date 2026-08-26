@@ -1,0 +1,32 @@
+name: Research Betfair 2plus v2
+
+on:
+  push:
+    branches: ["research/betfair-2plus"]
+    paths:
+      - 'research/betfair_2plus_fast2.py'
+      - '.github/workflows/research-betfair-2plus-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pandas numpy requests
+      - name: Run venue-aware sweep
+        run: python research/betfair_2plus_fast2.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: betfair-2plus-v2
+          path: research/output_2plus_fast/
+          if-no-files-found: warn
+          retention-days: 30
