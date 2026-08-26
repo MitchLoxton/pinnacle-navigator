@@ -7,6 +7,7 @@ on:
     paths:
       - 'research/betfair_2plus_scan.py'
       - 'research/betfair_2plus_fast.py'
+      - 'research/betfair_2plus_fast2.py'
       - '.github/workflows/research-betfair-2plus.yml'
   workflow_dispatch:
 
@@ -34,7 +35,7 @@ jobs:
         run: python -m pip install --upgrade pip pandas numpy requests
 
       - name: Reconstruct and test
-        run: python research/betfair_2plus_fast.py
+        run: python research/betfair_2plus_fast2.py
 
       - name: Upload research outputs
         if: always()
