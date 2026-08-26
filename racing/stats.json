@@ -4,7 +4,7 @@
   "updatedAt": "2026-08-26T08:06:00+08:00",
   "strategy": {
     "name": "V11 CORE + 30% EXTRAS + V3.7 + NET EXECUTION",
-    "status": "ACTIVE · SAME-HISTORY EXTRAS",
+    "status": "PRODUCTION · EXPERIMENTAL 30% EXTRAS",
     "objective": "Maximise sustainable accepted cash profit per year, not bet count.",
     "rule": "Keep frozen V11 core cells/stakes. Add a non-core exact state only when prior $3+ exact-state N >= 50 and prior ROI is strictly >30%, using A$8,000 as the extra-state reference stake. Every wager still requires BET LOCKED, best net executable price >=$3.00, V3.7 risk controls and the A$10,000 cap.",
     "selectionChange": "USER-AUTHORISED 30% EXTRA-STATE EXPANSION ACTIVE FROM 29 AUG 2026. The extra-state threshold was selected on known history and has not yet been independently forward-validated."
@@ -52,7 +52,7 @@
     "approxBetsPerYear": 65.4,
     "hindsightRoiPct": 47.9,
     "hindsightAvgFyAud": 253200,
-    "warning": "The ~65.4 bets/year, 47.9% ROI and A$253.2K average FY figures are same-history/hindsight screens. They are not a forecast. Prospective extra-state tracking starts 29 Aug 2026."
+    "warning": "ACTIVE BY USER INSTRUCTION, BUT UNVALIDATED FORWARD: the ~65.4 bets/year, 47.9% ROI and A$253.2K average FY figures are same-history/hindsight screens, not a forecast. Prospective extra-state tracking starts 29 Aug 2026."
   },
   "expansion": {
     "activeFrom": "2026-08-29",
