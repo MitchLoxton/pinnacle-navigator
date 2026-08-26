@@ -9,7 +9,7 @@
 
   function statusClass(value){
     const s=String(value||'').toUpperCase();
-    if(s.includes('POTENTIAL')||s.includes('GREEN')||s.includes('PRODUCTION')||s.includes('LOCKED')||s.includes('BEST EVIDENCED')||s==='WATCH') return 'green';
+    if(s.includes('POTENTIAL')||s.includes('GREEN')||s.includes('PRODUCTION')||s.includes('LOCKED')||s.includes('BEST EVIDENCED')||s.includes('PREFERRED')||s.includes('CHAMPION')||s==='WATCH') return 'green';
     if(s.includes('NO CURRENT')||s.includes('NO BET')||s.includes('RED')||s.includes('BLOCK')) return 'red';
     if(s.includes('RESEARCH')||s.includes('SHADOW')) return 'research';
     return 'wait';
@@ -41,7 +41,7 @@
     const cls=statusClass(current), sroi=num(r.snapshotRoiPct), avg=num(r.snapshotAverageOdds), stake=num(r.currentReferenceStakeAud);
     const currentState=num(r.currentState), snapState=num(r.snapshotState), n=num(r.snapshotBets), wr=num(r.snapshotWinRatePct);
     const statusLabel=current.includes('POTENTIAL')?'POTENTIAL 29 AUG':'NO CURRENT POTENTIAL';
-    return `<details class="review-card ${cls==='green'?'review-active':''}"><summary><div class="review-summary-main"><strong>${esc(r.race)}</strong><span class="review-action">${esc(r.snapshotAction||'No Bet')}</span></div><div class="review-summary-side"><span class="pill ${cls}">${esc(statusLabel)}</span><span class="chevron">⌄</span></div></summary><div class="review-body"><div class="review-current"><span>Current planning state</span><strong>${currentState!==null?'State '+currentState:'Not independently reconciled'}</strong>${stake?`<small>Core reference ${money.format(stake)}</small>`:''}</div><div class="state-stat-grid review-stats"><div><span>22 Aug state</span><strong>${snapState??'—'}</strong></div><div><span>Hist bets</span><strong>${n??'—'}</strong></div><div><span>Win rate</span><strong>${pct(wr)}</strong></div><div><span>Avg odds</span><strong>${avg!==null?avg.toFixed(2):'—'}</strong></div><div><span>Hist ROI</span><strong class="${sroi>=0?'positive-text':'negative-text'}">${pct(sroi,0)}</strong></div><div><span>22 Aug action</span><strong>${esc(r.snapshotAction||'No Bet')}</strong></div></div><div class="review-why"><strong>Why now:</strong> ${esc(r.why||'Not on the current watchlist. Do not bet unless frozen V11 later produces BET LOCKED and the live price passes the gate.')}</div><div class="meta">Latest comparable row stats: ${esc(r.snapshotDate||'22 Aug 2026')} sheet. Current status is kept separate so old ROI does not masquerade as a live instruction.</div></div></details>`;
+    return `<details class="review-card ${cls==='green'?'review-active':''}"><summary><div class="review-summary-main"><strong>${esc(r.race)}</strong><span class="review-action">${esc(r.snapshotAction||'No Bet')}</span></div><div class="review-summary-side"><span class="pill ${cls}">${esc(statusLabel)}</span><span class="chevron">⌄</span></div></summary><div class="review-body"><div class="review-current"><span>Current planning state</span><strong>${currentState!==null?'State '+currentState:'Not independently reconciled'}</strong>${stake?`<small>Core reference ${money.format(stake)}</small>`:''}</div><div class="state-stat-grid review-stats"><div><span>22 Aug state</span><strong>${snapState??'—'}</strong></div><div><span>Hist bets</span><strong>${n??'—'}</strong></div><div><span>Win rate</span><strong>${pct(wr)}</strong></div><div><span>Avg odds</span><strong>${avg!==null?avg.toFixed(2):'—'}</strong></div><div><span>Hist ROI</span><strong class="${sroi>=0?'positive-text':'negative-text'}">${pct(sroi,0)}</strong></div><div><span>22 Aug action</span><strong>${esc(r.snapshotAction||'No Bet')}</strong></div></div><div class="review-why"><strong>Why now:</strong> ${esc(r.why||'Not on the V11 core watchlist. Shadow-only signals are not wagers.')}</div><div class="meta">Latest comparable row stats: ${esc(r.snapshotDate||'22 Aug 2026')} sheet. Current status is kept separate so old ROI does not masquerade as a live instruction.</div></div></details>`;
   }
   function renderSeason(data){
     const s=data.season||{}, p=num(s.modelProfitAud), t=num(s.modelTurnoverAud), b=num(s.modelBets), w=num(s.modelWins), l=num(s.modelLosses), roi=num(s.modelRoiPct);
@@ -53,14 +53,14 @@
   }
   function renderStats(stats){
     state.stats=stats;
-    const strategy=stats.strategy||{}, h=stats.historical||{}, ex=stats.execution||{}, v=stats.v37||{}, c=stats.challenger||{}, e=stats.evidence||{};
-    $('statsSystemPill').textContent=strategy.status||'BEST EVIDENCED LIVE'; $('statsSystemPill').className=`pill ${statusClass(strategy.status)}`;
-    $('statsSystemName').textContent=strategy.name||'V11 + V3.7 + NET EXECUTION';
+    const strategy=stats.strategy||{}, h=stats.historical||{}, ex=stats.execution||{}, v=stats.safeFloor||stats.v37||{}, c=stats.challenger||{}, e=stats.evidence||{};
+    $('statsSystemPill').textContent=strategy.status||'PREFERRED CHAMPION'; $('statsSystemPill').className=`pill ${statusClass(strategy.status)}`;
+    $('statsSystemName').textContent=strategy.name||'V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION';
     $('statsObjective').textContent=strategy.objective||''; $('statsSystemRule').textContent=strategy.rule||'';
     $('statsNext12m').textContent=num(v.next12mPlanningMeanAud)===null?'—':money.format(v.next12mPlanningMeanAud);
     $('statsV37Mean').textContent=num(v.meanAud)===null?'—':money.format(v.meanAud);
     $('statsV37Median').textContent=num(v.medianAud)===null?'—':money.format(v.medianAud);
-    $('statsV37Positive').textContent=num(v.positiveYears)!==null&&num(v.targetYears)!==null?`${v.positiveYears}/${v.targetYears} positive historical years under stress`:'—';
+    $('statsV37Positive').textContent=num(v.positiveYears)!==null&&num(v.targetYears)!==null?`${v.positiveYears}/${v.targetYears} positive historical years under 5% stress`:'—';
     $('statsHistAvgFy').textContent=num(h.avgCompletedFyAud)===null?'—':money.format(h.avgCompletedFyAud);
     $('statsHistRoi').textContent=pct(h.roiPct);
     $('statsBetsYear').textContent=num(h.betsPerYear)===null?'—':Number(h.betsPerYear).toFixed(1);
@@ -76,13 +76,15 @@
     $('statsShadowBets').textContent=num(c.approxBetsPerYear)===null?'—':Number(c.approxBetsPerYear).toFixed(1);
     $('statsShadowRoi').textContent=pct(c.hindsightRoiPct);
     $('statsShadowFy').textContent=num(c.hindsightAvgFyAud)===null?'—':money.format(c.hindsightAvgFyAud);
-    $('statsShadowWarning').textContent=c.warning||'Same-history research is not bankable evidence.';
-    $('statsEvidenceNotes').innerHTML=[
-      ['Live choice',strategy.selectionChange||'No unverified live selection change.'],
+    $('statsShadowWarning').textContent=c.warning||'Shadow research is not a live wager instruction.';
+    const notes=[
+      ['Live choice',strategy.selectionChange||'V11 core remains the live selection layer.'],
       ['Historical cutoff',e.historicalCutoff||'—'],
       ['Planning',e.planningNotPromise||'Historical/model planning numbers are not guarantees.'],
       ['Banked cash',e.cashRule||'Use accepted stake, accepted price, charges and settlement.']
-    ].map(([a,b])=>`<div class="stats-note"><strong>${esc(a)}</strong><span>${esc(b)}</span></div>`).join('');
+    ];
+    if(e.desktopBoundary) notes.push(['Desktop package',e.desktopBoundary]);
+    $('statsEvidenceNotes').innerHTML=notes.map(([a,b])=>`<div class="stats-note"><strong>${esc(a)}</strong><span>${esc(b)}</span></div>`).join('');
     if($('auModelName')) $('auModelName').textContent=strategy.name||$('auModelName').textContent;
     if($('auModelNote')) $('auModelNote').textContent=strategy.rule||$('auModelNote').textContent;
     if(stats.appVersion) $('appVersion').textContent=`v${stats.appVersion}`;
@@ -97,7 +99,7 @@
     const meetings=Array.isArray(data.meetings)?data.meetings:[]; $('meetings').innerHTML=meetings.map(renderMeeting).join(''); $('auMeetings').innerHTML=meetings.filter(m=>String(m.region).toLowerCase()!=='hong kong').map(renderMeeting).join(''); $('hkMeeting').innerHTML=meetings.filter(m=>String(m.region).toLowerCase()==='hong kong').map(renderMeeting).join('')||'<div class="empty-state"><strong>No Hong Kong meeting published.</strong></div>';
     const au=data.models?.australia||{}, hk=data.models?.hongKong||{}; $('auModelName').textContent=au.name||'V11'; $('auModelNote').textContent=au.note||''; $('hkModelName').textContent=hk.name||'R23 PLACE BACK'; $('hkModelNote').textContent=hk.note||'';
     const stored=Number(localStorage.getItem('mitchellRacingStake')); if(!$('stakeInput').value) $('stakeInput').value=String(stored>0?stored:Number(data.stakeDefaultAud||1000)); updateMoney();
-    const h=data.health||{}; const labels=[['App feed',h.appFeed||'UNKNOWN'],['Australia production',h.auProduction||'UNKNOWN'],['Pre-race watchlist',h.watchlist||'UNKNOWN'],['21-stream review',h.reviewBoard||'UNKNOWN'],['FY ledger',h.seasonLedger||'UNKNOWN'],['Hong Kong',h.hkProduction||'UNKNOWN'],['Evidence boundary',h.source||'Production dashboard is source of truth']]; $('healthRows').innerHTML=labels.map(([n,v])=>`<div class="health-row"><strong>${esc(n)}</strong><span class="health-value ${statusClass(v)}">${esc(v)}</span></div>`).join('');
+    const h=data.health||{}; const labels=[['App feed',h.appFeed||'UNKNOWN'],['Australia champion',h.auProduction||'UNKNOWN'],['Pre-race watchlist',h.watchlist||'UNKNOWN'],['21-stream review',h.reviewBoard||'UNKNOWN'],['FY ledger',h.seasonLedger||'UNKNOWN'],['Hong Kong',h.hkProduction||'UNKNOWN'],['Evidence boundary',h.source||'Production dashboard is source of truth']]; $('healthRows').innerHTML=labels.map(([n,v])=>`<div class="health-row"><strong>${esc(n)}</strong><span class="health-value ${statusClass(v)}">${esc(v)}</span></div>`).join('');
     if(state.stats) renderStats(state.stats);
   }
   async function loadData(manual=false){
