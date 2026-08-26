@@ -6,11 +6,16 @@ on:
       - research/betfair-2plus
     paths:
       - 'research/betfair_2plus_scan.py'
+      - 'research/betfair_2plus_fast.py'
       - '.github/workflows/research-betfair-2plus.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: betfair-2plus-research
+  cancel-in-progress: true
 
 jobs:
   reconstruct:
@@ -29,13 +34,13 @@ jobs:
         run: python -m pip install --upgrade pip pandas numpy requests
 
       - name: Reconstruct and test
-        run: python research/betfair_2plus_scan.py
+        run: python research/betfair_2plus_fast.py
 
       - name: Upload research outputs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: betfair-2plus-research
-          path: research/output_2plus/
+          name: betfair-2plus-research-fast
+          path: research/output_2plus_fast/
           if-no-files-found: warn
           retention-days: 30
