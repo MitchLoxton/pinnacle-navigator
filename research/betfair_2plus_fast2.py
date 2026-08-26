@@ -1,8 +1,14 @@
+from datetime import date
+import time
+import requests
 import betfair_2plus_fast as b
 
-# Betfair's older Australian files abbreviate venue names (e.g. Rand, Caul,
-# KemG, Pakn) while modern files often use full venue names. Classification is
-# purely by venue label and therefore does not use race outcomes.
+# Stable public mirror of the original Betfair Australian WIN CSV archive.
+# Use completed 2012-2024 history for this research pass so every period comes
+# from the same source. 2023-24 is the untouched final holdout.
+b.END = date(2024, 12, 28)
+b.AUDIT_END = date(2022, 12, 31)
+
 PREFIXES = {
     'PR': ('ascot','asct','belmont','belm','pinjarra','pinj'),
     'SR': ('randwick','rand','rosehill','rose','canterbury','cant','warwick farm','warf','kembla grange','kemg','newcastle','newc','hawkesbury','hawk','gosford','gosf'),
@@ -16,6 +22,26 @@ def region_alias(v):
             return region
     return None
 
+
+def mirror_download(d):
+    p=b.CACHE/b.fn(d)
+    if p.exists() and p.stat().st_size>100:
+        return str(p)
+    url=(f'https://raw.githubusercontent.com/EonHorizons/betfair_sp/main/'
+         f'data_original/horse/aus/{d.year}/{d.month:02d}/{b.fn(d)}')
+    for a in range(3):
+        try:
+            r=requests.get(url,timeout=30,headers={'User-Agent':'Mozilla/5.0'})
+            if r.status_code==404:
+                return None
+            r.raise_for_status()
+            p.write_bytes(r.content)
+            return str(p)
+        except Exception:
+            if a==2:
+                return None
+            time.sleep(.4*(a+1))
+
 b.region = region_alias
+b.download_one = mirror_download
 b.main()
-# rerun marker: venue-aware parser active
