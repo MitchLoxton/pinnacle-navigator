@@ -40,6 +40,7 @@
     <nav class="tabs" aria-label="Racing app sections">
       <button class="tab active" type="button" data-tab="today">Today</button>
       <button class="tab" type="button" data-tab="review">All 21</button>
+      <button class="tab" type="button" data-tab="stats">Stats</button>
       <button class="tab" type="button" data-tab="au">Australia</button>
       <button class="tab" type="button" data-tab="hk">Hong Kong</button>
       <button class="tab" type="button" data-tab="money">Money</button>
@@ -103,9 +104,59 @@
       <div class="danger-box">A green-looking historical ROI is not enough by itself. The frozen stream/state rule and the $3.00+ live price gate decide whether a race can become a real V11 bet.</div>
     </section>
 
+    <section class="panel" data-panel="stats">
+      <div class="section-heading">
+        <div><div class="eyebrow">MAX BANK DOLLARS</div><h3>System stats</h3></div>
+        <span class="pill green" id="statsSystemPill">BEST EVIDENCED LIVE</span>
+      </div>
+      <div class="stats-system-card">
+        <div class="model-title" id="statsSystemName">V11 + V3.7 + NET EXECUTION</div>
+        <p id="statsObjective">Maximise sustainable accepted cash profit per year, not bet count.</p>
+        <div class="rule-box" id="statsSystemRule">Loading strategy rule…</div>
+      </div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">PLANNING · NOT A PROMISE</div><h3>Money expectations</h3></div></div>
+      <div class="stats-grid stats-grid-3">
+        <div class="stat-tile hero-stat"><span>Next 12m planning mean</span><strong id="statsNext12m">—</strong><small>V3.7 · 5% central stress</small></div>
+        <div class="stat-tile"><span>V3.7 stressed FY mean</span><strong id="statsV37Mean">—</strong><small id="statsV37Positive">—</small></div>
+        <div class="stat-tile"><span>V3.7 median FY</span><strong id="statsV37Median">—</strong><small>ending-profit consistency</small></div>
+      </div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">V11 FULL HISTORY</div><h3>Interesting historical stats</h3></div></div>
+      <div class="stats-grid">
+        <div class="stat-tile"><span>Avg completed FY</span><strong id="statsHistAvgFy">—</strong></div>
+        <div class="stat-tile"><span>Historical ROI</span><strong id="statsHistRoi">—</strong></div>
+        <div class="stat-tile"><span>Bets / year</span><strong id="statsBetsYear">—</strong></div>
+        <div class="stat-tile"><span>Total bets</span><strong id="statsTotalBets">—</strong></div>
+        <div class="stat-tile"><span>Total historical P/L</span><strong id="statsHistProfit">—</strong></div>
+        <div class="stat-tile"><span>Total turnover</span><strong id="statsHistTurnover">—</strong></div>
+        <div class="stat-tile"><span>Recorded max DD</span><strong id="statsRecordedDd">—</strong></div>
+        <div class="stat-tile"><span>Reorder-stress DD</span><strong id="statsStressDd">—</strong></div>
+      </div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION MATTERS</div><h3>What bad prices can cost</h3></div></div>
+      <div class="execution-impact">
+        <div><span>Start-Aug10 historical avg</span><strong id="statsStartAvg">—</strong></div>
+        <div class="impact-arrow">→</div>
+        <div><span>At 5% worse winning prices</span><strong id="statsWorseAvg">—</strong></div>
+      </div>
+      <div class="cash-opportunity"><span>Historical execution sensitivity</span><strong id="statsExecutionCost">—</strong><small id="statsExecutionMessage">Price/fill quality is a first-class profit lever.</small></div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">SHADOW UPSIDE</div><h3>Best Australian expansion challenger</h3></div><span class="pill research">NOT LIVE</span></div>
+      <div class="stats-grid stats-grid-3">
+        <div class="stat-tile"><span>Shadow bets / year</span><strong id="statsShadowBets">—</strong></div>
+        <div class="stat-tile"><span>Hindsight ROI</span><strong id="statsShadowRoi">—</strong></div>
+        <div class="stat-tile"><span>Hindsight avg FY</span><strong id="statsShadowFy">—</strong></div>
+      </div>
+      <div class="danger-box" id="statsShadowWarning">Same-history research is not bankable evidence.</div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">EVIDENCE BOUNDARY</div><h3>What the numbers mean</h3></div></div>
+      <div class="stats-notes" id="statsEvidenceNotes"></div>
+    </section>
+
     <section class="panel" data-panel="au">
-      <div class="section-heading"><div><div class="eyebrow">PRODUCTION</div><h3>Australia V11</h3></div><span class="pill green">LIVE SYSTEM</span></div>
-      <div class="model-card"><div class="model-title" id="auModelName">V11</div><p id="auModelNote"></p><div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro sequence.</div></div>
+      <div class="section-heading"><div><div class="eyebrow">PRODUCTION</div><h3>Australia</h3></div><span class="pill green">LIVE SYSTEM</span></div>
+      <div class="model-card"><div class="model-title" id="auModelName">V11</div><p id="auModelNote"></p><div class="rule-box">Only PR1–PR7, SR1–SR7 and MR1–MR7 from the frozen main Saturday metro sequence. Final execution should use the best net executable price/fill after the system reaches BET LOCKED.</div></div>
       <div class="section-heading spaced"><h3>Potential Australian bets + evidence</h3></div><div id="auPotentialBets" class="stack"></div>
       <div class="section-heading spaced"><h3>Current Australian meetings</h3></div><div id="auMeetings" class="stack"></div>
     </section>
