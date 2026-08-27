@@ -11,7 +11,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="stylesheet" href="./styles.css?v=11">
+  <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
 <body>
@@ -21,58 +21,57 @@
         <div class="brand">MITCHELL RACING</div>
         <div class="week" id="weekLabel">Loading race day…</div>
       </div>
-      <button id="refreshButton" class="refresh" type="button" aria-label="Refresh latest bets">↻</button>
+      <button id="refreshButton" class="refresh" type="button" aria-label="Refresh latest bet instruction">↻</button>
     </header>
 
     <section class="decision-card waiting" id="decisionCard" aria-live="polite">
       <div class="decision-kicker" id="decisionKicker">CHECKING</div>
       <h1 id="decisionTitle">Loading…</h1>
-      <p id="decisionMessage">Getting the latest V11 race-day instructions.</p>
+      <p id="decisionMessage">Checking the latest verified V11 instruction.</p>
       <div id="lockedBets" class="locked-list"></div>
-      <div class="freshness" id="freshness">Checking feed…</div>
-    </section>
-
-    <section class="how-card">
-      <div class="section-label">THAT'S ALL YOU NEED</div>
-      <div class="three-steps">
-        <div><b>1</b><span>Only bet when this screen says <strong>BET NOW</strong>.</span></div>
-        <div><b>2</b><span>Bet the <strong>exact horse</strong> and <strong>exact stake</strong> shown.</span></div>
-        <div><b>3</b><span>Do not bet below the displayed <strong>minimum odds</strong>.</span></div>
+      <div class="decision-meta">
+        <span id="freshness">Checking feed…</span>
+        <span id="lastChecked">Checking now…</span>
       </div>
     </section>
 
-    <section class="watch-section">
-      <div class="section-head">
-        <div>
-          <div class="section-label">COMING UP</div>
-          <h2>Watchlist — do not bet yet</h2>
-        </div>
-        <span class="count-pill" id="watchCount">—</span>
-      </div>
-      <p class="section-help">These are only races getting close to a possible signal. Ignore them until they move into the green BET NOW box above.</p>
-      <div id="watchlist" class="watch-list"></div>
+    <section class="simple-rule">
+      <strong>Only one rule matters:</strong>
+      <span>If the big box above does not say <b>BET NOW</b>, do not place a bet.</span>
     </section>
+
+    <details class="watch-details" id="watchDetails">
+      <summary>
+        <div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking watchlist…</strong></div>
+        <span class="not-bet">NOT BETS</span>
+      </summary>
+      <div class="watch-body">
+        <p>These are only possible future signals. Never bet one from this section.</p>
+        <div id="watchlist" class="watch-list"></div>
+      </div>
+    </details>
 
     <details class="details-card">
-      <summary>More details</summary>
+      <summary>System & evidence details</summary>
       <div class="details-body">
         <div class="mini-grid">
           <div><span>System</span><strong>V11 CORE</strong></div>
-          <div><span>Minimum live price</span><strong>$3.00</strong></div>
+          <div><span>Real-money trigger</span><strong>BET LOCKED only</strong></div>
+          <div><span>Minimum live price</span><strong>$3.00+</strong></div>
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
-          <div><span>Real-money rule</span><strong>BET LOCKED only</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
+        <div class="info-row"><span>Auto refresh</span><strong>Every 30 seconds</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
-        <p class="small-note">Historical/model figures are not a promise of future profit. Actual cash results depend on accepted stake, accepted price, fees and settlement.</p>
+        <p class="small-note">Historical/model figures are not a promise of future profit. Actual cash results depend on the stake and odds actually accepted, fees and settlement.</p>
       </div>
     </details>
 
     <footer>
       <span id="updatedAt">Not updated yet</span>
-      <span>Simple Race-Day v0.9</span>
+      <span>Race-Day v1.0</span>
     </footer>
   </main>
 
@@ -81,6 +80,6 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=11" defer></script>
+  <script src="./app.js?v=12" defer></script>
 </body>
 </html>
