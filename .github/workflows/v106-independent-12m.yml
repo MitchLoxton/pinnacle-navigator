@@ -7,6 +7,7 @@ on:
       - research/v106-independent-12m-20260828
     paths:
       - 'research/v106_independent_12m.py'
+      - 'research/v106_independent_12m_docrr.py'
       - '.github/workflows/v106-independent-12m.yml'
   workflow_dispatch:
 
@@ -38,19 +39,19 @@ jobs:
           curl -L --fail --retry 3 -o /tmp/mnq_2026_1min.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/mnq_2026_1min.csv
           ls -lh /tmp/Dataset_NQ_1min_2022_2025.csv /tmp/mnq_2026_1min.csv
 
-      - name: Run independent replay
+      - name: Run documented-RR independent replay
         env:
           V106_DIR: /tmp/v106
           NQ_2025: /tmp/Dataset_NQ_1min_2022_2025.csv
           NQ_2026: /tmp/mnq_2026_1min.csv
-        run: python research/v106_independent_12m.py | tee v106_independent_12m.log
+        run: python research/v106_independent_12m_docrr.py | tee v106_independent_12m_docrr.log
 
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v106-independent-12m-results
+          name: v106-independent-12m-docrr-results
           path: |
-            v106_independent_12m.log
-            v106_independent_results.json
+            v106_independent_12m_docrr.log
+            v106_independent_results_docrr.json
           if-no-files-found: warn
