@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08111f">
+  <meta name="theme-color" content="#07111f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MITCHELL Racing">
   <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="Race-day companion for the frozen V11 Australian horse-racing system.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
@@ -17,178 +18,137 @@
 <body>
   <main class="app-shell" id="app">
     <header class="topbar">
-      <div>
-        <div class="eyebrow">MITCHELL RACING</div>
-        <h1>Race-Day App</h1>
+      <div class="brand-block">
+        <div class="eyebrow">MITCHELL RACING · V11</div>
+        <h1>Race-Day Command</h1>
         <p class="subtitle" id="weekLabel">Loading current week…</p>
       </div>
-      <button class="icon-button" id="refreshButton" type="button" aria-label="Refresh latest racing data">↻</button>
+      <button class="icon-button" id="refreshButton" type="button" aria-label="Refresh latest racing data" title="Refresh latest data">↻</button>
     </header>
 
     <section class="hero card" aria-live="polite">
-      <div class="hero-row">
-        <span class="status-dot" id="statusDot"></span>
-        <div class="min-zero">
-          <div class="status-label" id="overallStatus">LOADING</div>
-          <h2 id="overallMessage">Getting the latest published system state…</h2>
+      <div class="hero-top">
+        <div class="hero-row">
+          <span class="status-dot wait" id="statusDot" aria-hidden="true"></span>
+          <div class="min-zero">
+            <div class="status-label wait" id="overallStatus">LOADING</div>
+            <h2 id="overallMessage">Getting the latest published system state…</h2>
+          </div>
         </div>
+        <span class="freshness-badge wait" id="freshnessBadge">CHECKING FEED</span>
       </div>
-      <div class="rule-box" id="productionRule"></div>
+      <div class="command-strip wait" id="commandStrip">
+        <div><span class="command-kicker">REAL-MONEY COMMAND</span><strong id="commandText">WAIT — checking BET LOCKED status</strong></div>
+        <span id="commandCount">—</span>
+      </div>
+      <div class="gate-grid" id="gateGrid">
+        <div><span>Selection</span><strong id="gateSelection">V11 CORE</strong></div>
+        <div><span>Live price floor</span><strong id="gatePrice">A$3.00+</strong></div>
+        <div><span>Hard stake cap</span><strong id="gateCap">A$10,000</strong></div>
+        <div><span>Feed</span><strong id="gateFeed">CHECKING</strong></div>
+      </div>
+      <details class="rule-details"><summary>Show exact production rule</summary><div class="rule-box" id="productionRule"></div></details>
       <div class="update-line"><span id="updatedAt">Not updated yet</span><span id="refreshState">Checking…</span></div>
     </section>
 
     <nav class="tabs" aria-label="Racing app sections">
-      <button class="tab active" type="button" data-tab="today">Today</button>
+      <button class="tab active" type="button" data-tab="today">Command</button>
       <button class="tab" type="button" data-tab="review">All 21</button>
-      <button class="tab" type="button" data-tab="stats">Stats</button>
-      <button class="tab" type="button" data-tab="au">Australia</button>
-      <button class="tab" type="button" data-tab="hk">Hong Kong</button>
-      <button class="tab" type="button" data-tab="money">Money</button>
+      <button class="tab" type="button" data-tab="stats">Evidence</button>
+      <button class="tab" type="button" data-tab="risk">Risk</button>
+      <button class="tab" type="button" data-tab="research">Research</button>
       <button class="tab" type="button" data-tab="health">Health</button>
     </nav>
 
     <section class="panel active" data-panel="today">
-      <div class="section-heading">
-        <div><div class="eyebrow">2026/27 SCOREBOARD · FROM 1 JULY</div><h3>If you followed the system stakes from the start of the financial year</h3></div>
-        <span class="pill wait" id="seasonPill">LOADING</span>
-      </div>
-      <div class="season-profit" id="seasonProfit">—</div>
-      <div class="season-caption" id="seasonCaption">Financial-year model P/L</div>
-      <div class="score-grid">
-        <div class="score-cell"><span>Model ROI</span><strong id="seasonRoi">—</strong></div>
-        <div class="score-cell"><span>Total bets</span><strong id="seasonBets">—</strong></div>
-        <div class="score-cell"><span>Turnover</span><strong id="seasonTurnover">—</strong></div>
-        <div class="score-cell"><span>W / L</span><strong id="seasonRecord">—</strong></div>
-      </div>
-      <div class="cash-status" id="cashStatus"></div>
-      <div class="rule-box" id="seasonNote"></div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">ACTION BOARD</div><h3>What do I bet?</h3></div><span class="pill wait" id="actionPill">WAIT</span></div>
+      <div class="section-heading"><div><div class="eyebrow">ACTION BOARD</div><h3>What am I allowed to bet?</h3></div><span class="pill wait" id="actionPill">CHECKING</span></div>
+      <div class="action-warning" id="actionWarning"><strong>Nothing is a bet until it says BET LOCKED.</strong><span>Potential/watchlist cards are planning only.</span></div>
       <div id="lockedBets" class="stack"></div>
-      <div class="empty-state" id="noLockedBets"><strong>No BET LOCKED signal.</strong><span>Potential bets are shown below before race day.</span></div>
+      <div class="empty-state danger-empty" id="noLockedBets"><strong>NO BET RIGHT NOW</strong><span>Wait for a published V11 CORE <b>BET LOCKED</b> signal. Do not bet a watchlist card.</span></div>
 
-      <div class="section-heading spaced"><div><div class="eyebrow">PRE-RACE WATCHLIST</div><h3>V11 core potentials + state stats</h3></div><span class="pill wait" id="potentialPill">CHECKING</span></div>
-      <div class="rule-box">Potential means the stream is sitting in a <strong>V11 CORE betting state</strong>. It is <strong>not</strong> a wager yet: favourite, price, readiness, safe-floor risk controls and BET LOCKED still have to pass. The 30% extra-state layer is <strong>SHADOW ONLY — DO NOT BET</strong>.</div>
+      <div class="section-heading spaced"><div><div class="eyebrow">PRE-RACE WATCHLIST</div><h3>Potential V11 core states</h3></div><span class="pill wait" id="potentialPill">CHECKING</span></div>
+      <div class="rule-box compact-rule"><strong>Potential ≠ bet.</strong> These streams are worth watching, but horse, live price, readiness, safe-floor controls and BET LOCKED must still pass.</div>
       <div id="potentialBets" class="stack"></div>
       <div class="empty-state" id="noPotentialBets"><strong>No current V11 core watchlist candidates.</strong></div>
 
-      <div class="section-heading spaced"><div><div class="eyebrow">THIS WEEK</div><h3>Meetings</h3></div></div>
-      <div id="meetings" class="stack"></div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">PHONE LOG</div><h3>Record actual execution</h3></div></div>
-      <form id="executionForm" class="execution-form">
+      <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION AUDIT</div><h3>Record what was actually accepted</h3></div><span class="pill neutral" id="logModePill">LOCAL LOG</span></div>
+      <p class="section-copy">Use “Log execution” on a locked bet where possible. The app checks model stake, minimum price and the A$10,000 hard cap. If you record an off-rule fill, it is saved honestly and flagged rather than hidden.</p>
+      <form id="executionForm" class="execution-form" novalidate>
+        <input id="logLockId" type="hidden">
         <div class="field-grid">
-          <label>Race<input id="logRace" maxlength="8" placeholder="SR6" autocomplete="off"></label>
+          <label>Race<input id="logRace" maxlength="8" placeholder="SR6" autocomplete="off" autocapitalize="characters"></label>
           <label>Horse<input id="logHorse" maxlength="80" placeholder="Horse name" autocomplete="off"></label>
+          <label>Bookmaker<input id="logBookmaker" maxlength="40" placeholder="Sportsbet / TAB / …" autocomplete="off"></label>
+          <label>Execution status<select id="logStatus"><option value="ACCEPTED">Accepted</option><option value="PARTIAL">Partial</option><option value="REJECTED">Rejected</option></select></label>
           <label>Accepted price<input id="logPrice" type="number" min="1.01" max="1000" step="0.01" placeholder="3.40" inputmode="decimal"></label>
-          <label>Accepted stake A$<input id="logStake" type="number" min="0" max="100000" step="1" placeholder="1000" inputmode="decimal"></label>
+          <label>Accepted stake A$<input id="logStake" type="number" min="0" max="10000" step="1" placeholder="1000" inputmode="decimal"></label>
+          <label>Model stake A$<input id="logModelStake" type="number" min="0" max="10000" step="1" placeholder="Auto from locked bet" inputmode="decimal"></label>
+          <label>Minimum exec<input id="logMinExec" type="number" min="1.01" max="1000" step="0.01" placeholder="Auto from locked bet" inputmode="decimal"></label>
         </div>
-        <button class="primary-button" type="submit">Save execution</button>
+        <label class="full-field">Receipt / reference (optional)<input id="logReference" maxlength="80" placeholder="Bookmaker bet ID or note" autocomplete="off"></label>
+        <div class="execution-checks" id="executionChecks" aria-live="polite"></div>
+        <div class="form-actions"><button class="primary-button" type="submit">Save actual execution</button><button class="secondary-button inline-button" id="resetLogButton" type="button">Reset</button></div>
         <p class="form-message" id="formMessage" aria-live="polite"></p>
       </form>
       <div id="executionLog" class="stack compact"></div>
+
+      <div class="section-heading spaced"><div><div class="eyebrow">THIS WEEK</div><h3>Meetings</h3></div></div>
+      <div id="meetings" class="stack"></div>
     </section>
 
     <section class="panel" data-panel="review">
-      <div class="section-heading">
-        <div><div class="eyebrow">V11 CORE REVIEW BOARD</div><h3>Every Australian stream</h3></div>
-        <span class="pill wait" id="reviewPill">21 STREAMS</span>
-      </div>
-      <div class="rule-box"><strong>How to read it:</strong> the coloured status is the current 29 Aug V11-core planning status. The numeric stats are the latest comparable sheet snapshot. Any 30% extra-state mention is shadow research only and is not a wager instruction.</div>
-      <div class="review-legend">
-        <span><i class="legend-dot potential"></i>V11 core potential</span>
-        <span><i class="legend-dot no"></i>No current potential</span>
-        <span><i class="legend-dot old"></i>Last-sheet stats</span>
-      </div>
+      <div class="section-heading"><div><div class="eyebrow">21-STREAM BOARD</div><h3>Every Australian stream</h3></div><span class="pill neutral" id="reviewPill">LOADING</span></div>
+      <div class="filter-row" role="group" aria-label="Filter 21-stream board"><button class="filter-chip active" type="button" data-review-filter="all">All</button><button class="filter-chip" type="button" data-review-filter="potential">Potential</button><button class="filter-chip" type="button" data-review-filter="none">No current potential</button></div>
+      <div class="rule-box compact-rule"><strong>Colour rule:</strong> amber = watch/potential, red = no current potential, green is reserved for a genuine locked real-money action.</div>
       <div id="reviewBoard" class="review-board"></div>
-      <div class="danger-box">A green-looking historical ROI is not enough by itself. For real money, the race must qualify through <strong>V11 CORE</strong>, then pass BET LOCKED, the live price floor and cash-risk controls. The 30% expansion is shadow-only.</div>
+      <div class="danger-box">A strong historical ROI is not enough. A real wager still requires V11 CORE qualification, BET LOCKED, executable price and risk controls.</div>
     </section>
 
     <section class="panel" data-panel="stats">
-      <div class="section-heading">
-        <div><div class="eyebrow">MAX BANK DOLLARS</div><h3>System stats</h3></div>
-        <span class="pill green" id="statsSystemPill">CHAMPION</span>
-      </div>
-      <div class="stats-system-card">
-        <div class="model-title" id="statsSystemName">V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION</div>
-        <p id="statsObjective">Maximise sustainable accepted cash profit per year, not bet count.</p>
-        <div class="rule-box" id="statsSystemRule">Loading strategy rule…</div>
-      </div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">PLANNING · NOT A PROMISE</div><h3>Fixed-safe-floor money expectations</h3></div></div>
-      <div class="stats-grid stats-grid-3">
-        <div class="stat-tile hero-stat"><span>Next 12m planning mean</span><strong id="statsNext12m">—</strong><small>V11 core + fixed A$100K floor · 5% central stress</small></div>
-        <div class="stat-tile"><span>Safe-floor stressed FY mean</span><strong id="statsV37Mean">—</strong><small id="statsV37Positive">—</small></div>
-        <div class="stat-tile"><span>Safe-floor median FY</span><strong id="statsV37Median">—</strong><small>more upside, more dispersion than V3.7</small></div>
-      </div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">V11 CORE FULL HISTORY</div><h3>Established historical stats</h3></div></div>
-      <div class="stats-grid">
-        <div class="stat-tile"><span>Avg completed FY</span><strong id="statsHistAvgFy">—</strong></div>
-        <div class="stat-tile"><span>Historical ROI</span><strong id="statsHistRoi">—</strong></div>
-        <div class="stat-tile"><span>Bets / year</span><strong id="statsBetsYear">—</strong></div>
-        <div class="stat-tile"><span>Total bets</span><strong id="statsTotalBets">—</strong></div>
-        <div class="stat-tile"><span>Total historical P/L</span><strong id="statsHistProfit">—</strong></div>
-        <div class="stat-tile"><span>Total turnover</span><strong id="statsHistTurnover">—</strong></div>
-        <div class="stat-tile"><span>Recorded max DD</span><strong id="statsRecordedDd">—</strong></div>
-        <div class="stat-tile"><span>Reorder-stress DD</span><strong id="statsStressDd">—</strong></div>
-      </div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION MATTERS</div><h3>What bad prices can cost</h3></div></div>
-      <div class="execution-impact">
-        <div><span>Start-Aug10 V11-core avg</span><strong id="statsStartAvg">—</strong></div>
-        <div class="impact-arrow">→</div>
-        <div><span>At 5% worse winning prices</span><strong id="statsWorseAvg">—</strong></div>
-      </div>
+      <div class="section-heading"><div><div class="eyebrow">EVIDENCE · NOT A PROMISE</div><h3>Champion evidence</h3></div><span class="pill neutral" id="statsSystemPill">LOADING</span></div>
+      <div class="stats-system-card"><div class="model-title" id="statsSystemName">V11 CORE</div><p id="statsObjective">Loading objective…</p><div class="rule-box" id="statsSystemRule">Loading strategy rule…</div></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">2026/27 LIVE LEDGER</div><h3>Model path vs real cash</h3></div><span class="pill wait" id="seasonPill">LOADING</span></div>
+      <div class="season-profit" id="seasonProfit">—</div><div class="season-caption" id="seasonCaption">Financial-year model P/L</div>
+      <div class="score-grid"><div class="score-cell"><span>Model ROI</span><strong id="seasonRoi">—</strong></div><div class="score-cell"><span>Total bets</span><strong id="seasonBets">—</strong></div><div class="score-cell"><span>Turnover</span><strong id="seasonTurnover">—</strong></div><div class="score-cell"><span>W / L</span><strong id="seasonRecord">—</strong></div></div>
+      <div class="cash-status" id="cashStatus"></div><div class="rule-box" id="seasonNote"></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">SAFE-FLOOR PLANNING</div><h3>Stressed historical planning</h3></div></div>
+      <div class="stats-grid stats-grid-3"><div class="stat-tile hero-stat"><span>Next 12m planning mean</span><strong id="statsNext12m">—</strong><small>5% central winning-price stress</small></div><div class="stat-tile"><span>Stressed FY mean</span><strong id="statsV37Mean">—</strong><small id="statsV37Positive">—</small></div><div class="stat-tile"><span>Stressed median FY</span><strong id="statsV37Median">—</strong><small>historical replay only</small></div></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">V11 CORE HISTORY</div><h3>Established historical stats</h3></div></div>
+      <div class="stats-grid"><div class="stat-tile"><span>Avg completed FY</span><strong id="statsHistAvgFy">—</strong></div><div class="stat-tile"><span>Historical ROI</span><strong id="statsHistRoi">—</strong></div><div class="stat-tile"><span>Bets / year</span><strong id="statsBetsYear">—</strong></div><div class="stat-tile"><span>Total bets</span><strong id="statsTotalBets">—</strong></div><div class="stat-tile"><span>Total historical P/L</span><strong id="statsHistProfit">—</strong></div><div class="stat-tile"><span>Total turnover</span><strong id="statsHistTurnover">—</strong></div><div class="stat-tile"><span>Recorded max DD</span><strong id="statsRecordedDd">—</strong></div><div class="stat-tile"><span>Reorder-stress DD</span><strong id="statsStressDd">—</strong></div></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION SENSITIVITY</div><h3>Bad prices cost real money</h3></div></div>
+      <div class="execution-impact"><div><span>Start-Aug10 V11 avg</span><strong id="statsStartAvg">—</strong></div><div class="impact-arrow">→</div><div><span>5% worse winners</span><strong id="statsWorseAvg">—</strong></div></div>
       <div class="cash-opportunity"><span>Historical execution sensitivity</span><strong id="statsExecutionCost">—</strong><small id="statsExecutionMessage">Price/fill quality is a first-class profit lever.</small></div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">SHADOW RESEARCH · DO NOT BET</div><h3>30% non-core layer</h3></div><span class="pill research">SHADOW ONLY</span></div>
-      <div class="stats-grid stats-grid-3">
-        <div class="stat-tile"><span>Hindsight bets / year</span><strong id="statsShadowBets">—</strong></div>
-        <div class="stat-tile"><span>Hindsight ROI</span><strong id="statsShadowRoi">—</strong></div>
-        <div class="stat-tile"><span>Hindsight avg FY</span><strong id="statsShadowFy">—</strong></div>
-      </div>
-      <div class="danger-box" id="statsShadowWarning">The 30% layer is shadow-only. Its headline history is same-history selected and it failed the live-promotion risk test.</div>
-
-      <div class="section-heading spaced"><div><div class="eyebrow">EVIDENCE BOUNDARY</div><h3>What the numbers mean</h3></div></div>
-      <div class="stats-notes" id="statsEvidenceNotes"></div>
+      <div class="section-heading spaced"><div><div class="eyebrow">EVIDENCE BOUNDARY</div><h3>What the numbers mean</h3></div></div><div class="stats-notes" id="statsEvidenceNotes"></div>
     </section>
 
-    <section class="panel" data-panel="au">
-      <div class="section-heading"><div><div class="eyebrow">PREFERRED CHAMPION</div><h3>Australia</h3></div><span class="pill green">V11 CORE</span></div>
-      <div class="model-card"><div class="model-title" id="auModelName">V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION</div><p id="auModelNote"></p><div class="rule-box">Real-money selection remains V11 CORE only across PR1–PR7, SR1–SR7 and MR1–MR7. Before verified A$100K FY cash, frozen V11 selection/staking is unchanged. After A$100K, the preferred phone-app policy protects a fixed A$100K floor and releases only verified cushion above it. 30% extra states are SHADOW ONLY.</div></div>
-      <div class="section-heading spaced"><h3>Potential V11 core bets + evidence</h3></div><div id="auPotentialBets" class="stack"></div>
-      <div class="section-heading spaced"><h3>Current Australian meetings</h3></div><div id="auMeetings" class="stack"></div>
+    <section class="panel" data-panel="risk">
+      <div class="section-heading"><div><div class="eyebrow">CAPITAL PROTECTION</div><h3>Risk command</h3></div><span class="pill wait" id="riskModePill">CHECKING</span></div>
+      <div class="risk-hero" id="riskHero"><span>Safe-floor state</span><strong id="riskMode">Waiting for verified cash ledger</strong><small id="riskModeNote">The app will not infer actual cash profit from model P/L.</small></div>
+      <div class="gate-grid risk-grid"><div><span>Protected floor</span><strong>A$100,000</strong></div><div><span>Hard bet cap</span><strong>A$10,000</strong></div><div><span>Minimum price</span><strong>A$3.00</strong></div><div><span>Open locked bets</span><strong id="riskOpenLocks">—</strong></div></div>
+      <div class="danger-box" id="riskCashWarning">Actual cash verification is incomplete. Model-equivalent P/L must not be treated as banked cash.</div>
+      <div class="section-heading spaced"><div><div class="eyebrow">EXECUTION DISCIPLINE</div><h3>Before pressing Place Bet</h3></div></div>
+      <div class="checklist-card"><div><b>1</b><span><strong>BET LOCKED</strong><small>No lock = no bet.</small></span></div><div><b>2</b><span><strong>Exact horse + WIN market</strong><small>Do not substitute another runner or market.</small></span></div><div><b>3</b><span><strong>Price ≥ MIN EXEC</strong><small>Shop legitimate fixed prices for the same selection.</small></span></div><div><b>4</b><span><strong>Accepted stake ≤ model stake</strong><small>Record partial fills honestly.</small></span></div><div><b>5</b><span><strong>Record the real fill</strong><small>Bookmaker, accepted price and accepted stake.</small></span></div></div>
     </section>
 
-    <section class="panel" data-panel="hk">
-      <div class="section-heading"><div><div class="eyebrow">RESEARCH</div><h3>Hong Kong</h3></div><span class="pill research">NOT PRODUCTION</span></div>
-      <div class="model-card"><div class="model-title" id="hkModelName">R23 PLACE BACK</div><p id="hkModelNote"></p><div class="danger-box">Research only. Real executable PLACE prices still need validation.</div></div>
-      <div id="hkMeeting" class="stack spaced"></div>
-    </section>
-
-    <section class="panel" data-panel="money">
-      <div class="section-heading"><div><div class="eyebrow">SCENARIO</div><h3>Stake calculator</h3></div></div>
-      <label class="stake-control">Flat stake per qualifying bet (A$)<input id="stakeInput" type="number" min="1" max="100000" step="50" inputmode="decimal"></label>
-      <div class="kpi-grid">
-        <div class="kpi"><span>AU historical-equivalent</span><strong id="auProjection">—</strong><small>flat-stake scaling proxy / year</small></div>
-        <div class="kpi"><span>HK model-equivalent</span><strong id="hkProjection">—</strong><small>research only / year</small></div>
-        <div class="kpi"><span>Combined model-equivalent</span><strong id="combinedProjection">—</strong><small>research scaling only</small></div>
-        <div class="kpi danger"><span>HK proxy max drawdown</span><strong id="hkDrawdown">—</strong><small>not a limit</small></div>
-      </div>
-      <div class="danger-box">These are scaling scenarios, not income promises. Use the Stats tab for the champion safe-floor planning replay. Do not treat the 30% expansion or Hong Kong research as live income.</div>
+    <section class="panel" data-panel="research">
+      <div class="section-heading"><div><div class="eyebrow">SHADOW ONLY</div><h3>Research lab</h3></div><span class="pill research">DO NOT BET</span></div>
+      <div class="research-card"><div><span>30% non-core expansion</span><strong id="statsShadowBets">— bets/yr</strong></div><div><span>Hindsight ROI</span><strong id="statsShadowRoi">—</strong></div><div><span>Hindsight avg FY</span><strong id="statsShadowFy">—</strong></div></div>
+      <div class="danger-box" id="statsShadowWarning">The 30% layer is shadow-only and failed live promotion.</div>
+      <div class="section-heading spaced"><div><div class="eyebrow">HONG KONG</div><h3 id="hkModelName">R23 PLACE BACK</h3></div><span class="pill research">RESEARCH</span></div>
+      <div class="model-card"><p id="hkModelNote"></p><div class="danger-box">Synthetic historical PLACE prices prevent production approval. No real-money Hong Kong action.</div></div><div id="hkMeeting" class="stack spaced"></div>
     </section>
 
     <section class="panel" data-panel="health">
-      <div class="section-heading"><div><div class="eyebrow">SYSTEM HEALTH</div><h3>What is trustworthy?</h3></div></div>
+      <div class="section-heading"><div><div class="eyebrow">SYSTEM HEALTH</div><h3>Can I trust what I see?</h3></div><span class="pill neutral" id="networkPill">ONLINE</span></div>
       <div id="healthRows" class="stack"></div>
-      <div class="rule-box spaced"><strong>Source of truth:</strong> a real Australian wager requires a V11 CORE BET LOCKED signal and the actual executable price/risk controls to pass. The phone app shows the preferred fixed-safe-floor policy; the desktop package must receive the matching post-target update before automatic enforcement.</div>
-      <button class="secondary-button" id="clearLogButton" type="button">Clear phone execution log</button>
+      <div class="rule-box spaced"><strong>Source of truth:</strong> only a published V11 CORE BET LOCKED signal plus executable price and risk controls creates a real Australian wager.</div>
+      <div class="health-actions"><button class="secondary-button" id="clearLogButton" type="button">Clear phone execution log</button><button class="secondary-button" id="forceUpdateButton" type="button">Check app update</button></div>
     </section>
 
-    <section class="install-card card" id="installHelp"><div class="eyebrow">INSTALL ON IPHONE</div><strong>Safari → Share → Add to Home Screen</strong><span>You only do this once. Future updates load into the same app.</span></section>
-    <footer><span>MITCHELL Racing companion</span><span id="appVersion">v—</span></footer>
+    <section class="install-card card" id="installHelp"><div class="eyebrow">INSTALL ON IPHONE</div><strong>Safari → Share → Add to Home Screen</strong><span>Installed mode keeps the shell available offline and refreshes the feed when a connection returns.</span></section>
+    <footer><span>MITCHELL Racing · UI <b id="uiVersion">v0.8.0</b></span><span id="appVersion">feed v—</span></footer>
   </main>
+  <div class="sticky-command wait" id="stickyCommand" aria-live="polite"><div><span id="stickyKicker">REAL MONEY</span><strong id="stickyText">WAIT — no BET LOCKED</strong></div><button id="stickyAction" type="button">Open command</button></div>
   <script src="./app.js" defer></script>
 </body>
 </html>
