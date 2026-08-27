@@ -2,269 +2,201 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const state = { data: null, stats: null, refreshing: false };
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const esc = value => String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-  const pct = (value, d = 1) => Number.isFinite(Number(value)) ? `${Number(value).toFixed(d)}%` : '—';
+  const esc = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+  const state = { data: null, stats: null, loading: false };
+  const LOCK_STALE_MINUTES = 90;
+
   const num = value => Number.isFinite(Number(value)) ? Number(value) : null;
 
-  function statusClass(value) {
-    const s = String(value || '').toUpperCase();
-    if (s.includes('POTENTIAL') || s.includes('GREEN') || s.includes('PRODUCTION') || s.includes('LOCKED') || s.includes('BEST EVIDENCED') || s.includes('PREFERRED') || s.includes('CHAMPION') || s === 'WATCH') return 'green';
-    if (s.includes('NO CURRENT') || s.includes('NO BET') || s.includes('RED') || s.includes('BLOCK')) return 'red';
-    if (s.includes('RESEARCH') || s.includes('SHADOW')) return 'research';
-    return 'wait';
-  }
-
-  function formatDateOnly(v) {
-    if (!v) return '';
-    const [y, m, d] = String(v).split('-').map(Number);
-    if (!y || !m || !d) return String(v);
-    return new Intl.DateTimeFormat('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, d)));
-  }
-
-  function formatUpdated(v) {
-    const d = new Date(v);
+  function formatUpdated(value) {
+    const d = new Date(value);
     if (Number.isNaN(d.getTime())) return 'Update time unavailable';
-    return 'Updated ' + new Intl.DateTimeFormat('en-AU', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Australia/Perth' }).format(d) + ' Perth';
+    return new Intl.DateTimeFormat('en-AU', {
+      weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Australia/Perth'
+    }).format(d) + ' Perth';
   }
 
-  function renderMeeting(m) {
-    return `<div class="meeting-row"><div class="meeting-main"><strong>${esc(m.region)}</strong><div class="meta">${esc(m.venue)}${m.date ? ' · ' + esc(formatDateOnly(m.date)) : ''}</div></div><div class="meeting-side"><span class="code">${esc(m.code)}</span><span class="pill ${statusClass(m.status)}">${esc(m.status)}</span></div></div>`;
+  function feedAgeMinutes(value) {
+    const t = new Date(value).getTime();
+    if (!Number.isFinite(t)) return Infinity;
+    return Math.max(0, (Date.now() - t) / 60000);
   }
 
-  function renderLockedBet(b) {
-    const stake = num(b.stakeAud) || 0;
-    const min = num(b.minExec) || 0;
-    return `<div class="bet-row"><div class="bet-main"><strong>${esc(b.race)} · ${esc(b.horse)}</strong><div class="meta">${esc(b.venue || b.region || '')}${b.jumpTime ? ' · ' + esc(b.jumpTime) : ''}${b.note ? ' · ' + esc(b.note) : ''}</div></div><div class="bet-side"><span class="code">${stake > 0 ? money.format(stake) : 'STAKE PENDING'}</span><span class="pill ${statusClass(b.status || 'BET LOCKED')}">${min > 0 ? 'MIN ' + min.toFixed(2) : esc(b.status || 'BET LOCKED')}</span></div></div>`;
+  function isFreshEnoughForLockedBet(data) {
+    return navigator.onLine && feedAgeMinutes(data?.updatedAt) <= LOCK_STALE_MINUTES;
   }
 
-  function renderPotentialBet(i) {
-    const st = num(i.state), gate = num(i.priceGate) || 0, core = num(i.coreBaseReferenceAud) || 0;
-    const n = num(i.histN), wins = num(i.histWins), wr = num(i.histWinRatePct), pu = num(i.histProfitUnits), roi = num(i.histRoiPct), avg = num(i.averageOdds);
-    return `<div class="potential-card"><div class="potential-head"><div class="bet-main"><strong>${esc(i.race)} · ${esc(i.provisionalHorse || 'Favourite TBC')}</strong><div class="meta">${esc(i.venue || i.region || '')} · state ${st ?? '—'} · ${esc(i.qualifyingKey || '')}</div></div><div class="bet-side"><span class="code">${core > 0 ? 'CORE REF ' + money.format(core) : 'V11 STATE'}</span><span class="pill wait">${gate > 0 ? '$' + gate.toFixed(2) + '+ screen' : 'PRICE TBC'}</span></div></div><div class="state-stat-grid"><div><span>Hist bets</span><strong>${n ?? '—'}</strong></div><div><span>Wins</span><strong>${wins ?? '—'}</strong></div><div><span>Win rate</span><strong>${pct(wr)}</strong></div><div><span>Hist ROI</span><strong class="${roi >= 0 ? 'positive-text' : 'negative-text'}">${pct(roi)}</strong></div><div><span>Hist P/L</span><strong class="${pu >= 0 ? 'positive-text' : 'negative-text'}">${pu === null ? '—' : (pu >= 0 ? '+' : '') + pu.toFixed(1) + 'u'}</strong></div><div><span>Avg odds</span><strong>${avg && avg > 0 ? avg.toFixed(2) : '—'}</strong></div></div>${i.marketStatus ? `<div class="meta evidence-line">${esc(i.marketStatus)}</div>` : ''}${i.why ? `<div class="meta why-line">${esc(i.why)}</div>` : ''}</div>`;
+  function lockedInstruction(b) {
+    const stake = num(b.stakeAud) ?? num(b.stake) ?? 0;
+    const min = num(b.minExec) ?? num(b.minPrice) ?? num(b.priceGate) ?? 3;
+    const horse = b.horse || b.selection || 'Horse TBC';
+    const race = b.race || b.code || 'Race';
+    const venue = b.venue || b.region || '';
+    const jump = b.jumpTime || b.time || '';
+    return `
+      <article class="locked-bet">
+        <div class="bet-badge">BET THIS</div>
+        <div class="race-line">${esc(race)}${venue ? ' · ' + esc(venue) : ''}${jump ? ' · ' + esc(jump) : ''}</div>
+        <div class="horse-name">${esc(horse)}</div>
+        <div class="bet-numbers">
+          <div><span>STAKE</span><strong>${stake > 0 ? money.format(stake) : 'WAIT FOR STAKE'}</strong></div>
+          <div><span>MIN ODDS</span><strong>${min > 0 ? '$' + min.toFixed(2) : '$3.00'}</strong></div>
+        </div>
+        <div class="bet-rule">Fixed WIN market · exact horse · never exceed the model stake.</div>
+      </article>`;
   }
 
-  function renderReviewRow(r) {
-    const current = String(r.currentStatus || 'NO CURRENT POTENTIAL').toUpperCase();
-    const cls = statusClass(current), sroi = num(r.snapshotRoiPct), avg = num(r.snapshotAverageOdds), stake = num(r.currentReferenceStakeAud);
-    const currentState = num(r.currentState), snapState = num(r.snapshotState), n = num(r.snapshotBets), wr = num(r.snapshotWinRatePct);
-    const statusLabel = current.includes('POTENTIAL') ? 'POTENTIAL 29 AUG' : 'NO CURRENT POTENTIAL';
-    const stateLabel = currentState !== null ? `STATE ${currentState}` : 'STATE NOT RECONCILED';
-    return `<div class="review-card review-flat ${cls === 'green' ? 'review-active' : ''}"><div class="review-flat-head"><div class="review-summary-main"><strong>${esc(r.race)}</strong><span class="review-action">${esc(stateLabel)}</span></div><div class="review-summary-side"><span class="pill ${cls}">${esc(statusLabel)}</span></div></div><div class="review-body review-body-flat"><div class="review-current"><span>Current planning state</span><strong>${currentState !== null ? 'State ' + currentState : 'Not independently reconciled'}</strong>${stake ? `<small>Core reference ${money.format(stake)}</small>` : ''}</div><div class="state-stat-grid review-stats review-stats-flat"><div><span>22 Aug state</span><strong>${snapState ?? '—'}</strong></div><div><span>Hist bets</span><strong>${n ?? '—'}</strong></div><div><span>Win rate</span><strong>${pct(wr)}</strong></div><div><span>Avg odds</span><strong>${avg !== null ? avg.toFixed(2) : '—'}</strong></div><div><span>Hist ROI</span><strong class="${sroi >= 0 ? 'positive-text' : 'negative-text'}">${pct(sroi, 0)}</strong></div><div><span>22 Aug action</span><strong>${esc(r.snapshotAction || 'No Bet')}</strong></div></div><div class="review-why review-why-flat"><strong>Why now:</strong> ${esc(r.why || 'Not on the V11 core watchlist. Shadow-only signals are not wagers.')}</div></div></div>`;
+  function watchCard(item) {
+    const race = item.race || item.code || 'Race TBC';
+    const horse = item.provisionalHorse || item.horse || 'Favourite TBC';
+    const venue = item.venue || item.region || '';
+    const stake = num(item.coreBaseReferenceAud);
+    return `
+      <article class="watch-card">
+        <div>
+          <div class="watch-race">${esc(race)}${venue ? ' · ' + esc(venue) : ''}</div>
+          <strong>${esc(horse)}</strong>
+          <span>${stake ? 'Core reference ' + money.format(stake) + ' · ' : ''}waiting for final lock</span>
+        </div>
+        <div class="not-bet">NOT A BET</div>
+      </article>`;
   }
 
-  function renderSeason(data) {
-    const s = data.season || {}, p = num(s.modelProfitAud), t = num(s.modelTurnoverAud), b = num(s.modelBets), w = num(s.modelWins), l = num(s.modelLosses), roi = num(s.modelRoiPct);
-    $('seasonPill').textContent = s.status || 'MODEL';
-    $('seasonPill').className = 'pill wait';
-    $('seasonProfit').textContent = p === null ? '—' : money.format(p);
-    $('seasonProfit').className = `season-profit ${p > 0 ? 'positive' : p < 0 ? 'negative' : ''}`;
-    $('seasonCaption').textContent = `${s.fy || 'Current FY'} model P/L${s.modelThrough ? ' through ' + formatDateOnly(s.modelThrough) : ''}`;
-    $('seasonRoi').textContent = pct(roi);
-    $('seasonBets').textContent = b ?? '—';
-    $('seasonTurnover').textContent = t === null ? '—' : money.format(t);
-    $('seasonRecord').textContent = w !== null && l !== null ? `${w} / ${l}` : '—';
-    $('cashStatus').innerHTML = `<strong>Actual cash P/L:</strong> ${esc(s.actualCashStatus || 'NOT VERIFIED')}`;
-    $('seasonNote').textContent = s.note || '';
+  function setDecision(mode, title, message, kicker, bottomText) {
+    const card = $('decisionCard');
+    const bottom = $('bottomCommand');
+    card.className = `decision-card ${mode}`;
+    bottom.className = `bottom-command ${mode}`;
+    $('decisionKicker').textContent = kicker;
+    $('decisionTitle').textContent = title;
+    $('decisionMessage').textContent = message;
+    $('bottomLabel').textContent = kicker;
+    $('bottomText').textContent = bottomText;
   }
 
-  function renderStats(stats) {
-    state.stats = stats;
-    const strategy = stats.strategy || {}, h = stats.historical || {}, ex = stats.execution || {}, v = stats.safeFloor || stats.v37 || {}, c = stats.challenger || {}, e = stats.evidence || {};
-    $('statsSystemPill').textContent = strategy.status || 'PREFERRED CHAMPION';
-    $('statsSystemPill').className = `pill ${statusClass(strategy.status)}`;
-    $('statsSystemName').textContent = strategy.name || 'V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION';
-    $('statsObjective').textContent = strategy.objective || '';
-    $('statsSystemRule').textContent = strategy.rule || '';
-    $('statsNext12m').textContent = num(v.next12mPlanningMeanAud) === null ? '—' : money.format(v.next12mPlanningMeanAud);
-    $('statsV37Mean').textContent = num(v.meanAud) === null ? '—' : money.format(v.meanAud);
-    $('statsV37Median').textContent = num(v.medianAud) === null ? '—' : money.format(v.medianAud);
-    $('statsV37Positive').textContent = num(v.positiveYears) !== null && num(v.targetYears) !== null ? `${v.positiveYears}/${v.targetYears} positive historical years under 5% stress` : '—';
-    $('statsHistAvgFy').textContent = num(h.avgCompletedFyAud) === null ? '—' : money.format(h.avgCompletedFyAud);
-    $('statsHistRoi').textContent = pct(h.roiPct);
-    $('statsBetsYear').textContent = num(h.betsPerYear) === null ? '—' : Number(h.betsPerYear).toFixed(1);
-    $('statsTotalBets').textContent = num(h.bets) === null ? '—' : Math.round(h.bets).toLocaleString('en-AU');
-    $('statsHistProfit').textContent = num(h.totalProfitAud) === null ? '—' : money.format(h.totalProfitAud);
-    $('statsHistTurnover').textContent = num(h.turnoverAud) === null ? '—' : money.format(h.turnoverAud);
-    $('statsRecordedDd').textContent = num(h.recordedMaxDrawdownAud) === null ? '—' : money.format(h.recordedMaxDrawdownAud);
-    $('statsStressDd').textContent = num(h.reorderStressMaxDrawdownAud) === null ? '—' : money.format(h.reorderStressMaxDrawdownAud);
-    $('statsStartAvg').textContent = num(h.startAug10AvgAud) === null ? '—' : money.format(h.startAug10AvgAud);
-    $('statsWorseAvg').textContent = num(ex.fivePctWorseStartAvgAud) === null ? '—' : money.format(ex.fivePctWorseStartAvgAud);
-    $('statsExecutionCost').textContent = num(ex.executionSensitivityAud) === null ? '—' : money.format(ex.executionSensitivityAud) + '/yr';
-    $('statsExecutionMessage').textContent = ex.message || '';
-    $('statsShadowBets').textContent = num(c.approxBetsPerYear) === null ? '—' : Number(c.approxBetsPerYear).toFixed(1);
-    $('statsShadowRoi').textContent = pct(c.hindsightRoiPct);
-    $('statsShadowFy').textContent = num(c.hindsightAvgFyAud) === null ? '—' : money.format(c.hindsightAvgFyAud);
-    $('statsShadowWarning').textContent = c.warning || 'Shadow research is not a live wager instruction.';
-    const notes = [
-      ['Live choice', strategy.selectionChange || 'V11 core remains the live selection layer.'],
-      ['Historical cutoff', e.historicalCutoff || '—'],
-      ['Planning', e.planningNotPromise || 'Historical/model planning numbers are not guarantees.'],
-      ['Banked cash', e.cashRule || 'Use accepted stake, accepted price, charges and settlement.']
-    ];
-    if (e.desktopBoundary) notes.push(['Desktop package', e.desktopBoundary]);
-    $('statsEvidenceNotes').innerHTML = notes.map(([a, b]) => `<div class="stats-note"><strong>${esc(a)}</strong><span>${esc(b)}</span></div>`).join('');
-    if ($('auModelName')) $('auModelName').textContent = strategy.name || $('auModelName').textContent;
-    if ($('auModelNote')) $('auModelNote').textContent = strategy.rule || $('auModelNote').textContent;
-    if (stats.appVersion) $('appVersion').textContent = `v${stats.appVersion}`;
-  }
-
-  function renderData(data) {
-    state.data = data;
-    $('weekLabel').textContent = data.weekLabel || 'Current racing week';
-    $('overallStatus').textContent = data.overallStatus || 'WAIT';
-    $('overallMessage').textContent = data.overallMessage || '';
-    $('productionRule').textContent = data.productionRule || '';
-    $('updatedAt').textContent = formatUpdated(data.updatedAt);
-    $('appVersion').textContent = `v${data.appVersion || '0.1.0'}`;
-    const cls = statusClass(data.overallStatus);
-    $('statusDot').className = `status-dot ${cls}`;
-    $('overallStatus').className = `status-label ${cls}`;
-    renderSeason(data);
-
+  function renderDecision(data) {
     const locked = Array.isArray(data.lockedBets) ? data.lockedBets : [];
-    $('lockedBets').innerHTML = locked.map(renderLockedBet).join('');
-    $('noLockedBets').hidden = locked.length > 0;
-    $('actionPill').textContent = locked.length ? `${locked.length} LOCKED` : 'NO LOCK YET';
-    $('actionPill').className = `pill ${locked.length ? 'green' : 'wait'}`;
+    const fresh = isFreshEnoughForLockedBet(data);
+    $('lockedBets').innerHTML = '';
 
-    const potential = Array.isArray(data.watchlist) ? data.watchlist : [];
-    $('potentialBets').innerHTML = potential.map(renderPotentialBet).join('');
-    $('auPotentialBets').innerHTML = potential.length ? potential.map(renderPotentialBet).join('') : '<div class="empty-state"><strong>No current Australian potential bets.</strong></div>';
-    $('noPotentialBets').hidden = potential.length > 0;
-    $('potentialPill').textContent = potential.length ? `${potential.length} POTENTIAL` : 'NONE';
-    $('potentialPill').className = `pill ${potential.length ? 'wait' : 'red'}`;
+    if (locked.length && !fresh) {
+      setDecision(
+        'blocked',
+        'DO NOT BET',
+        navigator.onLine ? 'A locked signal exists, but the feed is too old. Refresh before risking money.' : 'You are offline. A locked signal must be re-verified online before betting.',
+        'STOP — REFRESH',
+        'Blocked until the latest locked signal is verified.'
+      );
+      $('lockedBets').innerHTML = locked.map(lockedInstruction).join('');
+      return;
+    }
 
-    const review = Array.isArray(data.streamReview) ? data.streamReview : [];
-    $('reviewBoard').innerHTML = review.length ? review.map(renderReviewRow).join('') : '<div class="empty-state"><strong>Stream review unavailable.</strong></div>';
-    $('reviewPill').textContent = `${review.length || 0} STREAMS · ALL OPEN`;
+    if (locked.length === 0) {
+      setDecision(
+        'no-bet',
+        'DO NOT BET',
+        'There is no BET LOCKED signal right now. Do nothing.',
+        'NO BET',
+        'No locked wager right now.'
+      );
+      return;
+    }
 
-    const meetings = Array.isArray(data.meetings) ? data.meetings : [];
-    $('meetings').innerHTML = meetings.map(renderMeeting).join('');
-    $('auMeetings').innerHTML = meetings.filter(m => String(m.region).toLowerCase() !== 'hong kong').map(renderMeeting).join('');
-    $('hkMeeting').innerHTML = meetings.filter(m => String(m.region).toLowerCase() === 'hong kong').map(renderMeeting).join('') || '<div class="empty-state"><strong>No Hong Kong meeting published.</strong></div>';
+    setDecision(
+      'bet-now',
+      locked.length === 1 ? 'BET NOW' : `BET ${locked.length} RACES`,
+      'Only place the wager(s) shown below. Do not add anything else.',
+      'BET LOCKED',
+      locked.length === 1 ? 'A locked bet is ready — use the exact instruction above.' : `${locked.length} locked bets are ready.`
+    );
+    $('lockedBets').innerHTML = locked.map(lockedInstruction).join('');
+  }
 
-    const au = data.models?.australia || {}, hk = data.models?.hongKong || {};
-    $('auModelName').textContent = au.name || 'V11';
-    $('auModelNote').textContent = au.note || '';
-    $('hkModelName').textContent = hk.name || 'R23 PLACE BACK';
-    $('hkModelNote').textContent = hk.note || '';
+  function renderWatchlist(data) {
+    const items = Array.isArray(data.watchlist) ? data.watchlist : [];
+    $('watchCount').textContent = String(items.length);
+    $('watchlist').innerHTML = items.length
+      ? items.map(watchCard).join('')
+      : '<div class="empty-watch">Nothing close to a signal right now.</div>';
+  }
 
-    const stored = Number(localStorage.getItem('mitchellRacingStake'));
-    if (!$('stakeInput').value) $('stakeInput').value = String(stored > 0 ? stored : Number(data.stakeDefaultAud || 1000));
-    updateMoney();
+  function renderDetails(data, stats) {
+    $('weekLabel').textContent = data.weekLabel || 'Current racing week';
+    $('updatedAt').textContent = data.updatedAt ? 'Updated ' + formatUpdated(data.updatedAt) : 'Update time unavailable';
+    const age = feedAgeMinutes(data.updatedAt);
+    const feedText = !navigator.onLine ? 'OFFLINE' : Number.isFinite(age) ? (age < 2 ? 'LIVE · just updated' : `ONLINE · ${Math.floor(age)} min old`) : 'UNKNOWN';
+    $('freshness').textContent = feedText;
+    $('feedStatus').textContent = feedText;
 
-    const h = data.health || {};
-    const labels = [['App feed', h.appFeed || 'UNKNOWN'], ['Australia champion', h.auProduction || 'UNKNOWN'], ['Pre-race watchlist', h.watchlist || 'UNKNOWN'], ['21-stream review', h.reviewBoard || 'UNKNOWN'], ['FY ledger', h.seasonLedger || 'UNKNOWN'], ['Hong Kong', h.hkProduction || 'UNKNOWN'], ['Evidence boundary', h.source || 'Production dashboard is source of truth']];
-    $('healthRows').innerHTML = labels.map(([n, v]) => `<div class="health-row"><strong>${esc(n)}</strong><span class="health-value ${statusClass(v)}">${esc(v)}</span></div>`).join('');
-    if (state.stats) renderStats(state.stats);
+    const season = data.season || {};
+    const p = num(season.modelProfitAud);
+    $('seasonProfit').textContent = p === null ? '—' : money.format(p);
+
+    const h = stats?.historical || {};
+    $('histAvg').textContent = num(h.avgCompletedFyAud) === null ? '—' : money.format(h.avgCompletedFyAud);
+    $('histRoi').textContent = num(h.roiPct) === null ? '—' : Number(h.roiPct).toFixed(1) + '%';
+  }
+
+  async function fetchJson(path) {
+    const r = await fetch(`${path}?t=${Date.now()}`, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`${path} HTTP ${r.status}`);
+    return r.json();
   }
 
   async function loadData(manual = false) {
-    if (state.refreshing) return;
-    state.refreshing = true;
+    if (state.loading) return;
+    state.loading = true;
     $('refreshButton').disabled = true;
-    $('refreshState').textContent = manual ? 'Refreshing…' : 'Checking latest…';
+    $('bottomRefresh').disabled = true;
+    if (manual) $('freshness').textContent = 'Refreshing…';
+
     try {
-      const r = await fetch(`./current.json?t=${Date.now()}`, { cache: 'no-store' });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      renderData(await r.json());
+      const data = await fetchJson('./current.json');
+      state.data = data;
+      renderDecision(data);
+      renderWatchlist(data);
       try {
-        const sr = await fetch(`./stats.json?t=${Date.now()}`, { cache: 'no-store' });
-        if (sr.ok) renderStats(await sr.json());
-      } catch (se) {
-        console.warn('Stats feed unavailable', se);
+        state.stats = await fetchJson('./stats.json');
+      } catch (e) {
+        console.warn('Stats unavailable', e);
       }
-      $('refreshState').textContent = 'Latest loaded';
+      renderDetails(data, state.stats);
     } catch (e) {
       console.error(e);
-      $('refreshState').textContent = state.data ? 'Offline · showing last loaded state' : 'Could not load data';
+      if (state.data) {
+        renderDecision(state.data);
+        renderWatchlist(state.data);
+        renderDetails(state.data, state.stats);
+      } else {
+        setDecision('blocked', 'DO NOT BET', 'The app cannot verify the latest race-day feed.', 'FEED ERROR', 'No verified feed — do not bet.');
+        $('freshness').textContent = 'Could not load latest feed';
+        $('feedStatus').textContent = 'ERROR';
+      }
     } finally {
-      state.refreshing = false;
+      state.loading = false;
       $('refreshButton').disabled = false;
+      $('bottomRefresh').disabled = false;
     }
-  }
-
-  function updateMoney() {
-    if (!state.data) return;
-    let stake = Number($('stakeInput').value);
-    if (!Number.isFinite(stake) || stake < 1) stake = 1;
-    if (stake > 100000) stake = 100000;
-    $('stakeInput').value = String(Math.round(stake));
-    localStorage.setItem('mitchellRacingStake', String(stake));
-    const au = Number(state.data.models?.australia?.historicalEquivalentProfitPer1000Stake || 0) * stake / 1000;
-    const hk = Number(state.data.models?.hongKong?.modelEquivalentProfitPer1000Stake || 0) * stake / 1000;
-    const dd = Number(state.data.models?.hongKong?.proxyMaxDrawdownUnits || 0) * stake;
-    $('auProjection').textContent = money.format(au);
-    $('hkProjection').textContent = money.format(hk);
-    $('combinedProjection').textContent = money.format(au + hk);
-    $('hkDrawdown').textContent = money.format(dd);
-  }
-
-  function readLogs() {
-    try {
-      const x = JSON.parse(localStorage.getItem('mitchellRacingExecutionLog') || '[]');
-      return Array.isArray(x) ? x : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveLogs(x) {
-    localStorage.setItem('mitchellRacingExecutionLog', JSON.stringify(x.slice(-100)));
-  }
-
-  function renderLogs() {
-    const logs = readLogs().slice().reverse();
-    $('executionLog').innerHTML = logs.length ? logs.map(i => `<div class="log-row"><div class="log-main"><strong>${esc(i.race)} · ${esc(i.horse)}</strong><div class="meta">${esc(i.time)}</div></div><div class="meeting-side"><span class="code">${money.format(i.stake)}</span><span class="pill green">@ ${Number(i.price).toFixed(2)}</span></div></div>`).join('') : '<div class="empty-state"><strong>No execution saved on this phone.</strong></div>';
-  }
-
-  function setupTabs() {
-    document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
-      const n = b.dataset.tab;
-      document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === b));
-      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.dataset.panel === n));
-    }));
-  }
-
-  function setupExecutionForm() {
-    $('executionForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const race = $('logRace').value.trim().toUpperCase(), horse = $('logHorse').value.trim(), price = Number($('logPrice').value), stake = Number($('logStake').value), m = $('formMessage');
-      m.className = 'form-message';
-      if (!race || !horse || !Number.isFinite(price) || price < 1.01 || !Number.isFinite(stake) || stake <= 0) {
-        m.textContent = 'Enter race, horse, accepted price and accepted stake.';
-        m.classList.add('error');
-        return;
-      }
-      const logs = readLogs();
-      logs.push({ race, horse, price, stake, time: new Date().toLocaleString('en-AU') });
-      saveLogs(logs);
-      $('executionForm').reset();
-      m.textContent = 'Execution saved on this phone.';
-      m.classList.add('success');
-      renderLogs();
-    });
-    $('clearLogButton').addEventListener('click', () => {
-      if (readLogs().length && window.confirm('Clear the execution log saved on this phone?')) {
-        localStorage.removeItem('mitchellRacingExecutionLog');
-        renderLogs();
-      }
-    });
   }
 
   function registerServiceWorker() {
-    if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.error));
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.error));
+    }
   }
 
-  setupTabs();
-  setupExecutionForm();
-  renderLogs();
   $('refreshButton').addEventListener('click', () => loadData(true));
-  $('stakeInput').addEventListener('change', updateMoney);
-  $('stakeInput').addEventListener('blur', updateMoney);
+  $('bottomRefresh').addEventListener('click', () => loadData(true));
+  window.addEventListener('online', () => loadData(true));
+  window.addEventListener('offline', () => state.data && renderDecision(state.data));
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') loadData(false);
+  });
+
   registerServiceWorker();
   loadData(false);
-  setInterval(() => { if (document.visibilityState === 'visible') loadData(false); }, 60000);
+  setInterval(() => {
+    if (document.visibilityState === 'visible') loadData(false);
+  }, 30000);
 })();
