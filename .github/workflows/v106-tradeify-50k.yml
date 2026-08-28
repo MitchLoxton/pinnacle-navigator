@@ -41,3 +41,5 @@ jobs:
             v106_tradeify_50k_v2.log
             v106_tradeify_50k_v2_results.json
           if-no-files-found: warn
+
+# isolated research workflow; no deploy steps
