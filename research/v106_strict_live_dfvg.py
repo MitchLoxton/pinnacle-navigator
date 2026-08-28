@@ -13,7 +13,7 @@ import json
 import pandas as pd
 import v106_independent_12m as base
 
-
+# This audit deliberately prefers live-causality over matching a prettier legacy backtest.
 def main():
     base.KZ_START = (8, 5)
     base.KZ_END = (14, 30)
