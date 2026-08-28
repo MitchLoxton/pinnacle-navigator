@@ -40,13 +40,24 @@
       <span>If the big box above does not say <b>BET NOW</b>, do not place a bet. A price above $3.00 by itself is not enough.</span>
     </section>
 
+    <section class="simple-rule" style="display:block;padding:14px">
+      <strong style="display:block;font-size:13px;margin-bottom:8px">WHAT DOES “FINAL BET LOCKED” ACTUALLY MEAN?</strong>
+      <div style="display:grid;gap:7px;color:#d7e1ed;font-size:11px;line-height:1.45">
+        <div><b>Before race day:</b> the odds are only a preview. Do not bet just because they are above $3.00.</div>
+        <div><b>Near the jump:</b> the live engine re-checks the current favourite and the best fixed price you can actually obtain.</div>
+        <div><b>V11 recalculates:</b> the race/state must still qualify and the V11 stake/risk controls are applied to produce the FINAL STAKE.</div>
+        <div><b>Final trigger:</b> if the live price is at least $3.00, all safety/risk checks pass, and the FINAL STAKE is greater than A$0, the engine creates <span style="color:#27dd87;font-weight:950">BET LOCKED</span>. That is when the app turns green and tells you exactly what to place.</div>
+        <div style="margin-top:2px;padding:9px 10px;border-radius:10px;background:#162338;border:1px solid #304761"><b>So “BET LOCKED” is not a mystery extra condition or a button.</b> It is the output of the final race-day V11 calculation near the jump.</div>
+      </div>
+    </section>
+
     <details class="watch-details" id="watchDetails" open>
       <summary>
         <div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking watchlist…</strong></div>
         <span class="not-bet">GATE CHECKS</span>
       </summary>
       <div class="watch-body">
-        <p>Each possible race shows exactly what has passed and what is still missing. The final gate is always BET LOCKED.</p>
+        <p>Each possible race shows exactly what has passed and what is still missing. The final gate is the near-jump V11 calculation described above.</p>
         <div id="watchlist" class="watch-list"></div>
       </div>
     </details>
@@ -56,7 +67,7 @@
       <div class="details-body">
         <div class="mini-grid">
           <div><span>System</span><strong>V11 CORE</strong></div>
-          <div><span>Real-money trigger</span><strong>BET LOCKED only</strong></div>
+          <div><span>Real-money trigger</span><strong>FINAL STAKE &gt; A$0 near jump</strong></div>
           <div><span>Minimum live price</span><strong>$3.00+</strong></div>
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
@@ -71,7 +82,7 @@
 
     <footer>
       <span id="updatedAt">Not updated yet</span>
-      <span>Race-Day v1.1</span>
+      <span>Race-Day v1.2</span>
     </footer>
   </main>
 
