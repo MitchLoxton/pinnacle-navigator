@@ -1,0 +1,63 @@
+name: V106 strict live-causal DFVG audit
+
+on:
+  push:
+    branches:
+      - research/v106-independent-12m-20260828
+    paths:
+      - 'research/v106_strict_live_dfvg.py'
+      - '.github/workflows/v106-strict-live-dfvg.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip && pip install numpy pandas
+      - run: git clone --depth 1 https://github.com/cayao2012/ICT-bot.git /tmp/v106
+      - name: Patch DFVG availability to strict live causality
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('/tmp/v106/backtest_entry_modes.py')
+          s = p.read_text()
+          old = 'zones.append({"top": ft, "bot": fb, "ce": (ft+fb)/2, "type": "disp_fvg"})'
+          new = 'zones.append({"top": ft, "bot": fb, "ce": (ft+fb)/2, "type": "disp_fvg", "available_ns": b5[k+1]["time_ns"] + 5 * NS_MIN})'
+          if s.count(old) != 2:
+              raise SystemExit(f'expected 2 zone append sites, got {s.count(old)}')
+          s = s.replace(old, new)
+          old2 = '''        for zi, z in enumerate(zones[:4]):\n            if entries_from_this >= 2: break\n            first_touch = None\n            for k in range(len(b1)):\n                c1 = b1[k]\n                if c1["time_ns"] < disp_end_ns: continue'''
+          new2 = '''        for zi, z in enumerate(zones[:4]):\n            if entries_from_this >= 2: break\n            first_touch = None\n            zone_start_ns = max(disp_end_ns, z.get("available_ns", disp_end_ns))\n            for k in range(len(b1)):\n                c1 = b1[k]\n                if c1["time_ns"] < zone_start_ns: continue'''
+          if old2 not in s:
+              raise SystemExit('touch-scan patch site not found')
+          s = s.replace(old2, new2, 1)
+          p.write_text(s)
+          print('strict DFVG availability patch applied')
+          PY
+      - name: Fetch independent data
+        run: |
+          curl -L --fail --retry 3 -o /tmp/Dataset_NQ_1min_2022_2025.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/Dataset_NQ_1min_2022_2025.csv
+          curl -L --fail --retry 3 -o /tmp/mnq_2026_1min.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/mnq_2026_1min.csv
+      - name: Run strict audit
+        env:
+          V106_DIR: /tmp/v106
+          NQ_2025: /tmp/Dataset_NQ_1min_2022_2025.csv
+          NQ_2026: /tmp/mnq_2026_1min.csv
+        run: python research/v106_strict_live_dfvg.py | tee v106_strict_live_dfvg.log
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v106-strict-live-dfvg
+          path: |
+            v106_strict_live_dfvg.log
+            v106_strict_live_dfvg_results.json
+          if-no-files-found: warn
