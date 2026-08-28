@@ -31,6 +31,27 @@ jobs:
       - name: Fetch frozen public strategy source
         run: git clone --depth 1 https://github.com/s583381747/nq-quant.git /tmp/nq-quant
 
+      - name: Restore public-engine compatibility class
+        run: |
+          # Current upstream imports experiments.unified_engine.UnifiedZone but no
+          # longer ships that historical module. Recreate only the tiny data class
+          # consumed by unified_engine_1m; no strategy logic is changed.
+          cat > /tmp/nq-quant/experiments/unified_engine.py <<'PY'
+          from dataclasses import dataclass
+
+          @dataclass
+          class UnifiedZone:
+              direction: int
+              top: float
+              bottom: float
+              size: float
+              birth_bar: int
+              birth_atr: float
+              tier: int
+              sweep_range_atr: float = 0.0
+              used: bool = False
+          PY
+
       - name: Fetch independent NQ one-minute history
         run: |
           curl -L --fail --retry 3 -o /tmp/Dataset_NQ_1min_2022_2025.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/Dataset_NQ_1min_2022_2025.csv
@@ -41,7 +62,10 @@ jobs:
           NQ_QUANT_DIR: /tmp/nq-quant
           NQ_CSV: /tmp/Dataset_NQ_1min_2022_2025.csv
           PROP5D_OUT: prop5d_nqquant_results
-        run: python research/prop5d_nqquant_partial_replay.py | tee prop5d_nqquant_replay.log
+        shell: bash
+        run: |
+          set -o pipefail
+          python research/prop5d_nqquant_partial_replay.py | tee prop5d_nqquant_replay.log
 
       - name: Upload exact chronology artifact
         if: always()
