@@ -37,16 +37,16 @@
 
     <section class="simple-rule">
       <strong>Only one rule matters:</strong>
-      <span>If the big box above does not say <b>BET NOW</b>, do not place a bet.</span>
+      <span>If the big box above does not say <b>BET NOW</b>, do not place a bet. A price above $3.00 by itself is not enough.</span>
     </section>
 
-    <details class="watch-details" id="watchDetails">
+    <details class="watch-details" id="watchDetails" open>
       <summary>
         <div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking watchlist…</strong></div>
-        <span class="not-bet">NOT BETS</span>
+        <span class="not-bet">GATE CHECKS</span>
       </summary>
       <div class="watch-body">
-        <p>These are only possible future signals. Never bet one from this section.</p>
+        <p>Each possible race shows exactly what has passed and what is still missing. The final gate is always BET LOCKED.</p>
         <div id="watchlist" class="watch-list"></div>
       </div>
     </details>
@@ -71,7 +71,7 @@
 
     <footer>
       <span id="updatedAt">Not updated yet</span>
-      <span>Race-Day v1.0</span>
+      <span>Race-Day v1.1</span>
     </footer>
   </main>
 
@@ -80,6 +80,6 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=12" defer></script>
+  <script src="./app.js?v=13" defer></script>
 </body>
 </html>

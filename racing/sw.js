@@ -1,5 +1,5 @@
-const CACHE = 'mitchell-racing-v12';
-const SHELL = ['./', './index.html', './styles.css?v=12', './app.js?v=12', './manifest.webmanifest', './icon.svg', './apple-touch-icon.png'];
+const CACHE = 'mitchell-racing-v13';
+const SHELL = ['./', './index.html', './styles.css?v=12', './app.js?v=13', './manifest.webmanifest', './icon.svg', './apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
