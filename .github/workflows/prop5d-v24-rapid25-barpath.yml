@@ -1,0 +1,54 @@
+name: PROP5D v0.24 Rapid25 barpath
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/prop5d-v02-exact-20260828
+    paths:
+      - research/prop5d_v24_mffu_rapid25_barpath.py
+      - .github/workflows/prop5d-v24-rapid25-barpath.yml
+
+jobs:
+  rapid25-barpath:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch frozen MPO source
+        run: |
+          git clone https://github.com/s-k-28/nq-es-trader-5k-payout.git /tmp/mpo
+          cd /tmp/mpo
+          git checkout 0ee4392d4e11b1ab9a110cc05122f70c3b8af667
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r /tmp/mpo/requirements.txt
+          pip install python-dateutil
+      - name: Reproduce historical and fresh MPO ledgers
+        run: |
+          cd /tmp/mpo
+          python run_multi.py --nq data/Dataset_NQ_1min_2022_2025.csv --csv /tmp/mpo_hist.csv | tee /tmp/mpo_hist.log
+          python run_multi.py --nq data/mnq_2026_1min.csv --history data/Dataset_NQ_1min_2022_2025.csv --csv /tmp/mpo_2026.csv | tee /tmp/mpo_2026.log
+      - name: Run exact Rapid25 one-minute HWM lifecycle
+        run: |
+          python research/prop5d_v24_mffu_rapid25_barpath.py \
+            --hist-trades /tmp/mpo_hist.csv \
+            --hist-bars /tmp/mpo/data/Dataset_NQ_1min_2022_2025.csv \
+            --fresh-trades /tmp/mpo_2026.csv \
+            --fresh-bars /tmp/mpo/data/mnq_2026_1min.csv \
+            --out /tmp/PROP5D_V24_RAPID25_BARPATH.json | tee /tmp/rapid25_barpath.log
+          cat /tmp/PROP5D_V24_RAPID25_BARPATH.json
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: prop5d-v24-rapid25-barpath
+          path: |
+            /tmp/PROP5D_V24_RAPID25_BARPATH.json
+            /tmp/rapid25_barpath.log
+            /tmp/mpo_hist.log
+            /tmp/mpo_2026.log
