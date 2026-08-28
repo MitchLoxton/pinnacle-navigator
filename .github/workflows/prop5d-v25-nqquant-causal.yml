@@ -1,0 +1,57 @@
+name: PROP5D v0.25 NQQuant strict causal
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/prop5d-v02-exact-20260828
+    paths:
+      - research/prop5d_v25_nqquant_causal_delay.py
+      - .github/workflows/prop5d-v25-nqquant-causal.yml
+
+jobs:
+  nqquant-causal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies and frozen public source
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas pyarrow pyyaml scipy
+          git clone --depth 1 https://github.com/s583381747/nq-quant.git /tmp/nq-quant
+          cat > /tmp/nq-quant/experiments/unified_engine.py <<'PY'
+          from dataclasses import dataclass
+          @dataclass
+          class UnifiedZone:
+              direction:int
+              top:float
+              bottom:float
+              size:float
+              birth_bar:int
+              birth_atr:float
+              tier:int
+              sweep_range_atr:float=0.0
+              used:bool=False
+          PY
+      - name: Fetch independent NQ minute history
+        run: |
+          curl -L --fail --retry 3 -o /tmp/nq.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/Dataset_NQ_1min_2022_2025.csv
+      - name: Run strict causal replay
+        env:
+          NQ_QUANT_DIR: /tmp/nq-quant
+          NQ_CSV: /tmp/nq.csv
+          PROP5D_OUT: /tmp/nqquant_causal
+        run: |
+          mkdir -p /tmp/nqquant_causal
+          python research/prop5d_v25_nqquant_causal_delay.py | tee /tmp/nqquant_causal.log
+          cat /tmp/nqquant_causal/nqquant_v4_independent_summary.json
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: prop5d-v25-nqquant-causal
+          path: |
+            /tmp/nqquant_causal/
+            /tmp/nqquant_causal.log
