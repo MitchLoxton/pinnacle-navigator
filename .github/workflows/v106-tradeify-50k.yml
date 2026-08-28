@@ -1,0 +1,43 @@
+name: V106 Tradeify 50K replay
+
+on:
+  push:
+    branches:
+      - research/v106-independent-12m-20260828
+    paths:
+      - 'research/v106_tradeify_50k_v2.py'
+      - '.github/workflows/v106-tradeify-50k.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip && pip install numpy pandas
+      - run: git clone --depth 1 https://github.com/cayao2012/ICT-bot.git /tmp/v106
+      - name: Fetch independent NQ data
+        run: |
+          curl -L --fail --retry 3 -o /tmp/Dataset_NQ_1min_2022_2025.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/Dataset_NQ_1min_2022_2025.csv
+          curl -L --fail --retry 3 -o /tmp/mnq_2026_1min.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/mnq_2026_1min.csv
+      - name: Replay Tradeify 50K accounts
+        env:
+          V106_DIR: /tmp/v106
+          NQ_2025: /tmp/Dataset_NQ_1min_2022_2025.csv
+          NQ_2026: /tmp/mnq_2026_1min.csv
+        run: python research/v106_tradeify_50k_v2.py | tee v106_tradeify_50k_v2.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v106-tradeify-50k-results
+          path: |
+            v106_tradeify_50k_v2.log
+            v106_tradeify_50k_v2_results.json
+          if-no-files-found: warn
