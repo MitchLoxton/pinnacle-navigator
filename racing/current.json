@@ -1,11 +1,11 @@
 {
   "schemaVersion": 6,
-  "appVersion": "0.7.0",
-  "updatedAt": "2026-08-26T19:08:00+08:00",
+  "appVersion": "0.7.1",
+  "updatedAt": "2026-08-28T13:34:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 29 August 2026",
   "overallStatus": "WATCHLIST",
-  "overallMessage": "SAT 29 AUG: preferred champion is V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION. Current race-level potentials remain PR2 Belmont R2 and SR6 Rosehill R6.",
+  "overallMessage": "SAT 29 AUG: fields are confirmed for the two V11 CORE watch races. Current market leaders are September Born in PR2 Belmont R2 and Street Artist in SR6 Rosehill R6. There are still 0 BET LOCKED wagers.",
   "productionRule": "CHAMPION POLICY: keep frozen V11 core selections/stakes before verified actual FY cash reaches A$100K. At A$100K, protect a fixed A$100K floor and release only rounded-down profit cushion above that floor after accepted open exposure. Every wager still needs BET LOCKED, best net executable price >= A$3.00 and the A$10,000 cap. The 30% extra-state layer is SHADOW ONLY — DO NOT BET it.",
   "stakeDefaultAud": 1000,
   "season": {
@@ -25,23 +25,23 @@
     "note": "FY scoreboard remains the auditable model-equivalent path through 8 Aug. The 30% expansion is not backfilled and is now shadow-only. The fixed safe-floor policy changes nothing before verified actual FY cash reaches A$100K."
   },
   "meetings": [
-    {"region":"Perth","code":"PR1-PR7","venue":"Belmont Park","date":"2026-08-29","status":"WATCH"},
-    {"region":"Sydney","code":"SR1-SR7","venue":"Rosehill Gardens","date":"2026-08-29","status":"WATCH"},
+    {"region":"Perth","code":"PR1-PR7","venue":"Belmont Park","date":"2026-08-29","status":"FIELDS CONFIRMED"},
+    {"region":"Sydney","code":"SR1-SR7","venue":"Rosehill Gardens","date":"2026-08-29","status":"FIELDS CONFIRMED"},
     {"region":"Melbourne","code":"MR1-MR7","venue":"Caulfield","date":"2026-08-29","status":"NO CURRENT POTENTIAL"},
     {"region":"Hong Kong","code":"HK","venue":"No meeting this week","date":null,"status":"NO BET"}
   ],
   "lockedBets": [],
   "watchlist": [
     {
-      "race":"PR2","region":"Perth","venue":"Belmont Park","date":"2026-08-29","state":4,"qualifyingKey":"PR2|4","modelPath":"V11 CORE","status":"POTENTIAL","provisionalHorse":"OFFICIAL FAVOURITE (TBC)","priceGate":3.0,"coreBaseReferenceAud":4000,"histN":21,"histWins":7,"histWinRatePct":33.3333333333,"histProfitUnits":5.8,"histRoiPct":27.619047619,"averageOdds":null,"marketStatus":"Horse and current executable price not yet verified","why":"V11 CORE potential. It becomes a wager only after BET LOCKED and best net executable price >= A$3.00."
+      "race":"PR2","region":"Perth","venue":"Belmont Park","date":"2026-08-29","state":4,"qualifyingKey":"PR2|4","modelPath":"V11 CORE","status":"POTENTIAL","fieldsConfirmed":true,"provisionalHorse":"SEPTEMBER BORN","currentMarketFavourite":"SEPTEMBER BORN","marketSnapshotPriceAud":2.80,"marketSnapshotAt":"2026-08-28T13:34:00+08:00","priceGate":3.0,"coreBaseReferenceAud":4000,"histN":21,"histWins":7,"histWinRatePct":33.3333333333,"histProfitUnits":5.8,"histRoiPct":27.619047619,"averageOdds":null,"marketStatus":"FIELDS CONFIRMED · current market favourite September Born around A$2.80 · currently below the A$3.00 gate · NOT LOCKED","fieldSourceUrl":"https://www.racingandsports.com.au/form-guide/thoroughbred/australia/belmont-park/2026-08-29/race-fields","marketSourceUrl":"https://www.sportsbet.com.au/horse-racing/australia-nz/belmont/race-2-10865975","why":"V11 CORE potential. The field and current market leader are now known, but the market can still move. At this snapshot the favourite is below the A$3.00 minimum. It becomes a wager only after BET LOCKED and a verified executable fixed price >= A$3.00."
     },
     {
-      "race":"SR6","region":"Sydney","venue":"Rosehill Gardens","date":"2026-08-29","state":5,"qualifyingKey":"SR6|5","modelPath":"V11 CORE","status":"POTENTIAL","provisionalHorse":"OFFICIAL FAVOURITE (TBC)","priceGate":3.0,"coreBaseReferenceAud":6000,"histN":23,"histWins":8,"histWinRatePct":34.7826086957,"histProfitUnits":7.2,"histRoiPct":31.3043478261,"averageOdds":null,"marketStatus":"Horse and current executable price not yet verified","why":"V11 CORE potential. It becomes a wager only after BET LOCKED and best net executable price >= A$3.00."
+      "race":"SR6","region":"Sydney","venue":"Rosehill Gardens","date":"2026-08-29","state":5,"qualifyingKey":"SR6|5","modelPath":"V11 CORE","status":"POTENTIAL","fieldsConfirmed":true,"provisionalHorse":"STREET ARTIST","currentMarketFavourite":"STREET ARTIST","marketSnapshotPriceAud":3.60,"marketSnapshotAt":"2026-08-28T13:34:00+08:00","priceGate":3.0,"coreBaseReferenceAud":6000,"histN":23,"histWins":8,"histWinRatePct":34.7826086957,"histProfitUnits":7.2,"histRoiPct":31.3043478261,"averageOdds":null,"marketStatus":"FIELDS CONFIRMED · Amazing Eagle and Ballet Encore scratched · current market favourite Street Artist around A$3.40-A$3.60 · NOT LOCKED","fieldSourceUrl":"https://mdata.racingnsw.com.au/FreeFields/Scratchings.aspx?Key=2026Aug29%2CNSW%2CRosehill+Gardens","marketSourceUrl":"https://www.oddschecker.com/horse-racing/2026-08-29-rosehill","why":"V11 CORE potential. The field and current market leader are now known and the current indicative price is above A$3.00, but the market can still move. It becomes a wager only after BET LOCKED and a verified executable fixed price >= A$3.00."
     }
   ],
   "streamReview": [
     {"race":"PR1","snapshotDate":"2026-08-22","snapshotState":3,"snapshotWinRatePct":27,"snapshotAverageOdds":2.61,"snapshotRoiPct":0,"snapshotBets":22,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":4,"currentReferenceStakeAud":null,"why":"Current state 4 is not a V11 core potential. Any 30% extra-state indication is shadow research only and must not be bet."},
-    {"race":"PR2","snapshotDate":"2026-08-22","snapshotState":3,"snapshotWinRatePct":33,"snapshotAverageOdds":2.73,"snapshotRoiPct":30,"snapshotBets":33,"snapshotAction":"No Bet","currentStatus":"POTENTIAL","currentState":4,"currentReferenceStakeAud":4000,"why":"CURRENT 29 AUG V11 CORE POTENTIAL. PR2|4 carries the A$4,000 core reference; favourite, executable price, readiness and risk controls still must pass before BET LOCKED."},
+    {"race":"PR2","snapshotDate":"2026-08-22","snapshotState":3,"snapshotWinRatePct":33,"snapshotAverageOdds":2.73,"snapshotRoiPct":30,"snapshotBets":33,"snapshotAction":"No Bet","currentStatus":"POTENTIAL","currentState":4,"currentReferenceStakeAud":4000,"why":"CURRENT 29 AUG V11 CORE POTENTIAL. PR2|4 carries the A$4,000 core reference; current market favourite is September Born, but BET LOCKED and an executable price >= A$3.00 are still required."},
     {"race":"PR3","snapshotDate":"2026-08-22","snapshotState":0,"snapshotWinRatePct":19,"snapshotAverageOdds":2.47,"snapshotRoiPct":-40,"snapshotBets":77,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":0,"currentReferenceStakeAud":null,"why":"Not a current V11 core potential. Snapshot stats are evidence only; shadow extras are DO NOT BET."},
     {"race":"PR4","snapshotDate":"2026-08-22","snapshotState":1,"snapshotWinRatePct":22,"snapshotAverageOdds":2.67,"snapshotRoiPct":-21,"snapshotBets":85,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":0,"currentReferenceStakeAud":null,"why":"Not a current V11 core potential. Snapshot stats are evidence only; shadow extras are DO NOT BET."},
     {"race":"PR5","snapshotDate":"2026-08-22","snapshotState":0,"snapshotWinRatePct":18,"snapshotAverageOdds":2.81,"snapshotRoiPct":-34,"snapshotBets":109,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":0,"currentReferenceStakeAud":null,"why":"Not a current V11 core potential. PR5|2 belongs only to the 30% shadow research layer."},
@@ -59,7 +59,7 @@
     {"race":"SR3","snapshotDate":"2026-08-22","snapshotState":2,"snapshotWinRatePct":35,"snapshotAverageOdds":2.87,"snapshotRoiPct":40,"snapshotBets":86,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":3,"currentReferenceStakeAud":null,"why":"The 22 Aug favourite loss moved SR3 to state 3. SR3|2 is tracked only in the 30% shadow layer and is not a real-money rule."},
     {"race":"SR4","snapshotDate":"2026-08-22","snapshotState":0,"snapshotWinRatePct":21,"snapshotAverageOdds":2.91,"snapshotRoiPct":-21,"snapshotBets":108,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":null,"currentReferenceStakeAud":null,"why":"Not a current V11 core potential. Shadow extras are DO NOT BET."},
     {"race":"SR5","snapshotDate":"2026-08-22","snapshotState":3,"snapshotWinRatePct":31,"snapshotAverageOdds":2.92,"snapshotRoiPct":21,"snapshotBets":55,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":0,"currentReferenceStakeAud":null,"why":"The 22 Aug favourite win reset SR5 to state 0. It is not a current V11 core potential."},
-    {"race":"SR6","snapshotDate":"2026-08-22","snapshotState":4,"snapshotWinRatePct":34,"snapshotAverageOdds":2.78,"snapshotRoiPct":28,"snapshotBets":35,"snapshotAction":"A$4,000 Yellow","currentStatus":"POTENTIAL","currentState":5,"currentReferenceStakeAud":6000,"why":"CURRENT 29 AUG V11 CORE POTENTIAL. SR6|5 carries the A$6,000 core reference; favourite, executable price, readiness and risk controls still must pass before BET LOCKED."},
+    {"race":"SR6","snapshotDate":"2026-08-22","snapshotState":4,"snapshotWinRatePct":34,"snapshotAverageOdds":2.78,"snapshotRoiPct":28,"snapshotBets":35,"snapshotAction":"A$4,000 Yellow","currentStatus":"POTENTIAL","currentState":5,"currentReferenceStakeAud":6000,"why":"CURRENT 29 AUG V11 CORE POTENTIAL. SR6|5 carries the A$6,000 core reference; current market favourite is Street Artist, but BET LOCKED and an executable price >= A$3.00 are still required."},
     {"race":"SR7","snapshotDate":"2026-08-22","snapshotState":0,"snapshotWinRatePct":31,"snapshotAverageOdds":3.03,"snapshotRoiPct":24,"snapshotBets":163,"snapshotAction":"No Bet","currentStatus":"NO CURRENT POTENTIAL","currentState":null,"currentReferenceStakeAud":null,"why":"Not a current V11 core potential. Shadow extras are DO NOT BET."}
   ],
   "expansionRule": {
@@ -101,10 +101,10 @@
   "health": {
     "appFeed": "GREEN",
     "auProduction": "PREFERRED CHAMPION: V11 CORE + FIXED A$100K SAFE FLOOR · 29 AUG: 2 CORE POTENTIAL / 0 LOCKED",
-    "watchlist": "PR2 BELMONT R2 + SR6 ROSEHILL R6 · BOTH V11 CORE",
+    "watchlist": "PR2 BELMONT R2: SEPTEMBER BORN ~A$2.80 (BELOW GATE) · SR6 ROSEHILL R6: STREET ARTIST ~A$3.40-A$3.60 (ABOVE GATE) · BOTH STILL NOT LOCKED",
     "reviewBoard": "21 / 21 STREAMS LOADED · 30% EXTRAS MARKED SHADOW",
     "seasonLedger": "FY MODEL: 1 JUL-8 AUG = -A$3,000 / 5 BETS / A$39,000 TURNOVER; 15/22 AUG PENDING",
     "hkProduction": "RESEARCH ONLY",
-    "source": "Real-money selections remain frozen V11 core. The fixed A$100K safe-floor policy is the preferred post-target cash rule in the phone app; desktop enforcement must be updated separately. Actual cash requires accepted stake/price and settlement."
+    "source": "28 Aug field/market refresh: Belmont field + Sportsbet market snapshot; Rosehill official scratchings + current market comparison. Real-money selections remain frozen V11 core. A market favourite shown in the watchlist is informative only; only BET LOCKED is actionable."
   }
 }
