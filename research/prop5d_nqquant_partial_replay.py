@@ -109,6 +109,16 @@ def main() -> None:
     with open(NQQ / "config" / "params.yaml", encoding="utf-8") as f:
         params = yaml.safe_load(f)
 
+    # Upstream's current params.yaml accidentally omits the three legacy regime
+    # keys still consumed by features/bias.py. The audited 1:1 NinjaTrader port
+    # pins ChopRangePoints=25 and ChopWindowBars=50 on 5m bars. compute_regime()
+    # documents its window input in 1m bars and divides by bar frequency, so 250
+    # reconstructs the same 50x5m lookback. Reduced/choppy risk is 0.5.
+    regime_params = params.setdefault("regime", {})
+    regime_params.setdefault("chop_range_points", 25.0)
+    regime_params.setdefault("chop_range_window_bars", 250)
+    regime_params.setdefault("choppy_risk_mult", 0.5)
+
     nq1 = load_independent_nq(NQ_CSV)
     nq5 = resample(nq1, "5min")
     nq1h = resample(nq1, "1h")
