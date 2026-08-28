@@ -5,7 +5,7 @@ matches the TradingView funded indicator architecture.
 """
 import v106_causal_tradeify_risk_sweep as audit
 
-
+# Isolated MNQ-only execution audit; signal rules are unchanged.
 def choose_mnq_only(risk_pts, budget):
     if risk_pts <= 0:
         return None
