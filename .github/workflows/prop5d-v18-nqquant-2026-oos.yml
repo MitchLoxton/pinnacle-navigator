@@ -1,0 +1,93 @@
+name: PROP5D v0.18 NQQuant 2026 OOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/prop5d-v02-exact-20260828
+    paths:
+      - .github/workflows/prop5d-v18-nqquant-2026-oos.yml
+
+jobs:
+  nqquant-2026-oos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas pyarrow pyyaml scipy
+
+      - name: Fetch frozen NQ Quant source
+        run: |
+          git clone https://github.com/s583381747/nq-quant.git /tmp/nq-quant
+          cd /tmp/nq-quant
+          git checkout ffe2d077e57b366f7229dbb86df94ed19932777c
+
+      - name: Restore upstream compatibility class
+        run: |
+          cat > /tmp/nq-quant/experiments/unified_engine.py <<'PY'
+          from dataclasses import dataclass
+          @dataclass
+          class UnifiedZone:
+              direction: int
+              top: float
+              bottom: float
+              size: float
+              birth_bar: int
+              birth_atr: float
+              tier: int
+              sweep_range_atr: float = 0.0
+              used: bool = False
+          PY
+
+      - name: Fetch independent historical and fresh 2026 inputs
+        run: |
+          curl -L --fail --retry 3 -o /tmp/nq_hist.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/Dataset_NQ_1min_2022_2025.csv
+          curl -L --fail --retry 3 -o /tmp/nq_2026.csv https://raw.githubusercontent.com/s-k-28/nq-es-trader-5k-payout/main/data/mnq_2026_1min.csv
+
+      - name: Build causal warmup plus 2026 dataset
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          def norm(path):
+              d=pd.read_csv(path)
+              d.columns=[str(c).strip().lower().replace(' ','_') for c in d.columns]
+              t='datetime' if 'datetime' in d.columns else ('timestamp' if 'timestamp' in d.columns else 'timestamp_et')
+              out=pd.DataFrame()
+              out['datetime']=pd.to_datetime(d[t],utc=True,errors='coerce')
+              for c in ['open','high','low','close']:
+                  out[c]=pd.to_numeric(d[c],errors='coerce')
+              out['volume']=pd.to_numeric(d['volume'],errors='coerce').fillna(0) if 'volume' in d.columns else 0
+              return out.dropna(subset=['datetime','open','high','low','close'])
+          h=norm('/tmp/nq_hist.csv')
+          c=norm('/tmp/nq_2026.csv')
+          h=h[h.datetime>=pd.Timestamp('2025-06-01',tz='UTC')]
+          z=pd.concat([h,c],ignore_index=True).sort_values('datetime').drop_duplicates('datetime',keep='last')
+          z.to_csv('/tmp/nq_warmup_2026.csv',index=False)
+          print('COMBINED',len(z),z.datetime.min(),z.datetime.max())
+          PY
+
+      - name: Run frozen independent NQ Quant V4 replay
+        env:
+          NQ_QUANT_DIR: /tmp/nq-quant
+          NQ_CSV: /tmp/nq_warmup_2026.csv
+          PROP5D_OUT: prop5d_nqquant_2026_results
+        run: |
+          set -o pipefail
+          python research/prop5d_nqquant_partial_replay.py | tee prop5d_nqquant_2026.log
+
+      - name: Upload 2026 chronology artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prop5d-v18-nqquant-2026-oos
+          path: |
+            prop5d_nqquant_2026_results/
+            prop5d_nqquant_2026.log
