@@ -8,37 +8,39 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect race market payloads
+      - name: Smoke test public live bridge
         shell: bash
+        env:
+          SUPABASE_ANON: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk
         run: |
+          echo "::add-mask::$SUPABASE_ANON"
           python - <<'PY'
-          import re, urllib.request, html as htmlmod
-
-          def fetch(url):
-              req=urllib.request.Request(url,headers={
-                  'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/151 Safari/537.36',
-                  'Accept':'text/html,application/xhtml+xml',
-                  'Accept-Language':'en-AU,en;q=0.9',
-              })
-              with urllib.request.urlopen(req,timeout=20) as r:
-                  return r.status, r.geturl(), r.read().decode('utf-8','replace')
-
-          for label,url,names in [
-              ('PR2','https://www.tabtouch.com.au/racing/2026-08-29/pr/2',['SEPTEMBER BORN','GINNIVAN','MAN CRUSH']),
-              ('SR6','https://www.tabtouch.com.au/racing/2026-08-29/sr/6',["SHE'S AN ARTIST",'STREET ARTIST']),
-          ]:
-              print('\n===== ',label,' =====')
-              status,final,b=fetch(url)
-              print('STATUS',status,'URL',final,'LEN',len(b))
-              upper=b.upper()
-              for key in names + ['RACEBETTING','FIXEDPRICE','FIXEDODDS','RETURNWIN','RUNNERS','COMPETITORS','MARKET','ODDS','INITIALDATA','RACEDATA']:
-                  pos=upper.find(key.upper())
-                  print('\nKEY',key,'POS',pos)
-                  if pos>=0:
-                      print(b[max(0,pos-1200):min(len(b),pos+3000)])
-              print('\n--- LAST 18000 ---')
-              print(b[-18000:])
-
-              srcs=re.findall(r'<script[^>]+src=["\']([^"\']+)["\']',b,re.I)
-              print('\nSCRIPT_SRCS',srcs[-15:])
+          import json, os, urllib.request
+          url='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-tab-live'
+          payload={"requests":[
+              {"race":"PR2","date":"2026-08-29","venue":"Belmont Park"},
+              {"race":"SR6","date":"2026-08-29","venue":"Rosehill Gardens"}
+          ]}
+          token=os.environ['SUPABASE_ANON']
+          req=urllib.request.Request(url,data=json.dumps(payload).encode(),method='POST',headers={
+              'Content-Type':'application/json','apikey':token,'Authorization':'Bearer '+token,
+              'Origin':'https://mitchloxton.github.io','User-Agent':'Mozilla/5.0'
+          })
+          with urllib.request.urlopen(req,timeout=30) as r:
+              body=json.loads(r.read().decode())
+              print('HTTP',r.status,'SOURCE',body.get('source'))
+          assert body.get('ok') is True, body
+          results=body.get('results') or []
+          assert len(results)==2, results
+          for result in results:
+              race=result.get('race')
+              print('\n',race,'ok=',result.get('ok'),'error=',result.get('error'))
+              print('verification=',result.get('verificationMethod'))
+              print('favourite=',[(x.get('name'),x.get('price')) for x in result.get('favourites') or []])
+              active=[x for x in result.get('runners') or [] if not x.get('scratched')]
+              print('active prices=',[(x.get('number'),x.get('name'),x.get('price')) for x in active])
+              assert result.get('ok') is True, result
+              assert result.get('source')=='TABTOUCH_FIXED_WIN', result
+              assert active and all(x.get('price') for x in active), result
+              assert result.get('favourites'), result
           PY
