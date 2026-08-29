@@ -3,10 +3,62 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+  const CLIENT_BUILD = '1.6.1';
+  let updateReloading = false;
 
   window.__MITCHELL_BASE_DATA = null;
   window.__MITCHELL_STATS = null;
   window.__MITCHELL_LIVE_V11_HAS_RENDERED = false;
+
+  function reloadForBuild(build) {
+    if (updateReloading) return;
+    updateReloading = true;
+    const url = new URL(window.location.href);
+    url.searchParams.set('build', String(build || CLIENT_BUILD));
+    url.searchParams.set('_refresh', String(Date.now()));
+    window.location.replace(url.toString());
+  }
+
+  async function checkClientBuild() {
+    try {
+      const r = await fetch(`./version.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) return;
+      const version = await r.json();
+      if (version?.build && version.build !== CLIENT_BUILD) reloadForBuild(version.build);
+    } catch (e) {
+      console.warn('Build check unavailable', e);
+    }
+  }
+
+  async function setupAppUpdater() {
+    if ('serviceWorker' in navigator) {
+      try {
+        const hadController = Boolean(navigator.serviceWorker.controller);
+        let controllerReloaded = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (hadController && !controllerReloaded) {
+            controllerReloaded = true;
+            reloadForBuild(CLIENT_BUILD);
+          }
+        });
+        navigator.serviceWorker.addEventListener('message', event => {
+          if (event?.data?.type === 'MITCHELL_APP_UPDATE' && event.data.build !== CLIENT_BUILD) {
+            reloadForBuild(event.data.build);
+          }
+        });
+        const reg = await navigator.serviceWorker.register(`./sw.js?build=${CLIENT_BUILD}`, {
+          scope: './',
+          updateViaCache: 'none'
+        });
+        await reg.update();
+        window.setInterval(() => reg.update().catch(() => {}), 30000);
+      } catch (e) {
+        console.warn('Service worker update check unavailable', e);
+      }
+    }
+    await checkClientBuild();
+    window.setInterval(checkClientBuild, 15000);
+  }
 
   function fmtUpdated(value) {
     const d = new Date(value);
@@ -60,7 +112,7 @@
     const roi = Number(h.roiPct);
     $('histAvg').textContent = Number.isFinite(avg) ? money.format(avg) : '—';
     $('histRoi').textContent = Number.isFinite(roi) ? roi.toFixed(1) + '%' : '—';
-    $('feedStatus').textContent = 'LIVE V11 ENGINE';
+    $('feedStatus').textContent = `LIVE V11 ENGINE · CLIENT ${CLIENT_BUILD}`;
   }
 
   async function loadBase() {
@@ -86,10 +138,12 @@
 
   function manualRefresh() {
     setChecking();
+    checkClientBuild();
     loadBase().finally(() => window.dispatchEvent(new Event('mitchell-refresh-live')));
   }
 
   $('refreshButton')?.addEventListener('click', manualRefresh);
   $('bottomRefresh')?.addEventListener('click', manualRefresh);
+  setupAppUpdater();
   loadBase();
 })();
