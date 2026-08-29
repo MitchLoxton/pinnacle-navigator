@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
-<body>
+<body data-build="1.6.1">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -46,6 +46,7 @@
         <div><b>3. BET LOCKED:</b> if the frozen V11 calculation returns a stake above A$0, the horse, stake, lock price and minimum executable price are saved permanently for that race.</div>
         <div><b>4. NO BET:</b> if no qualifying lock exists by the 60-second safety buffer, the race becomes <b>FINAL NO BET</b>. It no longer waits forever.</div>
         <div><b>5. After the race:</b> the race leaves COMING UP and moves to <b>TODAY'S RESULTS</b>, showing the winner and whether the saved V11 decision was WIN, LOSS or NO BET.</div>
+        <div><b>6. App updates:</b> the race-day client checks for a newer build every 15 seconds and reloads itself so an old screen cannot keep showing WAIT after the server has locked a decision.</div>
       </div>
     </section>
 
@@ -77,7 +78,7 @@
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6 AUTO V11 + RESULTS</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.1 · AUTO-SYNC</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -85,7 +86,7 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=14" defer></script>
-  <script src="./live-tab.js?v=4" defer></script>
+  <script src="./app.js?v=15" defer></script>
+  <script src="./live-tab.js?v=5" defer></script>
 </body>
 </html>
