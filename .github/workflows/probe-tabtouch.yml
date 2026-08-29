@@ -1,0 +1,40 @@
+name: Probe TABtouch race pages
+on:
+  push:
+    branches: [racing-fix-live-source-v16]
+    paths: ['.github/workflows/probe-tabtouch.yml']
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe Belmont R2
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request
+          u='https://www.tabtouch.com.au/racing/2026-08-29/pr/2'
+          req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0','Accept':'text/html,application/xhtml+xml'})
+          try:
+              with urllib.request.urlopen(req,timeout=20) as r:
+                  b=r.read().decode('utf-8','replace')
+                  print('STATUS',r.status,'URL',r.geturl(),'LEN',len(b),'CT',r.headers.get('content-type'))
+                  print(b[:12000])
+          except Exception as e:
+              print('ERROR',repr(e))
+          PY
+      - name: Probe Rosehill R6
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request
+          u='https://www.tabtouch.com.au/racing/2026-08-29/sr/6'
+          req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0','Accept':'text/html,application/xhtml+xml'})
+          try:
+              with urllib.request.urlopen(req,timeout=20) as r:
+                  b=r.read().decode('utf-8','replace')
+                  print('STATUS',r.status,'URL',r.geturl(),'LEN',len(b),'CT',r.headers.get('content-type'))
+                  print(b[:12000])
+          except Exception as e:
+              print('ERROR',repr(e))
+          PY
