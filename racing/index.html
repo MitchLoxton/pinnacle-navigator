@@ -52,7 +52,7 @@
         <div><b>3. Price gate:</b> the live price must be at least $3.00. Passing $3.00 does <u>not</u> create the bet by itself.</div>
         <div><b>4. V11 calculation:</b> the engine checks the race + current loss-state/evidence, then applies the V11 stake and risk controls.</div>
         <div><b>5. The actual trigger:</b> if that calculation finishes with <b>FINAL STAKE = A$0</b>, it is <span style="color:#ff8c9b;font-weight:900">NO BET</span>. If it finishes with <b>FINAL STAKE &gt; A$0</b>, the engine creates <span style="color:#27dd87;font-weight:950">BET LOCKED</span> and the app turns green with the horse, stake and minimum odds.</div>
-        <div style="margin-top:2px;padding:9px 10px;border-radius:10px;background:#162338;border:1px solid #304761"><b>Live market:</b> the watch cards re-check TAB fixed-WIN prices automatically every 30 seconds. If TAB is incomplete or unavailable, the app hides the old saved favourite instead of pretending it is current.</div>
+        <div style="margin-top:2px;padding:9px 10px;border-radius:10px;background:#162338;border:1px solid #304761"><b>Live market:</b> each watch card now shows the current TAB fixed-WIN odds for the runners and refreshes automatically every 15 seconds. If TAB is partial, the app shows the prices it has but will not guess the favourite.</div>
       </div>
     </section>
 
@@ -62,7 +62,7 @@
         <span class="not-bet">GATE CHECKS</span>
       </summary>
       <div class="watch-body">
-        <p>Each possible race shows exactly what has passed and what is still missing. Favourite + price are checked from the live TAB fixed-WIN market; the final trigger is V11 producing a FINAL STAKE above A$0 near the jump.</p>
+        <p>Each possible race shows the live TAB runner odds, the verified favourite when available, and exactly what is still missing before BET LOCKED.</p>
         <div id="watchlist" class="watch-list"></div>
       </div>
     </details>
@@ -77,7 +77,7 @@
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
-        <div class="info-row"><span>Market source</span><strong>TAB fixed WIN · 30s refresh</strong></div>
+        <div class="info-row"><span>Market source</span><strong>TAB fixed WIN · 15s refresh</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
@@ -87,7 +87,7 @@
 
     <footer>
       <span id="updatedAt">Not updated yet</span>
-      <span>Race-Day v1.4.1 LIVE TAB</span>
+      <span>Race-Day v1.5 LIVE ODDS</span>
     </footer>
   </main>
 
@@ -97,6 +97,6 @@
   </div>
 
   <script src="./app.js?v=13" defer></script>
-  <script src="./live-tab.js?v=2" defer></script>
+  <script src="./live-tab.js?v=3" defer></script>
 </body>
 </html>

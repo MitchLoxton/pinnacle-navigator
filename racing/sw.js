@@ -1,5 +1,5 @@
-const CACHE = 'mitchell-racing-v15-live-tab-fix';
-const SHELL = ['./', './index.html', './styles.css?v=12', './app.js?v=13', './live-tab.js?v=2', './manifest.webmanifest', './icon.svg', './apple-touch-icon.png'];
+const CACHE = 'mitchell-racing-v16-live-odds';
+const SHELL = ['./', './index.html', './styles.css?v=12', './app.js?v=13', './live-tab.js?v=3', './manifest.webmanifest', './icon.svg', './apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
