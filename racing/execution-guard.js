@@ -12,8 +12,8 @@
     const bottomLabel = $('bottomLabel');
     const bottomText = $('bottomText');
 
-    if (card) card.className = 'decision-card blocked';
-    if (bottom) bottom.className = 'bottom-command blocked';
+    if (card && card.className !== 'decision-card blocked') card.className = 'decision-card blocked';
+    if (bottom && bottom.className !== 'bottom-command blocked') bottom.className = 'bottom-command blocked';
     if (title) title.textContent = titleText;
     if (kicker) kicker.textContent = 'BET LOCKED · EXECUTION BLOCKED';
     if (bottomLabel) bottomLabel.textContent = labelText;
@@ -46,7 +46,7 @@
     }
 
     if (kind === 'LOW') {
-      guard.textContent = `EXECUTION BLOCKED: current fixed-WIN ${currentPrice} is below MIN EXEC ${minPrice}. Do not place the bet. Keep waiting; if the price recovers to ${minPrice} or higher before the race, BET NOW can return.`;
+      guard.textContent = `EXECUTION BLOCKED FOR A NEW PLACEMENT: current fixed-WIN ${currentPrice} is below MIN EXEC ${minPrice}. Do not place now. Keep waiting; if the price recovers to ${minPrice} or higher before the race, BET NOW can return. If a wager was already accepted earlier at or above MIN EXEC, do not place a second wager.`;
     } else {
       guard.textContent = `EXECUTION BLOCKED: a current fixed-WIN quote cannot be verified against MIN EXEC ${minPrice || '—'}. Do not place the bet until the live quote is verified and passes.`;
     }
@@ -96,7 +96,7 @@
     const root = $('decisionCard');
     if (!root) return;
     const observer = new MutationObserver(syncExecutionGuard);
-    observer.observe(root, { subtree: true, childList: true, characterData: true, attributes: true });
+    observer.observe(root, { subtree: true, childList: true, characterData: true });
     window.setInterval(syncExecutionGuard, 1000);
     syncExecutionGuard();
   }
