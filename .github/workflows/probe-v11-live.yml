@@ -1,0 +1,41 @@
+name: Probe V11 live decision lifecycle
+on:
+  push:
+    branches: [racing-v16-smoke-test]
+    paths: ['.github/workflows/probe-v11-live.yml']
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check live V11 endpoint
+        shell: bash
+        env:
+          ANON: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk
+        run: |
+          echo "::add-mask::$ANON"
+          python - <<'PY'
+          import json, os, urllib.request
+          url='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-tab-live'
+          token=os.environ['ANON']
+          payload={'requests':[
+            {'race':'PR2','date':'2026-08-29','venue':'Belmont Park'},
+            {'race':'SR6','date':'2026-08-29','venue':'Rosehill Gardens'},
+          ]}
+          req=urllib.request.Request(url,data=json.dumps(payload).encode(),method='POST',headers={
+            'Content-Type':'application/json','apikey':token,'Authorization':'Bearer '+token,
+            'Origin':'https://mitchloxton.github.io','User-Agent':'Mozilla/5.0'
+          })
+          with urllib.request.urlopen(req,timeout=35) as r:
+            body=json.loads(r.read().decode())
+          assert body.get('ok') is True, body
+          results={x['race']:x for x in body.get('results',[])}
+          for code in ('PR2','SR6'):
+            x=results.get(code)
+            assert x, (code, body)
+            d=x.get('decision') or {}
+            print(code, 'phase=',x.get('phase'),'decision=',d.get('status'),'horse=',d.get('horse'),'stake=',d.get('stake'),'price=',x.get('favouritePrice'),'result=',x.get('result'),'error=',x.get('error'))
+          assert results['PR2'].get('phase') in ('WATCH','LOCKED','FINAL','CLOSED_RESULT_PENDING','COMPLETE')
+          assert (results['PR2'].get('decision') or {}).get('status') in ('WATCH','BET_LOCKED','NO_BET_FINAL','RACE_COMPLETE_NO_BET','SETTLED_WIN','SETTLED_LOSS')
+          assert results['SR6'].get('phase') in ('CLOSED_RESULT_PENDING','COMPLETE','FINAL')
+          PY
