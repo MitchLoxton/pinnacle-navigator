@@ -11,6 +11,7 @@
   const esc = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   const raceCode = value => String(value || '').trim().toUpperCase();
   const moneyOdds = value => Number.isFinite(Number(value)) ? '$' + Number(value).toFixed(2) : '—';
+  const humanError = value => String(value || 'feed error').replaceAll('_', ' ').toLowerCase();
 
   async function fetchJson(path) {
     const r = await fetch(`${path}?live=${Date.now()}`, { cache: 'no-store' });
@@ -42,11 +43,24 @@
     }) || null;
   }
 
+  // A watch card contains one direct child grid whose four direct children are
+  // the FIELD / FAVOURITE / PRICE / BET LOCKED rows. Restricting ourselves to
+  // that exact level prevents the parent grid from ever being mistaken for a row.
   function gateRows(card) {
-    return [...card.querySelectorAll('div')].filter(row => {
-      const first = row.children?.[0]?.textContent || '';
-      return /^\d\.\s/.test(first.trim()) && row.children.length >= 3;
-    });
+    for (const container of [...card.children]) {
+      if (!(container instanceof HTMLElement) || container.tagName !== 'DIV') continue;
+      const rows = [...container.children].filter(row => {
+        if (!(row instanceof HTMLElement) || row.tagName !== 'DIV' || row.children.length !== 3) return false;
+        const label = row.children[0]?.textContent || '';
+        return /^\d\.\s/.test(label.trim());
+      });
+      if (rows.length === 4) return rows;
+    }
+    return [];
+  }
+
+  function rowByLabel(rows, label) {
+    return rows.find(row => (row.children[0]?.textContent || '').toUpperCase().includes(label)) || null;
   }
 
   function paintRow(row, mode, detail) {
@@ -72,41 +86,44 @@
   }
 
   function setExplainer(card, html) {
-    const boxes = [...card.querySelectorAll('div')];
-    const box = boxes.find(x => (x.textContent || '').trim().startsWith('Why no bet yet:'));
+    const box = [...card.children].find(el => el instanceof HTMLElement && (el.textContent || '').trim().startsWith('Why no bet yet:'));
     if (box) box.innerHTML = `<b style="color:white">Why no bet yet:</b> ${html}`;
   }
 
   function liveStamp(result) {
     const d = new Date(result?.fetchedAt || Date.now());
     if (Number.isNaN(d.getTime())) return 'just now';
-    return new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth' }).format(d) + ' Perth';
+    return new Intl.DateTimeFormat('en-AU', {
+      hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth'
+    }).format(d) + ' Perth';
   }
 
   function renderRace(item, result) {
     const race = raceCode(item.race || item.code);
     const card = findCard(race);
     if (!card) return;
-    const horseEl = card.querySelector('strong');
+
+    const horseEl = [...card.children].find(el => el.tagName === 'STRONG') || null;
     const rows = gateRows(card);
-    const fieldRow = rows.find(r => (r.children[0]?.textContent || '').includes('FIELD'));
-    const favRow = rows.find(r => (r.children[0]?.textContent || '').includes('FAVOURITE'));
-    const priceRow = rows.find(r => (r.children[0]?.textContent || '').includes('PRICE'));
-    const lockRow = rows.find(r => (r.children[0]?.textContent || '').includes('BET LOCKED'));
+    const fieldRow = rowByLabel(rows, 'FIELD');
+    const favRow = rowByLabel(rows, 'FAVOURITE');
+    const priceRow = rowByLabel(rows, 'PRICE');
+    const lockRow = rowByLabel(rows, 'BET LOCKED');
     const gate = Number(item.priceGate || 3);
 
     paintRow(fieldRow, item.fieldsConfirmed === true ? 'PASS' : 'WAIT', item.fieldsConfirmed === true ? 'Field confirmed' : 'Field not confirmed yet');
     paintRow(lockRow, 'WAIT', 'FINAL V11 STAKE > A$0 HAS NOT BEEN RECEIVED');
 
     if (!result?.ok) {
+      const error = humanError(result?.error);
       if (horseEl) {
         horseEl.textContent = 'LIVE MARKET UNVERIFIED';
         horseEl.style.color = '#ffc34f';
       }
-      paintRow(favRow, 'WAIT', `TAB live favourite unavailable (${String(result?.error || 'feed error')})`);
+      paintRow(favRow, 'WAIT', `Live TAB favourite unavailable: ${error}`);
       paintRow(priceRow, 'WAIT', `No complete live TAB fixed-price market. Minimum is $${gate.toFixed(2)}.`);
       setCardStatus(card, 'LIVE TAB UNVERIFIED — DO NOT USE OLD FAVOURITE', 'bad');
-      setExplainer(card, `The old saved horse is deliberately ignored. TAB did not return a complete verified live market, so <b>do not choose a horse manually</b>.`);
+      setExplainer(card, `TAB could not provide a complete verified live market (${esc(error)}). The saved horse is deliberately hidden, so <b>do not choose a horse manually</b>.`);
       return;
     }
 
@@ -123,7 +140,7 @@
       paintRow(favRow, 'WAIT', `Equal TAB favourites at ${moneyOdds(livePrice)} — do not choose one manually`);
       paintRow(priceRow, pricePass ? 'PASS' : 'FAIL', `${moneyOdds(livePrice)} live TAB favourite price vs $${gate.toFixed(2)} minimum · ${liveStamp(result)}`);
       setCardStatus(card, 'EQUAL FAVOURITES — WAIT FOR EXACT LOCK', 'wait');
-      setExplainer(card, `TAB currently has equal favourites. <b>Do not pick one yourself and do not split the stake.</b> Wait for a single favourite and the final V11 BET LOCKED instruction.`);
+      setExplainer(card, `TAB currently has equal favourites. <b>Do not pick one yourself and do not split the stake.</b> Wait for the market to separate and for the final V11 BET LOCKED instruction.`);
       return;
     }
 
@@ -154,6 +171,7 @@
   function renderTop(data, results) {
     const locked = Array.isArray(data.lockedBets) ? data.lockedBets : [];
     if (locked.length) return;
+
     const title = document.getElementById('decisionTitle');
     const message = document.getElementById('decisionMessage');
     const kicker = document.getElementById('decisionKicker');
@@ -172,7 +190,8 @@
     if (bottomLabel) bottomLabel.textContent = 'LIVE TAB CHECKING';
 
     if (failed.length) {
-      message.textContent = `${failed.map(r => r.race).join(', ')} cannot currently be verified from a complete live TAB fixed-price market. The app will not reuse yesterday's favourite.`;
+      const reasons = failed.map(r => `${r.race}: ${humanError(r.error)}`).join(' · ');
+      message.textContent = `Live TAB could not completely verify ${failed.map(r => r.race).join(', ')}. ${reasons}. The app will not reuse yesterday's favourite.`;
       if (bottomText) bottomText.textContent = 'Live market incomplete/unavailable — old favourite ignored.';
     } else if (equal.length) {
       message.textContent = `${equal.map(r => r.race).join(', ')} currently has equal TAB favourites. Do not choose one manually. Wait for the market to separate and for BET LOCKED.`;
@@ -184,16 +203,22 @@
       message.textContent = 'Live TAB favourites are updating automatically. No verified BET LOCKED instruction has been received.';
       if (bottomText) bottomText.textContent = 'Live favourites updating — no locked wager.';
     }
-    if (freshness) freshness.textContent = `LIVE TAB · checked ${new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth' }).format(new Date())}`;
+
+    if (freshness) freshness.textContent = `LIVE TAB · checked ${new Intl.DateTimeFormat('en-AU', {
+      hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth'
+    }).format(new Date())}`;
   }
 
   function markAllUnverified(reason) {
     document.querySelectorAll('.watch-card').forEach(card => {
-      const horseEl = card.querySelector('strong');
+      const horseEl = [...card.children].find(el => el.tagName === 'STRONG') || null;
       if (horseEl) {
         horseEl.textContent = 'LIVE MARKET UNVERIFIED';
         horseEl.style.color = '#ffc34f';
       }
+      const rows = gateRows(card);
+      paintRow(rowByLabel(rows, 'FAVOURITE'), 'WAIT', 'Live TAB refresh failed');
+      paintRow(rowByLabel(rows, 'PRICE'), 'WAIT', 'Live TAB refresh failed');
       setCardStatus(card, 'LIVE TAB UNVERIFIED — STALE HORSE HIDDEN', 'bad');
       setExplainer(card, `Live TAB refresh failed (${esc(reason)}). The app is hiding the saved favourite rather than pretending it is current.`);
     });
@@ -213,6 +238,7 @@
         venue: item.venue || item.region,
       })).filter(x => x.race && x.date && x.venue);
       if (!requests.length) return;
+
       const results = await fetchLive(requests);
       const byRace = new Map(results.map(r => [raceCode(r.race), r]));
       watch.forEach(item => renderRace(item, byRace.get(raceCode(item.race || item.code))));
@@ -220,21 +246,23 @@
       lastGoodAt = Date.now();
     } catch (error) {
       console.error('Live TAB refresh failed', error);
-      if (!lastGoodAt || Date.now() - lastGoodAt > MAX_LIVE_AGE_MS) markAllUnverified(error instanceof Error ? error.message : 'feed error');
+      if (!lastGoodAt || Date.now() - lastGoodAt > MAX_LIVE_AGE_MS) {
+        markAllUnverified(error instanceof Error ? error.message : 'feed error');
+      }
     } finally {
       running = false;
     }
   }
 
   function schedule() {
-    setTimeout(refreshLive, 800);
+    setTimeout(refreshLive, 500);
     setInterval(refreshLive, POLL_MS);
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') setTimeout(refreshLive, 250);
+      if (document.visibilityState === 'visible') setTimeout(refreshLive, 150);
     });
-    window.addEventListener('online', () => setTimeout(refreshLive, 250));
-    document.getElementById('refreshButton')?.addEventListener('click', () => setTimeout(refreshLive, 450));
-    document.getElementById('bottomRefresh')?.addEventListener('click', () => setTimeout(refreshLive, 450));
+    window.addEventListener('online', () => setTimeout(refreshLive, 150));
+    document.getElementById('refreshButton')?.addEventListener('click', () => setTimeout(refreshLive, 350));
+    document.getElementById('bottomRefresh')?.addEventListener('click', () => setTimeout(refreshLive, 350));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', schedule);
