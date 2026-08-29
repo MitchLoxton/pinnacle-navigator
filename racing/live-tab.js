@@ -2,349 +2,226 @@
   'use strict';
 
   const LIVE_URL = 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-tab-live';
-  const ANON_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
+  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
   const POLL_MS = 15000;
-  const MAX_LIVE_AGE_MS = 45000;
-  let running = false;
-  let lastGoodAt = 0;
+  const $ = id => document.getElementById(id);
+  const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+  let busy = false;
+  let lastData = null;
+  let lastResults = [];
 
-  const esc = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
-  const raceCode = value => String(value || '').trim().toUpperCase();
-  const moneyOdds = value => Number.isFinite(Number(value)) ? '$' + Number(value).toFixed(2) : '—';
-  const humanError = value => String(value || 'feed error').replaceAll('_', ' ').toLowerCase();
+  const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+  const raceCode = v => String(v || '').trim().toUpperCase();
+  const odds = v => Number.isFinite(Number(v)) ? '$' + Number(v).toFixed(2) : '—';
+  const horseKey = v => String(v || '').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\bNZ\b$/,'').trim().replace(/\s+/g,' ');
 
-  async function fetchJson(path) {
-    const r = await fetch(`${path}?live=${Date.now()}`, { cache: 'no-store' });
+  function stamp(value = new Date()) {
+    const d = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(d.getTime())) return 'now';
+    return new Intl.DateTimeFormat('en-AU', { hour:'numeric', minute:'2-digit', second:'2-digit', timeZone:'Australia/Perth' }).format(d) + ' Perth';
+  }
+
+  function leadText(seconds) {
+    if (!Number.isFinite(Number(seconds))) return 'jump time checking';
+    const s = Number(seconds);
+    if (s <= 0) return 'race closed';
+    if (s < 60) return `${Math.ceil(s)}s to jump`;
+    return `${Math.floor(s/60)}m ${Math.max(0,Math.floor(s%60))}s to jump`;
+  }
+
+  async function getJson(path) {
+    const r = await fetch(`${path}?live=${Date.now()}`, { cache:'no-store' });
     if (!r.ok) throw new Error(`${path} HTTP ${r.status}`);
     return r.json();
   }
 
   async function fetchLive(requests) {
     const r = await fetch(LIVE_URL, {
-      method: 'POST',
-      cache: 'no-store',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': ANON_JWT,
-        'Authorization': `Bearer ${ANON_JWT}`,
-      },
-      body: JSON.stringify({ requests }),
+      method:'POST', cache:'no-store',
+      headers:{ 'Content-Type':'application/json', apikey:ANON, Authorization:`Bearer ${ANON}` },
+      body:JSON.stringify({ requests })
     });
-    if (!r.ok) throw new Error(`Live TAB bridge HTTP ${r.status}`);
-    const body = await r.json();
-    if (!body?.ok || !Array.isArray(body.results)) throw new Error(body?.error || 'Live TAB bridge returned invalid data');
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok || body?.ok !== true || !Array.isArray(body.results)) throw new Error(body?.error || `Live V11 HTTP ${r.status}`);
     return body.results;
   }
 
-  function findCard(race) {
-    return [...document.querySelectorAll('.watch-card')].find(card => {
-      const label = card.querySelector('.watch-race')?.textContent || '';
-      return label.trim().toUpperCase().startsWith(race);
-    }) || null;
-  }
-
-  function gateRows(card) {
-    for (const container of [...card.children]) {
-      if (!(container instanceof HTMLElement) || container.tagName !== 'DIV') continue;
-      const rows = [...container.children].filter(row => {
-        if (!(row instanceof HTMLElement) || row.tagName !== 'DIV' || row.children.length !== 3) return false;
-        const label = row.children[0]?.textContent || '';
-        return /^\d\.\s/.test(label.trim());
-      });
-      if (rows.length === 4) return rows;
-    }
-    return [];
-  }
-
-  function rowByLabel(rows, label) {
-    return rows.find(row => (row.children[0]?.textContent || '').toUpperCase().includes(label)) || null;
-  }
-
-  function paintRow(row, mode, detail) {
-    if (!row) return;
+  function gate(label, mode, detail) {
     const pass = mode === 'PASS';
     const wait = mode === 'WAIT';
-    row.style.background = pass ? '#0d3525' : wait ? '#33270e' : '#35151d';
-    row.style.borderColor = pass ? '#2a8058' : wait ? '#735a27' : '#74323e';
-    if (row.children[1]) {
-      row.children[1].textContent = mode;
-      row.children[1].style.color = pass ? '#78f2b5' : wait ? '#ffc34f' : '#ff9eaa';
-    }
-    if (row.children[2]) row.children[2].textContent = detail;
+    const bg = pass ? '#0d3525' : wait ? '#33270e' : '#35151d';
+    const border = pass ? '#2a8058' : wait ? '#735a27' : '#74323e';
+    const color = pass ? '#78f2b5' : wait ? '#ffc34f' : '#ff9eaa';
+    return `<div style="display:grid;grid-template-columns:86px 62px 1fr;gap:8px;align-items:center;padding:8px 9px;border-radius:10px;background:${bg};border:1px solid ${border};font-size:10px;line-height:1.3">
+      <strong style="font-size:9px;letter-spacing:.05em">${esc(label)}</strong><b style="color:${color};font-size:9px">${esc(mode)}</b><span style="color:#d3dbe6">${esc(detail)}</span>
+    </div>`;
   }
 
-  function setCardStatus(card, text, tone = 'wait') {
-    const badge = card.querySelector('.not-bet');
-    if (!badge) return;
-    badge.textContent = text;
-    badge.style.background = tone === 'ok' ? '#0d3525' : tone === 'bad' ? '#35151d' : '#33270e';
-    badge.style.borderColor = tone === 'ok' ? '#2a8058' : tone === 'bad' ? '#74323e' : '#735a27';
-    badge.style.color = tone === 'ok' ? '#78f2b5' : tone === 'bad' ? '#ff9eaa' : '#ffc34f';
+  function liveRunnerPrice(result, horse) {
+    const key = horseKey(horse);
+    const runner = (Array.isArray(result?.runners) ? result.runners : []).find(r => !r?.scratched && horseKey(r?.name) === key);
+    const p = Number(runner?.price);
+    return Number.isFinite(p) ? p : null;
   }
 
-  function setExplainer(card, html) {
-    const box = [...card.children].find(el => el instanceof HTMLElement && (el.textContent || '').trim().startsWith('Why no bet yet:'));
-    if (box) box.innerHTML = `<b style="color:white">Why no bet yet:</b> ${html}`;
+  function oddsBoard(result) {
+    const runners = (Array.isArray(result?.runners) ? result.runners : []).filter(r => !r?.scratched);
+    if (!runners.length) return '';
+    const favs = new Set((result?.favourites || []).map(x => horseKey(x?.name)));
+    const sorted = [...runners].sort((a,b) => {
+      const ap=Number(a?.price), bp=Number(b?.price);
+      return (Number.isFinite(ap)?ap:9999)-(Number.isFinite(bp)?bp:9999) || Number(a?.number||999)-Number(b?.number||999);
+    });
+    return `<div class="live-odds-board" style="margin-top:10px;padding:11px;border-radius:11px;background:#081421;border:1px solid #2b4058">
+      <div style="display:flex;justify-content:space-between;gap:8px"><div><b style="font-size:10px;letter-spacing:.06em;color:#78f2b5">LIVE TABTOUCH FIXED-WIN ODDS</b><div style="font-size:9px;color:#93a9c0;margin-top:3px">checked ${esc(stamp(result?.fetchedAt))}</div></div><span style="font-size:9px;color:#8fa5bd">AUTO 15s</span></div>
+      <div style="display:grid;gap:5px;margin-top:9px;max-height:290px;overflow:auto">${sorted.map(r => {
+        const fav=favs.has(horseKey(r?.name)), p=Number(r?.price);
+        return `<div style="display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:7px 8px;border-radius:9px;background:${fav?'#0d3525':'#0b1524'};border:1px solid ${fav?'#2a8058':'#263950'}"><span style="font-size:10px;color:#8fa5bd;font-weight:800">#${esc(r?.number ?? '—')}</span><span style="font-size:11px;color:#e7edf5;font-weight:${fav?900:700}">${fav?'★ ':''}${esc(r?.name||'UNKNOWN')}</span><strong style="font-size:12px;color:${fav?'#78f2b5':'#f1f5f9'}">${Number.isFinite(p)?odds(p):'NO QUOTE'}</strong></div>`;
+      }).join('')}</div>
+    </div>`;
   }
 
-  function liveStamp(result) {
-    const d = new Date(result?.fetchedAt || Date.now());
-    if (Number.isNaN(d.getTime())) return 'just now';
-    return new Intl.DateTimeFormat('en-AU', {
-      hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth'
-    }).format(d) + ' Perth';
+  function watchCard(item, result) {
+    const race = raceCode(item?.race || item?.code);
+    const venue = item?.venue || item?.region || '';
+    const d = result?.decision || {};
+    const gateMin = Number(item?.priceGate || 3);
+    const favs = Array.isArray(result?.favourites) ? result.favourites : [];
+    const fav = favs[0];
+    const p = Number(result?.favouritePrice);
+    const single = result?.favouriteType === 'SINGLE' && fav?.name && Number.isFinite(p);
+    const locked = d.status === 'BET_LOCKED';
+    const finalNo = d.status === 'NO_BET_FINAL';
+    const fieldMode = item?.fieldsConfirmed === true ? 'PASS' : 'WAIT';
+    const favMode = single ? 'PASS' : 'WAIT';
+    const priceMode = single ? (p >= gateMin ? 'PASS' : 'FAIL') : 'WAIT';
+    const lockMode = locked ? 'PASS' : finalNo ? 'FAIL' : 'WAIT';
+    const horse = locked ? d.horse : single ? fav.name : result?.favouriteType === 'EQUAL' ? `EQUAL FAVOURITES: ${favs.map(x=>x.name).join(' / ')}` : 'LIVE FAVOURITE CHECKING';
+    const lockDetail = locked
+      ? `BET LOCKED · ${money.format(Number(d.stake)||0)} · MIN EXEC ${odds(d.minExec)}`
+      : finalNo ? `NO BET — FINAL · ${d.reason || 'No qualifying lock before safety buffer.'}`
+      : d.reason || `V11 is monitoring · ${leadText(result?.leadSeconds)}`;
+    const headlineColor = locked ? '#78f2b5' : finalNo ? '#ff9eaa' : '#f4f6f8';
+    const badge = locked ? 'BET LOCKED — CHECK TOP BOX' : finalNo ? 'NO BET — FINAL' : 'MONITORING — NOT A BET YET';
+    const badgeTone = locked ? '#0d3525' : finalNo ? '#35151d' : '#33270e';
+    const why = locked
+      ? `<b style="color:#78f2b5">V11 HAS LOCKED THIS RACE.</b> The top box is the final execution instruction and checks the current price against the saved minimum.`
+      : finalNo ? `<b style="color:#ff9eaa">FINAL NO BET.</b> ${esc(d.reason || 'The final V11 stake did not qualify before the safety buffer.')}`
+      : `<b>Still waiting:</b> ${esc(d.reason || 'V11 is recalculating automatically from the live favourite and price.')}`;
+    return `<article class="watch-card" data-race="${esc(race)}" style="display:block">
+      <div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''} · ${esc(leadText(result?.leadSeconds))}</div>
+      <strong style="font-size:19px;margin-top:5px;color:${headlineColor}">${esc(horse)}</strong>
+      <div style="display:grid;gap:6px;margin-top:11px">
+        ${gate('1. FIELD',fieldMode,fieldMode==='PASS'?'Field confirmed':'Field not confirmed')}
+        ${gate('2. FAVOURITE',favMode,single?`${fav.name} at ${odds(p)}`:(result?.favouriteType==='EQUAL'?'Equal favourites — no manual choice':'Verified favourite not available'))}
+        ${gate('3. PRICE',priceMode,single?`${odds(p)} live vs ${odds(gateMin)} minimum`:`Waiting for one verified live favourite price`)}
+        ${gate('4. V11 DECISION',lockMode,lockDetail)}
+      </div>
+      <div style="margin-top:10px;padding:10px 11px;border-radius:11px;background:#101b2b;border:1px solid #2d425c;color:#dbe6f4;font-size:11px;line-height:1.45">${why}</div>
+      ${oddsBoard(result)}
+      <div class="not-bet" style="display:inline-flex;margin-top:10px;max-width:100%;white-space:normal;background:${badgeTone}">${esc(badge)}</div>
+    </article>`;
   }
 
-  function ensureOddsBoard(card) {
-    let board = card.querySelector('.live-odds-board');
-    if (board) return board;
-    board = document.createElement('div');
-    board.className = 'live-odds-board';
-    const explainer = [...card.children].find(el => el instanceof HTMLElement && (el.textContent || '').trim().startsWith('Why no bet yet:'));
-    if (explainer) explainer.insertAdjacentElement('afterend', board);
-    else card.appendChild(board);
-    return board;
+  function resultCard(item, result) {
+    const race = raceCode(item?.race || item?.code);
+    const venue = item?.venue || item?.region || '';
+    const d = result?.decision || {};
+    const r = result?.result || {};
+    const pending = result?.phase === 'CLOSED_RESULT_PENDING';
+    if (pending) return `<article class="watch-card" style="display:block"><div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''}</div><strong style="font-size:19px;margin-top:5px;color:#ffc34f">RACE FINISHED — RESULT PENDING</strong><div style="margin-top:10px;color:#dbe6f4">${d.status==='BET_LOCKED'?`Saved bet: ${esc(d.horse)} · ${money.format(Number(d.stake)||0)}`:'No live V11 bet is active.'}</div></article>`;
+    const noBet = r.status === 'NO_BET' || d.status === 'RACE_COMPLETE_NO_BET';
+    const won = r.status === 'WIN' || d.status === 'SETTLED_WIN';
+    const lost = r.status === 'LOSS' || d.status === 'SETTLED_LOSS';
+    const tone = won ? '#78f2b5' : lost ? '#ff9eaa' : '#9eb3ca';
+    const betLine = noBet ? 'NO BET — no V11 lock was recorded before the start' : won ? `BET RESULT: WIN · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)}` : lost ? `BET RESULT: LOSS · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)}` : esc(d.reason || 'Race complete');
+    return `<article class="watch-card" style="display:block;border-color:#33465f;background:#091523">
+      <div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''}</div>
+      <strong style="font-size:19px;margin-top:5px;color:${tone}">RACE COMPLETE</strong>
+      <div style="display:grid;gap:7px;margin-top:11px;padding:11px;border-radius:11px;background:#101b2b;border:1px solid #2d425c">
+        <div><span style="color:#8fa5bd;font-size:9px;font-weight:900">WINNER</span><div style="font-size:15px;font-weight:950;color:#fff;margin-top:2px">${r.winnerNumber?'#'+esc(r.winnerNumber)+' ':''}${esc(r.winnerName || 'Result received — winner name pending')}</div></div>
+        <div><span style="color:#8fa5bd;font-size:9px;font-weight:900">OFFICIAL RESULT</span><div style="font-size:12px;font-weight:800;color:#dbe6f4;margin-top:2px">${Array.isArray(r.numbers)&&r.numbers.length?esc(r.numbers.join('-')):'—'}</div></div>
+        <div style="padding:9px;border-radius:9px;background:${won?'#0d3525':lost?'#35151d':'#162338'};font-size:11px;font-weight:900;color:${tone}">${betLine}</div>
+      </div>
+    </article>`;
   }
 
-  function renderOddsBoard(card, result) {
-    const board = ensureOddsBoard(card);
-    const runners = Array.isArray(result?.runners) ? result.runners : [];
-    const active = runners
-      .filter(r => !r?.scratched)
-      .sort((a, b) => {
-        const ap = Number(a?.price);
-        const bp = Number(b?.price);
-        const av = Number.isFinite(ap) ? ap : Infinity;
-        const bv = Number.isFinite(bp) ? bp : Infinity;
-        if (av !== bv) return av - bv;
-        return Number(a?.number || 999) - Number(b?.number || 999);
-      });
-    const favouriteNames = new Set((Array.isArray(result?.favourites) ? result.favourites : []).map(x => String(x?.name || '').toUpperCase()));
-    const pricedCount = active.filter(r => Number.isFinite(Number(r?.price))).length;
-
-    if (!active.length) {
-      board.innerHTML = `
-        <div style="margin-top:10px;padding:11px;border-radius:11px;background:#101b2b;border:1px solid #2d425c">
-          <div style="font-size:10px;font-weight:900;letter-spacing:.06em;color:#9eb3ca">LIVE TAB ODDS</div>
-          <div style="margin-top:5px;color:#ffc34f;font-size:11px;font-weight:800">No runner prices returned yet.</div>
-        </div>`;
-      return;
-    }
-
-    const rows = active.map(runner => {
-      const price = Number(runner?.price);
-      const hasPrice = Number.isFinite(price);
-      const isFav = favouriteNames.has(String(runner?.name || '').toUpperCase());
-      const priceText = hasPrice ? moneyOdds(price) : 'NO QUOTE';
-      const bg = isFav ? '#0d3525' : '#0b1524';
-      const border = isFav ? '#2a8058' : '#263950';
-      const priceColor = isFav ? '#78f2b5' : hasPrice ? '#f1f5f9' : '#ffc34f';
-      return `
-        <div style="display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:7px 8px;border-radius:9px;background:${bg};border:1px solid ${border}">
-          <span style="font-size:10px;color:#8fa5bd;font-weight:800">#${esc(runner?.number ?? '—')}</span>
-          <span style="font-size:11px;color:#e7edf5;font-weight:${isFav ? '900' : '700'}">${isFav ? '★ ' : ''}${esc(runner?.name || 'UNKNOWN')}</span>
-          <strong style="font-size:12px;color:${priceColor};white-space:nowrap">${priceText}</strong>
-        </div>`;
-    }).join('');
-
-    const heading = result?.ok ? 'LIVE TAB FIXED-WIN ODDS' : 'LIVE TAB ODDS — PARTIAL MARKET';
-    const tone = result?.ok ? '#78f2b5' : '#ffc34f';
-    const method = result?.verificationMethod === 'TAB_FAVOURITE_FLAG'
-      ? 'Favourite verified by TAB favourite flag.'
-      : result?.verificationMethod === 'COMPLETE_MARKET_LOWEST_PRICE'
-        ? 'Favourite verified from the complete fixed-price market.'
-        : 'Favourite is not verified until TAB completes the market or flags the favourite.';
-
-    board.innerHTML = `
-      <div style="margin-top:10px;padding:11px;border-radius:11px;background:#081421;border:1px solid #2b4058">
-        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
-          <div>
-            <div style="font-size:10px;font-weight:950;letter-spacing:.06em;color:${tone}">${heading}</div>
-            <div style="margin-top:3px;color:#93a9c0;font-size:9px">${pricedCount}/${active.length} active runners priced · checked ${esc(liveStamp(result))}</div>
-          </div>
-          <div style="font-size:9px;color:#8fa5bd;text-align:right">AUTO 15s</div>
-        </div>
-        <div style="display:grid;gap:5px;margin-top:9px;max-height:290px;overflow:auto">${rows}</div>
-        <div style="margin-top:8px;color:#9fb0c3;font-size:9px;line-height:1.4">${esc(method)}</div>
-      </div>`;
+  function instruction(result) {
+    const d = result?.decision || {};
+    const live = liveRunnerPrice(result,d.horse);
+    const min = Number(d.minExec);
+    const okay = Number.isFinite(live) && Number.isFinite(min) && live >= min;
+    return { d, live, min, okay };
   }
 
-  function renderRace(item, result) {
-    const race = raceCode(item.race || item.code);
-    const card = findCard(race);
-    if (!card) return;
-
-    const horseEl = [...card.children].find(el => el.tagName === 'STRONG') || null;
-    const rows = gateRows(card);
-    const fieldRow = rowByLabel(rows, 'FIELD');
-    const favRow = rowByLabel(rows, 'FAVOURITE');
-    const priceRow = rowByLabel(rows, 'PRICE');
-    const lockRow = rowByLabel(rows, 'BET LOCKED');
-    const gate = Number(item.priceGate || 3);
-
-    paintRow(fieldRow, item.fieldsConfirmed === true ? 'PASS' : 'WAIT', item.fieldsConfirmed === true ? 'Field confirmed' : 'Field not confirmed yet');
-    paintRow(lockRow, 'WAIT', 'FINAL V11 STAKE > A$0 HAS NOT BEEN RECEIVED');
-    renderOddsBoard(card, result);
-
-    if (!result?.ok) {
-      const error = humanError(result?.error);
-      const active = Array.isArray(result?.runners) ? result.runners.filter(r => !r?.scratched) : [];
-      const pricedCount = active.filter(r => Number.isFinite(Number(r?.price))).length;
-      if (horseEl) {
-        horseEl.textContent = active.length ? 'LIVE MARKET PARTIAL — FAVOURITE UNVERIFIED' : 'LIVE MARKET UNVERIFIED';
-        horseEl.style.color = '#ffc34f';
+  function renderTop(results) {
+    const active = results.filter(r => !['COMPLETE','CLOSED_RESULT_PENDING'].includes(r?.phase));
+    const locked = active.filter(r => r?.decision?.status === 'BET_LOCKED');
+    const card=$('decisionCard'), title=$('decisionTitle'), msg=$('decisionMessage'), kicker=$('decisionKicker'), box=$('lockedBets'), bottom=$('bottomCommand');
+    box.innerHTML='';
+    if (locked.length) {
+      const x=locked[0], q=instruction(x), d=q.d;
+      if (q.okay) {
+        card.className='decision-card bet-now'; bottom.className='bottom-command bet-now'; kicker.textContent='BET LOCKED · VERIFIED'; title.textContent='BET NOW';
+        msg.textContent=`${x.race}: ${d.horse}. The saved V11 decision is locked and the current TABtouch quote still passes the minimum.`;
+        box.innerHTML=`<article class="locked-bet"><div class="bet-badge">BET THIS HORSE</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>EXACT STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>DO NOT BET BELOW</span><strong>${odds(d.minExec)}</strong></div></div><div style="margin-top:10px;padding:10px;border-radius:10px;background:#0d3525;border:1px solid #2a8058"><b style="color:#78f2b5">CURRENT TABTOUCH: ${odds(q.live)} · PRICE OK</b></div></article>`;
+        $('bottomLabel').textContent='BET NOW'; $('bottomText').textContent=`${d.horse} · ${money.format(Number(d.stake)||0)} · min ${odds(d.minExec)}`; document.title='BET NOW · MITCHELL Racing';
+      } else {
+        card.className='decision-card blocked'; bottom.className='bottom-command blocked'; kicker.textContent='BET LOCKED · PRICE CHECK'; title.textContent='DO NOT PLACE YET';
+        msg.textContent=Number.isFinite(q.live)?`V11 is locked on ${d.horse}, but the current ${odds(q.live)} quote is below the saved ${odds(d.minExec)} minimum.`:`V11 is locked on ${d.horse}, but a current executable quote cannot be verified.`;
+        box.innerHTML=`<article class="locked-bet lock-blocked"><div class="bet-badge">LOCKED — PRICE NOT EXECUTABLE</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>SAVED STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>MINIMUM</span><strong>${odds(d.minExec)}</strong></div></div></article>`;
+        $('bottomLabel').textContent='WAIT'; $('bottomText').textContent='Saved V11 lock exists, but live price must pass the minimum.'; document.title='MITCHELL Racing';
       }
-      paintRow(favRow, 'WAIT', `Live TAB favourite unavailable: ${error}`);
-      paintRow(priceRow, 'WAIT', active.length
-        ? `${pricedCount}/${active.length} active TAB prices are live. Favourite not verified yet.`
-        : `No complete live TAB fixed-price market. Minimum is $${gate.toFixed(2)}.`);
-      setCardStatus(card, active.length ? 'PARTIAL TAB MARKET — WAIT' : 'LIVE TAB UNVERIFIED — WAIT', 'bad');
-      setExplainer(card, active.length
-        ? `TAB is returning live prices, but it has not supplied enough information to verify the favourite (${esc(error)}). The live odds are shown below; <b>do not choose the favourite manually</b>.`
-        : `TAB could not provide a verified live market (${esc(error)}). The saved horse is hidden rather than being presented as current.`);
-      return;
-    }
-
-    const favourites = Array.isArray(result.favourites) ? result.favourites : [];
-    const livePrice = Number(result.favouritePrice);
-    const pricePass = Number.isFinite(livePrice) && livePrice >= gate;
-    const methodText = result.verificationMethod === 'TAB_FAVOURITE_FLAG' ? 'TAB FLAG' : 'FULL MARKET';
-
-    if (result.favouriteType === 'EQUAL' || favourites.length > 1) {
-      const names = favourites.map(x => x.name).filter(Boolean);
-      if (horseEl) {
-        horseEl.textContent = names.length ? `EQUAL FAVOURITES: ${names.join(' / ')}` : 'EQUAL FAVOURITES';
-        horseEl.style.color = '#ffc34f';
-      }
-      paintRow(favRow, 'WAIT', `Equal TAB favourites at ${moneyOdds(livePrice)} · ${methodText}`);
-      paintRow(priceRow, pricePass ? 'PASS' : 'FAIL', `${moneyOdds(livePrice)} live TAB favourite price vs $${gate.toFixed(2)} minimum · ${liveStamp(result)}`);
-      setCardStatus(card, 'EQUAL FAVOURITES — WAIT FOR EXACT LOCK', 'wait');
-      setExplainer(card, `TAB currently has equal favourites. <b>Do not pick one yourself and do not split the stake.</b> Wait for the market to separate and for the final V11 BET LOCKED instruction.`);
-      return;
-    }
-
-    const fav = favourites[0];
-    if (!fav?.name || !Number.isFinite(livePrice)) {
-      if (horseEl) {
-        horseEl.textContent = 'LIVE MARKET UNVERIFIED';
-        horseEl.style.color = '#ffc34f';
-      }
-      paintRow(favRow, 'WAIT', 'TAB did not return one usable favourite');
-      paintRow(priceRow, 'WAIT', 'No verified live favourite price');
-      setCardStatus(card, 'WAIT — LIVE FAVOURITE UNVERIFIED', 'bad');
-      return;
-    }
-
-    if (horseEl) {
-      horseEl.textContent = fav.name;
-      horseEl.style.color = '';
-    }
-    paintRow(favRow, 'PASS', `${fav.name} — LIVE TAB favourite at ${moneyOdds(livePrice)} · ${methodText}`);
-    paintRow(priceRow, pricePass ? 'PASS' : 'FAIL', `${moneyOdds(livePrice)} live TAB vs $${gate.toFixed(2)} minimum · checked ${liveStamp(result)}`);
-    setCardStatus(card, pricePass ? 'LIVE PRICE PASSES — WAIT FOR BET LOCKED' : 'LIVE PRICE BELOW GATE — WAIT', pricePass ? 'ok' : 'bad');
-    setExplainer(card, pricePass
-      ? `TAB currently makes <b>${esc(fav.name)}</b> the verified favourite at <b>${moneyOdds(livePrice)}</b>. The price gate passes, but this is still <b>NOT A BET</b> until V11 produces FINAL STAKE &gt; A$0 and sends BET LOCKED.`
-      : `TAB currently makes <b>${esc(fav.name)}</b> the verified favourite at <b>${moneyOdds(livePrice)}</b>, which is below the $${gate.toFixed(2)} minimum. Wait for the market and final V11 lock.`);
-  }
-
-  function renderTop(data, results) {
-    const locked = Array.isArray(data.lockedBets) ? data.lockedBets : [];
-    if (locked.length) return;
-
-    const title = document.getElementById('decisionTitle');
-    const message = document.getElementById('decisionMessage');
-    const kicker = document.getElementById('decisionKicker');
-    const bottomLabel = document.getElementById('bottomLabel');
-    const bottomText = document.getElementById('bottomText');
-    const freshness = document.getElementById('freshness');
-    if (!title || !message || !kicker) return;
-
-    const ok = results.filter(r => r?.ok);
-    const failed = results.filter(r => !r?.ok);
-    const equal = ok.filter(r => r.favouriteType === 'EQUAL' || (r.favourites || []).length > 1);
-    const above = ok.filter(r => r.favouriteType === 'SINGLE' && Number(r.favouritePrice) >= 3);
-
-    title.textContent = 'WAIT — NO BET YET';
-    kicker.textContent = 'LIVE TAB · AUTO 15S';
-    if (bottomLabel) bottomLabel.textContent = 'LIVE TAB · AUTO 15S';
-
-    if (failed.length) {
-      const reasons = failed.map(r => `${r.race}: ${humanError(r.error)}`).join(' · ');
-      message.textContent = `Live TAB odds are updating, but ${failed.map(r => r.race).join(', ')} is not fully verified yet. ${reasons}. See each race's live odds board below.`;
-      if (bottomText) bottomText.textContent = 'Live odds updating; one or more favourites still unverified.';
-    } else if (equal.length) {
-      message.textContent = `${equal.map(r => r.race).join(', ')} currently has equal TAB favourites. Live odds are shown below. Wait for the market to separate and for BET LOCKED.`;
-      if (bottomText) bottomText.textContent = 'Equal favourites — live odds updating.';
-    } else if (above.length) {
-      message.textContent = `${above.map(r => r.race).join(', ')} currently passes the $3.00 live TAB price gate. Live odds update every 15 seconds. Final BET LOCKED is still required.`;
-      if (bottomText) bottomText.textContent = 'Live odds updating; final V11 BET LOCKED still required.';
     } else {
-      message.textContent = 'Live TAB favourites and runner odds are updating every 15 seconds. No verified BET LOCKED instruction has been received.';
-      if (bottomText) bottomText.textContent = 'Live odds updating — no locked wager.';
+      card.className='decision-card no-bet'; bottom.className='bottom-command no-bet'; kicker.textContent='NO ACTIVE BET'; title.textContent='DO NOT BET';
+      const finals=active.filter(r=>r?.decision?.status==='NO_BET_FINAL').length;
+      msg.textContent=active.length?`${active.length} upcoming V11 race${active.length===1?' is':'s are'} being monitored. ${finals?`${finals} already has a FINAL NO BET decision. `:''}Only a saved BET LOCKED instruction can turn this box green.`:'No active V11 watch races remain. See Today’s Results below.';
+      $('bottomLabel').textContent='NO ACTIVE BET'; $('bottomText').textContent=active.length?'Live V11 is monitoring upcoming races.':'All watched races are finished.'; document.title='MITCHELL Racing';
     }
-
-    if (freshness) freshness.textContent = `LIVE TAB · checked ${new Intl.DateTimeFormat('en-AU', {
-      hour: 'numeric', minute: '2-digit', second: '2-digit', timeZone: 'Australia/Perth'
-    }).format(new Date())}`;
+    $('freshness').textContent=`LIVE V11 · checked ${stamp()}`;
+    $('lastChecked').textContent=`AUTO 15s`;
+    window.__MITCHELL_LIVE_V11_HAS_RENDERED=true;
   }
 
-  function markAllUnverified(reason) {
-    document.querySelectorAll('.watch-card').forEach(card => {
-      const horseEl = [...card.children].find(el => el.tagName === 'STRONG') || null;
-      if (horseEl) {
-        horseEl.textContent = 'LIVE MARKET UNVERIFIED';
-        horseEl.style.color = '#ffc34f';
-      }
-      const rows = gateRows(card);
-      paintRow(rowByLabel(rows, 'FAVOURITE'), 'WAIT', 'Live TAB refresh failed');
-      paintRow(rowByLabel(rows, 'PRICE'), 'WAIT', 'Live TAB refresh failed');
-      setCardStatus(card, 'LIVE TAB UNVERIFIED — STALE HORSE HIDDEN', 'bad');
-      setExplainer(card, `Live TAB refresh failed (${esc(reason)}). The app is hiding the saved favourite rather than pretending it is current.`);
-      renderOddsBoard(card, null);
-    });
-    const freshness = document.getElementById('freshness');
-    if (freshness) freshness.textContent = 'LIVE TAB UNVERIFIED';
+  function render(data, results) {
+    lastData=data; lastResults=results;
+    const map=new Map(results.map(r=>[raceCode(r?.race),r]));
+    const items=Array.isArray(data?.watchlist)?data.watchlist:[];
+    const active=[], finished=[];
+    for(const item of items){const r=map.get(raceCode(item.race||item.code));if(!r)continue;(['COMPLETE','CLOSED_RESULT_PENDING'].includes(r.phase)?finished:active).push([item,r]);}
+    $('watchSummary').textContent=active.length?`${active.length} upcoming V11 race${active.length===1?'':'s'} — live decision active`:'No upcoming watch races';
+    $('watchlist').innerHTML=active.length?active.map(([i,r])=>watchCard(i,r)).join(''):'<div class="empty-watch">No V11 watch race is still active.</div>';
+    const rd=$('resultsDetails'), rl=$('resultsList'), rs=$('resultsSummary');
+    if(rd&&rl&&rs){rd.hidden=finished.length===0;rs.textContent=finished.length?`${finished.length} completed/resulting race${finished.length===1?'':'s'}`:'No results yet';rl.innerHTML=finished.map(([i,r])=>resultCard(i,r)).join('');}
+    renderTop(results);
   }
 
-  async function refreshLive() {
-    if (running || document.visibilityState !== 'visible') return;
-    running = true;
+  function fail(reason) {
+    if (!lastResults.length) {
+      $('decisionCard').className='decision-card blocked'; $('bottomCommand').className='bottom-command blocked';
+      $('decisionKicker').textContent='LIVE V11 ERROR'; $('decisionTitle').textContent='DO NOT BET'; $('decisionMessage').textContent=`Live V11 cannot be verified (${reason}). No new wager should be placed.`;
+      $('bottomLabel').textContent='LIVE V11 ERROR'; $('bottomText').textContent='No verified live decision.'; $('freshness').textContent='LIVE V11 UNAVAILABLE';
+    }
+  }
+
+  async function refresh() {
+    if (busy || document.visibilityState==='hidden') return;
+    busy=true;
     try {
-      const data = await fetchJson('./current.json');
-      const watch = Array.isArray(data.watchlist) ? data.watchlist : [];
-      const requests = watch.map(item => ({
-        race: raceCode(item.race || item.code),
-        date: item.date,
-        venue: item.venue || item.region,
-      })).filter(x => x.race && x.date && x.venue);
-      if (!requests.length) return;
-
-      const results = await fetchLive(requests);
-      const byRace = new Map(results.map(r => [raceCode(r.race), r]));
-      watch.forEach(item => renderRace(item, byRace.get(raceCode(item.race || item.code))));
-      renderTop(data, results);
-      lastGoodAt = Date.now();
-    } catch (error) {
-      console.error('Live TAB refresh failed', error);
-      if (!lastGoodAt || Date.now() - lastGoodAt > MAX_LIVE_AGE_MS) {
-        markAllUnverified(error instanceof Error ? error.message : 'feed error');
-      }
-    } finally {
-      running = false;
-    }
+      const data=await getJson('./current.json');
+      const watch=Array.isArray(data?.watchlist)?data.watchlist:[];
+      const requests=watch.map(i=>({race:raceCode(i.race||i.code),date:i.date,venue:i.venue||i.region})).filter(x=>x.race&&x.date&&x.venue);
+      if(!requests.length){render(data,[]);return;}
+      const results=await fetchLive(requests);
+      render(data,results);
+    } catch(e) { console.error('Live V11 refresh failed',e); fail(e instanceof Error?e.message:'feed error'); }
+    finally { busy=false; }
   }
 
-  function schedule() {
-    setTimeout(refreshLive, 400);
-    setInterval(refreshLive, POLL_MS);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') setTimeout(refreshLive, 100);
-    });
-    window.addEventListener('online', () => setTimeout(refreshLive, 100));
-    document.getElementById('refreshButton')?.addEventListener('click', () => setTimeout(refreshLive, 250));
-    document.getElementById('bottomRefresh')?.addEventListener('click', () => setTimeout(refreshLive, 250));
-  }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', schedule);
-  else schedule();
+  window.addEventListener('mitchell-base-ready',()=>setTimeout(refresh,50));
+  window.addEventListener('mitchell-refresh-live',()=>setTimeout(refresh,50));
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(refresh,50)});
+  window.addEventListener('online',()=>setTimeout(refresh,50));
+  setTimeout(refresh,500);
+  setInterval(refresh,POLL_MS);
 })();

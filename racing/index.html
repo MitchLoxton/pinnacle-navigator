@@ -17,54 +17,46 @@
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <div>
-        <div class="brand">MITCHELL RACING</div>
-        <div class="week" id="weekLabel">Loading race day…</div>
-      </div>
-      <button id="refreshButton" class="refresh" type="button" aria-label="Refresh latest bet instruction">↻</button>
+      <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
+      <button id="refreshButton" class="refresh" type="button" aria-label="Refresh live V11 decision">↻</button>
     </header>
 
-    <section class="decision-card waiting" id="decisionCard" aria-live="polite">
-      <div class="decision-kicker" id="decisionKicker">CHECKING</div>
-      <h1 id="decisionTitle">Loading…</h1>
-      <p id="decisionMessage">Checking the latest verified V11 instruction.</p>
+    <section class="decision-card waiting" id="decisionCard" aria-live="assertive">
+      <div class="decision-kicker" id="decisionKicker">LIVE V11 CHECKING</div>
+      <h1 id="decisionTitle">CHECKING...</h1>
+      <p id="decisionMessage">Checking live TABtouch odds, the saved V11 decision and race results.</p>
       <div id="lockedBets" class="locked-list"></div>
-      <div class="decision-meta">
-        <span id="freshness">Checking feed…</span>
-        <span id="lastChecked">Checking now…</span>
-      </div>
+      <div class="decision-meta"><span id="freshness">LIVE V11 · AUTO 15S</span><span id="lastChecked">Checking now…</span></div>
     </section>
 
     <section class="simple-rule">
       <strong>Only one rule matters:</strong>
-      <span>If the big box above does not say <b>BET NOW</b>, do not place a bet. A price above $3.00 by itself is not enough.</span>
+      <span>Only place a wager when the big box above says <b>BET NOW</b>. If it says anything else, do not bet.</span>
     </section>
 
     <section class="simple-rule" style="display:block;padding:14px">
-      <strong style="display:block;font-size:13px;margin-bottom:8px">WHAT IS THE FINAL TRIGGER?</strong>
+      <strong style="display:block;font-size:13px;margin-bottom:8px">HOW THE FINAL DECISION WORKS</strong>
       <div style="padding:12px;border-radius:12px;background:#0d3525;border:1px solid #2a8058;margin-bottom:10px;text-align:center">
-        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">FINAL TRIGGER</div>
-        <div style="font-size:18px;color:#78f2b5;font-weight:950;margin-top:3px">V11 FINAL STAKE &gt; A$0 NEAR THE JUMP</div>
+        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">AUTOMATIC V11 DECISION</div>
+        <div style="font-size:17px;color:#78f2b5;font-weight:950;margin-top:3px">WATCH → BET LOCKED / NO BET → RESULT</div>
       </div>
       <div style="display:grid;gap:7px;color:#d7e1ed;font-size:11px;line-height:1.45">
-        <div><b>1. Favourite:</b> the current market favourite must be known.</div>
-        <div><b>2. Near the jump:</b> V11 uses the best fixed price you can actually obtain at that time. An earlier price is only a preview.</div>
-        <div><b>3. Price gate:</b> the live price must be at least $3.00. Passing $3.00 does <u>not</u> create the bet by itself.</div>
-        <div><b>4. V11 calculation:</b> the engine checks the race + current loss-state/evidence, then applies the V11 stake and risk controls.</div>
-        <div><b>5. The actual trigger:</b> if that calculation finishes with <b>FINAL STAKE = A$0</b>, it is <span style="color:#ff8c9b;font-weight:900">NO BET</span>. If it finishes with <b>FINAL STAKE &gt; A$0</b>, the engine creates <span style="color:#27dd87;font-weight:950">BET LOCKED</span> and the app turns green with the horse, stake and minimum odds.</div>
-        <div style="margin-top:2px;padding:9px 10px;border-radius:10px;background:#162338;border:1px solid #304761"><b>Live market:</b> each watch card reads the public TABtouch fixed-WIN market and refreshes automatically every 15 seconds. Scratched runners are removed and the fixed-odds favourite is identified from TABtouch's live race data.</div>
+        <div><b>1. Live market:</b> TABtouch runner prices and the fixed-odds favourite refresh automatically.</div>
+        <div><b>2. Decision window:</b> inside 30 minutes of the scheduled jump, V11 automatically recalculates the final stake while there is still more than 60 seconds to the start.</div>
+        <div><b>3. BET LOCKED:</b> if the frozen V11 calculation returns a stake above A$0, the horse, stake, lock price and minimum executable price are saved permanently for that race.</div>
+        <div><b>4. NO BET:</b> if no qualifying lock exists by the 60-second safety buffer, the race becomes <b>FINAL NO BET</b>. It no longer waits forever.</div>
+        <div><b>5. After the race:</b> the race leaves COMING UP and moves to <b>TODAY'S RESULTS</b>, showing the winner and whether the saved V11 decision was WIN, LOSS or NO BET.</div>
       </div>
     </section>
 
     <details class="watch-details" id="watchDetails" open>
-      <summary>
-        <div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking watchlist…</strong></div>
-        <span class="not-bet">GATE CHECKS</span>
-      </summary>
-      <div class="watch-body">
-        <p>Each possible race shows live TABtouch fixed-WIN runner odds, the verified fixed-odds favourite, and exactly what is still missing before BET LOCKED.</p>
-        <div id="watchlist" class="watch-list"></div>
-      </div>
+      <summary><div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">LIVE V11</span></summary>
+      <div class="watch-body"><p>Every active race shows the live market and the actual saved V11 decision. Gate 4 can now finish as BET LOCKED or FINAL NO BET.</p><div id="watchlist" class="watch-list"></div></div>
+    </details>
+
+    <details class="watch-details" id="resultsDetails" open hidden>
+      <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
+      <div class="watch-body"><p>Finished V11 watch races move here automatically.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="details-card">
@@ -72,31 +64,28 @@
       <div class="details-body">
         <div class="mini-grid">
           <div><span>System</span><strong>V11 CORE</strong></div>
-          <div><span>Final trigger</span><strong>FINAL STAKE &gt; A$0 near jump</strong></div>
+          <div><span>Decision window</span><strong>30m → 60s pre-jump</strong></div>
           <div><span>Minimum live price</span><strong>$3.00+</strong></div>
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
-        <div class="info-row"><span>Market source</span><strong>TABtouch fixed WIN · 15s refresh</strong></div>
+        <div class="info-row"><span>Market source</span><strong>TABtouch fixed WIN · V11 auto decision · 15s</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
-        <p class="small-note">Historical/model figures are not a promise of future profit. Actual cash results depend on the stake and odds actually accepted, fees and settlement.</p>
+        <p class="small-note">Historical/model figures are not a promise of future profit. A BET LOCKED signal is a model instruction, not a guarantee of an accepted bookmaker wager or profit.</p>
       </div>
     </details>
 
-    <footer>
-      <span id="updatedAt">Not updated yet</span>
-      <span>Race-Day v1.5.1 TABTOUCH LIVE</span>
-    </footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6 AUTO V11 + RESULTS</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
-    <div><span id="bottomLabel">CHECKING</span><strong id="bottomText">Loading latest instruction…</strong></div>
+    <div><span id="bottomLabel">LIVE V11</span><strong id="bottomText">Checking live decision…</strong></div>
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=13" defer></script>
-  <script src="./live-tab.js?v=3" defer></script>
+  <script src="./app.js?v=14" defer></script>
+  <script src="./live-tab.js?v=4" defer></script>
 </body>
 </html>
