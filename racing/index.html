@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.6.7">
+<body data-build="1.6.8">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -31,25 +31,25 @@
 
     <section class="simple-rule">
       <strong>The rule:</strong>
-      <span><b>SIGNAL READY is not yet a recorded bet.</b> Only an actually accepted wager at $3.00+ can become a cash WIN/LOSS.</span>
+      <span><b>A signal is not a bet.</b> A race becomes a SYSTEM BET only when an accepted bookmaker execution is confirmed at $3.00+.</span>
     </section>
 
     <section class="simple-rule" style="display:block;padding:14px">
-      <strong style="display:block;font-size:13px;margin-bottom:8px">EXECUTION-TRUTH MODE</strong>
+      <strong style="display:block;font-size:13px;margin-bottom:8px">SIMPLE RESULT TRUTH</strong>
       <div style="padding:12px;border-radius:12px;background:#0d3525;border:1px solid #2a8058;margin-bottom:10px;text-align:center">
-        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">MONITOR EARLY · EXECUTE VERY LATE</div>
-        <div style="font-size:16px;color:#78f2b5;font-weight:950;margin-top:3px">LIVE SIGNAL ONLY 20–10s BEFORE JUMP</div>
+        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">TWO THINGS ONLY ON RESULTS</div>
+        <div style="font-size:16px;color:#78f2b5;font-weight:950;margin-top:3px">SYSTEM BET: YES/NO · STATE RESULT: WIN/LOSS</div>
       </div>
       <div style="padding:11px;border-radius:11px;background:#35151d;border:1px solid #74323e;margin-bottom:10px;color:#ffd1d7;font-size:11px;line-height:1.45">
-        <b>IMPORTANT:</b> the app now keeps three things separate: <b>(1) V11 model signal, (2) actual bookmaker execution, and (3) post-race Official-SP evidence.</b> A model signal alone is never counted as a real betting loss.
+        <b>IMPORTANT:</b> an old model signal is never displayed as a betting loss unless an accepted wager was actually recorded. Old signals are kept only inside collapsed audit history.
       </div>
       <div style="display:grid;gap:7px;color:#d7e1ed;font-size:11px;line-height:1.45">
-        <div><b>1. Monitoring:</b> early odds are information only. They cannot create an actual recorded wager.</div>
+        <div><b>1. Monitoring:</b> early odds are information only.</div>
         <div><b>2. Executable signal:</b> V11 can become SIGNAL READY only from <b>20 seconds down to 10 seconds</b> before the scheduled jump.</div>
         <div><b>3. Price + favourite:</b> it must still be the single verified favourite and at least <b>$3.00 fixed WIN</b>.</div>
-        <div><b>4. Actual wager:</b> after the bookmaker accepts it, tap <b>RECORD ACCEPTED BET</b> and enter the accepted stake and price. The server rejects a V11 accepted price below $3.00 or a stake above the model request.</div>
-        <div><b>5. No confirmation = no cash result:</b> if there is no accepted execution record, the race cannot be counted as an actual betting WIN/LOSS.</div>
-        <div><b>6. State sequence:</b> the favourite's race result still updates the stream loss state whether you bet or not.</div>
+        <div><b>4. Actual wager:</b> only a confirmed accepted stake + accepted price creates <b>SYSTEM BET: YES</b>.</div>
+        <div><b>5. No confirmation:</b> <b>SYSTEM BET: NO</b>. It cannot be a betting WIN/LOSS and contributes $0 to system cash P/L.</div>
+        <div><b>6. State sequence:</b> the favourite can still record a STATE WIN/LOSS whether you bet or not.</div>
         <div><b>7. Historical evidence:</b> exact-state N/ROI is updated only from a verified <b>Official SP</b> of $3.00+. Final fixed-WIN closing odds are reference only.</div>
         <div><b>8. Fail closed:</b> favourite changes, price below $3, unverified price, lost signal, or the 10-second cutoff = <b>DO NOT PLACE</b>.</div>
       </div>
@@ -57,12 +57,12 @@
 
     <details class="watch-details" id="watchDetails" open>
       <summary><div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">LIVE V11</span></summary>
-      <div class="watch-body"><p>Watch the market early, but act only on a valid near-jump SIGNAL READY. After the bookmaker accepts it, record the actual accepted execution in the app.</p><div id="watchlist" class="watch-list"></div></div>
+      <div class="watch-body"><p>Watch the market early, but act only on a valid near-jump SIGNAL READY. After the bookmaker accepts it, record the accepted execution in the app.</p><div id="watchlist" class="watch-list"></div></div>
     </details>
 
     <details class="watch-details" id="resultsDetails" open hidden>
       <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
-      <div class="watch-body"><p>Results separate model signals from actual wagers. An unconfirmed signal is not counted as a cash betting loss. Official-SP evidence is also tracked separately.</p><div id="resultsList" class="watch-list"></div></div>
+      <div class="watch-body"><p>Read only the two big lines on each finished race: <b>SYSTEM BET</b> tells you whether money counted; <b>STATE RESULT</b> tells you whether the favourite won or lost for the stream sequence.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="details-card">
@@ -75,20 +75,19 @@
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
-        <div class="info-row"><span>Live signal source</span><strong>TABtouch fixed WIN · V11</strong></div>
-        <div class="info-row"><span>Actual bet definition</span><strong>Accepted stake + accepted fixed price recorded</strong></div>
-        <div class="info-row"><span>Cash P/L</span><strong>Only confirmed actual wagers</strong></div>
-        <div class="info-row"><span>State tracking</span><strong>Every favourite result, bet or no bet</strong></div>
+        <div class="info-row"><span>System bet definition</span><strong>Confirmed accepted bookmaker execution only</strong></div>
+        <div class="info-row"><span>Cash P/L</span><strong>Only SYSTEM BET = YES races</strong></div>
+        <div class="info-row"><span>State tracking</span><strong>Favourite W/L even when SYSTEM BET = NO</strong></div>
         <div class="info-row"><span>Closing fixed price</span><strong>TAB.com.au final fixed WIN · reference only</strong></div>
         <div class="info-row"><span>Official-SP evidence rule</span><strong>Verified Official SP ≥ $3.00 only</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
-        <p class="small-note">No pre-race system can know the eventual Official SP with certainty. This build prevents a model signal from being silently treated as an actual wager and reduces price-drift exposure by waiting until the final 20–10 seconds.</p>
+        <p class="small-note">No pre-race system can know the eventual Official SP with certainty. Signal history is kept for audit, but a signal never becomes a betting result without confirmed execution.</p>
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.7 · EXECUTION TRUTH</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.8 · SIMPLE RESULT TRUTH</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -96,8 +95,9 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=21" defer></script>
+  <script src="./app.js?v=22" defer></script>
   <script src="./live-tab.js?v=5" defer></script>
   <script src="./execution-truth.js?v=1" defer></script>
+  <script src="./result-truth-simple.js?v=1" defer></script>
 </body>
 </html>

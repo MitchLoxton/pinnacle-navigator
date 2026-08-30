@@ -1,5 +1,5 @@
 {
-  "build": "1.6.7",
-  "label": "AUTO V11 + EXECUTION TRUTH",
-  "minimumClientBuild": "1.6.7"
+  "build": "1.6.8",
+  "label": "AUTO V11 + SIMPLE RESULT TRUTH",
+  "minimumClientBuild": "1.6.8"
 }
