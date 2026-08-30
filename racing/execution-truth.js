@@ -15,12 +15,15 @@
   let resultBusy = false;
   let stickyMode = null;
   let stickyPayload = null;
+  let stickyApplying = false;
 
   const $ = id => document.getElementById(id);
   const raceCode = v => String(v || '').trim().toUpperCase();
   const horseKey = v => String(v || '').toUpperCase().replace(/[^A-Z0-9]+/g, ' ').replace(/\bNZ\b$/, '').trim().replace(/\s+/g, ' ');
   const odds = v => Number.isFinite(Number(v)) ? '$' + Number(v).toFixed(2) : '—';
   const money = v => Number.isFinite(Number(v)) ? new Intl.NumberFormat('en-AU', { style:'currency', currency:'AUD', maximumFractionDigits:0 }).format(Number(v)) : '—';
+  const setText = (el, text) => { if (el && el.textContent !== text) el.textContent = text; };
+  const setClass = (el, value) => { if (el && el.className !== value) el.className = value; };
 
   async function post(url, body) {
     const r = await fetch(url, {
@@ -65,47 +68,43 @@
   function block(title, detail, label = 'DO NOT PLACE') {
     stickyMode = 'BLOCKED';
     stickyPayload = { title, detail, label };
-    const card = $('decisionCard');
-    const bottom = $('bottomCommand');
-    if (card) card.className = 'decision-card blocked';
-    if (bottom) bottom.className = 'bottom-command blocked';
-    if ($('decisionKicker')) $('decisionKicker').textContent = 'EXECUTION GUARD · BLOCKED';
-    if ($('decisionTitle')) $('decisionTitle').textContent = title;
-    if ($('decisionMessage')) $('decisionMessage').textContent = detail;
-    if ($('bottomLabel')) $('bottomLabel').textContent = label;
-    if ($('bottomText')) $('bottomText').textContent = detail;
+    setClass($('decisionCard'), 'decision-card blocked');
+    setClass($('bottomCommand'), 'bottom-command blocked');
+    setText($('decisionKicker'), 'EXECUTION GUARD · BLOCKED');
+    setText($('decisionTitle'), title);
+    setText($('decisionMessage'), detail);
+    setText($('bottomLabel'), label);
+    setText($('bottomText'), detail);
     const badge = document.querySelector('#lockedBets .bet-badge');
-    if (badge) badge.textContent = title;
-    document.title = 'DO NOT PLACE · MITCHELL Racing';
+    setText(badge, title);
+    if (document.title !== 'DO NOT PLACE · MITCHELL Racing') document.title = 'DO NOT PLACE · MITCHELL Racing';
   }
 
   function recorded(result) {
     stickyMode = 'RECORDED';
     stickyPayload = result;
     const d = result?.decision || {};
-    const card = $('decisionCard');
-    const bottom = $('bottomCommand');
-    if (card) card.className = 'decision-card waiting';
-    if (bottom) bottom.className = 'bottom-command waiting';
-    if ($('decisionKicker')) $('decisionKicker').textContent = 'ACTUAL WAGER CONFIRMED';
-    if ($('decisionTitle')) $('decisionTitle').textContent = 'BET RECORDED';
-    if ($('decisionMessage')) $('decisionMessage').textContent = `${result?.race || ''}: ${d.horse || ''} · accepted ${money(d.acceptedStake)} at ${odds(d.acceptedPrice)}. Do not place another wager.`;
-    if ($('bottomLabel')) $('bottomLabel').textContent = 'BET RECORDED';
-    if ($('bottomText')) $('bottomText').textContent = 'Actual execution is confirmed. Do not place a second wager.';
+    setClass($('decisionCard'), 'decision-card waiting');
+    setClass($('bottomCommand'), 'bottom-command waiting');
+    setText($('decisionKicker'), 'ACTUAL WAGER CONFIRMED');
+    setText($('decisionTitle'), 'BET RECORDED');
+    setText($('decisionMessage'), `${result?.race || ''}: ${d.horse || ''} · accepted ${money(d.acceptedStake)} at ${odds(d.acceptedPrice)}. Do not place another wager.`);
+    setText($('bottomLabel'), 'BET RECORDED');
+    setText($('bottomText'), 'Actual execution is confirmed. Do not place a second wager.');
     const badge = document.querySelector('#lockedBets .bet-badge');
-    if (badge) badge.textContent = 'ACTUAL BET CONFIRMED — DO NOT PLACE AGAIN';
-    document.title = 'BET RECORDED · MITCHELL Racing';
+    setText(badge, 'ACTUAL BET CONFIRMED — DO NOT PLACE AGAIN');
+    if (document.title !== 'BET RECORDED · MITCHELL Racing') document.title = 'BET RECORDED · MITCHELL Racing';
   }
 
   function truthifyWatchLabels() {
     document.querySelectorAll('#watchlist .not-bet').forEach(el => {
-      if (/^BET LOCKED/i.test(el.textContent || '')) el.textContent = 'SIGNAL READY — ACTUAL BET NOT YET CONFIRMED';
+      if (/^BET LOCKED/i.test(el.textContent || '')) setText(el, 'SIGNAL READY — ACTUAL BET NOT YET CONFIRMED');
     });
     document.querySelectorAll('#watchlist .watch-card').forEach(card => {
       const gate = [...card.querySelectorAll('div')].find(node => /4\. V11 DECISION/.test(node.textContent || ''));
       if (!gate) return;
       const span = gate.querySelector('span');
-      if (span && /BET LOCKED/i.test(span.textContent || '')) span.textContent = span.textContent.replace(/BET LOCKED/gi, 'SIGNAL READY');
+      if (span && /BET LOCKED/i.test(span.textContent || '')) setText(span, span.textContent.replace(/BET LOCKED/gi, 'SIGNAL READY'));
     });
   }
 
@@ -118,9 +117,9 @@
       return;
     }
 
-    if ($('decisionKicker')) $('decisionKicker').textContent = 'SIGNAL READY · EXECUTION UNCONFIRMED';
+    setText($('decisionKicker'), 'SIGNAL READY · EXECUTION UNCONFIRMED');
     const badge = locked.querySelector('.bet-badge');
-    if (badge) badge.textContent = 'SIGNAL READY — PLACE ONLY IF BOOKMAKER ACCEPTS';
+    setText(badge, 'SIGNAL READY — PLACE ONLY IF BOOKMAKER ACCEPTS');
 
     let box = locked.querySelector('[data-execution-recorder]');
     if (!box) {
@@ -154,7 +153,7 @@
   async function recordAccepted(result, box) {
     const status = box.querySelector('[data-exec-status]');
     try {
-      if (status) status.textContent = 'Rechecking live market before recording…';
+      setText(status, 'Rechecking live market before recording…');
       const fresh = await freshLocked(result?.race);
       if (!fresh) throw new Error('The live server no longer verifies this signal. Do not place it.');
       const d = fresh.decision || {};
@@ -171,14 +170,14 @@
 
       const item = itemForRace(fresh.race);
       if (!item) throw new Error('Race date could not be resolved.');
-      if (status) status.textContent = 'Saving accepted execution…';
+      setText(status, 'Saving accepted execution…');
       await post(EXEC_URL, { race:fresh.race, date:item.date, action:'CONFIRM', acceptedStake, acceptedPrice });
-      if (status) status.textContent = 'ACTUAL BET RECORDED.';
+      setText(status, 'ACTUAL BET RECORDED.');
       stickyMode = null;
       window.dispatchEvent(new Event('mitchell-refresh-live'));
       setTimeout(guardTick, 250);
     } catch (e) {
-      if (status) status.textContent = e instanceof Error ? e.message : 'Could not record execution.';
+      setText(status, e instanceof Error ? e.message : 'Could not record execution.');
       block('DO NOT PLACE — EXECUTION NOT CONFIRMED', e instanceof Error ? e.message : 'Execution could not be verified.', 'NOT CONFIRMED');
     }
   }
@@ -189,12 +188,12 @@
     try {
       const item = itemForRace(result?.race);
       if (!item) throw new Error('Race date could not be resolved.');
-      if (status) status.textContent = 'Saving NO BET…';
+      setText(status, 'Saving NO BET…');
       await post(EXEC_URL, { race:result.race, date:item.date, action:'NOT_PLACED' });
       block('NO BET — NOT PLACED', 'You marked this signal as not placed. It will not count as a cash win/loss.', 'NO BET');
       window.dispatchEvent(new Event('mitchell-refresh-live'));
     } catch (e) {
-      if (status) status.textContent = e instanceof Error ? e.message : 'Could not save status.';
+      setText(status, e instanceof Error ? e.message : 'Could not save status.');
     }
   }
 
@@ -314,6 +313,9 @@
       ? `<div style="color:${evidence.status === 'ELIGIBLE' ? '#78f2b5' : '#ff9eaa'};font-weight:950">OFFICIAL SP ${odds(evidence.officialSp)} · ${String(evidence.status || '').replaceAll('_',' ')}</div>`
       : `<div style="color:#ffc34f;font-weight:950">OFFICIAL SP EVIDENCE · UNVERIFIED</div><div style="color:#b7c5d5;margin-top:3px">Do not add or exclude this race from the workbook ROI evidence until true Official SP is verified.</div>`;
 
+    const renderKey = [exec.status, exec.actualBet, exec.acceptedStake, exec.acceptedPrice, exec.cashPl, signal.exists, signal.modelStake, signal.signalPrice, evidence.status, evidence.officialSp, finalPrice].join('|');
+    if (box.dataset.truthKey === renderKey) return;
+    box.dataset.truthKey = renderKey;
     box.innerHTML = `
       <div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">EXECUTION TRUTH</div>
       <div style="font-size:10px;line-height:1.45;margin-top:6px">${execLine}</div>
@@ -348,10 +350,20 @@
   }
 
   function reapplySticky() {
-    truthifyWatchLabels();
-    if (stickyMode === 'BLOCKED' && stickyPayload) block(stickyPayload.title, stickyPayload.detail, stickyPayload.label);
-    else if (stickyMode === 'RECORDED' && stickyPayload) recorded(stickyPayload);
-    else if (stickyMode === 'READY' && stickyPayload) recorderBox(stickyPayload);
+    if (stickyApplying) return;
+    stickyApplying = true;
+    try {
+      truthifyWatchLabels();
+      if (stickyMode === 'BLOCKED' && stickyPayload) {
+        if ($('decisionTitle')?.textContent !== stickyPayload.title) block(stickyPayload.title, stickyPayload.detail, stickyPayload.label);
+      } else if (stickyMode === 'RECORDED' && stickyPayload) {
+        if ($('decisionTitle')?.textContent !== 'BET RECORDED') recorded(stickyPayload);
+      } else if (stickyMode === 'READY' && stickyPayload) {
+        recorderBox(stickyPayload);
+      }
+    } finally {
+      stickyApplying = false;
+    }
   }
 
   function start() {
