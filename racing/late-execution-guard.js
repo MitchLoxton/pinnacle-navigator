@@ -9,6 +9,7 @@
   const MIN_PRICE = 3;
   let busy = false;
   let blockedByGuard = false;
+  let lastBlock = null;
 
   const $ = id => document.getElementById(id);
   const raceCode = v => String(v || '').trim().toUpperCase();
@@ -55,8 +56,7 @@
     return Number.isFinite(p) ? p : null;
   }
 
-  function block(title, detail, label) {
-    blockedByGuard = true;
+  function paintBlock(title, detail, label) {
     const card = $('decisionCard');
     const bottom = $('bottomCommand');
     if (card) card.className = 'decision-card blocked';
@@ -69,6 +69,12 @@
     const badge = document.querySelector('#lockedBets .bet-badge');
     if (badge) badge.textContent = title;
     document.title = 'DO NOT PLACE · MITCHELL Racing';
+  }
+
+  function block(title, detail, label) {
+    blockedByGuard = true;
+    lastBlock = { title, detail, label };
+    paintBlock(title, detail, label);
   }
 
   function verify(result) {
@@ -106,7 +112,6 @@
   async function fastCheck() {
     if (busy || document.visibilityState === 'hidden') return;
 
-    // Before a lock, force the main live engine to refresh every 5s in the final minute.
     if (nearJumpOnScreen() && !hasLockedCard()) {
       window.dispatchEvent(new Event('mitchell-refresh-live'));
       return;
@@ -131,6 +136,7 @@
       }
       if (check.ok && blockedByGuard) {
         blockedByGuard = false;
+        lastBlock = null;
         window.dispatchEvent(new Event('mitchell-refresh-live'));
       }
     } catch (e) {
@@ -139,6 +145,15 @@
     } finally {
       busy = false;
     }
+  }
+
+  const decisionRoot = $('decisionCard');
+  if (decisionRoot) {
+    new MutationObserver(() => {
+      if (blockedByGuard && lastBlock && $('decisionTitle')?.textContent?.trim() === 'BET NOW') {
+        paintBlock(lastBlock.title, lastBlock.detail, lastBlock.label);
+      }
+    }).observe(decisionRoot, { subtree: true, childList: true, characterData: true, attributes: true });
   }
 
   setInterval(fastCheck, FAST_MS);
