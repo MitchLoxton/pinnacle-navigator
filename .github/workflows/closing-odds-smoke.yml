@@ -25,8 +25,6 @@ jobs:
             --data '{"requests":[{"race":"PR2","date":"2026-08-29","venue":"Belmont Park"},{"race":"SR6","date":"2026-08-29","venue":"Rosehill Gardens"}]}' \
             -o response.json
           cat response.json | jq .
-          jq -e '.ok == true' response.json >/dev/null
-          jq -e '.results | length == 2' response.json >/dev/null
-          jq -e '.results[0].ok == true' response.json >/dev/null
-          jq -e '.results[0].favourites | map(.name) | index("SEPTEMBER BORN") != null' response.json >/dev/null
-          jq -e '.results[0].favouritePrice == 2.8' response.json >/dev/null
+          jq -e '.ok == true and (.results | length == 2)' response.json >/dev/null
+          jq -e '.results[0].ok == true and .results[0].favouritePrice == 2.8 and (.results[0].favourites | map(.name) | index("SEPTEMBER BORN") != null)' response.json >/dev/null
+          jq -e '.results[1].ok == true and .results[1].favouritePrice == 3 and (.results[1].favourites | map(.name) | index("SHE'"'"'S AN ARTIST") != null)' response.json >/dev/null
