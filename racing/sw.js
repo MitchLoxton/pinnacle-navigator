@@ -1,5 +1,5 @@
-const BUILD = '1.6.3';
-const CACHE = 'mitchell-racing-v20-closing-odds';
+const BUILD = '1.6.4';
+const CACHE = 'mitchell-racing-v21-closing-odds-stable';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './manifest.webmanifest',
