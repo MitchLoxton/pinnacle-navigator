@@ -74,7 +74,7 @@
       node.innerHTML = `
         <div style="font-size:9px;letter-spacing:.05em;color:#9eb3ca">LIVE V11</div>
         <div style="font-size:12px;font-weight:950;margin-top:3px">NO LIVE LOCK</div>
-        <div style="font-size:9px;font-weight:700;margin-top:4px;color:#b7c5d5">No V11 lock was recorded before the start. The post-race $3+ evidence check below is a separate statistics rule.</div>`;
+        <div style="font-size:9px;font-weight:700;margin-top:4px;color:#b7c5d5">No late-confirmed V11 lock was recorded before the start.</div>`;
       return;
     }
 
@@ -86,47 +86,38 @@
     node.innerHTML = `
       <div style="font-size:9px;letter-spacing:.05em;color:${tone}">LIVE V11 LOCK RESULT</div>
       <div style="font-size:12px;font-weight:950;margin-top:3px">${esc(result || 'SETTLED')} · ${esc(d.horse || 'UNKNOWN')} · ${money.format(Number(d.stake) || 0)}</div>
-      <div style="font-size:9px;font-weight:800;margin-top:4px;color:#d6e0eb">LOCK ${odds(d.entryPrice)} · MIN EXEC ${odds(d.minExec)}</div>
-      <div style="font-size:9px;font-weight:700;margin-top:4px;color:#b7c5d5">This is the live lock outcome. Whether the race belongs in the workbook's $3+ ROI evidence is classified separately below.</div>`;
+      <div style="font-size:9px;font-weight:800;margin-top:4px;color:#d6e0eb">LOCK ${odds(d.entryPrice)} · LIVE MIN ${odds(d.minExec)}</div>
+      <div style="font-size:9px;font-weight:700;margin-top:4px;color:#b7c5d5">This is the real-time lock outcome. Official-SP evidence is a separate post-race field.</div>`;
   }
 
-  function evidenceInfo(closing) {
-    const p = Number(closing?.evidence?.price ?? closing?.favouritePrice);
-    const verified = Number.isFinite(p) && p > 1;
-    const status = String(closing?.evidence?.status || (verified ? (p >= EVIDENCE_MIN ? 'ELIGIBLE' : 'EXCLUDED_BELOW_3') : 'UNVERIFIED'));
-    if (!verified || status === 'UNVERIFIED') {
+  function officialSpInfo(closing) {
+    const sp = Number(closing?.officialSp);
+    if (!Number.isFinite(sp) || sp <= 1) {
       return {
         key: 'UNVERIFIED',
-        title: 'V11 $3+ STATISTICS EVIDENCE · UNVERIFIED',
+        title: 'OFFICIAL SP EVIDENCE · UNVERIFIED',
         color: '#ffc34f',
         bg: '#33270e',
         border: '#735a27',
-        text: 'Post-race evidence price is not verified. Do not add this race to exact-state ROI evidence yet. Loss-state tracking can still update once the race result is known.'
+        text: 'The workbook requires Official SP for the $3 evidence rule. The final fixed-WIN price shown above is reference-only and must NOT be used to add or exclude this race from exact-state ROI evidence.'
       };
     }
-    if (status === 'ELIGIBLE' || p >= EVIDENCE_MIN) {
-      return {
-        key: `ELIGIBLE|${p}`,
-        title: 'V11 $3+ STATISTICS EVIDENCE · ELIGIBLE',
-        color: '#78f2b5',
-        bg: '#0d3525',
-        border: '#2a8058',
-        text: `${odds(p)} ≥ ${odds(EVIDENCE_MIN)}. This race qualifies for the workbook's exact-state ROI evidence. Loss-state tracking also updates.`
-      };
-    }
+    const eligible = sp >= EVIDENCE_MIN;
     return {
-      key: `EXCLUDED|${p}`,
-      title: 'V11 $3+ STATISTICS EVIDENCE · EXCLUDED',
-      color: '#ff9eaa',
-      bg: '#35151d',
-      border: '#74323e',
-      text: `${odds(p)} < ${odds(EVIDENCE_MIN)}. Do NOT include this race in exact-state ROI evidence/statistics. The race still updates the loss-state sequence.`
+      key: `${eligible ? 'ELIGIBLE' : 'EXCLUDED'}|${sp}`,
+      title: `OFFICIAL SP EVIDENCE · ${eligible ? 'ELIGIBLE' : 'EXCLUDED'}`,
+      color: eligible ? '#78f2b5' : '#ff9eaa',
+      bg: eligible ? '#0d3525' : '#35151d',
+      border: eligible ? '#2a8058' : '#74323e',
+      text: eligible
+        ? `Official SP ${odds(sp)} ≥ ${odds(EVIDENCE_MIN)}. This completed race may enter the workbook's exact-state ROI evidence.`
+        : `Official SP ${odds(sp)} < ${odds(EVIDENCE_MIN)}. Do not add this race to exact-state ROI evidence; the loss-state sequence still updates.`
     };
   }
 
   function renderClosing(card, closing) {
     const favs = Array.isArray(closing?.favourites) ? closing.favourites : [];
-    const evidence = evidenceInfo(closing);
+    const evidence = officialSpInfo(closing);
     const d = closing?.liveDecision || {};
     const renderKey = closing?.ok
       ? `ok|${closing.favouriteType || ''}|${Number(closing.favouritePrice) || ''}|${evidence.key}|${d.status || ''}|${d.resultStatus || ''}|${Number(d.entryPrice) || ''}|${Number(d.minExec) || ''}|${Number(d.stake) || ''}|${favs.map(f => `${f?.number || ''}:${f?.name || ''}`).join('|')}`
@@ -153,14 +144,15 @@
 
     if (!closing?.ok) {
       box.innerHTML = `
-        <div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">POST-RACE $3+ EVIDENCE CHECK</div>
-        <div style="margin-top:4px;font-size:11px;color:#ffc34f;font-weight:850">Final fixed-WIN closing odds unavailable — evidence status remains UNVERIFIED.</div>`;
+        <div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">FINAL FIXED-WIN REFERENCE</div>
+        <div style="margin-top:4px;font-size:11px;color:#ffc34f;font-weight:850">Final fixed-WIN closing odds unavailable.</div>
+        <div style="margin-top:8px;font-size:10px;color:#ffc34f;font-weight:850">OFFICIAL SP EVIDENCE · UNVERIFIED</div>`;
       return;
     }
 
     const p = Number(closing.favouritePrice);
     const equal = closing.favouriteType === 'EQUAL' && favs.length > 1;
-    const title = equal ? 'FINAL EQUAL FAVOURITES' : 'FINAL CLOSING FAVOURITE';
+    const title = equal ? 'FINAL FIXED-WIN EQUAL FAVOURITES' : 'FINAL FIXED-WIN CLOSING FAVOURITE';
     const names = favs.length ? favs.map(f => `${f?.number ? '#' + esc(f.number) + ' ' : ''}${esc(f?.name || 'UNKNOWN')}`).join(' / ') : 'Favourite unavailable';
 
     box.innerHTML = `
@@ -169,12 +161,11 @@
         <div style="font-size:14px;color:#fff;font-weight:950;line-height:1.25">${names}</div>
         <div style="font-size:18px;color:#78f2b5;font-weight:950;white-space:nowrap">${odds(p)}</div>
       </div>
-      <div style="font-size:9px;color:#8fa5bd;margin-top:5px">POST-RACE EVIDENCE PRICE · TAB.com.au final fixed-WIN market</div>
+      <div style="font-size:9px;color:#8fa5bd;margin-top:5px">REFERENCE ONLY · TAB.com.au final fixed-WIN market · this is NOT automatically Official SP</div>
       <div style="margin-top:10px;padding:10px;border-radius:10px;background:${evidence.bg};border:1px solid ${evidence.border}">
         <div style="font-size:9px;font-weight:950;letter-spacing:.04em;color:${evidence.color}">${evidence.title}</div>
         <div style="font-size:10px;font-weight:750;line-height:1.4;color:#dbe6f4;margin-top:4px">${esc(evidence.text)}</div>
-      </div>
-      <div style="font-size:9px;color:#8fa5bd;line-height:1.35;margin-top:8px"><b>Two-price rule:</b> the live fixed price decides whether V11 can lock a wager; the post-race $3+ evidence price decides whether the race belongs in the historical ROI evidence. They are intentionally separate.</div>`;
+      </div>`;
   }
 
   async function refresh() {
