@@ -1,5 +1,5 @@
-const BUILD = '1.6.6';
-const CACHE = 'mitchell-racing-v23-late-confirmation';
+const BUILD = '1.6.7';
+const CACHE = 'mitchell-racing-v24-execution-truth';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './manifest.webmanifest',
@@ -30,7 +30,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const criticalPath = /\/racing\/(?:index\.html|app\.js|live-tab\.js|execution-guard\.js|late-execution-guard\.js|closing-odds\.js|version\.json|current\.json|stats\.json)$/.test(url.pathname);
+  const criticalPath = /\/racing\/(?:index\.html|app\.js|live-tab\.js|execution-truth\.js|version\.json|current\.json|stats\.json)$/.test(url.pathname);
   const critical = event.request.mode === 'navigate' || criticalPath;
 
   if (critical) {
