@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Navigator">
-<link rel="manifest" href="./manifest.webmanifest?v=5346">
+<link rel="manifest" href="./manifest.webmanifest?v=5347">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <title>Pinnacle Navigator · v53.45</title>
 <style>
@@ -18,52 +18,36 @@
 <div class="app"><div class="head"><div><div class="brand">Pinnacle Navigator</div><div class="sub">Mundi POS 1 · LIVE Shared Crew</div></div><div class="badge" id="versionBadge">v53.45</div></div><main id="view"></main></div>
 <script>
 (function(){'use strict';
-const ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-bundle-v52?shell=5346';
+const ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-bundle-v52?shell=5347';
+const SAFE_ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-bundle-safe';
 const KEY='sb_publishable_VATM2AkVyl-yvxv28S2FXw_CqMpBr6q';
 const PROJECT='mundi-pos1',PERSON_KEY='pn_live_person',PIN_KEY='pn_live_pin',VERSION_KEY='pn_live_version',FALLBACK_VERSION='v53.45';
-const BUNDLE_CACHE='pn-private-bundle-live-v5346',BUNDLE_CACHE_URL=new URL('./.private-navigator-live-v5346',location.href).href;
+const BUNDLE_CACHE='pn-private-bundle-live-v5347',BUNDLE_CACHE_URL=new URL('./.private-navigator-live-v5347',location.href).href;
 const NAMES={me:'Mitchell',ronan:'Ronan',colin:'Colin'},view=document.getElementById('view'),versionBadge=document.getElementById('versionBadge');
 const FORBIDDEN=['./progress.js?v=1','./colin-flow.js?v=1','./foreman.js?v=1','./foreman-ux.js?v=2','./foreman-fit.js?v=1','./colin-pack.js?v=1','./v52-all.js?v=52','navigator-v5339-pipe-template','compound-761-template.html'];
 let person=localStorage.getItem(PERSON_KEY)||'',pin=localStorage.getItem(PIN_KEY)||'',loginBusy=false;
 function showVersion(v){const x=String(v||FALLBACK_VERSION).trim()||FALLBACK_VERSION;if(versionBadge)versionBadge.textContent=x;document.title='Pinnacle Navigator · '+x;}
 showVersion(FALLBACK_VERSION);
 const clean=v=>String(v||'').replace(/[^0-9]/g,'').slice(0,6),valid=v=>/^\d{6}$/.test(v),esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function choosePerson(key,event){
-  if(event){event.preventDefault();event.stopPropagation();}
-  if(loginBusy)return;
-  const input=document.getElementById('crewPin');
-  const p=clean(input&&input.value);
-  const err=document.getElementById('err');
-  if(!valid(p)){if(err)err.textContent='Enter all 6 PIN digits first.';if(input){input.value=p;input.focus();}return;}
-  loginBusy=true;
-  if(input)try{input.blur();}catch(e){}
-  pin=p;person=key;
-  openNavigator();
-}
-function bindLogin(){
-  const input=document.getElementById('crewPin');
-  if(input){
-    input.addEventListener('input',function(){this.value=clean(this.value);if(this.value.length===6)setTimeout(()=>{try{this.blur();}catch(e){}},80);});
-    input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();const saved=localStorage.getItem(PERSON_KEY)||'me';choosePerson(saved,e);}});
-  }
-  view.querySelectorAll('[data-person]').forEach(btn=>{
-    const key=btn.dataset.person;
-    btn.addEventListener('click',e=>choosePerson(key,e),{capture:true});
-    btn.addEventListener('touchend',e=>choosePerson(key,e),{passive:false,capture:true});
-    btn.addEventListener('pointerup',e=>{if(e.pointerType&&e.pointerType!=='touch')choosePerson(key,e);},{capture:true});
-  });
-}
-function login(message=''){loginBusy=false;view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · LIVE</div><h1>Who are you?</h1><p class="intro">Enter the 6-digit crew PIN, then tap your name.</p><label class="pinLabel" for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="6 digits" value="${esc(clean(pin))}"><div class="names"><button type="button" class="person" data-person="me">MITCHELL<small>Worker</small></button><button type="button" class="person" data-person="ronan">RONAN<small>Worker</small></button><button type="button" class="person" data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">${esc(message)}</div><div class="note">Login recovery shell · live check on every open · your shared job progress is preserved.</div></section>`;bindLogin();}
+function choosePerson(key,event){if(event){event.preventDefault();event.stopPropagation();}if(loginBusy)return;const input=document.getElementById('crewPin'),p=clean(input&&input.value),err=document.getElementById('err');if(!valid(p)){if(err)err.textContent='Enter all 6 PIN digits first.';if(input){input.value=p;input.focus();}return;}loginBusy=true;if(input)try{input.blur();}catch(e){}pin=p;person=key;openNavigator();}
+function bindLogin(){const input=document.getElementById('crewPin');if(input){input.addEventListener('input',function(){this.value=clean(this.value);if(this.value.length===6)setTimeout(()=>{try{this.blur();}catch(e){}},80);});input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();choosePerson(localStorage.getItem(PERSON_KEY)||'me',e);}});}view.querySelectorAll('[data-person]').forEach(btn=>{const key=btn.dataset.person;btn.addEventListener('click',e=>choosePerson(key,e),{capture:true});btn.addEventListener('touchend',e=>choosePerson(key,e),{passive:false,capture:true});btn.addEventListener('pointerup',e=>{if(e.pointerType&&e.pointerType!=='touch')choosePerson(key,e);},{capture:true});});}
+function login(message=''){loginBusy=false;view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · LIVE</div><h1>Who are you?</h1><p class="intro">Enter the 6-digit crew PIN, then tap your name.</p><label class="pinLabel" for="crewPin">CREW PIN</label><input id="crewPin" class="pin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="6 digits" value="${esc(clean(pin))}"><div class="names"><button type="button" class="person" data-person="me">MITCHELL<small>Worker</small></button><button type="button" class="person" data-person="ronan">RONAN<small>Worker</small></button><button type="button" class="person" data-person="colin">COLIN<small>Foreman / decisions</small></button></div><div id="err" class="err">${esc(message)}</div><div class="note">Resilient login shell · enhanced server first · direct safe server fallback · shared progress preserved.</div></section>`;bindLogin();}
 function loading(message='Checking the current Navigator version…'){view.innerHTML=`<section class="card loading"><div class="label">PINNACLE NAVIGATOR · LIVE</div><h1>Opening ${esc(NAMES[person]||'Navigator')}…</h1><div class="spinner"></div><div class="intro">${esc(message)}</div></section>`;}
 function bundleLooksValid(html){const s=String(html||'');return s.toLowerCase().includes('<html')&&s.includes('Pinnacle Navigator')&&s.includes('</body>')&&FORBIDDEN.every(x=>!s.includes(x));}
 async function retireOldPrivateCaches(){try{if(!('caches'in window))return;const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('pn-private-bundle-')&&k!==BUNDLE_CACHE).map(k=>caches.delete(k)));}catch(e){}}
 async function saveCachedBundle(html,core){try{if(!('caches'in window)||!bundleLooksValid(html))return false;const c=await caches.open(BUNDLE_CACHE);await c.put(BUNDLE_CACHE_URL,new Response(html,{headers:{'content-type':'text/html;charset=utf-8','x-pn-core':String(core||'live'),'x-pn-verified-at':new Date().toISOString()}}));await retireOldPrivateCaches();return true;}catch(e){return false}}
 async function readCachedBundle(){try{if(!('caches'in window))return null;const c=await caches.open(BUNDLE_CACHE),r=await c.match(BUNDLE_CACHE_URL);if(!r)return null;const html=await r.text();return bundleLooksValid(html)?html:null;}catch(e){return null}}
 function launch(html){document.open();document.write(html);document.close();}
-async function fetchBundle(){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{return await fetch(ENDPOINT,{method:'POST',headers:{'content-type':'application/json','apikey':KEY,'x-navigator-shell':'v53.45-login-recovery'},body:JSON.stringify({projectId:PROJECT,pin}),signal:controller.signal,cache:'no-store'});}finally{clearTimeout(timer)}}
-async function openNavigator(){if(!person||!valid(pin)){login();return}const previouslyValidated=localStorage.getItem(PIN_KEY)||'';loading('Checking the live workshop server…');try{const res=await fetchBundle();if(res.status===401){if(previouslyValidated===pin)localStorage.removeItem(PIN_KEY);pin='';person='';login('Incorrect crew PIN.');return}if(!res.ok)throw new Error('Navigator server returned '+res.status);if((res.headers.get('x-navigator-integrity')||'')!=='ok'||!(res.headers.get('x-navigator-bundle')||'').includes('workshop'))throw new Error('Live Navigator did not pass verification');const html=await res.text();if(!bundleLooksValid(html))throw new Error('Live Navigator failed device verification');const liveVersion=(res.headers.get('x-navigator-version')||FALLBACK_VERSION).trim()||FALLBACK_VERSION;localStorage.setItem(VERSION_KEY,liveVersion);showVersion(liveVersion);localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);await saveCachedBundle(html,res.headers.get('x-navigator-core')||'live');launch(html);return;}catch(e){const cached=await readCachedBundle();if(cached&&previouslyValidated===pin){localStorage.setItem(PERSON_KEY,person);loading('Live check failed — opening the last verified workshop copy. Reopen when online to update automatically.');setTimeout(()=>launch(cached),120);return}loginBusy=false;showError(e&&e.message&&e.message.includes('verification')?'The current Navigator build could not be verified. Tap TRY AGAIN.':'Could not reach the live Navigator server. Check the connection and try again.');}}
-function showError(message){loginBusy=false;view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · LIVE</div><h1>Could not open</h1><p class="intro">${esc(message)}</p><button id="retry" class="retry" type="button">TRY AGAIN</button><div class="note">Your shared job progress has not been reset or marked DONE.</div></section>`;const b=document.getElementById('retry');const go=e=>{if(e){e.preventDefault();e.stopPropagation();}openNavigator();};b.addEventListener('click',go,{capture:true});b.addEventListener('touchend',go,{passive:false,capture:true});}
-if('serviceWorker'in navigator){let reloaded=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!reloaded){reloaded=true;location.reload();}});navigator.serviceWorker.register('./sw.js?v=5346',{updateViaCache:'none'}).then(async reg=>{try{await reg.update();if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}catch(e){}}).catch(()=>{});}
+async function postWithTimeout(url,ms,headerValue){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),ms);try{return await fetch(url,{method:'POST',headers:{'content-type':'application/json','apikey':KEY,'x-navigator-shell':headerValue},body:JSON.stringify({projectId:PROJECT,pin}),signal:controller.signal,cache:'no-store'});}finally{clearTimeout(timer)}}
+async function fetchBundle(){return postWithTimeout(ENDPOINT,6500,'v53.45-resilient-5347')}
+async function fetchSafeBundle(){return postWithTimeout(SAFE_ENDPOINT,9000,'v53.45-direct-safe-fallback')}
+async function acceptEnhanced(res){if(res.status===401)return {auth:false};if(!res.ok)throw new Error('Enhanced server '+res.status);if((res.headers.get('x-navigator-integrity')||'')!=='ok')throw new Error('Enhanced bundle integrity failed');const html=await res.text();if(!bundleLooksValid(html))throw new Error('Enhanced device verification failed');return {auth:true,html,version:(res.headers.get('x-navigator-version')||FALLBACK_VERSION).trim()||FALLBACK_VERSION,core:res.headers.get('x-navigator-core')||'enhanced-live'};}
+async function acceptSafe(res){if(res.status===401)return {auth:false};if(!res.ok)throw new Error('Safe server '+res.status);const html=await res.text();if(!bundleLooksValid(html))throw new Error('Safe device verification failed');return {auth:true,html,version:FALLBACK_VERSION,core:'direct-safe-fallback'};}
+async function commitAndLaunch(result){localStorage.setItem(VERSION_KEY,result.version);showVersion(result.version);localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);await saveCachedBundle(result.html,result.core);launch(result.html);}
+async function openNavigator(){if(!person||!valid(pin)){login();return}const previouslyValidated=localStorage.getItem(PIN_KEY)||'';loading('Opening the live workshop…');let enhancedError=null;try{const result=await acceptEnhanced(await fetchBundle());if(!result.auth){if(previouslyValidated===pin)localStorage.removeItem(PIN_KEY);pin='';person='';login('Incorrect crew PIN.');return;}await commitAndLaunch(result);return;}catch(e){enhancedError=e;}
+loading('Primary server was slow — opening the direct safe copy…');try{const result=await acceptSafe(await fetchSafeBundle());if(!result.auth){if(previouslyValidated===pin)localStorage.removeItem(PIN_KEY);pin='';person='';login('Incorrect crew PIN.');return;}await commitAndLaunch(result);return;}catch(safeError){const cached=await readCachedBundle();if(cached&&previouslyValidated===pin){localStorage.setItem(PERSON_KEY,person);loading('Servers are unavailable — opening the last verified workshop copy.');setTimeout(()=>launch(cached),120);return;}loginBusy=false;console.error('Navigator open failed',{enhancedError,safeError});showError('Navigator servers did not respond. Tap TRY AGAIN — your shared progress is safe.');}}
+function showError(message){loginBusy=false;view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · LIVE</div><h1>Could not open</h1><p class="intro">${esc(message)}</p><button id="retry" class="retry" type="button">TRY AGAIN</button><div class="note">Your shared job progress has not been reset or marked DONE.</div></section>`;const b=document.getElementById('retry'),go=e=>{if(e){e.preventDefault();e.stopPropagation();}openNavigator();};b.addEventListener('click',go,{capture:true});b.addEventListener('touchend',go,{passive:false,capture:true});}
+if('serviceWorker'in navigator){let reloaded=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!reloaded){reloaded=true;location.reload();}});navigator.serviceWorker.register('./sw.js?v=5347',{updateViaCache:'none'}).then(async reg=>{try{await reg.update();if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');}catch(e){}}).catch(()=>{});}
 if(person&&valid(pin))openNavigator();else login();
 })();
 </script>
