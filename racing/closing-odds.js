@@ -53,7 +53,14 @@
   }
 
   function renderClosing(card, closing) {
+    const favs = Array.isArray(closing?.favourites) ? closing.favourites : [];
+    const renderKey = closing?.ok
+      ? `ok|${closing.favouriteType || ''}|${Number(closing.favouritePrice) || ''}|${favs.map(f => `${f?.number || ''}:${f?.name || ''}`).join('|')}`
+      : `wait|${closing?.error || ''}`;
+
     let box = card.querySelector('[data-closing-odds]');
+    if (box?.dataset.closingRenderKey === renderKey) return;
+
     if (!box) {
       box = document.createElement('div');
       box.setAttribute('data-closing-odds', 'true');
@@ -66,18 +73,17 @@
       if (inner) inner.insertBefore(box, inner.lastElementChild || null);
       else card.appendChild(box);
     }
+    box.dataset.closingRenderKey = renderKey;
 
     if (!closing?.ok) {
       box.innerHTML = `<div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">FINAL CLOSING FAVOURITE</div><div style="margin-top:4px;font-size:11px;color:#ffc34f;font-weight:850">Final fixed-WIN closing odds unavailable — checking the saved TAB.com.au closing market.</div>`;
       return;
     }
 
-    const favs = Array.isArray(closing.favourites) ? closing.favourites : [];
     const p = Number(closing.favouritePrice);
     const equal = closing.favouriteType === 'EQUAL' && favs.length > 1;
     const title = equal ? 'FINAL EQUAL FAVOURITES' : 'FINAL CLOSING FAVOURITE';
     const names = favs.length ? favs.map(f => `${f?.number ? '#' + esc(f.number) + ' ' : ''}${esc(f?.name || 'UNKNOWN')}`).join(' / ') : 'Favourite unavailable';
-    const method = 'TAB.com.au final fixed-WIN market';
 
     box.innerHTML = `
       <div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">${title}</div>
@@ -85,7 +91,7 @@
         <div style="font-size:14px;color:#fff;font-weight:950;line-height:1.25">${names}</div>
         <div style="font-size:18px;color:#78f2b5;font-weight:950;white-space:nowrap">${odds(p)}</div>
       </div>
-      <div style="font-size:9px;color:#8fa5bd;margin-top:5px">FINAL FIXED-WIN · ${esc(method)}</div>`;
+      <div style="font-size:9px;color:#8fa5bd;margin-top:5px">FINAL FIXED-WIN · TAB.com.au final fixed-WIN market</div>`;
   }
 
   async function refresh() {
@@ -123,7 +129,7 @@
   function start() {
     const results = document.getElementById('resultsList');
     if (results) {
-      new MutationObserver(() => setTimeout(refresh, 50)).observe(results, { childList: true, subtree: true });
+      new MutationObserver(() => setTimeout(refresh, 50)).observe(results, { childList: true });
     }
     window.addEventListener('mitchell-base-ready', () => setTimeout(refresh, 100));
     window.addEventListener('mitchell-refresh-live', () => setTimeout(refresh, 100));
