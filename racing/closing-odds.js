@@ -68,7 +68,7 @@
     }
 
     if (!closing?.ok) {
-      box.innerHTML = `<div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">FINAL CLOSING FAVOURITE</div><div style="margin-top:4px;font-size:11px;color:#ffc34f;font-weight:850">Final fixed-WIN closing odds unavailable — checking TABtouch result market.</div>`;
+      box.innerHTML = `<div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">FINAL CLOSING FAVOURITE</div><div style="margin-top:4px;font-size:11px;color:#ffc34f;font-weight:850">Final fixed-WIN closing odds unavailable — checking the saved TAB.com.au closing market.</div>`;
       return;
     }
 
@@ -77,7 +77,7 @@
     const equal = closing.favouriteType === 'EQUAL' && favs.length > 1;
     const title = equal ? 'FINAL EQUAL FAVOURITES' : 'FINAL CLOSING FAVOURITE';
     const names = favs.length ? favs.map(f => `${f?.number ? '#' + esc(f.number) + ' ' : ''}${esc(f?.name || 'UNKNOWN')}`).join(' / ') : 'Favourite unavailable';
-    const method = closing.verificationMethod === 'TABTOUCH_FINAL_FAVOURITE_FLAG' ? 'TABtouch final favourite flag' : 'lowest final fixed-WIN price';
+    const method = 'TAB.com.au final fixed-WIN market';
 
     box.innerHTML = `
       <div style="font-size:9px;color:#8fa5bd;font-weight:900;letter-spacing:.05em">${title}</div>
