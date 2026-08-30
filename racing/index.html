@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.6.5">
+<body data-build="1.6.6">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -26,7 +26,7 @@
       <h1 id="decisionTitle">CHECKING...</h1>
       <p id="decisionMessage">Checking live TABtouch odds, the saved V11 decision and race results.</p>
       <div id="lockedBets" class="locked-list"></div>
-      <div class="decision-meta"><span id="freshness">LIVE V11 · AUTO 15S</span><span id="lastChecked">Checking now…</span></div>
+      <div class="decision-meta"><span id="freshness">LIVE V11 · AUTO</span><span id="lastChecked">Checking now…</span></div>
     </section>
 
     <section class="simple-rule">
@@ -35,34 +35,34 @@
     </section>
 
     <section class="simple-rule" style="display:block;padding:14px">
-      <strong style="display:block;font-size:13px;margin-bottom:8px">HOW THE LIVE BET + $3 STATISTICS RULE WORK</strong>
+      <strong style="display:block;font-size:13px;margin-bottom:8px">LATE-CONFIRMATION SAFETY MODE</strong>
       <div style="padding:12px;border-radius:12px;background:#0d3525;border:1px solid #2a8058;margin-bottom:10px;text-align:center">
-        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">TWO DIFFERENT PRICE CHECKS</div>
-        <div style="font-size:16px;color:#78f2b5;font-weight:950;margin-top:3px">LIVE PRICE → BET DECISION · POST-RACE PRICE → $3+ EVIDENCE</div>
+        <div style="font-size:10px;color:#9bd7b9;font-weight:800;letter-spacing:.06em">MONITOR EARLY · EXECUTE LATE</div>
+        <div style="font-size:16px;color:#78f2b5;font-weight:950;margin-top:3px">NO REAL BET SIGNAL UNTIL 45–10s BEFORE JUMP</div>
       </div>
       <div style="padding:11px;border-radius:11px;background:#35151d;border:1px solid #74323e;margin-bottom:10px;color:#ffd1d7;font-size:11px;line-height:1.45">
-        <b>DO NOT MIX THESE UP:</b> A race can be a valid live V11 lock when the available fixed price passes the live gate, then later close below $3.00 and be <b>EXCLUDED from the workbook's $3+ ROI evidence</b>. The race result still updates the loss-state sequence.
+        <b>WHY:</b> an early $3+ quote can shorten before the jump. V11 now monitors earlier prices but refuses to create a real <b>BET LOCKED</b> instruction until the final execution window. This reduces the chance of betting a horse that later goes too short. It cannot guarantee the eventual Official SP, because Official SP is only known after the market closes.
       </div>
       <div style="display:grid;gap:7px;color:#d7e1ed;font-size:11px;line-height:1.45">
-        <div><b>1. Live market:</b> TABtouch runner prices and the fixed-odds favourite refresh automatically.</div>
-        <div><b>2. Decision window:</b> inside 30 minutes of the scheduled jump, V11 automatically recalculates the final stake while there is still more than 60 seconds to the start.</div>
-        <div><b>3. Live BET LOCKED:</b> if the live favourite/price qualifies and the frozen V11 calculation returns a stake above A$0, the horse, stake, lock price and minimum executable price are saved for that race.</div>
-        <div><b>4. Execution price guard:</b> after a lock, the locked horse is re-priced every 15 seconds. Current price below MIN EXEC = <b>DO NOT PLACE</b>; current price at/above MIN EXEC = <b>BET NOW</b>.</div>
-        <div><b>5. Final live NO BET:</b> if no qualifying lock exists by the 60-second safety buffer, the race becomes <b>FINAL NO BET</b>.</div>
-        <div><b>6. Post-race $3 evidence gate:</b> after the race, the saved TAB.com.au final fixed-WIN closing price is checked separately. <b>$3.00+ = eligible for exact-state ROI evidence. Below $3.00 = excluded from exact-state ROI evidence.</b> Either way, the race still updates the loss-state sequence.</div>
-        <div><b>7. Results:</b> TODAY'S RESULTS shows the live V11 lock outcome separately from the $3+ statistics/evidence status so a live wager is never confused with a historical-evidence qualifier.</div>
-        <div><b>8. App updates:</b> the race-day client checks for a newer build every 15 seconds and reloads itself so an old screen cannot keep showing stale instructions.</div>
+        <div><b>1. Early monitoring:</b> TABtouch odds and the favourite can be watched from 30 minutes out, but this is <b>NOT permission to bet</b>.</div>
+        <div><b>2. Final execution window:</b> a real V11 decision can only lock from <b>45 seconds down to 10 seconds</b> before the scheduled jump.</div>
+        <div><b>3. Live price gate:</b> the current verified favourite must still be at least <b>$3.00 fixed WIN</b>. The old 5% MIN EXEC tolerance has been removed; the workbook's live floor is $3.00.</div>
+        <div><b>4. Same-favourite guard:</b> after a lock, the phone re-checks every 5 seconds. If the locked horse is no longer the single verified favourite, <b>DO NOT PLACE</b>.</div>
+        <div><b>5. Price guard:</b> after a lock, if the current fixed-WIN price falls below $3.00, <b>DO NOT PLACE</b>. If the quote cannot be verified, <b>DO NOT PLACE</b>.</div>
+        <div><b>6. Too-late guard:</b> with 5 seconds or less remaining, a new placement is blocked. Do not chase a disappearing market.</div>
+        <div><b>7. Final NO BET:</b> if no qualifying late-confirmed V11 lock exists by 10 seconds before jump, the race becomes <b>FINAL NO BET</b>.</div>
+        <div><b>8. Post-race evidence:</b> the workbook's $3 evidence rule uses <b>Official SP</b>. Final fixed-WIN closing odds are displayed only as a reference and are not automatically used as Official SP.</div>
       </div>
     </section>
 
     <details class="watch-details" id="watchDetails" open>
       <summary><div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">LIVE V11</span></summary>
-      <div class="watch-body"><p>Every active race shows the live market and the actual saved V11 decision. A saved lock is still blocked if the locked horse's live price falls below MIN EXEC.</p><div id="watchlist" class="watch-list"></div></div>
+      <div class="watch-body"><p>Early prices are monitoring only. A real placement is allowed only after a late-confirmed lock and while the current favourite and fixed price still pass every execution guard.</p><div id="watchlist" class="watch-list"></div></div>
     </details>
 
     <details class="watch-details" id="resultsDetails" open hidden>
       <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
-      <div class="watch-body"><p>Finished races show two separate outcomes: the live V11 lock/result and whether the post-race price qualifies for the workbook's $3+ ROI evidence.</p><div id="resultsList" class="watch-list"></div></div>
+      <div class="watch-body"><p>Finished races show the live V11 lock/result. Final fixed-WIN closing odds are reference-only until a true Official SP is available for the workbook evidence rule.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="details-card">
@@ -70,23 +70,24 @@
       <div class="details-body">
         <div class="mini-grid">
           <div><span>System</span><strong>V11 CORE</strong></div>
-          <div><span>Decision window</span><strong>30m → 60s pre-jump</strong></div>
+          <div><span>Final execution window</span><strong>45s → 10s pre-jump</strong></div>
           <div><span>Minimum live price</span><strong>$3.00+</strong></div>
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
-        <div class="info-row"><span>Live bet source</span><strong>TABtouch fixed WIN · V11 auto decision · 15s</strong></div>
-        <div class="info-row"><span>Post-lock execution</span><strong>Current locked-horse price must stay ≥ MIN EXEC</strong></div>
-        <div class="info-row"><span>Post-race evidence price</span><strong>TAB.com.au final fixed WIN · saved permanently</strong></div>
-        <div class="info-row"><span>$3+ evidence rule</span><strong>≥$3 eligible for ROI evidence · &lt;$3 excluded · loss state still updates</strong></div>
+        <div class="info-row"><span>Live bet source</span><strong>TABtouch fixed WIN · late-confirm V11</strong></div>
+        <div class="info-row"><span>Near-jump refresh</span><strong>5s fail-closed execution guard</strong></div>
+        <div class="info-row"><span>Post-lock execution</span><strong>Same favourite · current price ≥ $3.00 · more than 5s remaining</strong></div>
+        <div class="info-row"><span>Closing fixed price</span><strong>TAB.com.au final fixed WIN · reference only</strong></div>
+        <div class="info-row"><span>Official-SP evidence rule</span><strong>UNVERIFIED until true Official SP is available</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
-        <div class="info-row"><span>Historical avg FY ($3+ evidence)</span><strong id="histAvg">—</strong></div>
-        <div class="info-row"><span>Historical ROI ($3+ evidence)</span><strong id="histRoi">—</strong></div>
-        <p class="small-note">Historical/model figures are not a promise of future profit. A live BET LOCKED instruction and post-race $3+ evidence eligibility are separate. A model instruction is not proof that a bookmaker accepted a wager.</p>
+        <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
+        <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
+        <p class="small-note">Historical/model figures are not a promise of future profit. No pre-race system can know the eventual Official SP with certainty. The late-confirmation guard is designed to reduce price-drift mistakes and fail closed when the live market is not verifiable.</p>
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.5 · TWO-PRICE EVIDENCE</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.6 · LATE CONFIRM</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -94,9 +95,10 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=19" defer></script>
+  <script src="./app.js?v=20" defer></script>
   <script src="./live-tab.js?v=5" defer></script>
   <script src="./execution-guard.js?v=1" defer></script>
-  <script src="./closing-odds.js?v=3" defer></script>
+  <script src="./late-execution-guard.js?v=1" defer></script>
+  <script src="./closing-odds.js?v=4" defer></script>
 </body>
 </html>
