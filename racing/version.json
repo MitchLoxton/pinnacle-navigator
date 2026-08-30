@@ -1,5 +1,5 @@
 {
-  "build": "1.6.2",
-  "label": "AUTO V11 + EXEC PRICE GUARD",
-  "minimumClientBuild": "1.6.2"
+  "build": "1.6.3",
+  "label": "AUTO V11 + CLOSING ODDS",
+  "minimumClientBuild": "1.6.3"
 }
