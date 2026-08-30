@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.6.7';
+  const CLIENT_BUILD = '1.6.8';
   let updateReloading = false;
 
   window.__MITCHELL_BASE_DATA = null;
@@ -80,11 +80,11 @@
     $('bottomCommand').className = 'bottom-command waiting';
     $('decisionKicker').textContent = 'LIVE V11 CHECKING';
     $('decisionTitle').textContent = 'CHECKING...';
-    $('decisionMessage').textContent = 'Checking live TABtouch odds, the V11 signal, execution status and race results.';
+    $('decisionMessage').textContent = 'Checking live odds, system-bet execution truth and state results.';
     $('lockedBets').innerHTML = '';
     $('freshness').textContent = 'LIVE V11 · AUTO';
     $('bottomLabel').textContent = 'LIVE V11';
-    $('bottomText').textContent = 'Signal and actual bookmaker execution are tracked separately.';
+    $('bottomText').textContent = 'A signal is not a system bet until accepted execution is confirmed.';
   }
 
   function skeleton(data) {
@@ -112,7 +112,7 @@
     const roi = Number(h.roiPct);
     $('histAvg').textContent = Number.isFinite(avg) ? money.format(avg) : '—';
     $('histRoi').textContent = Number.isFinite(roi) ? roi.toFixed(1) + '%' : '—';
-    $('feedStatus').textContent = `V11 EXECUTION-TRUTH ENGINE · CLIENT ${CLIENT_BUILD}`;
+    $('feedStatus').textContent = `V11 SIMPLE-RESULT ENGINE · CLIENT ${CLIENT_BUILD}`;
   }
 
   async function loadBase() {
