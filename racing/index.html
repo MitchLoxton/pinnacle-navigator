@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.6.2">
+<body data-build="1.6.3">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -49,7 +49,7 @@
         <div><b>3. BET LOCKED:</b> if the frozen V11 calculation returns a stake above A$0, the horse, stake, lock price and minimum executable price are saved permanently for that race.</div>
         <div><b>4. Execution price guard:</b> after a lock, the locked horse is re-priced every 15 seconds. Current price below MIN EXEC = <b>DO NOT PLACE</b>; current price at/above MIN EXEC = <b>BET NOW</b>.</div>
         <div><b>5. NO BET:</b> if no qualifying lock exists by the 60-second safety buffer, the race becomes <b>FINAL NO BET</b>. It no longer waits forever.</div>
-        <div><b>6. After the race:</b> the race leaves COMING UP and moves to <b>TODAY'S RESULTS</b>, showing the winner and whether the saved V11 decision was WIN, LOSS or NO BET.</div>
+        <div><b>6. After the race:</b> the race leaves COMING UP and moves to <b>TODAY'S RESULTS</b>, showing the winner, V11 result, and the final TABtouch fixed-WIN closing favourite/odds.</div>
         <div><b>7. App updates:</b> the race-day client checks for a newer build every 15 seconds and reloads itself so an old screen cannot keep showing WAIT after the server has locked a decision.</div>
       </div>
     </section>
@@ -61,7 +61,7 @@
 
     <details class="watch-details" id="resultsDetails" open hidden>
       <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
-      <div class="watch-body"><p>Finished V11 watch races move here automatically.</p><div id="resultsList" class="watch-list"></div></div>
+      <div class="watch-body"><p>Finished V11 watch races move here automatically, including the final fixed-WIN closing favourite and odds.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="details-card">
@@ -76,6 +76,7 @@
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
         <div class="info-row"><span>Market source</span><strong>TABtouch fixed WIN · V11 auto decision · 15s</strong></div>
         <div class="info-row"><span>Post-lock execution</span><strong>Current locked-horse price must stay ≥ MIN EXEC</strong></div>
+        <div class="info-row"><span>Result market</span><strong>Final TABtouch fixed-WIN favourite + closing odds</strong></div>
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
@@ -83,7 +84,7 @@
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.2 · EXEC PRICE GUARD</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.3 · CLOSING ODDS</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -91,8 +92,9 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=16" defer></script>
+  <script src="./app.js?v=17" defer></script>
   <script src="./live-tab.js?v=5" defer></script>
   <script src="./execution-guard.js?v=1" defer></script>
+  <script src="./closing-odds.js?v=1" defer></script>
 </body>
 </html>
