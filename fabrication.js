@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-if(window.__PN_FABRICATION_STABLE_5350__)return;window.__PN_FABRICATION_STABLE_5350__=true;
+if(window.__PN_FABRICATION_STABLE_5351__)return;window.__PN_FABRICATION_STABLE_5351__=true;
 
 var BIG_JOBS=[
   ['SUPPORT TRUCK + TRACTOR','BIGGEST PRIORITY','now'],
@@ -12,7 +12,7 @@ var BIG_JOBS=[
   ['RUB TRUCK DOWN + PAINT','BIG JOB','next'],
   ['MODWOOD EVERYWHERE','LAST BIG JOB','last']
 ];
-var MITER48_URL='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-miter-48-template';
+var MITER48_URL='./miter-48-template.html?v=5351';
 
 function setText(el,value){if(el&&String(el.textContent||'')!==value)el.textContent=value;}
 function removeTemplateUI(){
