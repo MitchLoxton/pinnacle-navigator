@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-if(window.__PN_FABRICATION_STABLE_5349__)return;window.__PN_FABRICATION_STABLE_5349__=true;
+if(window.__PN_FABRICATION_STABLE_5350__)return;window.__PN_FABRICATION_STABLE_5350__=true;
 
 var BIG_JOBS=[
   ['SUPPORT TRUCK + TRACTOR','BIGGEST PRIORITY','now'],
@@ -12,6 +12,7 @@ var BIG_JOBS=[
   ['RUB TRUCK DOWN + PAINT','BIG JOB','next'],
   ['MODWOOD EVERYWHERE','LAST BIG JOB','last']
 ];
+var MITER48_URL='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-miter-48-template';
 
 function setText(el,value){if(el&&String(el.textContent||'')!==value)el.textContent=value;}
 function removeTemplateUI(){
@@ -39,12 +40,13 @@ function bigJobsMarkup(){
   BIG_JOBS.slice(0,3).forEach(function(x,i){h+=rowMarkup(x,i,i===0);});
   h+='<details class="pnBigMore"><summary>SHOW ALL 8 BIG JOBS</summary>';BIG_JOBS.slice(3).forEach(function(x,j){h+=rowMarkup(x,j+3,false);});h+='</details>';
   h+='<details class="pnBigHolds"><summary>CRITICAL HOLD POINTS</summary><div class="pnBigHoldItem"><b>TRUCK + TRACTOR SUPPORTS:</b> confirm controlling engineering, approved finished level and site set-out before permanent support geometry is committed.</div><div class="pnBigHoldItem"><b>BEFORE GALVANISING:</b> finish only verified required welds, keep intended splits removable, confirm vent/drain and usable galvaniser envelope, and label matching pieces before dispatch.</div><div class="pnBigHoldItem"><b>WELD CLEANUP:</b> do not grind a structural weld flush or reduce its effective size unless the approved detail/procedure allows it.</div><div class="pnBigHoldItem"><b>PAINT:</b> avoid final coating while known cutting/welding/modification work is still outstanding.</div><div class="pnBigHoldItem"><b>MODWOOD:</b> stays last big job; joists/support level and the approved fixing method must be settled before boards are installed.</div></details>';
-  h+='<div class="pnWorkshopTools"><div class="pnToolsLabel">WORKSHOP TOOLS</div><a class="pnToolBtn" href="./miter-48-template.html"><span><span class="pnToolMain">✂ 48 mm DEFAULT MITER TEMPLATE</span><span class="pnToolSub">PRINT 1:1 · NORMAL 90° · 48.0 OD → 48.0 OD</span></span><span class="pnToolArrow">›</span></a></div>';
+  h+='<div class="pnWorkshopTools"><div class="pnToolsLabel">WORKSHOP TOOLS</div><a class="pnToolBtn" href="'+MITER48_URL+'" target="_blank" rel="noopener"><span><span class="pnToolMain">✂ 48 mm DEFAULT MITER TEMPLATE</span><span class="pnToolSub">PRINT 1:1 · NORMAL 90° · 48.0 OD → 48.0 OD · OPENS PRINT PAGE</span></span><span class="pnToolArrow">›</span></a></div>';
   h+='<div class="pnBigNote">Big-picture backlog only. The current task card still controls what the crew is doing now. This board does not mark anything DONE or replace drawings, engineering, hold points or Colin decisions.</div>';return h;
 }
 function ensureHomeBigJobs(){var existing=document.getElementById('pnBigJobsHome');if(existing)return existing;var host=document.getElementById('taskCard')||document.querySelector('.taskCard')||document.getElementById('mainView');if(!host||!host.parentNode)return null;var box=document.createElement('section');box.id='pnBigJobsHome';box.innerHTML=bigJobsMarkup();host.parentNode.insertBefore(box,host);return box;}
 function ensureTodayBigJobs(){var body=document.getElementById('pn5335Body');if(!body)return null;var existing=document.getElementById('pnBigJobsToday');if(existing&&existing.parentNode===body)return existing;if(existing)existing.remove();var box=document.createElement('section');box.id='pnBigJobsToday';box.innerHTML=bigJobsMarkup();body.insertBefore(box,body.firstChild);return box;}
-function apply(){removeTemplateUI();patchCommercialSource();addBigJobStyle();ensureHomeBigJobs();ensureTodayBigJobs();}
+function repairToolLinks(){try{var links=document.querySelectorAll('.pnToolBtn');for(var i=0;i<links.length;i++){links[i].href=MITER48_URL;links[i].target='_blank';links[i].rel='noopener';}}catch(e){}}
+function apply(){removeTemplateUI();patchCommercialSource();addBigJobStyle();ensureHomeBigJobs();ensureTodayBigJobs();repairToolLinks();}
 function schedule(){[0,150,600,1600,3500].forEach(function(ms){setTimeout(apply,ms);});}
 function boot(){schedule();document.addEventListener('click',function(){setTimeout(apply,120);},true);window.addEventListener('pageshow',schedule);window.addEventListener('focus',schedule);document.addEventListener('visibilitychange',function(){if(!document.hidden)schedule();});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
