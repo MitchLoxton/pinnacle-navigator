@@ -12,19 +12,19 @@ const brand=document.querySelector('.brand');if(brand)brand.textContent='GOAL OS
 
 const foodCard=[...document.querySelectorAll('.card')].find(x=>x.querySelector('.kick')?.textContent.includes('FOOD & MACROS'));
 if(foodCard){
-  const top=foodCard.querySelector('.foodTop');const open=[...top.querySelectorAll('button')].find(b=>b.textContent.trim()==='Open');
-  if(open&&!document.getElementById('shop3Top')){const b=document.createElement('button');b.id='shop3Top';b.className='btn do';b.textContent='Woolworths';b.onclick=e=>{e.stopPropagation();openGrocery()};open.before(b)}
+  const top=foodCard.querySelector('.foodTop');const open=top?[...top.querySelectorAll('button')].find(b=>b.textContent.trim()==='Open'):null;
+  if(open&&!document.getElementById('shop3Top')){const b=document.createElement('button');b.id='shop3Top';b.className='btn do';b.textContent='Woolworths';b.addEventListener('click',e=>{e.stopPropagation();window.openGrocery()});open.before(b)}
   if(!document.getElementById('shopHome')){
     const el=document.createElement('section');el.className='card shopHome';el.id='shopHome';
-    el.innerHTML=`<div class="shopHomeTop"><div><div class="kick">WOOLWORTHS · 3-DAY SHOP</div><h2>Walk in. Buy this. Leave.</h2><div class="mini" id="shopHomeDays">Exact list in store-walk order.</div></div><div class="shopCounter" id="shopHomeCounter">—</div></div><div class="shopProgress"><i id="shopHomeBar"></i></div><button class="btn primary shopStart" onclick="openGrocery()">🛒 START SHOP</button>`;
+    el.innerHTML=`<div class="shopHomeTop"><div><div class="kick">WOOLWORTHS · 3-DAY SHOP</div><h2>Walk in. Buy this. Leave.</h2><div class="mini" id="shopHomeDays">Exact list in store-walk order.</div></div><div class="shopCounter" id="shopHomeCounter">—</div></div><div class="shopProgress"><i id="shopHomeBar"></i></div><button class="btn primary shopStart" id="shopStartBtn">🛒 START SHOP</button>`;
     foodCard.insertAdjacentElement('afterend',el);
   }
 }
 
 const foodModal=document.getElementById('foodModal');
-if(foodModal&&!document.getElementById('shop3Food')){const rem=document.getElementById('remaining');const b=document.createElement('button');b.id='shop3Food';b.className='btn primary foodbtn';b.textContent='🛒 Woolworths 3-day shop';b.onclick=openGrocery;rem.after(b)}
+if(foodModal&&!document.getElementById('shop3Food')){const rem=document.getElementById('remaining');const b=document.createElement('button');b.id='shop3Food';b.className='btn primary foodbtn';b.textContent='🛒 Woolworths 3-day shop';b.addEventListener('click',()=>window.openGrocery());if(rem)rem.after(b)}
 
-if(!document.getElementById('groceryModal'))document.body.insertAdjacentHTML('beforeend',`<div class="modal" id="groceryModal" onclick="if(event.target===this)closeGrocery()"><div class="sheet"><div class="sheethead"><div><div class="kick">WOOLWORTHS · STORE WALK</div><h2 style="margin:3px 0">Buy exactly this.</h2><div class="shopdays" id="shopDays"></div></div><button class="btn" onclick="closeGrocery()">×</button></div><div class="notice"><b>Walk order:</b> this follows a typical Woolworths layout so you move through the store once. Exact aisle numbers differ by branch.</div><div class="shopToolbar"><div class="shopCounter" id="shopCounter"></div><button class="btn" onclick="clearShopChecks()">Reset ticks</button></div><div class="shopgroups" id="shopGroups"></div></div></div>`);
+if(!document.getElementById('groceryModal'))document.body.insertAdjacentHTML('beforeend',`<div class="modal" id="groceryModal"><div class="sheet"><div class="sheethead"><div><div class="kick">WOOLWORTHS · STORE WALK</div><h2 style="margin:3px 0">Buy exactly this.</h2><div class="shopdays" id="shopDays"></div></div><button class="btn" id="shopCloseBtn">×</button></div><div class="notice"><b>Walk order:</b> this follows a typical Woolworths layout so you move through the store once. Exact aisle numbers differ by branch.</div><div class="shopToolbar"><div class="shopCounter" id="shopCounter"></div><button class="btn" id="shopResetBtn">Reset ticks</button></div><div class="shopgroups" id="shopGroups"></div></div></div>`);
 
 if(!st.shopChecks)st.shopChecks={};
 const SHOP={
@@ -73,11 +73,15 @@ function buyLine(x){const n=x.name,q=x.q;
 function grouped(items){const m=new Map();items.forEach(x=>{const [g,n]=loc(x.name);if(!m.has(g))m.set(g,{g,n,items:[]});m.get(g).items.push(x)});return [...m.values()].sort((a,b)=>parseInt(a.g)-parseInt(b.g))}
 function stats(){const g=data(),total=g.items.length,done=g.items.filter(x=>!!st.shopChecks[id(x)]).length;return{...g,total,done,left:total-done}}
 function updateHome(){const s=stats();const c=document.getElementById('shopHomeCounter'),bar=document.getElementById('shopHomeBar'),d=document.getElementById('shopHomeDays');if(c)c.textContent=s.left+' left';if(bar)bar.style.width=(s.total?s.done/s.total*100:0)+'%';if(d)d.textContent=s.labels.map(x=>x.split(' · ')[0]).join(' → ')}
-window.openGrocery=()=>{document.getElementById('groceryModal').classList.add('open');renderGrocery()};
-window.closeGrocery=()=>document.getElementById('groceryModal').classList.remove('open');
+window.openGrocery=()=>{const modal=document.getElementById('groceryModal');if(!modal)return;renderGrocery();modal.classList.add('open');document.body.style.overflow='hidden'};
+window.closeGrocery=()=>{const modal=document.getElementById('groceryModal');if(modal)modal.classList.remove('open');document.body.style.overflow=''};
 window.toggleShop=i=>{st.shopChecks[i]=!st.shopChecks[i];save();renderGrocery();updateHome()};
 window.clearShopChecks=()=>{const p=key()+'|';Object.keys(st.shopChecks).filter(k=>k.startsWith(p)).forEach(k=>delete st.shopChecks[k]);save();renderGrocery();updateHome()};
-window.renderGrocery=()=>{const s=stats();document.getElementById('shopDays').innerHTML=s.labels.join('<br>');document.getElementById('shopCounter').textContent=s.done+'/'+s.total+' bought · '+s.left+' left';document.getElementById('shopGroups').innerHTML=grouped(s.items).map(gr=>`<div class="shopgroup"><h3>${gr.g}</h3><div class="aisleNote">${gr.n}</div>${gr.items.map(x=>{const i=id(x),b=!!st.shopChecks[i];return `<div class="shopitem ${b?'bought':''}"><button onclick="toggleShop('${i.replace(/'/g,"\\'")}')">✓</button><div><div class="shopname">${x.name}</div><div class="shopbuy">${buyLine(x)}</div><div class="shopneed">Meal-plan need: ${fmt(x.q,x.u)}</div></div><div class="shopqty">${fmt(x.q,x.u)}</div></div>`}).join('')}</div>`).join('');updateHome()};
+window.renderGrocery=()=>{const s=stats();const daysEl=document.getElementById('shopDays'),countEl=document.getElementById('shopCounter'),groupsEl=document.getElementById('shopGroups');if(daysEl)daysEl.innerHTML=s.labels.join('<br>');if(countEl)countEl.textContent=s.done+'/'+s.total+' bought · '+s.left+' left';if(groupsEl)groupsEl.innerHTML=grouped(s.items).map(gr=>`<div class="shopgroup"><h3>${gr.g}</h3><div class="aisleNote">${gr.n}</div>${gr.items.map(x=>{const i=id(x),b=!!st.shopChecks[i];return `<div class="shopitem ${b?'bought':''}"><button data-shop-id="${i.replace(/"/g,'&quot;')}">✓</button><div><div class="shopname">${x.name}</div><div class="shopbuy">${buyLine(x)}</div><div class="shopneed">Meal-plan need: ${fmt(x.q,x.u)}</div></div><div class="shopqty">${fmt(x.q,x.u)}</div></div>`}).join('')}</div>`).join('');if(groupsEl)groupsEl.querySelectorAll('[data-shop-id]').forEach(btn=>btn.addEventListener('click',()=>toggleShop(btn.dataset.shopId)));updateHome()};
+const startBtn=document.getElementById('shopStartBtn');if(startBtn)startBtn.addEventListener('click',()=>window.openGrocery());
+const closeBtn=document.getElementById('shopCloseBtn');if(closeBtn)closeBtn.addEventListener('click',()=>window.closeGrocery());
+const resetBtn=document.getElementById('shopResetBtn');if(resetBtn)resetBtn.addEventListener('click',()=>window.clearShopChecks());
+const modal=document.getElementById('groceryModal');if(modal)modal.addEventListener('click',e=>{if(e.target===modal)window.closeGrocery()});
 updateHome();save();
 }catch(e){console.error('Woolworths shop patch failed',e)}
 })();
