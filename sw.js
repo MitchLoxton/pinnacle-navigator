@@ -1,6 +1,6 @@
 const CACHE='pn-shell-live-v5348';
 const PRIVATE='pn-private-bundle-live-v5348';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js'];
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-48-template.html'];
 self.addEventListener('message',event=>{if(event.data==='SKIP_WAITING')self.skipWaiting();});
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>(k.startsWith('pn-shell-')||k.startsWith('pn-private-bundle-'))&&k!==CACHE&&k!==PRIVATE).map(k=>caches.delete(k)));await self.clients.claim();})());});
