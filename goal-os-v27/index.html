@@ -1,1 +1,25 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#060907"><title>Goal OS V27</title><style>html,body{margin:0;background:#060907;color:#f4f7f3;font-family:system-ui}#l{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}b{color:#d8ff4f}</style></head><body><div id="l"><div><b>Opening Goal OS V27…</b><p>Loading Daily Diet & Macros.</p></div></div><script>(async()=>{try{const fs=['c1.txt','c2.txt','c3.txt', 'c4.txt'];const ps=await Promise.all(fs.map(f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(f);return r.text()})));const bin=Uint8Array.from(atob(ps.join('')),c=>c.charCodeAt(0));const ds=new DecompressionStream('gzip');const html=await new Response(new Blob([bin]).stream().pipeThrough(ds)).text();document.open();document.write(html);document.close()}catch(e){document.getElementById('l').innerHTML='<div><b>Goal OS could not open.</b><p>Refresh once.</p></div>'}})();</script></body></html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#060907"><title>Goal OS V27</title><style>html,body{margin:0;background:#060907;color:#f4f7f3;font-family:system-ui}#l{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}b{color:#d8ff4f}button{font:inherit;border:1px solid #344137;background:#111813;color:#d8ff4f;border-radius:12px;padding:10px 14px;font-weight:800}</style></head><body><div id="l"><div><b>Opening Goal OS V27…</b><p>Loading Daily Diet & Macros.</p></div></div><script>
+(async()=>{
+ const box=document.getElementById('l');
+ try{
+   const fs=['c1.txt','c2.txt','c3.txt','c4.txt'];
+   const ps=await Promise.all(fs.map(f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Missing '+f);return r.text()})));
+   const b64=ps.join('').replace(/\s/g,'');
+   const bin=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+   let html='';
+   try{
+     if(!('DecompressionStream' in window))throw new Error('no native gzip');
+     const ds=new DecompressionStream('gzip');
+     html=await new Response(new Blob([bin]).stream().pipeThrough(ds)).text();
+   }catch(nativeErr){
+     await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
+     if(!window.pako)throw nativeErr;
+     html=new TextDecoder().decode(window.pako.ungzip(bin));
+   }
+   if(!html || !html.includes('GOAL OS'))throw new Error('Decoded app was invalid');
+   document.open();document.write(html);document.close();
+ }catch(e){
+   box.innerHTML='<div><b>Goal OS could not open.</b><p>Tap retry. If it still fails, open once in Safari while online.</p><button onclick="location.reload()">Retry</button></div>';
+ }
+})();
+</script></body></html>
