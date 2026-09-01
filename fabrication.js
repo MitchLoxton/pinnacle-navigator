@@ -2,12 +2,13 @@
 'use strict';
 
 /*
-  26 Aug 2026 workshop helper:
+  Workshop helper:
   - retire temporary 76.1 mm template UI;
   - show Mitchell's current big-picture work priorities;
   - keep the board compact on phones;
   - surface high-value release hold points without inventing geometry;
-  - keep the paid-work label aligned with the accepted Mundi PO source.
+  - keep the paid-work label aligned with the accepted Mundi PO source;
+  - provide a clean default 48.0 mm equal-OD 90° printable miter/fishmouth tool.
 */
 
 var BIG_JOBS=[
@@ -51,7 +52,8 @@ function addBigJobStyle(){
 #pnBigJobsHome{margin:10px 0}#pnBigJobsToday{margin:0 0 10px}\
 .pnBigHead{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-bottom:6px}.pnBigTitle{font-size:17px;font-weight:900;line-height:1.05}.pnBigSub{font-size:8px;font-weight:900;color:#666;letter-spacing:.04em;line-height:1.25;text-align:right}\
 .pnBigRow{display:grid;grid-template-columns:25px 1fr auto;gap:7px;align-items:center;border-top:1px solid #e5e5e0;padding:7px 0}.pnBigRow.first{border-top:0}.pnBigNum{width:24px;height:24px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900}.pnBigName{font-size:11px;font-weight:900;line-height:1.15}.pnBigTag{font-size:7px;font-weight:900;border-radius:99px;background:#ecece8;padding:5px 6px;white-space:nowrap}.pnBigRow.now .pnBigTag{background:#dff4e5;color:#173f2a}.pnBigRow.galv .pnBigTag{background:#fff0c7;color:#704d00}.pnBigRow.last .pnBigTag{background:#111;color:#fff}\
-.pnBigMore,.pnBigHolds{border-top:1px solid #e5e5e0;padding-top:7px;margin-top:3px}.pnBigMore summary,.pnBigHolds summary{cursor:pointer;font-size:9px;font-weight:900;letter-spacing:.03em}.pnBigHolds{background:#fafaf7;border:1px solid #e1e1dc;border-radius:9px;padding:8px;margin-top:8px}.pnBigHoldItem{font-size:9px;line-height:1.35;padding:5px 0;border-top:1px solid #e6e6e1}.pnBigHoldItem:first-of-type{border-top:0}.pnBigHoldItem b{font-weight:900}.pnBigNote{border-top:1px solid #e5e5e0;padding-top:7px;margin-top:7px;color:#666;font-size:8px;font-weight:700;line-height:1.35}\
+.pnBigMore,.pnBigHolds,.pnWorkshopTools{border-top:1px solid #e5e5e0;padding-top:7px;margin-top:3px}.pnBigMore summary,.pnBigHolds summary{cursor:pointer;font-size:9px;font-weight:900;letter-spacing:.03em}.pnBigHolds{background:#fafaf7;border:1px solid #e1e1dc;border-radius:9px;padding:8px;margin-top:8px}.pnBigHoldItem{font-size:9px;line-height:1.35;padding:5px 0;border-top:1px solid #e6e6e1}.pnBigHoldItem:first-of-type{border-top:0}.pnBigHoldItem b{font-weight:900}.pnBigNote{border-top:1px solid #e5e5e0;padding-top:7px;margin-top:7px;color:#666;font-size:8px;font-weight:700;line-height:1.35}\
+.pnWorkshopTools{margin-top:8px}.pnToolsLabel{font-size:8px;font-weight:900;color:#666;letter-spacing:.06em;margin-bottom:6px}.pnToolBtn{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none!important;background:#111;color:#fff!important;border:2px solid #111;border-radius:11px;padding:10px 11px}.pnToolMain{font-size:11px;font-weight:900;line-height:1.15}.pnToolSub{display:block;font-size:7px;font-weight:800;color:#d9d9d4;margin-top:3px;letter-spacing:.03em}.pnToolArrow{font-size:18px;font-weight:900;line-height:1}.pnToolBtn:active{transform:scale(.99)}\
 @media(max-width:700px){.pnBigRow{grid-template-columns:24px 1fr}.pnBigTag{grid-column:2;justify-self:start;margin-top:-3px}.pnBigTitle{font-size:16px}}';
   document.head.appendChild(s);
 }
@@ -73,6 +75,7 @@ function bigJobsMarkup(){
     '<div class="pnBigHoldItem"><b>PAINT:</b> avoid final coating while known cutting/welding/modification work is still outstanding.</div>'+
     '<div class="pnBigHoldItem"><b>MODWOOD:</b> stays last big job; joists/support level and the approved fixing method must be settled before boards are installed.</div>'+
     '</details>';
+  h+='<div class="pnWorkshopTools"><div class="pnToolsLabel">WORKSHOP TOOLS</div><a class="pnToolBtn" href="./miter-48-template.html"><span><span class="pnToolMain">✂ 48 mm DEFAULT MITER TEMPLATE</span><span class="pnToolSub">PRINT 1:1 · NORMAL 90° · 48.0 OD → 48.0 OD</span></span><span class="pnToolArrow">›</span></a></div>';
   h+='<div class="pnBigNote">Big-picture backlog only. The current task card still controls what the crew is doing now. This board does not mark anything DONE or replace drawings, engineering, hold points or Colin decisions.</div>';
   return h;
 }
