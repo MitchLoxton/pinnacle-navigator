@@ -1,5 +1,5 @@
-const CACHE='pn-shell-live-v5349';
-const PRIVATE='pn-private-bundle-live-v5349';
+const CACHE='pn-shell-live-v5352';
+const PRIVATE='pn-private-bundle-live-v5352';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-48-template.html'];
 self.addEventListener('message',event=>{if(event.data==='SKIP_WAITING')self.skipWaiting();});
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
