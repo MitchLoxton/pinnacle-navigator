@@ -1,7 +1,8 @@
-const BUILD = '1.6.9';
-const CACHE = 'mitchell-racing-v26-weekly-ready';
+const BUILD = '1.7.0';
+const CACHE = 'mitchell-racing-v27-one-screen';
 const STATIC_SHELL = [
   './styles.css?v=12',
+  './simple.css?v=1',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
@@ -30,7 +31,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const criticalPath = /\/racing\/(?:index\.html|app\.js|live-tab\.js|execution-truth\.js|result-truth-simple\.js|weekly-history\.js|version\.json|current\.json|stats\.json|history\/[^/]+\.json)$/.test(url.pathname);
+  const criticalPath = /\/racing\/(?:index\.html|app\.js|live-tab\.js|execution-truth\.js|result-truth-simple\.js|weekly-history\.js|simple-ui\.js|simple\.css|version\.json|current\.json|stats\.json|history\/[^/]+\.json)$/.test(url.pathname);
   const critical = event.request.mode === 'navigate' || criticalPath;
 
   if (critical) {
