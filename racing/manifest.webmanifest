@@ -2,7 +2,7 @@
   "id": "./",
   "name": "MITCHELL Racing",
   "short_name": "MITCHELL",
-  "description": "Race-day command and execution-audit companion for the frozen Australian V11 system.",
+  "description": "Fail-closed race-day command, automation-status and audit companion for frozen Australia V11 and Hong Kong OPTIMAL V4.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -11,9 +11,10 @@
   "orientation": "portrait-primary",
   "categories": ["sports", "finance", "utilities"],
   "shortcuts": [
-    {"name": "Race-Day Command", "short_name": "Command", "url": "./"},
-    {"name": "All 21 Streams", "short_name": "All 21", "url": "./?tab=review"},
-    {"name": "Risk Command", "short_name": "Risk", "url": "./?tab=risk"}
+    {"name": "Live Racing", "short_name": "Live", "url": "./"},
+    {"name": "Hong Kong", "short_name": "HK", "url": "./#hong-kong"},
+    {"name": "Automation Status", "short_name": "Auto", "url": "./automation.html"},
+    {"name": "Stats & Audit", "short_name": "Stats", "url": "./stats.html"}
   ],
   "icons": [
     {"src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}
