@@ -8,6 +8,10 @@
   const HOT_POLL_MS = 2500;
   const BASE_REFRESH_MS = 300000;
   const FETCH_TIMEOUT_MS = 9000;
+  const SOURCE_MAX_AGE_MS = 8000;
+  const EXEC_OPEN = 20;
+  const EXEC_CUTOFF = 10;
+  const MIN_PRICE = 3;
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style:'currency', currency:'AUD', maximumFractionDigits:0 });
 
@@ -117,6 +121,11 @@
     return Number.isFinite(p) ? p : null;
   }
 
+  function sameFavourite(result, horse) {
+    const favs = Array.isArray(result?.favourites) ? result.favourites : [];
+    return result?.favouriteType === 'SINGLE' && favs[0]?.name && horseKey(favs[0].name) === horseKey(horse);
+  }
+
   function newestSourceTime(results) {
     const times = (Array.isArray(results) ? results : []).map(r => Date.parse(r?.fetchedAt)).filter(Number.isFinite);
     return times.length ? new Date(Math.max(...times)) : null;
@@ -208,8 +217,24 @@
     const d = result?.decision || {};
     const live = liveRunnerPrice(result,d.horse);
     const min = Number(d.minExec);
-    const okay = Number.isFinite(live) && Number.isFinite(min) && live >= min;
-    return { d, live, min, okay };
+    const lead = Number(result?.leadSeconds);
+    const sourceAt = Date.parse(result?.fetchedAt);
+    const sourceAgeMs = Number.isFinite(sourceAt) ? Date.now() - sourceAt : Infinity;
+    const priceOk = Number.isFinite(live) && live >= Math.max(MIN_PRICE, Number.isFinite(min) ? min : MIN_PRICE);
+    const phaseOk = result?.phase === 'LOCKED' && d?.status === 'BET_LOCKED';
+    const windowOk = Number.isFinite(lead) && lead <= EXEC_OPEN && lead > EXEC_CUTOFF && result?.closed !== true;
+    const fresh = Number.isFinite(sourceAt) && sourceAgeMs >= -2000 && sourceAgeMs <= SOURCE_MAX_AGE_MS;
+    const favouriteOk = sameFavourite(result,d.horse);
+    const unconfirmed = String(d?.executionStatus || 'UNCONFIRMED').toUpperCase() !== 'CONFIRMED';
+    const okay = priceOk && phaseOk && windowOk && fresh && favouriteOk && unconfirmed;
+    let blockReason = null;
+    if (!unconfirmed) blockReason = 'This wager is already recorded. Do not place it again.';
+    else if (!phaseOk) blockReason = 'The server no longer reports an active locked signal.';
+    else if (!windowOk) blockReason = `The ${EXEC_OPEN}s→${EXEC_CUTOFF}s execution window is not open.`;
+    else if (!favouriteOk) blockReason = 'The locked horse is no longer the single verified favourite.';
+    else if (!fresh) blockReason = 'The source quote is stale or timestamp-invalid.';
+    else if (!priceOk) blockReason = 'The current live price is below the required minimum or unavailable.';
+    return { d, live, min, lead, sourceAgeMs, okay, blockReason };
   }
 
   function renderTop(results) {
@@ -219,18 +244,27 @@
     if (!card || !title || !msg || !kicker || !box || !bottom) return;
     box.innerHTML='';
 
-    if (locked.length) {
+    if (locked.length > 1) {
+      card.className='decision-card blocked'; bottom.className='bottom-command blocked'; kicker.textContent='SAFETY BLOCK'; title.textContent='DO NOT BET';
+      msg.textContent='More than one V11 race is simultaneously locked. The app will not guess which instruction to prioritise.';
+      $('bottomLabel').textContent='DO NOT BET'; $('bottomText').textContent='Multiple simultaneous locks detected.'; document.title='DO NOT BET · MITCHELL Racing';
+    } else if (locked.length) {
       const x=locked[0], q=instruction(x), d=q.d;
-      if (q.okay) {
+      if (String(d?.executionStatus || '').toUpperCase() === 'CONFIRMED') {
+        card.className='decision-card waiting'; bottom.className='bottom-command waiting'; kicker.textContent='ACTUAL WAGER CONFIRMED'; title.textContent='BET RECORDED';
+        msg.textContent=`${x.race}: ${d.horse}. Accepted execution is already recorded. Do not place another wager.`;
+        box.innerHTML=`<article class="locked-bet"><div class="bet-badge">ACTUAL BET CONFIRMED</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>ACCEPTED STAKE</span><strong>${money.format(Number(d.acceptedStake)||0)}</strong></div><div><span>ACCEPTED PRICE</span><strong>${odds(d.acceptedPrice)}</strong></div></div></article>`;
+        $('bottomLabel').textContent='BET RECORDED'; $('bottomText').textContent='Do not place a second wager.'; document.title='BET RECORDED · MITCHELL Racing';
+      } else if (q.okay) {
         card.className='decision-card bet-now'; bottom.className='bottom-command bet-now'; kicker.textContent='BET LOCKED · VERIFIED'; title.textContent='BET NOW';
-        msg.textContent=`${x.race}: ${d.horse}. The saved V11 decision is locked and the current TABtouch quote still passes the minimum.`;
-        box.innerHTML=`<article class="locked-bet"><div class="bet-badge">BET THIS HORSE</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>EXACT STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>DO NOT BET BELOW</span><strong>${odds(d.minExec)}</strong></div></div><div style="margin-top:10px;padding:10px;border-radius:10px;background:#0d3525;border:1px solid #2a8058"><b style="color:#78f2b5">CURRENT TABTOUCH: ${odds(q.live)} · PRICE OK</b></div></article>`;
+        msg.textContent=`${x.race}: ${d.horse}. Live favourite, price, source freshness and the ${EXEC_OPEN}s→${EXEC_CUTOFF}s window all pass.`;
+        box.innerHTML=`<article class="locked-bet"><div class="bet-badge">BET THIS HORSE</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>EXACT STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>DO NOT BET BELOW</span><strong>${odds(d.minExec)}</strong></div></div><div style="margin-top:10px;padding:10px;border-radius:10px;background:#0d3525;border:1px solid #2a8058"><b style="color:#78f2b5">CURRENT TABTOUCH: ${odds(q.live)} · ${Math.max(0,Math.round(q.sourceAgeMs/1000))}s SOURCE AGE · ${Math.ceil(q.lead)}s TO JUMP</b></div></article>`;
         $('bottomLabel').textContent='BET NOW'; $('bottomText').textContent=`${d.horse} · ${money.format(Number(d.stake)||0)} · min ${odds(d.minExec)}`; document.title='BET NOW · MITCHELL Racing';
       } else {
-        card.className='decision-card blocked'; bottom.className='bottom-command blocked'; kicker.textContent='BET LOCKED · PRICE CHECK'; title.textContent='DO NOT PLACE YET';
-        msg.textContent=Number.isFinite(q.live)?`V11 is locked on ${d.horse}, but the current ${odds(q.live)} quote is below the saved ${odds(d.minExec)} minimum.`:`V11 is locked on ${d.horse}, but a current executable quote cannot be verified.`;
-        box.innerHTML=`<article class="locked-bet lock-blocked"><div class="bet-badge">LOCKED — PRICE NOT EXECUTABLE</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>SAVED STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>MINIMUM</span><strong>${odds(d.minExec)}</strong></div></div></article>`;
-        $('bottomLabel').textContent='WAIT'; $('bottomText').textContent='Saved V11 lock exists, but live price must pass the minimum.'; document.title='MITCHELL Racing';
+        card.className='decision-card blocked'; bottom.className='bottom-command blocked'; kicker.textContent='LOCK EXISTS · FINAL CHECK FAILED'; title.textContent='DO NOT PLACE YET';
+        msg.textContent=q.blockReason || 'The locked signal is not safely executable right now.';
+        box.innerHTML=`<article class="locked-bet lock-blocked"><div class="bet-badge">LOCKED — NOT EXECUTABLE</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>SAVED STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>MINIMUM</span><strong>${odds(d.minExec)}</strong></div></div></article>`;
+        $('bottomLabel').textContent='WAIT'; $('bottomText').textContent='Saved V11 lock exists, but every live safety check must pass.'; document.title='MITCHELL Racing';
       }
     } else if (active.length) {
       const finals=active.filter(r=>r?.decision?.status==='NO_BET_FINAL').length;
