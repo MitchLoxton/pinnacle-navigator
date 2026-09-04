@@ -1,19 +1,20 @@
 {
-  "schemaVersion": 3,
-  "updatedAt": "2026-09-04T23:29:00+08:00",
+  "schemaVersion": 4,
+  "updatedAt": "2026-09-04T23:58:00+08:00",
   "masterMode": "SCHEDULED_SHADOW_AUTO",
   "liveExecutionUnlocked": false,
-  "liveExecutionReason": "The AU V11 server shadow monitor is now scheduled and burst-checks near jump, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
+  "liveExecutionReason": "AU V11 now has scheduled shadow monitoring, near-jump burst checks and automated 21-stream post-race state tracking, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
   "architecture": {
     "browserRole": "STATUS_CONTROL_ALERTING_AND_MANUAL_EXECUTION_AUDIT",
     "unattendedExecutionRequiresServer": true,
-    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server shadow evaluation now continues independently during the Saturday monitoring window; real unattended wagering still requires an authenticated execution adapter, fill callback, exposure control and kill switch.",
+    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server shadow evaluation and post-race state tracking now run independently; real unattended wagering still requires an authenticated execution adapter, fill callback, exposure control and kill switch.",
     "hardFailClosed": true,
     "masterKillSwitchRequired": true,
     "acceptedFillIsTruth": true,
     "databaseTriggerSearchPathHardened": true,
     "raceDayWakeLockAssist": true,
-    "optInBetAlerts": true
+    "optInBetAlerts": true,
+    "automaticAll21StateTracking": true
   },
   "shadowBackend": {
     "status": "ACTIVE_SCHEDULED",
@@ -21,6 +22,7 @@
     "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR",
     "scheduled": true,
     "schedule": "Every minute Saturday 00:00-13:59 UTC (08:00-21:59 Perth)",
+    "heartbeatPersisted": true,
     "nearJumpBurst": {
       "enabled": true,
       "windowSeconds": 180,
@@ -29,7 +31,26 @@
       "purpose": "Once a watched race is within three minutes, the server performs short high-frequency shadow checks so the 20s→10s V11 window is not dependent on a one-minute cron tick."
     },
     "placesWagers": false,
-    "note": "This worker can independently read the trusted AU watchlist and write/evaluate V11 shadow state even if the browser is closed. It cannot submit a wager."
+    "note": "This worker independently reads the trusted AU watchlist and evaluates V11 shadow state even if the browser is closed. It cannot submit a wager."
+  },
+  "stateTracker": {
+    "status": "ACTIVE_SCHEDULED",
+    "function": "racing-v11-state-tracker",
+    "scope": "ALL_21_AU_STREAMS",
+    "scheduled": true,
+    "primarySchedule": "Saturday 11:00 UTC (19:00 Perth)",
+    "retrySchedule": "Sunday 00:00 UTC (08:00 Perth)",
+    "writes": "racing_v11_state_history",
+    "heartbeatPersisted": true,
+    "stateRule": "Favourite WIN resets state to 0; favourite LOSS increments state by 1. State tracking is independent from whether a system wager was placed.",
+    "crossSourceVerification": {
+      "primary": "TABtouch final favourite/result",
+      "secondary": "TAB.com.au final fixed-WIN favourite",
+      "conflictRule": "If sources disagree on favourite identity but imply the same W/L outcome, record the unambiguous outcome and audit both names. If they imply different outcomes, do not guess: mark REVIEW_REQUIRED and leave the state unresolved."
+    },
+    "overwriteExistingHistory": false,
+    "placesWagers": false,
+    "note": "This removes most of the manual weekly 21-stream state-entry work while failing closed on cross-source ambiguity."
   },
   "australia": {
     "strategy": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
@@ -47,6 +68,7 @@
     "safeFloorAud": 100000,
     "executionRecordIdempotent": true,
     "settlementLedgerAutomaticAfterConfirmedExecution": true,
+    "all21StateTrackingScheduled": true,
     "historical": {
       "completedYears": 18,
       "bets": 699,
@@ -112,9 +134,10 @@
     ]
   },
   "liveUnlockChecklist": [
-    {"id":"shadow-worker","label":"Server-side V11 shadow evaluator","status":"READY"},
+    {"id":"shadow-worker","label":"Server-side V11 shadow evaluator + persisted heartbeat","status":"READY"},
     {"id":"scheduler","label":"Saturday recurring scheduler + near-jump burst loop","status":"READY"},
-    {"id":"client-assist","label":"Adaptive live polling + health + wake-lock/alert assist","status":"READY"},
+    {"id":"state-tracker","label":"Automated all-21 post-race state tracker + cross-source conflict guard","status":"READY"},
+    {"id":"client-assist","label":"Adaptive live polling + source-age health + wake-lock/alert assist","status":"READY"},
     {"id":"record-idempotency","label":"Internal execution-record idempotency / duplicate protection","status":"READY"},
     {"id":"bookmaker","label":"Authenticated legitimate bookmaker/exchange API adapter","status":"MISSING"},
     {"id":"quotes","label":"Executable price and available-capacity feed","status":"PARTIAL"},
