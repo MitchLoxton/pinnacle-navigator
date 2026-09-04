@@ -1,25 +1,34 @@
 (() => {
   'use strict';
 
-  function addStatsLink() {
-    const switcher = document.querySelector('.hk-switcher');
-    if (!switcher || switcher.querySelector('[data-stats-link]')) return Boolean(switcher);
+  function makeLink(href, text, dataKey) {
     const link = document.createElement('a');
-    link.href = './stats.html';
+    link.href = href;
     link.className = 'hk-tab-btn';
-    link.dataset.statsLink = '1';
-    link.textContent = 'STATS · FULL AUDIT';
+    link.dataset[dataKey] = '1';
+    link.textContent = text;
     link.style.textDecoration = 'none';
     link.style.display = 'inline-flex';
     link.style.alignItems = 'center';
-    switcher.appendChild(link);
+    return link;
+  }
+
+  function addUtilityLinks() {
+    const switcher = document.querySelector('.hk-switcher');
+    if (!switcher) return false;
+    if (!switcher.querySelector('[data-auto-link]')) {
+      switcher.appendChild(makeLink('./automation.html', 'AUTO · SHADOW', 'autoLink'));
+    }
+    if (!switcher.querySelector('[data-stats-link]')) {
+      switcher.appendChild(makeLink('./stats.html', 'STATS · FULL AUDIT', 'statsLink'));
+    }
     return true;
   }
 
   function start() {
-    if (addStatsLink()) return;
+    if (addUtilityLinks()) return;
     const observer = new MutationObserver(() => {
-      if (addStatsLink()) observer.disconnect();
+      if (addUtilityLinks()) observer.disconnect();
     });
     observer.observe(document.documentElement, { childList:true, subtree:true });
     setTimeout(() => observer.disconnect(), 10000);
