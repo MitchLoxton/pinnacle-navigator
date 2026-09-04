@@ -4,22 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08090c">
-<title>YTIntel v0.10.1 — Latest</title>
-<link rel="stylesheet" href="../style.css?v=0101">
-<link rel="stylesheet" href="v09.css?v=0101">
+<title>YTIntel v0.10.2 — Latest</title>
+<link rel="stylesheet" href="../style.css?v=0102">
+<link rel="stylesheet" href="v09.css?v=0102">
 <style>
 .update-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,5,8,.88);backdrop-filter:blur(9px)}.update-modal.show{display:flex}.update-panel{width:min(780px,100%);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#151820,#0f1218);border:1px solid #343b49;border-radius:22px;box-shadow:0 30px 100px rgba(0,0,0,.65);padding:24px}.update-top{display:flex;gap:12px;align-items:flex-start}.update-top .grow{flex:1}.update-panel h2{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:6px 0 8px}.update-close{width:36px;height:36px;border-radius:10px;border:1px solid #343b49;background:#191d25;color:#fff;font-size:20px;cursor:pointer}.update-version{display:inline-flex;border:1px solid rgba(85,226,157,.35);background:rgba(85,226,157,.07);color:#8cf0bd;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:900}.update-items{display:grid;gap:8px;margin:16px 0}.update-item{display:grid;grid-template-columns:25px 1fr;gap:10px;padding:11px;border:1px solid #262d39;border-radius:13px;background:#0a0d12}.update-item .tick{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:rgba(85,226,157,.09);color:#75ecad;font-weight:950}.update-item b{display:block}.update-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.update-actions button{border:1px solid #343b49;background:#191d25;color:#fff;border-radius:11px;padding:10px 13px;font:inherit;font-weight:850;cursor:pointer}.update-actions .primary{background:#ff4f47;border-color:#ff4f47}.whats-new-btn{border:1px solid rgba(141,169,255,.4)!important;background:rgba(141,169,255,.1)!important;color:#d5ddff!important}.release{border-left:3px solid #8da9ff}.release.current{border-left-color:#55e29d}.roadmap-box{border:1px solid rgba(255,208,113,.26);background:rgba(255,208,113,.035)}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.10.1 checking…</span></div></div>
+  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.10.2 checking…</span></div></div>
   <nav class="tabs no-print"><button class="on" data-tab="analyse">Analyse</button><button data-tab="history">History</button><button data-tab="similar">Similar Videos</button><button data-tab="batch">Pattern Mine</button><button data-tab="visuals">Visuals + Audio <span class="beta">BETA</span></button><button data-tab="updates">Updates <span class="beta">NEW</span></button></nav>
 
-  <section id="analyse" class="view active">
-    <div class="hero no-print"><div class="eyebrow">FACTS → EVIDENCE → TAKEAWAYS</div><h1>Specific evidence, or don’t print it.</h1><p>v0.10 removes fake precision from coarse transcript windows, verifies Video WPM independently, keeps channel-relative outliers visible, and attaches transcript evidence to hook/payoff/replay claims.</p><form id="analyseForm" class="formrow"><input id="videoUrl" type="url" placeholder="Paste a YouTube video URL" required><button class="btn primary">Analyse deeply</button></form></div>
-    <div id="loading" class="load">Reading transcript, replay curve and channel baseline…</div><div id="error" class="error"></div><div id="report"></div>
-  </section>
+  <section id="analyse" class="view active"><div class="hero no-print"><div class="eyebrow">FACTS → EVIDENCE → TAKEAWAYS</div><h1>Specific evidence, or don’t print it.</h1><p>v0.10 removes fake precision from coarse transcript windows, recalculates Video WPM from the cleaned transcript, keeps channel-relative outliers visible, and attaches transcript evidence to hook/payoff/replay claims.</p><form id="analyseForm" class="formrow"><input id="videoUrl" type="url" placeholder="Paste a YouTube video URL" required><button class="btn primary">Analyse deeply</button></form></div><div id="loading" class="load">Reading transcript, replay curve and channel baseline…</div><div id="error" class="error"></div><div id="report"></div></section>
 
   <section id="history" class="view"><div class="hero"><div class="eyebrow">NICHE LIBRARY</div><h1>Your research should compound.</h1><p>Individual analyses and Pattern Mines save here. YTIntel waits for enough evidence before calling something a winning pattern.</p><div class="launch-note">Preview: browser-saved. Launch plan: login + private cloud-synced history across devices.</div></div><div id="historyRoot"></div></section>
 
@@ -30,7 +27,7 @@
   <section id="visuals" class="view"><div class="hero"><div class="eyebrow">VISUAL + AUDIO VAULT</div><h1>Only call a visual/audio fact when we actually measured it.</h1><p>Replay peaks can tell us where to inspect. Cuts/min needs scene detection. Sound effects and background music need actual media/audio analysis — not YouTube’s Content-ID metadata box.</p></div><div id="visualRoot"></div></section>
 
   <section id="updates" class="view"><div class="hero"><div class="eyebrow">PRODUCT CHANGELOG</div><h1>What changed in YTIntel.</h1><p>Every release is dated. LIVE means it exists; BETA means partial; PLANNED means roadmap.</p></div><div class="grid">
-    <article class="card c12 release current v10-release"><div class="split"><div><div class="eyebrow">V0.10.1 · CURRENT</div><h2 style="margin:4px 0">Accuracy reset</h2><div class="source-note">4 Sep 2026</div></div><span class="pill good">LIVE</span></div><ul class="list"><li>Suppressed fake 30-second re-hook/payoff cadence caused by coarse transcript buckets.</li><li>Verified Video WPM using deduped word count ÷ full runtime.</li><li>Changed numbered transcript extraction into sentence-level Key Takeaways.</li><li>Made hook classification conservative until the hook bank + reasoning model are connected.</li><li>Pattern Mine moved from shared-noun matching to semantic embeddings.</li><li>Extreme/broken outlier baselines are flagged instead of blindly trusted.</li><li>Pattern Mine results now save into History.</li><li>Visual/Audio roadmap split into real Cuts, Sound Effects and B-roll/Background Music pipelines.</li></ul></article>
+    <article class="card c12 release current v10-release"><div class="split"><div><div class="eyebrow">V0.10.1</div><h2 style="margin:4px 0">Accuracy reset</h2><div class="source-note">4 Sep 2026</div></div><span class="pill good">LIVE</span></div><ul class="list"><li>Suppressed fake 30-second re-hook/payoff cadence caused by coarse transcript buckets.</li><li>Recalculated Video WPM from deduped transcript words ÷ full runtime.</li><li>Changed numbered transcript extraction into sentence-level Key Takeaways.</li><li>Made hook classification conservative until the hook bank + reasoning model are connected.</li><li>Pattern Mine moved from shared-noun matching to semantic embeddings.</li><li>Extreme/broken outlier baselines are flagged instead of blindly trusted.</li><li>Pattern Mine results now save into History.</li><li>Visual/Audio roadmap split into real Cuts, Sound Effects and B-roll/Background Music pipelines.</li></ul></article>
     <article class="card c12 release"><div class="eyebrow">V0.9.1 · 4 SEP 2026</div><h3>Specific evidence pass</h3><ul class="list"><li>Why It Worked receipts.</li><li>Initial hook taxonomy.</li><li>Initial list/detail extractor.</li><li>Pattern Mine 5+ video workflow.</li><li>Similar Videos replay peak column.</li></ul></article>
     <article class="card c6 release"><div class="eyebrow">V0.8.1 · 4 SEP 2026</div><h3>Visible update system</h3><ul class="list"><li>What’s New popup.</li><li>Permanent update log.</li><li>Cache-safe latest page.</li></ul></article>
     <article class="card c6 release"><div class="eyebrow">V0.8 · 4 SEP 2026</div><h3>Evidence-first UI</h3><ul class="list"><li>Hook → Re-hook → Fulfillment layout.</li><li>Dedicated Outlier Multiplier.</li><li>Transcript Markdown copy.</li><li>Visuals + Edit beta.</li></ul></article>
@@ -41,11 +38,11 @@
   </div></section>
 </div>
 
-<div class="update-modal" id="updateModal"><div class="update-panel"><div class="update-top"><div class="grow"><span class="update-version">YTIntel v0.10.1 · 4 SEP 2026</span><h2>Accuracy reset.</h2><p>Loading what changed…</p></div><button class="update-close">×</button></div></div></div>
+<div class="update-modal" id="updateModal"><div class="update-panel"><div class="update-top"><div class="grow"><span class="update-version">YTIntel v0.10.2 · 4 SEP 2026</span><h2>Loading latest update…</h2></div><button class="update-close">×</button></div></div></div>
 
 <script>try{const keys=['ytintel-v09-history','ytintel-v08-history','ytintel-v07-history'],current=JSON.parse(localStorage.getItem('ytintel-v09-history')||'[]'),seen=new Set(current.map(x=>x&&x.id).filter(Boolean));for(const k of keys.slice(1)){const rows=JSON.parse(localStorage.getItem(k)||'[]');if(Array.isArray(rows))for(const x of rows)if(x&&(!x.id||!seen.has(x.id))){current.push(x);if(x.id)seen.add(x.id)}}localStorage.setItem('ytintel-v09-history',JSON.stringify(current.slice(0,200)))}catch{}</script>
-<script src="v09-core.js?v=0101"></script>
-<script src="v091-bridge.js?v=0101"></script>
-<script src="v09-features.js?v=0101"></script>
+<script src="v09-core.js?v=0102"></script>
+<script src="v091-bridge.js?v=0102"></script>
+<script src="v09-features.js?v=0102"></script>
 </body>
 </html>
