@@ -1,5 +1,5 @@
-const BUILD = '1.8.0';
-const CACHE = 'mitchell-racing-v28-hk-r15';
+const BUILD = '1.8.1';
+const CACHE = 'mitchell-racing-v29-reload-fix';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
