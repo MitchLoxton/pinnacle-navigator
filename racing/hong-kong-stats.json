@@ -1,56 +1,107 @@
 {
-  "schemaVersion": 2,
-  "updatedAt": "2026-09-04T13:50:00+08:00",
-  "system": "HK R15 HYBRID CONSISTENCY — BALANCED",
-  "evidenceStatus": "SYNTHETIC EXECUTION PROXY — NOT LIVE VALIDATED",
-  "sourceWorkbook": "HKJC_R15_HYBRID_CONSISTENCY.xlsx",
-  "operatingMode": "BALANCED",
-  "risk": {
-    "riskCapPerPositionAud": 5000,
-    "absoluteHardMaximumAud": 8000,
-    "profitTargetAudPerYear": 100000
+  "schemaVersion": 3,
+  "updatedAt": "2026-09-04T14:18:00+08:00",
+  "system": "HK PARITY V2",
+  "evidenceStatus": "LOW-FREQUENCY HISTORICAL RESEARCH · SHADOW ONLY",
+  "sourceWorkbook": "HK_PARITY_V2_RESEARCH.xlsx",
+  "sourceHistoryWorkbook": "HKJC_R3_COMBO_PROPOSAL_V2.xlsx",
+  "operatingMode": "AUSTRALIA-PARITY LOW FREQUENCY",
+  "decision": {
+    "activeResearchCandidate": true,
+    "productionApproved": false,
+    "reason": "This is the strongest current Hong Kong candidate for Australia-like betting frequency. It matches Australia V11 closely on completed-history bets/year, annual turnover, historical annual profit, ROI and A$10k maximum stake, but drawdown and live accepted-price evidence remain blockers."
+  },
+  "frequency": {
+    "completedYears": 11,
+    "completedPeriod": "2015–2025",
+    "completedBets": 423,
+    "betsPerYear": 38.45454545454545,
+    "australiaV11BetsPerYear": 38.833333333333336,
+    "differenceBetsPerYear": -0.3787878787878852,
+    "partial2026Bets": 30,
+    "partial2026IndependentRaces": 21
+  },
+  "historical": {
+    "annualTurnoverAud": 315752.77777777775,
+    "annualHistoricalProfitAud": 182955.0028312372,
+    "historicalRoi": 0.579424840278043,
+    "losingCompletedYears": 0,
+    "positiveCompletedYears": 11,
+    "worstCompletedYearAud": 27842.8419606933,
+    "worstCompletedYear": 2019,
+    "raceLevelMaxDrawdownAud": 217491.68440885167,
+    "partial2026PlAud": 6933.293570102145,
+    "method": "No rebate. Winning profit portion stressed 3% worse than research odds. Frozen sleeve stakes."
   },
   "model": {
-    "winModel": "R4C clean-book market-offset CatBoost",
-    "placeModel": "R8 residual PLACE CatBoost",
-    "expectedUnitsPerYear": 27.27206830894003,
-    "modelImpliedProfitAudAtRiskCap": 136360.34154470015,
+    "calibrationLogOddsIntercept": 0.1679327961221175,
+    "calibratedModelEvAudPerYear": 42667.66188116626,
+    "calibratedModelRoi": 0.13512996522613385,
+    "note": "The calibrated model EV is the more conservative forward anchor. The much larger A$182,955 historical annual P/L is a historical stressed result, not a forward income promise."
+  },
+  "risk": {
+    "longCoreStakeAud": 10000,
+    "otherSleeveStakeAud": 7892.146394305168,
+    "hardMaxStakeAud": 10000,
+    "australiaRecordedMaxDrawdownAud": 79850,
+    "australiaReorderStressMaxDrawdownAud": 108800,
+    "riskParityStatus": "FAIL / CAUTION",
+    "riskParityReason": "HK same-race multi-runner exposure produced a materially deeper completed-history drawdown than Australia V11."
+  },
+  "selectionRules": {
+    "market": "WIN",
+    "coreLow": {
+      "requiresR2Core": true,
+      "minOddsInclusive": 5.0,
+      "maxOddsExclusive": 8.0,
+      "stakeAud": 7892.146394305168
+    },
+    "coreLong": {
+      "requiresR2Core": true,
+      "minOddsInclusive": 20.0,
+      "maxOddsExclusive": 30.0,
+      "stakeAud": 10000
+    },
+    "mainSatellite": {
+      "requiresSatelliteOnly": true,
+      "minOddsInclusive": 4.0,
+      "maxOddsExclusive": 7.0,
+      "maxMarketRank": 2,
+      "stakeAud": 7892.146394305168
+    },
+    "extraSatellite": {
+      "requiresSatelliteOnly": true,
+      "minimumOriginalRawModelEv": 0.12,
+      "stakeAud": 7892.146394305168
+    },
+    "historicalPriceStress": 0.03,
+    "rebateAssumed": false,
+    "freezeRule": true
+  },
+  "liveExecution": {
+    "status": "NOT VERIFIED",
+    "requiresVerifiedModelClassification": true,
+    "requiresVerifiedExecutableOdds": true,
+    "requiresVerifiedCapacity": true,
+    "requiresAcceptedBetConfirmation": true,
+    "message": "Fail closed. Do not place a Hong Kong bet until the frozen R2/Rvenue classifications, market rank/raw EV where required, executable WIN price and accepted stake are verified."
+  },
+  "rejectedFrequencySearch": {
+    "target": "Approximately 50 bets/year while retaining Australia-like historical results",
+    "decision": "REJECT LITERAL-50 RETUNING",
+    "reason": "Nearby 49–51 bet/year variants could be made to look strong on older completed history but deteriorated sharply in the newest 2026 partial evidence. The frozen 38.45 bet/year V2 is more defensible and already matches Australia V11's true 38.83 bet/year cadence almost exactly."
+  },
+  "archivedR15": {
+    "status": "RESEARCH REFERENCE ONLY",
     "approxPositionsPerYear": 1071,
-    "approxRacesWithPositionsPerYear": 419.5,
-    "approxPositionsPerActiveRace": 2.5530393325387365,
-    "positionCountPeriod": "2020–2021 validation proxy",
-    "positionCountNote": "A position is one R15 BACK or LAY action in WIN or PLACE. A single race can contain more than one position, so 1,071 positions/year does not mean 1,071 separate races or 1,071 verified live accepted bookmaker bets."
-  },
-  "validationProxy": {
-    "averageUnitsPerYear": 72.58354763024117,
-    "equivalentAverageAudAtRiskCap": 362917.7381512059,
-    "worstYearUnits": 64.93982605712169,
-    "equivalentWorstYearAudAtRiskCap": 324699.13028560847,
-    "bootstrapLosingYearProbability": 0.0408,
-    "maxDrawdownUnits": 39.66538031732108,
-    "equivalentMaxDrawdownAudAtRiskCap": 198326.9015866054,
-    "rawR13MaxDrawdownUnitsApprox": 76.6,
-    "completedProxyYears": 7,
-    "positiveCompletedProxyYears": 7,
-    "partial2026Positive": true,
-    "periodNote": "2019–2025 proxy history was positive in every completed year; 2026 partial was also positive in the research package."
-  },
-  "execution": {
-    "bookmakerQuoteSafetyBuffer": 0.01,
-    "minimumIncrementalExpectedProfitUnits": 0.01,
-    "exchangeMarketBaseRate": 0.06,
-    "winOddsMin": 1.5,
-    "winOddsMaxInclusive": 6.0,
-    "placeOddsMin": 1.1,
-    "placeOddsMaxExclusive": 10.0,
-    "backRouting": "Best accepted positive-net-EV fixed quote or Exchange",
-    "layRouting": "Exchange only"
+    "reasonArchived": "Far too high-frequency for the requested Australia-like operating style and dependent on synthetic/proxy PLACE execution assumptions."
   },
   "caveats": [
-    "Historical PLACE execution prices and liquidity are synthetic proxies rather than actual Betfair order books.",
-    "The validation-proxy profit figures are not a forward income forecast and should not be treated as guaranteed cash.",
-    "Actual timestamped executable prices, available volume, accepted stakes and fills are required before a live R15 position is valid.",
-    "Bookmakers may limit or decline bets. Risk must never be duplicated across venues.",
-    "No system can guarantee a profitable year."
+    "HK PARITY V2 is research/shadow only, not production-approved.",
+    "Historical HKJC research/closing prices plus a 3% adverse-price stress are not the same as verified live accepted bookmaker prices.",
+    "The A$182,955 annual historical figure is not a forward income forecast; the calibrated model EV anchor is materially lower at about A$42.7k/year.",
+    "The historical race-level max drawdown of about A$217k is materially worse than Australia V11 and remains the major risk blocker.",
+    "2026 is partial and must not be treated as a completed year.",
+    "Do not retune the frozen rule after future wins or losses simply to preserve backtest appearance."
   ]
 }
