@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "appVersion": "1.8.1",
-  "updatedAt": "2026-09-04T14:50:00+08:00",
+  "updatedAt": "2026-09-04T19:04:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-06",
@@ -13,10 +13,10 @@
     "status": "FIELDS CONFIRMED",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
   },
-  "systemStatus": "HK PARITY V2 + SAFE STAKING V1 LOADED · LOW FREQUENCY · LIVE MODEL/QUOTE FEED REQUIRED",
-  "systemMessage": "Hong Kong keeps the frozen HK PARITY V2 qualifying horses but now uses a lower-drawdown SAFE staking overlay. It remains separate from the Australian streak/state system.",
+  "systemStatus": "HK PARITY V2 + SAFE STAKING V2 LOADED · LOWER DRAWDOWN · LIVE MODEL/QUOTE FEED REQUIRED",
+  "systemMessage": "Hong Kong keeps the exact frozen HK PARITY V2 qualifying horses and simply scales the SAFE V1 stakes 25% lower. This reduces stored historical drawdown without retuning the entry model.",
   "strategy": {
-    "name": "HK PARITY V2 · SAFE STAKING V1",
+    "name": "HK PARITY V2 · SAFE STAKING V2",
     "mode": "LOW FREQUENCY AUSTRALIA PARITY · LOWER DRAWDOWN",
     "status": "SHADOW / RESEARCH · FAIL-CLOSED LIVE EXECUTION",
     "historicalCadence": {
@@ -26,11 +26,16 @@
       "australiaV11BetsPerYear": 38.833333333333336
     },
     "historicalHeadline": {
-      "annualProfitAud": 95473.63636363637,
+      "annualProfitAud": 71605.22727272728,
       "roi": 0.5127978515625,
       "losingCompletedYears": 0,
+      "maxDrawdownAud": 57000,
+      "partial2026PlAud": 3982.5
+    },
+    "safeV1Baseline": {
+      "annualProfitAud": 95473.63636363637,
       "maxDrawdownAud": 76000,
-      "partial2026PlAud": 5310
+      "status": "ARCHIVED AS HIGHER-RISK SAFE VERSION"
     },
     "aggressiveBaseline": {
       "annualProfitAud": 182955.0028312372,
@@ -41,7 +46,7 @@
       "coreModel": "R2 CORE / Rclean",
       "satelliteModel": "Rvenue satellite classification",
       "calibrationLogOddsIntercept": 0.1679327961221175,
-      "calibratedModelEvAudPerYear": 19880.22211596682,
+      "calibratedModelEvAudPerYear": 14910.166586975115,
       "resultLeakageAllowed": false
     },
     "market": "WIN",
@@ -50,25 +55,25 @@
         "requiresR2Core": true,
         "minOddsInclusive": 5.0,
         "maxOddsExclusive": 8.0,
-        "stakeAud": 2000
+        "stakeAud": 1500
       },
       "coreLong": {
         "requiresR2Core": true,
         "minOddsInclusive": 20.0,
         "maxOddsExclusive": 30.0,
-        "stakeAud": 4000
+        "stakeAud": 3000
       },
       "mainSatellite": {
         "requiresSatelliteOnly": true,
         "minOddsInclusive": 4.0,
         "maxOddsExclusive": 7.0,
         "maxMarketRank": 2,
-        "stakeAud": 8000
+        "stakeAud": 6000
       },
       "extraSatellite": {
         "requiresSatelliteOnly": true,
         "minimumOriginalRawModelEv": 0.12,
-        "stakeAud": 2000
+        "stakeAud": 1500
       }
     },
     "historicalScoring": {
@@ -77,12 +82,14 @@
       "note": "The 3% price damage is a historical stress assumption, not permission to invent a live price. Live bets require a real executable quote."
     },
     "risk": {
-      "hardMaxStakeAud": 8000,
-      "lowCoreStakeAud": 2000,
-      "longCoreStakeAud": 4000,
-      "mainSatelliteStakeAud": 8000,
-      "extraSatelliteStakeAud": 2000,
-      "storedHistoricalMaxDrawdownAud": 76000,
+      "hardMaxStakeAud": 6000,
+      "lowCoreStakeAud": 1500,
+      "longCoreStakeAud": 3000,
+      "mainSatelliteStakeAud": 6000,
+      "extraSatelliteStakeAud": 1500,
+      "storedHistoricalMaxDrawdownAud": 57000,
+      "sequenceStressMedianMaxDrawdownAud": 93949.5,
+      "sequenceStressP95MaxDrawdownAud": 147960.825,
       "duplicateRiskAcrossVenues": false
     },
     "requiredPreBetGates": [
@@ -103,24 +110,25 @@
       "modelClassificationVerified": false,
       "executableQuotesVerified": false,
       "capacityVerified": false,
-      "message": "WAIT — the SAFE Hong Kong strategy is loaded, but no horse may become BET NOW until the frozen model classifications and real executable WIN price/capacity are verified."
+      "message": "WAIT — SAFE STAKING V2 is loaded, but no horse may become BET NOW until the frozen model classifications and real executable WIN price/capacity are verified."
     },
     "archivedResearch": {
-      "oldV2Staking": "A$10k LONG CORE and ~A$7.9k other sleeves · archived because stored historical DD was ~A$217k",
+      "safeV1": "A$2k LOW CORE / A$4k LONG CORE / A$8k MAIN SAT / A$2k EXTRA SAT · stored historical DD A$76k",
+      "oldV2Staking": "A$10k LONG CORE and ~A$7.9k other sleeves · stored historical DD ~A$217k",
       "r15": "~1,071 proxy positions/year · archived as too high-frequency"
     }
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]},
-    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — SAFE NOT SCORED","signals":[]}
+    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
+    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]}
   ]
 }
