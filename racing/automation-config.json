@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-04T22:08:00+08:00",
+  "masterMode": "SHADOW_AUTO",
+  "liveExecutionUnlocked": false,
+  "liveExecutionReason": "No authenticated bookmaker execution adapter and accepted-fill callback are configured in this web app. Real-money unattended execution stays locked.",
+  "architecture": {
+    "browserRole": "STATUS_AND_CONTROL_UI_ONLY",
+    "unattendedExecutionRequiresServer": true,
+    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Genuine full auto must run on an always-on backend with authenticated execution, idempotency, settlement and audit logging.",
+    "hardFailClosed": true,
+    "masterKillSwitchRequired": true,
+    "acceptedFillIsTruth": true
+  },
+  "australia": {
+    "strategy": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
+    "strategyStatus": "PREFERRED CHAMPION · PREDICTIVE RULE FROZEN",
+    "predictiveRetune": "STOPPED",
+    "autoMonitor": true,
+    "autoEvaluate": true,
+    "autoLog": true,
+    "autoExecute": false,
+    "minimumAcceptedPrice": 3.0,
+    "signalWindowSeconds": {"open": 20, "cutoff": 10},
+    "hardMaxStakeAud": 10000,
+    "safeFloorAud": 100000,
+    "historical": {
+      "completedYears": 18,
+      "bets": 699,
+      "betsPerYear": 38.833333333333336,
+      "annualHistoricalProfitAud": 178084.8611111111,
+      "historicalRoi": 0.5640009325157692,
+      "recordedMaxDrawdownAud": 79850,
+      "reorderStressMaxDrawdownAud": 108800
+    },
+    "livePreBetGates": [
+      "CURRENT_V11_STATE_VERIFIED",
+      "FROZEN_CORE_MATCH_VERIFIED",
+      "LIVE_FAVOURITE_VERIFIED",
+      "LIVE_PRICE_AT_OR_ABOVE_A$3",
+      "INSIDE_20_TO_10_SECOND_SIGNAL_WINDOW",
+      "MODEL_STAKE_POSITIVE_AND_WITHIN_A$10000_CAP",
+      "SAFE_FLOOR_AND_OPEN_EXPOSURE_CHECKED",
+      "EXECUTION_ADAPTER_HEALTHY",
+      "ACCEPTED_FILL_CALLBACK_AVAILABLE"
+    ]
+  },
+  "hongKong": {
+    "strategy": "HK OPTIMAL V4 · DAILY RISK GUARD",
+    "strategyStatus": "SHADOW · FROZEN FOR FORWARD VALIDATION",
+    "predictiveRetune": "STOPPED",
+    "autoMonitor": true,
+    "autoEvaluate": true,
+    "autoLog": true,
+    "autoExecute": false,
+    "hardMaxStakeAud": 10000,
+    "maxOneBetPerRace": true,
+    "maxConfirmedBetsPerRaceDay": 2,
+    "dailyRealizedLossStopAud": 10000,
+    "maxConfirmedBetsPerCalendarYear": 100,
+    "historical": {
+      "completedYears": 11,
+      "completedBets": 393,
+      "betsPerYear": 35.72727272727273,
+      "maxBetsAnyCompletedYear": 57,
+      "annualHistoricalProfitAud": 110836.36363636363,
+      "historicalRoi": 0.538753866548829,
+      "storedHistoricalMaxDrawdownAud": 75766,
+      "p95DayBlockSequenceDrawdownAud": 191902.95
+    },
+    "overfitWarning": "V4 removed 13 bets versus V3 across completed history plus the 2026 partial, and all 13 happened to lose. Freeze V4 and collect fresh forward evidence instead of tuning the same history again.",
+    "livePreBetGates": [
+      "HORSE_IDENTITY_VERIFIED",
+      "R2_OR_RVENUE_CLASSIFICATION_VERIFIED",
+      "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
+      "CALIBRATED_MODEL_EV_VERIFIED",
+      "ONE_BET_PER_RACE_RANKING_VERIFIED",
+      "EXECUTABLE_WIN_PRICE_VERIFIED",
+      "CAPACITY_VERIFIED",
+      "TODAY_CONFIRMED_BET_COUNT_VERIFIED",
+      "TODAY_REALIZED_HK_PL_VERIFIED",
+      "TWO_BET_DAILY_CAP_CLEAR",
+      "DAILY_MINUS_A$10000_STOP_CLEAR",
+      "100_BET_YEAR_CAP_CLEAR",
+      "EXECUTION_ADAPTER_HEALTHY",
+      "ACCEPTED_FILL_CALLBACK_AVAILABLE"
+    ]
+  },
+  "liveUnlockChecklist": [
+    {"id":"backend","label":"Always-on server execution worker","status":"MISSING"},
+    {"id":"bookmaker","label":"Authenticated legitimate bookmaker/exchange API adapter","status":"MISSING"},
+    {"id":"quotes","label":"Executable price and available-capacity feed","status":"NOT_VERIFIED"},
+    {"id":"idempotency","label":"One instruction = at most one submitted wager","status":"MISSING"},
+    {"id":"fills","label":"Accepted/partial/rejected fill callback","status":"MISSING"},
+    {"id":"settlement","label":"Automatic settlement and realised P/L reconciliation","status":"MISSING"},
+    {"id":"killswitch","label":"Server-side master kill switch and exposure caps","status":"MISSING"},
+    {"id":"audit","label":"Immutable order/fill/settlement audit log","status":"MISSING"}
+  ]
+}
