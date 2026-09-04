@@ -1,0 +1,37 @@
+.only-rule{margin-top:10px;padding:18px;border-radius:20px;border:2px solid #2d425c;background:linear-gradient(180deg,#0f2034,#091523);text-align:center;box-shadow:0 16px 45px rgba(0,0,0,.18)}
+.only-rule-label{font-size:10px;font-weight:950;letter-spacing:.16em;color:#75b9ff}
+.only-rule-main{margin-top:7px;font-size:21px;line-height:1.16;font-weight:1000;letter-spacing:-.025em;color:#fff}
+.only-rule-main b{color:#78f2b5}
+.only-rule-sub{margin-top:8px;color:#aebdce;font-size:12px;font-weight:750;line-height:1.4}
+.plain-instruction{margin-top:10px;padding:16px 17px;border-radius:18px;border:2px solid #735a27;background:#281f0e}
+.plain-instruction>span{display:block;font-size:9px;font-weight:950;letter-spacing:.15em}
+.plain-instruction>strong{display:block;margin-top:5px;font-size:24px;line-height:1.05;letter-spacing:-.03em}
+.plain-instruction>p{margin:8px 0 0;font-size:12px;line-height:1.45;font-weight:720}
+.plain-wait{border-color:#735a27;background:linear-gradient(180deg,#2b210e,#171109)}
+.plain-wait span,.plain-wait strong{color:#ffc34f}.plain-wait p{color:#e4d4a8}
+.plain-bet{border-color:#2a8058;background:linear-gradient(180deg,#123d2d,#0a2118);box-shadow:0 0 0 1px rgba(39,221,135,.12)}
+.plain-bet span,.plain-bet strong{color:#78f2b5}.plain-bet p{color:#d6f8e7}
+.plain-no{border-color:#74323e;background:linear-gradient(180deg,#34151d,#1b0e13)}
+.plain-no span,.plain-no strong{color:#ff9eaa}.plain-no p{color:#ffd3d9}
+.traffic-guide{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.traffic-step{padding:11px;border-radius:14px;border:1px solid #283d56;background:#0a1726;min-height:92px}
+.traffic-step span{display:block;font-size:8px;font-weight:950;letter-spacing:.12em;color:#93a9c0}
+.traffic-step strong{display:block;margin-top:4px;font-size:14px;line-height:1.12}
+.traffic-step small{display:block;margin-top:5px;color:#aebdce;font-size:9px;line-height:1.35}
+.traffic-step.wait strong{color:#ffc34f}.traffic-step.bet strong{color:#78f2b5}.traffic-step.no strong{color:#ff9eaa}
+.today-focus{margin-top:10px;padding:13px 14px;border-radius:14px;background:#0a1726;border:1px solid #223650}
+.today-focus>span{display:block;color:#75b9ff;font-size:9px;font-weight:950;letter-spacing:.14em}
+.today-focus>strong{display:block;margin-top:4px;font-size:16px}
+.today-focus>p{margin:5px 0 0;color:#9eacc0;font-size:10px;line-height:1.4}
+.simple-card-command{margin:9px 0 2px;padding:12px;border-radius:12px;border:1px solid #735a27;background:#2b210e}
+.simple-card-command span{display:block!important;margin:0!important;font-size:8px!important;font-weight:950!important;letter-spacing:.12em!important;color:#9eacc0!important}
+.simple-card-command strong{display:block!important;margin:4px 0 0!important;font-size:17px!important;line-height:1.1!important}
+.simple-card-command small{display:block;margin-top:5px;color:#c8d3df;font-size:10px;line-height:1.35}
+.simple-card-wait strong{color:#ffc34f!important}.simple-card-bet{border-color:#2a8058;background:#0d3525}.simple-card-bet strong{color:#78f2b5!important}.simple-card-no{border-color:#74323e;background:#35151d}.simple-card-no strong{color:#ff9eaa!important}
+.simple-hidden-detail{display:none!important}.simple-hidden-detail.simple-detail-open{display:block!important}
+.simple-detail-button{width:100%;min-height:38px;margin-top:9px;border-radius:10px;border:1px solid #2d425c;background:#101b2b;color:#b8c7d8;font-size:10px;font-weight:900;cursor:pointer}
+#lastWeekDetails:not([open]){opacity:.86}
+.bottom-command strong{font-size:14px;white-space:normal;line-height:1.2}.bottom-command.bet-now strong{font-size:16px;color:#dffff0}.bottom-command.bet-now button{border-color:#2a8058;background:#164632}.bottom-command.no-bet strong,.bottom-command.blocked strong{color:#ffd2d8}
+.decision-card.bet-now{animation:betPulse 1.8s ease-in-out infinite}@keyframes betPulse{0%,100%{box-shadow:0 0 0 0 rgba(39,221,135,.08),0 20px 65px rgba(0,0,0,.28)}50%{box-shadow:0 0 0 5px rgba(39,221,135,.08),0 20px 65px rgba(0,0,0,.28)}}
+@media(max-width:520px){.traffic-guide{grid-template-columns:1fr}.traffic-step{min-height:0;display:grid;grid-template-columns:58px 1fr;column-gap:8px;align-items:center}.traffic-step span{grid-column:1}.traffic-step strong{grid-column:2;grid-row:1;margin:0}.traffic-step small{grid-column:1/3}.only-rule-main{font-size:19px}.plain-instruction>strong{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.decision-card.bet-now{animation:none}}
