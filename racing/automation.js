@@ -9,16 +9,22 @@
   const pct = v => Number.isFinite(Number(v)) ? `${(Number(v)*100).toFixed(1)}%` : '—';
 
   async function getJson(path) {
-    const response = await fetch(path, { cache:'no-cache' });
-    if (!response.ok) throw new Error(`${path} HTTP ${response.status}`);
-    return response.json();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 9000);
+    try {
+      const response = await fetch(path, { cache:'no-cache', signal:controller.signal });
+      if (!response.ok) throw new Error(`${path} HTTP ${response.status}`);
+      return response.json();
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   function pill(text, tone='') { return `<span class="pill ${tone}">${esc(text)}</span>`; }
   function row(label, value, tone='') { return `<div class="row"><span>${esc(label)}</span><strong class="${tone}">${esc(value)}</strong></div>`; }
   function check(label, status, note='') {
     const normalized = String(status || '').toUpperCase();
-    const tone = normalized === 'READY' || normalized === 'VERIFIED' || normalized === 'PASS' ? 'good' : normalized === 'MISSING' || normalized === 'BLOCKED' ? '' : 'warn';
+    const tone = normalized === 'READY' || normalized === 'VERIFIED' || normalized === 'PASS' || normalized === 'ACTIVE' ? 'good' : normalized === 'MISSING' || normalized === 'BLOCKED' ? '' : 'warn';
     return `<div class="check ${tone}"><span class="dot"></span><div><strong>${esc(label)}</strong><small>${esc(status)}${note ? ` · ${esc(note)}` : ''}</small></div></div>`;
   }
 
@@ -49,12 +55,15 @@
     const hk = config.hongKong || {};
     const h = hk.historical || {};
     const feed = hkLive?.strategy?.liveFeed || {};
-    const feedReady = feed.modelClassificationVerified === true && feed.calibratedModelEvVerified === true && feed.executableQuotesVerified === true && feed.capacityVerified === true && feed.yearBetCountVerified === true && feed.todayRiskVerified === true;
+    const meetingDate = hkLive?.meeting?.date || '';
+    const today = new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Perth',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+    const feedReady = meetingDate === today && feed.modelClassificationVerified === true && feed.calibratedModelEvVerified === true && feed.executableQuotesVerified === true && feed.capacityVerified === true && feed.yearBetCountVerified === true && feed.todayRiskVerified === true;
     return `<article class="card">
       <span class="eyebrow">HONG KONG</span><h2>OPTIMAL V4 · FROZEN SHADOW</h2>
-      <p>V4 stays frozen for genuine forward validation. It can be evaluated automatically, but real-money execution remains locked and missing live gates always mean WAIT.</p>
-      <div class="status-row">${pill(feedReady ? 'ALL MODEL FEEDS VERIFIED' : 'LIVE MODEL/QUOTE GATES INCOMPLETE', feedReady ? 'good' : 'warn')}${pill('SHADOW AUTO ON','good')}${pill('LIVE EXECUTION LOCKED','bad')}</div>
+      <p>V4 stays frozen for genuine forward validation. Real-money execution remains locked; missing model, quote, capacity, date or daily-risk gates always mean WAIT.</p>
+      <div class="status-row">${pill(feedReady ? 'BASE LIVE GATES VERIFIED' : 'LIVE MODEL/QUOTE GATES INCOMPLETE', feedReady ? 'good' : 'warn')}${pill('SHADOW AUTO ON','good')}${pill('LIVE EXECUTION LOCKED','bad')}</div>
       <div class="rows">
+        ${row('Loaded meeting date', meetingDate || '—', meetingDate === today ? 'goodtxt' : 'warntxt')}
         ${row('Historical bets / year', n1(h.betsPerYear))}
         ${row('Busiest completed year', `${h.maxBetsAnyCompletedYear ?? '—'} / 100`)}
         ${row('Historical ROI', pct(h.historicalRoi), 'goodtxt')}
@@ -71,36 +80,50 @@
   function render(config, current, hkLive) {
     const liveUnlocked = config.liveExecutionUnlocked === true;
     const checklist = Array.isArray(config.liveUnlockChecklist) ? config.liveUnlockChecklist : [];
+    const readyItems = checklist.filter(x => ['READY','VERIFIED','PASS','ACTIVE'].includes(String(x.status || '').toUpperCase())).length;
+    const backend = config.shadowBackend || {};
     root.innerHTML = `
       <section class="hero">
         <span class="eyebrow">AUTOMATION CONTROL</span>
         <h1>SHADOW AUTO IS ON</h1>
-        <p>The app can automatically monitor, evaluate and prepare decisions. It deliberately cannot submit real-money wagers yet. A browser tab is the control screen — genuine unattended execution must run on an always-on backend.</p>
+        <p>Server-side V11 shadow evaluation now exists. The app can monitor, evaluate and prepare decisions, but it deliberately cannot submit real-money wagers until the complete execution chain is genuine.</p>
         <div class="mode"><span class="label">CURRENT MASTER MODE</span><strong>${esc(config.masterMode || 'SHADOW_AUTO').replaceAll('_',' ')}</strong><p>Missing or stale data = WAIT. No guessed horse, price, stake, capacity, race-day P/L or execution result is allowed.</p></div>
       </section>
 
       <div class="live-lock"><strong>${liveUnlocked ? 'LIVE AUTO UNLOCKED' : 'LIVE AUTO · LOCKED'}</strong><p>${esc(config.liveExecutionReason || '')}</p></div>
+
+      <section class="section">
+        <span class="eyebrow">SERVER SHADOW ENGINE</span><h2>${esc(backend.status || 'UNKNOWN')}</h2>
+        <p>${esc(backend.note || 'Server shadow status unavailable.')}</p>
+        <div class="rows">
+          ${row('Worker', backend.function || '—', backend.status === 'ACTIVE' ? 'goodtxt' : 'warntxt')}
+          ${row('Role', String(backend.role || '—').replaceAll('_',' '))}
+          ${row('Recurring scheduler', backend.scheduled === true ? 'ACTIVE' : 'NOT YET', backend.scheduled === true ? 'goodtxt' : 'warntxt')}
+          ${row('Can place wagers', backend.placesWagers === true ? 'YES' : 'NO — LOCKED', backend.placesWagers === true ? 'goodtxt' : 'badtxt')}
+        </div>
+      </section>
 
       <div class="grid">${auStatus(config,current)}${hkStatus(config,hkLive)}</div>
 
       <section class="simple">
         <h2>THE EASY VERSION</h2>
         <div class="steps">
-          <div class="step"><b>1. Normal use:</b> open LIVE. If the giant action box is not green and saying BET NOW, do nothing.</div>
-          <div class="step"><b>2. Shadow auto:</b> the system can monitor and calculate automatically, but you still place any approved wager manually and record the actual accepted fill.</div>
-          <div class="step"><b>3. Future full auto:</b> once the server execution chain below is genuinely connected and tested, this tab can become the master status/kill-switch screen.</div>
+          <div class="step"><b>1. Normal use:</b> open LIVE. Green BET NOW = follow the exact instruction. Yellow WAIT or red NO BET = do nothing.</div>
+          <div class="step"><b>2. Shadow auto:</b> server/browser monitoring can calculate automatically, but you still place any approved wager manually and record the actual accepted fill.</div>
+          <div class="step"><b>3. Future full auto:</b> only unlock after the remaining server execution, fill, settlement, idempotency and kill-switch items below are genuinely verified.</div>
         </div>
       </section>
 
       <section class="section">
-        <span class="eyebrow">FULL AUTO UNLOCK</span><h2>WHAT IS STILL MISSING</h2>
-        <p>I have not faked any of these. LIVE AUTO remains locked until every execution-critical item is real and verified.</p>
+        <span class="eyebrow">FULL AUTO UNLOCK</span><h2>${readyItems} / ${checklist.length} EXECUTION ITEMS READY</h2>
+        <p>This is deliberately strict. LIVE AUTO stays locked until every execution-critical item is real and verified; partial readiness is not enough.</p>
+        <div style="height:8px;border-radius:999px;background:#162437;overflow:hidden;margin:10px 0 12px"><div style="height:100%;width:${checklist.length ? (readyItems/checklist.length)*100 : 0}%;background:#78f2b5"></div></div>
         <div class="checklist">${checklist.map(x => check(x.label,x.status)).join('')}</div>
       </section>
 
       <section class="section">
         <span class="eyebrow">WHY BOTH STRATEGIES ARE NOW FROZEN</span><h2>STOP OPTIMISING THE OLD RESULTS</h2>
-        <p>Australia has already reached the point where forward accepted-price/fill evidence is more valuable than another same-history parameter search. Hong Kong V4 also carries a sequencing-overfit warning. The next improvements should come from live execution quality, cleaner feeds, forward validation and operational reliability — not retroactively deleting losses.</p>
+        <p>Australia has reached the point where forward accepted-price/fill evidence is more valuable than another same-history parameter search. Hong Kong V4 also carries a sequencing-overfit warning. Improvements now come from live execution quality, cleaner feeds, forward validation and operational reliability — not retroactively deleting losses.</p>
         <div class="rows">
           ${row('AU predictive retune', config.australia?.predictiveRetune || 'STOPPED', 'goodtxt')}
           ${row('HK predictive retune', config.hongKong?.predictiveRetune || 'STOPPED', 'goodtxt')}
@@ -113,7 +136,7 @@
 
     updated.textContent = `Config ${config.updatedAt || '—'} · AU ${current?.updatedAt || '—'} · HK ${hkLive?.updatedAt || '—'}`;
     document.getElementById('refreshAuto')?.addEventListener('click', reload);
-    window.MITCHELL_AUTOMATION_STATUS = { config, current, hongKong: hkLive, liveExecutionUnlocked: liveUnlocked };
+    window.MITCHELL_AUTOMATION_STATUS = { config, current, hongKong:hkLive, liveExecutionUnlocked:liveUnlocked, readyItems, totalItems:checklist.length };
   }
 
   async function reload() {
@@ -121,7 +144,7 @@
     if (button) button.disabled = true;
     try {
       const [config,current,hkLive] = await Promise.all([
-        getJson('./automation-config.json?v=1'),
+        getJson('./automation-config.json?v=2'),
         getJson('./current.json'),
         getJson('./hong-kong.json?v=20260904-optimal-v4')
       ]);
