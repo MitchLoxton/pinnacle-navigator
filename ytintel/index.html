@@ -50,6 +50,18 @@
     <div id="visualRoot"></div>
   </section>
 </div>
+<script>
+try{
+  const oldKey='ytintel-v07-history',newKey='ytintel-v08-history';
+  const oldRows=JSON.parse(localStorage.getItem(oldKey)||'[]');
+  const newRows=JSON.parse(localStorage.getItem(newKey)||'[]');
+  if(Array.isArray(oldRows)&&oldRows.length){
+    const seen=new Set(newRows.map(x=>x&&x.id).filter(Boolean));
+    const merged=[...newRows,...oldRows.filter(x=>x&&(!x.id||!seen.has(x.id)))];
+    localStorage.setItem(newKey,JSON.stringify(merged.slice(0,150)));
+  }
+}catch{}
+</script>
 <script src="app-core.js"></script>
 <script src="app-features.js"></script>
 </body>
