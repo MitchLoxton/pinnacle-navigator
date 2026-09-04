@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-04T13:50:00+08:00",
+  "system": "HK R15 HYBRID CONSISTENCY — BALANCED",
+  "evidenceStatus": "SYNTHETIC EXECUTION PROXY — NOT LIVE VALIDATED",
+  "sourceWorkbook": "HKJC_R15_HYBRID_CONSISTENCY.xlsx",
+  "operatingMode": "BALANCED",
+  "risk": {
+    "riskCapPerPositionAud": 5000,
+    "absoluteHardMaximumAud": 8000,
+    "profitTargetAudPerYear": 100000
+  },
+  "model": {
+    "winModel": "R4C clean-book market-offset CatBoost",
+    "placeModel": "R8 residual PLACE CatBoost",
+    "expectedUnitsPerYear": 27.27206830894003,
+    "modelImpliedProfitAudAtRiskCap": 136360.34154470015
+  },
+  "validationProxy": {
+    "averageUnitsPerYear": 72.58354763024117,
+    "equivalentAverageAudAtRiskCap": 362917.7381512059,
+    "worstYearUnits": 64.93982605712169,
+    "equivalentWorstYearAudAtRiskCap": 324699.13028560847,
+    "bootstrapLosingYearProbability": 0.0408,
+    "maxDrawdownUnits": 39.66538031732108,
+    "equivalentMaxDrawdownAudAtRiskCap": 198326.9015866054,
+    "rawR13MaxDrawdownUnitsApprox": 76.6,
+    "completedProxyYears": 7,
+    "positiveCompletedProxyYears": 7,
+    "partial2026Positive": true,
+    "periodNote": "2019–2025 proxy history was positive in every completed year; 2026 partial was also positive in the research package."
+  },
+  "execution": {
+    "bookmakerQuoteSafetyBuffer": 0.01,
+    "minimumIncrementalExpectedProfitUnits": 0.01,
+    "exchangeMarketBaseRate": 0.06,
+    "winOddsMin": 1.5,
+    "winOddsMaxInclusive": 6.0,
+    "placeOddsMin": 1.1,
+    "placeOddsMaxExclusive": 10.0,
+    "backRouting": "Best accepted positive-net-EV fixed quote or Exchange",
+    "layRouting": "Exchange only"
+  },
+  "caveats": [
+    "Historical PLACE execution prices and liquidity are synthetic proxies rather than actual Betfair order books.",
+    "The validation-proxy profit figures are not a forward income forecast and should not be treated as guaranteed cash.",
+    "Actual timestamped executable prices, available volume, accepted stakes and fills are required before a live R15 position is valid.",
+    "Bookmakers may limit or decline bets. Risk must never be duplicated across venues.",
+    "No system can guarantee a profitable year."
+  ]
+}
