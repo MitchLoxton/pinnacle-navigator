@@ -2,12 +2,17 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
+  const openDetails = new Set();
   const cardState = card => {
     if (!card) return 'WAIT';
     if (card.classList.contains('bet-now')) return 'BET';
     if (card.classList.contains('no-bet') || card.classList.contains('blocked')) return 'NO';
     return 'WAIT';
   };
+
+  function detailKey(card) {
+    return String(card?.dataset?.race || card?.querySelector('.watch-race')?.textContent || 'UNKNOWN').trim().toUpperCase();
+  }
 
   function normalizeMonitoringState() {
     const card = $('decisionCard');
@@ -60,6 +65,7 @@
   function makeSimpleCommand(card) {
     if (!card || card.dataset.simpleUi === '1') return;
     card.dataset.simpleUi = '1';
+    const key = detailKey(card);
     const text = String(card.textContent || '').toUpperCase();
     const isBet = text.includes('BET LOCKED') || text.includes('CHECK TOP BOX');
     const isNo = text.includes('NO BET — FINAL') || text.includes('FINAL NO BET');
@@ -90,18 +96,22 @@
     });
 
     if (verbose.length) {
+      const applyOpenState = open => {
+        verbose.forEach(node => node.classList.toggle('simple-detail-open', open));
+        button.setAttribute('aria-expanded', String(open));
+        button.textContent = open ? 'Hide live details' : 'Show live details';
+      };
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'simple-detail-button';
-      button.textContent = 'Show live details';
-      button.setAttribute('aria-expanded', 'false');
       button.addEventListener('click', () => {
         const open = button.getAttribute('aria-expanded') === 'true';
-        verbose.forEach(node => node.classList.toggle('simple-detail-open', !open));
-        button.setAttribute('aria-expanded', String(!open));
-        button.textContent = open ? 'Show live details' : 'Hide live details';
+        if (open) openDetails.delete(key);
+        else openDetails.add(key);
+        applyOpenState(!open);
       });
       card.appendChild(button);
+      applyOpenState(openDetails.has(key));
     }
   }
 
