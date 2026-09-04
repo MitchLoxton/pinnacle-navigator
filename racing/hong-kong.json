@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "appVersion": "1.8.1",
-  "updatedAt": "2026-09-04T19:18:00+08:00",
+  "updatedAt": "2026-09-04T22:08:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-06",
@@ -13,43 +13,46 @@
     "status": "FIELDS CONFIRMED",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
   },
-  "systemStatus": "HK OPTIMAL V3 LOADED · AU-RISK MAX-PROFIT RESEARCH · LIVE MODEL/QUOTE FEED REQUIRED",
-  "systemMessage": "Hong Kong now uses the best candidate found in the tested low-frequency grid subject to a maximum 100 bets in any calendar year and a stored historical drawdown ceiling below Australia V11's A$79,850 recorded drawdown. It allows at most one bet per race.",
+  "systemStatus": "HK OPTIMAL V4 LOADED · DAILY RISK GUARD · LIVE MODEL/QUOTE/RISK FEED REQUIRED",
+  "systemMessage": "Hong Kong keeps the OPTIMAL V3 horse-selection model and stake schedule, but V4 adds a strict race-day risk guard: maximum two confirmed Hong Kong bets per race day and no new bet after realised Hong Kong P/L for that day reaches -A$10,000 or worse. Maximum one horse per race and 100 bets per calendar year remain hard rules.",
   "strategy": {
-    "name": "HK OPTIMAL V3 · AU-RISK MAX PROFIT",
-    "mode": "MAX ONE BET PER RACE · <=100 BETS/YEAR · HISTORICAL DD BELOW AU RECORDED",
+    "name": "HK OPTIMAL V4 · DAILY RISK GUARD",
+    "mode": "ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR",
     "status": "NEW RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED LIVE EXECUTION",
     "historicalCadence": {
-      "completedBets": 405,
+      "completedBets": 393,
       "completedYears": 11,
-      "betsPerYear": 36.81818181818182,
-      "maxBetsAnyCompletedYear": 61,
+      "betsPerYear": 35.72727272727273,
+      "maxBetsAnyCompletedYear": 57,
       "calendarYearBetCap": 100,
-      "australiaV11BetsPerYear": 38.833333333333336
+      "australiaV11BetsPerYear": 38.833333333333336,
+      "partial2026Bets": 25,
+      "partial2026SourceCutoff": "2026-07-12"
     },
     "historicalHeadline": {
-      "annualProfitAud": 106109.09090909091,
-      "roi": 0.5041900647948164,
+      "annualProfitAud": 110836.36363636363,
+      "roi": 0.538753866548829,
       "losingCompletedYears": 0,
-      "maxDrawdownAud": 78914,
-      "partial2026Bets": 26,
-      "partial2026PlAud": 10095,
-      "partial2026Roi": 0.07590225563909775
+      "maxDrawdownAud": 75766,
+      "partial2026Bets": 25,
+      "partial2026PlAud": 13095,
+      "partial2026Roi": 0.10073076923076923
     },
     "optimization": {
-      "objective": "Within the tested parameter/stake grid: maximise completed-history annual P/L while requiring stored historical max drawdown <= A$79,850 and maximum calendar-year bets <= 100.",
-      "australiaRecordedDrawdownCeilingAud": 79850,
-      "testedRuleFamilies": "R2 CORE and satellite-only WIN rules using only pre-race classification, price, market rank, raw model EV and calibrated model EV for one-bet-per-race ranking.",
+      "baseSelectionVersion": "HK OPTIMAL V3",
+      "selectionThresholdsChanged": false,
+      "stakeScheduleChanged": false,
+      "dailyRiskOverlayChanged": true,
       "oneBetPerRace": true,
       "selectionWithinRace": "Among qualifying runners, choose the runner with the highest verified calibrated model EV; tie-break by lower executable/research odds, then higher original raw model EV.",
-      "warning": "This is a historical optimisation result, not proof that these thresholds are optimal in future racing. It requires fresh forward validation after the source cutoff."
+      "warning": "The daily guard was discovered on historical race sequences. Every historical V3 bet removed by this overlay happened to be a loss, which can be a sign of sequencing overfit. Freeze V4 and judge it on fresh post-cutoff forward results rather than retuning it again."
     },
     "prediction": {
       "coreModel": "R2 CORE / Rclean",
       "satelliteModel": "Rvenue satellite classification",
       "calibrationLogOddsIntercept": 0.1679327961221175,
-      "calibratedModelEvAudPerYear": 18624.384078935964,
-      "calibratedModelRoi": 0.0884959934636266,
+      "calibratedModelEvAudPerYear": 18301.8813,
+      "calibratedModelRoi": 0.08896186224,
       "resultLeakageAllowed": false
     },
     "market": "WIN",
@@ -79,6 +82,13 @@
         "stakeAud": 10000
       }
     },
+    "dailyRiskGuard": {
+      "maxConfirmedBetsPerRaceDay": 2,
+      "dailyRealizedLossStopAud": 10000,
+      "lossStopComparison": "realizedPlTodayAud <= -10000",
+      "reset": "NEXT HONG KONG RACE DAY",
+      "rule": "Before any new Hong Kong bet, verify today's confirmed HK bet count and realised HK P/L. Do not place a third HK bet that day. After a confirmed bet settles, if today's realised HK P/L is -A$10,000 or worse, take no more HK bets that day."
+    },
     "historicalScoring": {
       "rebateAssumed": false,
       "winningProfitPriceDamage": 0.03,
@@ -90,13 +100,15 @@
       "longCoreStakeAud": 5000,
       "mainSatelliteStakeAud": 7000,
       "extraSatelliteStakeAud": 10000,
-      "storedHistoricalMaxDrawdownAud": 78914,
+      "storedHistoricalMaxDrawdownAud": 75766,
       "australiaRecordedMaxDrawdownAud": 79850,
       "australiaReorderStressMaxDrawdownAud": 108800,
-      "sequenceStressMedianMaxDrawdownAud": 131779,
-      "sequenceStressP95MaxDrawdownAud": 208726.85,
-      "sequenceStressP99MaxDrawdownAud": 252280.45,
+      "dayBlockSequenceStressMedianMaxDrawdownAud": 122295.5,
+      "dayBlockSequenceStressP95MaxDrawdownAud": 191902.95,
+      "dayBlockSequenceStressP99MaxDrawdownAud": 233691.12,
       "maxOneBetPerRace": true,
+      "maxBetsPerRaceDay": 2,
+      "dailyRealizedLossStopAud": 10000,
       "maxBetsPerCalendarYear": 100
     },
     "requiredPreBetGates": [
@@ -106,14 +118,18 @@
       "CALIBRATED_MODEL_EV_VERIFIED",
       "ONE_BET_PER_RACE_RANKING_VERIFIED",
       "EXECUTABLE_WIN_QUOTE_VERIFIED",
-      "OPTIMAL_V3_SELECTION_RULE_PASSED",
+      "OPTIMAL_V4_SELECTION_RULE_PASSED",
       "CAPACITY_VERIFIED",
       "STAKE_WITHIN_A$10000_CAP",
-      "CALENDAR_YEAR_BET_CAP_NOT_EXCEEDED"
+      "CALENDAR_YEAR_BET_CAP_NOT_EXCEEDED",
+      "DAILY_RISK_STATUS_VERIFIED",
+      "DAILY_BET_CAP_NOT_REACHED",
+      "DAILY_LOSS_STOP_NOT_TRIGGERED"
     ],
     "postExecutionAccounting": {
       "acceptedBetConfirmationRequired": true,
-      "rule": "BET NOW is a pre-bet instruction. After placement, only the actually accepted stake and price count in cash P/L."
+      "settlementRequiredForDailyPl": true,
+      "rule": "BET NOW is a pre-bet instruction. After placement, only the actually accepted stake and price count in cash P/L. Settled accepted bets update today's HK realised P/L before the next race is evaluated."
     },
     "liveFeed": {
       "status": "NOT VERIFIED",
@@ -121,24 +137,30 @@
       "calibratedModelEvVerified": false,
       "executableQuotesVerified": false,
       "capacityVerified": false,
-      "message": "WAIT — HK OPTIMAL V3 is loaded, but no horse may become BET NOW until model classification, calibrated model EV, one-bet-per-race ranking, executable WIN price and capacity are verified."
+      "yearBetCountVerified": false,
+      "confirmedBetsThisCalendarYear": null,
+      "todayRiskVerified": false,
+      "confirmedBetsToday": null,
+      "realizedPlTodayAud": null,
+      "message": "WAIT — HK OPTIMAL V4 is loaded, but no horse may become BET NOW until model classification, calibrated model EV, within-race ranking, executable WIN price, capacity, yearly bet count and today's daily-risk state are all verified."
     },
     "archivedResearch": {
-      "safeV2": "36–38 bet/year family with A$57k stored historical DD and about A$71.6k/year historical P/L; lower risk but lower historical profit.",
+      "optimalV3": "Same selections/stakes without daily guard: 405 completed bets, A$106.1k historical average/year, A$78.9k stored historical DD, 50.4% historical ROI.",
+      "safeV2": "Lower-risk family with about A$57k stored historical DD and A$71.6k/year historical P/L.",
       "r15": "~1,071 proxy positions/year; archived as too high-frequency and dependent on proxy PLACE execution."
     }
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
-    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]}
+    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
+    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]}
   ]
 }
