@@ -7,6 +7,7 @@
 
   const state = {
     au: { status:'CHECKING', checkedAt:null, sourceFetchedAt:null, pollMs:15000, reason:'' },
+    preflight: { status:'CHECKING', safe:false, checkedAt:null, targetDate:null, streamCount:0, coreWatchCount:0, errors:[], warnings:[] },
     hk: { status:'SHADOW', checkedAt:null, action:'WAIT', reason:'Live HK model/quote feed not verified.' },
     shadow: { status:'CHECKING', finishedAt:null, error:null, processed:0, burstChecks:0 },
     assist: { wakeStatus:'IDLE', alertsEnabled:false, notificationPermission:'default', nearestLeadSeconds:null }
@@ -18,12 +19,12 @@
     const style = document.createElement('style');
     style.id = 'mitchell-health-styles';
     style.textContent = `
-      .system-health{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:0 0 10px;padding:8px;border:1px solid #29405a;border-radius:13px;background:rgba(8,20,34,.92)}
+      .system-health{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:0 0 10px;padding:8px;border:1px solid #29405a;border-radius:13px;background:rgba(8,20,34,.92)}
       .health-chip{min-width:0;padding:8px 9px;border:1px solid #304760;border-radius:10px;background:#0f1d2d}
       .health-chip span{display:block;color:#839ab2;font-size:7px;font-weight:950;letter-spacing:.08em}.health-chip strong{display:block;margin-top:3px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.health-chip small{display:block;margin-top:3px;color:#8499af;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       .health-chip.good{border-color:#2a8058;background:#0c2a1e}.health-chip.good strong{color:#78f2b5}.health-chip.warn{border-color:#735a27;background:#2a2413}.health-chip.warn strong{color:#ffc34f}.health-chip.bad{border-color:#74323e;background:#30161d}.health-chip.bad strong{color:#ff9eaa}
       .health-action{width:100%;margin-top:6px;min-height:28px;border-radius:8px;border:1px solid #3b5c79;background:#11263a;color:#dce9f5;font-size:8px;font-weight:950;cursor:pointer}.health-action.on{border-color:#2a8058;background:#123a2a;color:#9ff4c7}.health-action:disabled{opacity:.55;cursor:wait}
-      @media(max-width:850px){.system-health{grid-template-columns:repeat(3,1fr)}}
+      @media(max-width:1000px){.system-health{grid-template-columns:repeat(3,1fr)}}
       @media(max-width:600px){.system-health{grid-template-columns:1fr 1fr}}
       @media(max-width:360px){.system-health{grid-template-columns:1fr}}
     `;
@@ -108,6 +109,17 @@
       ? `${sourceAge !== null ? `${sourceAge}s source` : 'source age —'} · ${cycle(state.au.pollMs)}`
       : (state.au.reason || cycle(state.au.pollMs));
 
+    const preflightAge = ageSec(state.preflight.checkedAt);
+    const preflightFresh = preflightAge !== null && preflightAge <= 600;
+    const preflightPass = state.preflight.status === 'PASS' && state.preflight.safe === true && preflightFresh;
+    const preflightBad = ['BLOCKED','ERROR'].includes(state.preflight.status) || (state.preflight.status === 'PASS' && !preflightFresh);
+    const preflightTone = preflightPass ? 'good' : preflightBad ? 'bad' : 'warn';
+    const preflightText = preflightPass ? 'PREFLIGHT PASS' : state.preflight.status === 'BLOCKED' ? 'PREFLIGHT BLOCKED' : state.preflight.status === 'ERROR' ? 'PREFLIGHT ERROR' : 'PREFLIGHT CHECKING';
+    const firstPreflightError = Array.isArray(state.preflight.errors) && state.preflight.errors.length ? state.preflight.errors[0] : null;
+    const preflightSmall = preflightPass
+      ? `${state.preflight.streamCount || 21}/21 states · ${state.preflight.coreWatchCount || 0} CORE · ${preflightAge}s ago`
+      : (firstPreflightError || (preflightAge !== null ? `${preflightAge}s ago` : 'all-21 state/evidence check'));
+
     const schedule = perthScheduleState();
     const shadowAge = ageSec(state.shadow.finishedAt);
     const shadowHealthyStatus = ['OK','IDLE_NO_TODAY_RACES'].includes(state.shadow.status);
@@ -134,6 +146,7 @@
 
     bar.innerHTML = `
       <div class="health-chip ${online?'good':'bad'}"><span>CONNECTION</span><strong>${online?'ONLINE':'OFFLINE · NO BET'}</strong><small>${online?'Browser connected':'Reconnect before any action'}</small></div>
+      <div class="health-chip ${preflightTone}"><span>V11 STATE PREFLIGHT</span><strong>${preflightText}</strong><small>${preflightSmall}</small></div>
       <div class="health-chip ${auTone}"><span>AUSTRALIA V11</span><strong>${auText}</strong><small>${auSmall}</small></div>
       <div class="health-chip ${shadowTone}"><span>SERVER SHADOW</span><strong>${shadowText}</strong><small>${shadowSmall}</small></div>
       <div class="health-chip ${hkTone}"><span>HONG KONG V4</span><strong>${hkText}</strong><small>${hkSmall}</small></div>
@@ -151,11 +164,13 @@
   }
 
   window.addEventListener('mitchell-live-health',event => { state.au={ ...state.au,...(event.detail || {}) }; render(); });
+  window.addEventListener('mitchell-preflight-health',event => { state.preflight={ ...state.preflight,...(event.detail || {}) }; render(); });
   window.addEventListener('mitchell-hk-health',event => { state.hk={ ...state.hk,...(event.detail || {}) }; render(); });
   window.addEventListener('mitchell-assist-health',event => { state.assist={ ...state.assist,...(event.detail || {}) }; render(); });
   window.addEventListener('online',() => { render(); refreshShadow(); });
   window.addEventListener('offline',render);
 
+  if (window.__MITCHELL_V11_PREFLIGHT) state.preflight = { ...state.preflight,...window.__MITCHELL_V11_PREFLIGHT };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',() => { ensure(); refreshShadow(); },{ once:true });
   else { ensure(); refreshShadow(); }
   const observer = new MutationObserver(() => { if (ensure()) observer.disconnect(); });
