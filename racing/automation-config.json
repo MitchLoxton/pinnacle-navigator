@@ -1,13 +1,13 @@
 {
-  "schemaVersion": 5,
-  "updatedAt": "2026-09-05T00:08:00+08:00",
-  "masterMode": "SCHEDULED_SHADOW_AUTO",
+  "schemaVersion": 6,
+  "updatedAt": "2026-09-05T00:23:00+08:00",
+  "masterMode": "SCHEDULED_SHADOW_PLUS_LOCKED_AUTOBET",
   "liveExecutionUnlocked": false,
-  "liveExecutionReason": "AU V11 now has a 21-stream state/evidence preflight, scheduled shadow monitoring, near-jump burst checks and automated 21-stream post-race state tracking, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
+  "liveExecutionReason": "A server-side Betfair Exchange auto-bet placer is now installed and wired to AU V11 locked signals, but it is deliberately locked because Betfair live credentials are not configured, server enable is OFF and the kill switch is ON.",
   "architecture": {
     "browserRole": "STATUS_CONTROL_ALERTING_AND_MANUAL_EXECUTION_AUDIT",
     "unattendedExecutionRequiresServer": true,
-    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server integrity checks, shadow evaluation and post-race state tracking now run independently; real unattended wagering still requires an authenticated execution adapter, fill callback, exposure control and kill switch.",
+    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server integrity checks, shadow evaluation, optional auto-placement and post-race state tracking run independently.",
     "hardFailClosed": true,
     "masterKillSwitchRequired": true,
     "acceptedFillIsTruth": true,
@@ -15,7 +15,13 @@
     "raceDayWakeLockAssist": true,
     "optInBetAlerts": true,
     "automaticAll21StateTracking": true,
-    "v11StateEvidencePreflight": true
+    "v11StateEvidencePreflight": true,
+    "serverAutobetAdapter": true,
+    "autobetProvider": "BETFAIR_EXCHANGE",
+    "fillOrKill": true,
+    "providerOrderIdempotency": true,
+    "audCurrencyGuard": true,
+    "fullStakeLiquidityGuard": true
   },
   "preflight": {
     "status": "ACTIVE_REQUIRED_FOR_GREEN",
@@ -32,13 +38,13 @@
       "Historical N, ROI and base reference in the feed match frozen CORE evidence",
       "Target race date is not stale"
     ],
-    "failureRule": "If preflight is missing, stale, blocked or errors, a green AU BET NOW instruction is invalid and is changed to DO NOT BET.",
+    "failureRule": "If preflight is missing, stale, blocked or errors, a green AU BET NOW instruction is invalid and auto-placement is blocked.",
     "lastVerifiedExample": "2026-09-05 target: PASS · 21/21 states matched · MR1|4 and SR6|6 CORE evidence matched"
   },
   "shadowBackend": {
     "status": "ACTIVE_SCHEDULED",
     "function": "racing-v11-auto",
-    "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR",
+    "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR_AND_OPTIONAL_AUTOBET_TRIGGER",
     "scheduled": true,
     "schedule": "Every minute Saturday 00:00-13:59 UTC (08:00-21:59 Perth)",
     "heartbeatPersisted": true,
@@ -47,10 +53,46 @@
       "windowSeconds": 180,
       "intervalSeconds": 4,
       "maxBurstDurationSeconds": 48,
-      "purpose": "Once a watched race is within three minutes, the server performs short high-frequency shadow checks so the 20s→10s V11 window is not dependent on a one-minute cron tick."
+      "purpose": "Once a watched race is within three minutes, the server performs short high-frequency checks so the 20s→10s V11 window is not dependent on a one-minute cron tick."
     },
-    "placesWagers": false,
-    "note": "This worker independently reads the trusted AU watchlist and evaluates V11 shadow state even if the browser is closed. It cannot submit a wager."
+    "placesWagers": "ONLY_IF_AUTOBET_ARMED_AND_CONFIGURED",
+    "note": "The worker now calls the server-side placer when a genuine BET_LOCKED signal exists. The placer itself remains locked unless its independent controls and credentials pass."
+  },
+  "autoBetPlacer": {
+    "status": "INSTALLED_LOCKED",
+    "function": "racing-autobet",
+    "provider": "BETFAIR_EXCHANGE",
+    "serverOnly": true,
+    "controlTable": "racing_autobet_control",
+    "orderTable": "racing_autobet_orders",
+    "defaultEnabled": false,
+    "defaultKillSwitch": true,
+    "defaultMaxBetAud": 10000,
+    "defaultMaxDailyExposureAud": 10000,
+    "requiredServerSecrets": ["BETFAIR_APP_KEY", "BETFAIR_SESSION_TOKEN"],
+    "requiresLiveBetfairKey": true,
+    "currencyRequired": "AUD",
+    "placement": "BACK LIMIT · $3.00 minimum · FILL_OR_KILL · min fill equals full model stake",
+    "preChecks": [
+      "Fresh V11 all-21/core preflight PASS",
+      "Race state is BET_LOCKED and execution is still UNCONFIRMED",
+      "Current time is inside the 20s→10s V11 execution window",
+      "Model stake is positive and within A$10,000",
+      "Betfair account currency is AUD",
+      "Betfair available balance covers the model stake",
+      "Correct WIN market and horse identity are uniquely verified",
+      "Betfair market is OPEN, pre-play and not delayed",
+      "Best executable BACK price is at least $3.00",
+      "Full model stake liquidity is available at $3.00 or better",
+      "Atomic per-race duplicate guard and daily exposure cap pass"
+    ],
+    "unknownSubmissionRule": "If a provider submission times out, query Betfair by deterministic customer order reference. If no matched order can be proven, mark UNKNOWN_PROVIDER_RESULT and do not automatically retry.",
+    "currentActivationBlockers": [
+      "BETFAIR_APP_KEY not configured in Edge Function secrets",
+      "BETFAIR_SESSION_TOKEN not configured in Edge Function secrets",
+      "Server auto-bet enabled flag is OFF",
+      "Server kill switch is ON"
+    ]
   },
   "stateTracker": {
     "status": "ACTIVE_SCHEDULED",
@@ -79,6 +121,7 @@
     "autoEvaluate": true,
     "autoLog": true,
     "autoExecute": false,
+    "autoExecuteCapability": "INSTALLED_LOCKED",
     "browserPollingSeconds": {"far":15,"near":5,"hot":2.5},
     "serverShadowBurstSeconds": 4,
     "minimumAcceptedPrice": 3.0,
@@ -106,9 +149,13 @@
       "LIVE_PRICE_AT_OR_ABOVE_A$3",
       "INSIDE_20_TO_10_SECOND_SIGNAL_WINDOW",
       "MODEL_STAKE_POSITIVE_AND_WITHIN_A$10000_CAP",
-      "SAFE_FLOOR_AND_OPEN_EXPOSURE_CHECKED",
-      "EXECUTION_ADAPTER_HEALTHY",
-      "ACCEPTED_FILL_CALLBACK_AVAILABLE"
+      "AUTOBET_SERVER_ENABLED_AND_KILL_SWITCH_CLEAR",
+      "BETFAIR_LIVE_CREDENTIALS_PRESENT",
+      "BETFAIR_AUD_ACCOUNT_AND_BALANCE_VERIFIED",
+      "BETFAIR_WIN_MARKET_AND_HORSE_VERIFIED",
+      "BETFAIR_FULL_STAKE_LIQUIDITY_AT_A$3_PLUS",
+      "ATOMIC_DUPLICATE_AND_DAILY_EXPOSURE_GUARD_CLEAR",
+      "ACCEPTED_FILL_CONFIRMED"
     ]
   },
   "hongKong": {
@@ -156,16 +203,17 @@
   },
   "liveUnlockChecklist": [
     {"id":"preflight","label":"All-21 prior-state + frozen CORE evidence integrity preflight","status":"READY"},
-    {"id":"shadow-worker","label":"Server-side V11 shadow evaluator + persisted heartbeat","status":"READY"},
+    {"id":"shadow-worker","label":"Server-side V11 evaluator + optional auto-bet trigger","status":"READY"},
     {"id":"scheduler","label":"Saturday recurring scheduler + near-jump burst loop","status":"READY"},
     {"id":"state-tracker","label":"Automated all-21 post-race state tracker + cross-source conflict guard","status":"READY"},
+    {"id":"autobet-engine","label":"Server-side Betfair placer + fill-or-kill + atomic duplicate/exposure guard","status":"READY"},
     {"id":"client-assist","label":"Adaptive live polling + source-age health + wake-lock/alert assist","status":"READY"},
     {"id":"record-idempotency","label":"Internal execution-record idempotency / duplicate protection","status":"READY"},
-    {"id":"bookmaker","label":"Authenticated legitimate bookmaker/exchange API adapter","status":"MISSING"},
-    {"id":"quotes","label":"Executable price and available-capacity feed","status":"PARTIAL"},
-    {"id":"fills","label":"Bookmaker accepted/partial/rejected fill callback","status":"MISSING"},
+    {"id":"killswitch","label":"Server-side master kill switch and bet/daily exposure caps","status":"READY"},
+    {"id":"bookmaker","label":"Betfair live App Key + authenticated session configured as server secrets","status":"MISSING"},
+    {"id":"quotes","label":"Betfair executable price and full-stake liquidity feed","status":"PARTIAL"},
+    {"id":"fills","label":"Betfair accepted/matched order response + timeout reconciliation","status":"PARTIAL"},
     {"id":"settlement","label":"Automatic settlement and realised P/L reconciliation","status":"PARTIAL"},
-    {"id":"killswitch","label":"Server-side master kill switch and exposure caps","status":"MISSING"},
-    {"id":"audit","label":"Immutable order/fill/settlement audit log","status":"PARTIAL"}
+    {"id":"audit","label":"Provider order/fill/settlement audit trail","status":"PARTIAL"}
   ]
 }
