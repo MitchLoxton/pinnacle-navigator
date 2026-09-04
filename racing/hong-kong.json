@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "appVersion": "1.8.1",
-  "updatedAt": "2026-09-04T19:04:00+08:00",
+  "updatedAt": "2026-09-04T19:18:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-06",
@@ -13,122 +13,132 @@
     "status": "FIELDS CONFIRMED",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
   },
-  "systemStatus": "HK PARITY V2 + SAFE STAKING V2 LOADED · LOWER DRAWDOWN · LIVE MODEL/QUOTE FEED REQUIRED",
-  "systemMessage": "Hong Kong keeps the exact frozen HK PARITY V2 qualifying horses and simply scales the SAFE V1 stakes 25% lower. This reduces stored historical drawdown without retuning the entry model.",
+  "systemStatus": "HK OPTIMAL V3 LOADED · AU-RISK MAX-PROFIT RESEARCH · LIVE MODEL/QUOTE FEED REQUIRED",
+  "systemMessage": "Hong Kong now uses the best candidate found in the tested low-frequency grid subject to a maximum 100 bets in any calendar year and a stored historical drawdown ceiling below Australia V11's A$79,850 recorded drawdown. It allows at most one bet per race.",
   "strategy": {
-    "name": "HK PARITY V2 · SAFE STAKING V2",
-    "mode": "LOW FREQUENCY AUSTRALIA PARITY · LOWER DRAWDOWN",
-    "status": "SHADOW / RESEARCH · FAIL-CLOSED LIVE EXECUTION",
+    "name": "HK OPTIMAL V3 · AU-RISK MAX PROFIT",
+    "mode": "MAX ONE BET PER RACE · <=100 BETS/YEAR · HISTORICAL DD BELOW AU RECORDED",
+    "status": "NEW RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED LIVE EXECUTION",
     "historicalCadence": {
-      "completedBets": 423,
+      "completedBets": 405,
       "completedYears": 11,
-      "betsPerYear": 38.45454545454545,
+      "betsPerYear": 36.81818181818182,
+      "maxBetsAnyCompletedYear": 61,
+      "calendarYearBetCap": 100,
       "australiaV11BetsPerYear": 38.833333333333336
     },
     "historicalHeadline": {
-      "annualProfitAud": 71605.22727272728,
-      "roi": 0.5127978515625,
+      "annualProfitAud": 106109.09090909091,
+      "roi": 0.5041900647948164,
       "losingCompletedYears": 0,
-      "maxDrawdownAud": 57000,
-      "partial2026PlAud": 3982.5
+      "maxDrawdownAud": 78914,
+      "partial2026Bets": 26,
+      "partial2026PlAud": 10095,
+      "partial2026Roi": 0.07590225563909775
     },
-    "safeV1Baseline": {
-      "annualProfitAud": 95473.63636363637,
-      "maxDrawdownAud": 76000,
-      "status": "ARCHIVED AS HIGHER-RISK SAFE VERSION"
-    },
-    "aggressiveBaseline": {
-      "annualProfitAud": 182955.0028312372,
-      "maxDrawdownAud": 217491.68440885167,
-      "status": "ARCHIVED AS TOO AGGRESSIVE"
+    "optimization": {
+      "objective": "Within the tested parameter/stake grid: maximise completed-history annual P/L while requiring stored historical max drawdown <= A$79,850 and maximum calendar-year bets <= 100.",
+      "australiaRecordedDrawdownCeilingAud": 79850,
+      "testedRuleFamilies": "R2 CORE and satellite-only WIN rules using only pre-race classification, price, market rank, raw model EV and calibrated model EV for one-bet-per-race ranking.",
+      "oneBetPerRace": true,
+      "selectionWithinRace": "Among qualifying runners, choose the runner with the highest verified calibrated model EV; tie-break by lower executable/research odds, then higher original raw model EV.",
+      "warning": "This is a historical optimisation result, not proof that these thresholds are optimal in future racing. It requires fresh forward validation after the source cutoff."
     },
     "prediction": {
       "coreModel": "R2 CORE / Rclean",
       "satelliteModel": "Rvenue satellite classification",
       "calibrationLogOddsIntercept": 0.1679327961221175,
-      "calibratedModelEvAudPerYear": 14910.166586975115,
+      "calibratedModelEvAudPerYear": 18624.384078935964,
+      "calibratedModelRoi": 0.0884959934636266,
       "resultLeakageAllowed": false
     },
     "market": "WIN",
     "rules": {
       "coreLow": {
         "requiresR2Core": true,
-        "minOddsInclusive": 5.0,
-        "maxOddsExclusive": 8.0,
-        "stakeAud": 1500
+        "minOddsInclusive": 4.0,
+        "maxOddsExclusive": 7.0,
+        "stakeAud": 3000
       },
       "coreLong": {
         "requiresR2Core": true,
-        "minOddsInclusive": 20.0,
+        "minOddsInclusive": 18.0,
         "maxOddsExclusive": 30.0,
-        "stakeAud": 3000
+        "stakeAud": 5000
       },
       "mainSatellite": {
         "requiresSatelliteOnly": true,
-        "minOddsInclusive": 4.0,
+        "minOddsInclusive": 3.0,
         "maxOddsExclusive": 7.0,
         "maxMarketRank": 2,
-        "stakeAud": 6000
+        "stakeAud": 7000
       },
       "extraSatellite": {
         "requiresSatelliteOnly": true,
-        "minimumOriginalRawModelEv": 0.12,
-        "stakeAud": 1500
+        "minimumOriginalRawModelEv": 0.18,
+        "stakeAud": 10000
       }
     },
     "historicalScoring": {
       "rebateAssumed": false,
       "winningProfitPriceDamage": 0.03,
-      "note": "The 3% price damage is a historical stress assumption, not permission to invent a live price. Live bets require a real executable quote."
+      "note": "Historical WIN research prices are stressed by damaging only the winning profit portion by 3%. This is not a substitute for a real executable live quote."
     },
     "risk": {
-      "hardMaxStakeAud": 6000,
-      "lowCoreStakeAud": 1500,
-      "longCoreStakeAud": 3000,
-      "mainSatelliteStakeAud": 6000,
-      "extraSatelliteStakeAud": 1500,
-      "storedHistoricalMaxDrawdownAud": 57000,
-      "sequenceStressMedianMaxDrawdownAud": 93949.5,
-      "sequenceStressP95MaxDrawdownAud": 147960.825,
-      "duplicateRiskAcrossVenues": false
+      "hardMaxStakeAud": 10000,
+      "lowCoreStakeAud": 3000,
+      "longCoreStakeAud": 5000,
+      "mainSatelliteStakeAud": 7000,
+      "extraSatelliteStakeAud": 10000,
+      "storedHistoricalMaxDrawdownAud": 78914,
+      "australiaRecordedMaxDrawdownAud": 79850,
+      "australiaReorderStressMaxDrawdownAud": 108800,
+      "sequenceStressMedianMaxDrawdownAud": 131779,
+      "sequenceStressP95MaxDrawdownAud": 208726.85,
+      "sequenceStressP99MaxDrawdownAud": 252280.45,
+      "maxOneBetPerRace": true,
+      "maxBetsPerCalendarYear": 100
     },
     "requiredPreBetGates": [
       "HORSE_IDENTITY_VERIFIED",
       "R2_OR_RVENUE_MODEL_CLASSIFICATION_VERIFIED",
       "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
+      "CALIBRATED_MODEL_EV_VERIFIED",
+      "ONE_BET_PER_RACE_RANKING_VERIFIED",
       "EXECUTABLE_WIN_QUOTE_VERIFIED",
-      "FROZEN_V2_SELECTION_RULE_PASSED",
+      "OPTIMAL_V3_SELECTION_RULE_PASSED",
       "CAPACITY_VERIFIED",
-      "SAFE_STAKE_WITHIN_CAP"
+      "STAKE_WITHIN_A$10000_CAP",
+      "CALENDAR_YEAR_BET_CAP_NOT_EXCEEDED"
     ],
     "postExecutionAccounting": {
       "acceptedBetConfirmationRequired": true,
-      "rule": "BET NOW is a pre-bet instruction. After placement, only the actually accepted stake/price is allowed into cash P/L."
+      "rule": "BET NOW is a pre-bet instruction. After placement, only the actually accepted stake and price count in cash P/L."
     },
     "liveFeed": {
       "status": "NOT VERIFIED",
       "modelClassificationVerified": false,
+      "calibratedModelEvVerified": false,
       "executableQuotesVerified": false,
       "capacityVerified": false,
-      "message": "WAIT — SAFE STAKING V2 is loaded, but no horse may become BET NOW until the frozen model classifications and real executable WIN price/capacity are verified."
+      "message": "WAIT — HK OPTIMAL V3 is loaded, but no horse may become BET NOW until model classification, calibrated model EV, one-bet-per-race ranking, executable WIN price and capacity are verified."
     },
     "archivedResearch": {
-      "safeV1": "A$2k LOW CORE / A$4k LONG CORE / A$8k MAIN SAT / A$2k EXTRA SAT · stored historical DD A$76k",
-      "oldV2Staking": "A$10k LONG CORE and ~A$7.9k other sleeves · stored historical DD ~A$217k",
-      "r15": "~1,071 proxy positions/year · archived as too high-frequency"
+      "safeV2": "36–38 bet/year family with A$57k stored historical DD and about A$71.6k/year historical P/L; lower risk but lower historical profit.",
+      "r15": "~1,071 proxy positions/year; archived as too high-frequency and dependent on proxy PLACE execution."
     }
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]},
-    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — SAFE V2 NOT SCORED","signals":[]}
+    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]},
+    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V3 NOT SCORED","signals":[]}
   ]
 }
