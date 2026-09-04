@@ -17,13 +17,32 @@
     return state.status === 'PASS' && state.safe === true && Number.isFinite(checked) && Date.now() - checked <= MAX_PASS_AGE_MS;
   }
 
+  function ensureStyle() {
+    if (document.getElementById('v11-preflight-guard-style')) return;
+    const style = document.createElement('style');
+    style.id = 'v11-preflight-guard-style';
+    style.textContent = `
+      body.v11-preflight-blocked [data-execution-recorder],
+      body.v11-preflight-blocked .copy-bet,
+      body.v11-preflight-blocked [data-record-bet]{display:none!important}
+      body.v11-preflight-blocked .decision-card.bet-now{border-color:#74323e!important;background:linear-gradient(180deg,#34151d,#1b0e13)!important;animation:none!important}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function syncBodyClass() {
+    document.body?.classList.toggle('v11-preflight-blocked', !freshPass());
+  }
+
   function emit() {
+    syncBodyClass();
     window.__MITCHELL_V11_PREFLIGHT = { ...state, freshPass:freshPass() };
     window.dispatchEvent(new CustomEvent('mitchell-preflight-health', { detail:window.__MITCHELL_V11_PREFLIGHT }));
   }
 
   function blockGreen() {
     if (internal || freshPass()) return;
+    syncBodyClass();
     const card = $('decisionCard');
     if (!card?.classList.contains('bet-now')) return;
     internal = true;
@@ -100,6 +119,7 @@
   }
 
   function start() {
+    ensureStyle();
     state.checkedAt = new Date().toISOString();
     emit();
     const card = $('decisionCard');
