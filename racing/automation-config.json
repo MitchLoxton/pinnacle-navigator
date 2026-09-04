@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-09-04T22:08:00+08:00",
+  "schemaVersion": 2,
+  "updatedAt": "2026-09-04T23:05:00+08:00",
   "masterMode": "SHADOW_AUTO",
   "liveExecutionUnlocked": false,
-  "liveExecutionReason": "No authenticated bookmaker execution adapter and accepted-fill callback are configured in this web app. Real-money unattended execution stays locked.",
+  "liveExecutionReason": "The server-side V11 shadow evaluator is active, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
   "architecture": {
     "browserRole": "STATUS_AND_CONTROL_UI_ONLY",
     "unattendedExecutionRequiresServer": true,
@@ -11,6 +11,14 @@
     "hardFailClosed": true,
     "masterKillSwitchRequired": true,
     "acceptedFillIsTruth": true
+  },
+  "shadowBackend": {
+    "status": "ACTIVE",
+    "function": "racing-v11-auto",
+    "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR",
+    "scheduled": false,
+    "placesWagers": false,
+    "note": "The Supabase worker can independently read the trusted AU watchlist and evaluate live V11 decisions. It is not yet a recurring scheduler and cannot submit wagers."
   },
   "australia": {
     "strategy": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
@@ -70,6 +78,8 @@
     },
     "overfitWarning": "V4 removed 13 bets versus V3 across completed history plus the 2026 partial, and all 13 happened to lose. Freeze V4 and collect fresh forward evidence instead of tuning the same history again.",
     "livePreBetGates": [
+      "MEETING_DATE_MATCHES_TODAY",
+      "LIVE_VERIFICATION_FRESH_WITHIN_30_SECONDS",
       "HORSE_IDENTITY_VERIFIED",
       "R2_OR_RVENUE_CLASSIFICATION_VERIFIED",
       "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
@@ -87,7 +97,8 @@
     ]
   },
   "liveUnlockChecklist": [
-    {"id":"backend","label":"Always-on server execution worker","status":"MISSING"},
+    {"id":"shadow-worker","label":"Server-side V11 shadow evaluator","status":"READY"},
+    {"id":"scheduler","label":"Always-on recurring scheduler / worker loop","status":"MISSING"},
     {"id":"bookmaker","label":"Authenticated legitimate bookmaker/exchange API adapter","status":"MISSING"},
     {"id":"quotes","label":"Executable price and available-capacity feed","status":"NOT_VERIFIED"},
     {"id":"idempotency","label":"One instruction = at most one submitted wager","status":"MISSING"},
