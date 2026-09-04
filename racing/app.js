@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.6.8';
+  const CLIENT_BUILD = '1.6.9';
   let updateReloading = false;
 
   window.__MITCHELL_BASE_DATA = null;
@@ -89,7 +89,7 @@
 
   function skeleton(data) {
     const items = Array.isArray(data?.watchlist) ? data.watchlist : [];
-    $('watchSummary').textContent = items.length ? `${items.length} races being checked live` : 'No V11 watch races';
+    $('watchSummary').textContent = items.length ? `${items.length} V11 CORE races being checked live` : 'No V11 CORE watch races';
     $('watchlist').innerHTML = items.map(item => {
       const race = String(item.race || item.code || '').toUpperCase();
       const venue = item.venue || item.region || '';
@@ -112,7 +112,7 @@
     const roi = Number(h.roiPct);
     $('histAvg').textContent = Number.isFinite(avg) ? money.format(avg) : '—';
     $('histRoi').textContent = Number.isFinite(roi) ? roi.toFixed(1) + '%' : '—';
-    $('feedStatus').textContent = `V11 SIMPLE-RESULT ENGINE · CLIENT ${CLIENT_BUILD}`;
+    $('feedStatus').textContent = `V11 WEEKLY-READY ENGINE · CLIENT ${CLIENT_BUILD}`;
   }
 
   async function loadBase() {

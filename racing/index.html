@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./styles.css?v=12">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.6.8">
+<body data-build="1.6.9">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -57,12 +57,17 @@
 
     <details class="watch-details" id="watchDetails" open>
       <summary><div><span class="section-label">COMING UP</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">LIVE V11</span></summary>
-      <div class="watch-body"><p>Watch the market early, but act only on a valid near-jump SIGNAL READY. After the bookmaker accepts it, record the accepted execution in the app.</p><div id="watchlist" class="watch-list"></div></div>
+      <div class="watch-body"><p>Only current frozen V11 CORE state matches appear here. Early prices are not bet instructions; wait for the near-jump live signal.</p><div id="watchlist" class="watch-list"></div></div>
     </details>
 
     <details class="watch-details" id="resultsDetails" open hidden>
       <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
       <div class="watch-body"><p>Read only the two big lines on each finished race: <b>SYSTEM BET</b> tells you whether money counted; <b>STATE RESULT</b> tells you whether the favourite won or lost for the stream sequence.</p><div id="resultsList" class="watch-list"></div></div>
+    </details>
+
+    <details class="watch-details" id="lastWeekDetails" open>
+      <summary><div><span class="section-label">LAST WEEK LOG</span><strong id="lastWeekSummary">Loading 29 Aug…</strong></div><span class="not-bet">STATE LOG</span></summary>
+      <div class="watch-body"><p>The 29 August results are permanently logged here. State W/L is separate from system betting P/L.</p><div id="lastWeekLog"></div></div>
     </details>
 
     <details class="details-card">
@@ -87,7 +92,7 @@
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.8 · SIMPLE RESULT TRUTH</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.6.9 · WEEKLY READY</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -95,9 +100,10 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=22" defer></script>
+  <script src="./app.js?v=23" defer></script>
   <script src="./live-tab.js?v=5" defer></script>
   <script src="./execution-truth.js?v=1" defer></script>
   <script src="./result-truth-simple.js?v=1" defer></script>
+  <script src="./weekly-history.js?v=1" defer></script>
 </body>
 </html>
