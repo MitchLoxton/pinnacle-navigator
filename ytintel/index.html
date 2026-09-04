@@ -16,6 +16,7 @@
     <button data-tab="similar">Similar Videos</button>
     <button data-tab="batch">Pattern Mine</button>
     <button data-tab="visuals">Visuals + Edit <span class="beta">BETA</span></button>
+    <button data-tab="updates">Updates <span class="beta">NEW</span></button>
   </nav>
 
   <section id="analyse" class="view active">
@@ -48,6 +49,80 @@
   <section id="visuals" class="view">
     <div class="hero"><div class="eyebrow">VISUAL + EDIT INTELLIGENCE</div><h1>Turn replay peaks into a visual/edit bank.</h1><p>The first live layer targets the exact Most Replayed moments, attaches the transcript and detected content driver, and banks any YouTube-attributed audio. True frame-by-frame motion-graphic / cut / overlay classification is the next expensive layer and is deliberately not faked.</p></div>
     <div id="visualRoot"></div>
+  </section>
+
+  <section id="updates" class="view">
+    <div class="hero"><div class="eyebrow">PRODUCT CHANGELOG</div><h1>What changed in YTIntel.</h1><p>This log separates what is live from what is still beta so users can see exactly what the analyser can do today and what is being built next.</p></div>
+
+    <div class="grid">
+      <article class="card c12 winner-box">
+        <div class="split"><div><div class="eyebrow">V0.8 · CURRENT · 4 SEP 2026</div><h2 style="margin:4px 0">Evidence-first analyser upgrade</h2></div><span class="pill good">LIVE</span></div>
+        <ul class="list">
+          <li>Rebuilt Hook Teardown into <b>Hook → Re-hook → Promise Fulfillment</b> with timestamped transcript evidence.</li>
+          <li>Added a dedicated <b>Outlier Multiplier</b> section comparing the video with the creator's recent long-form channel median.</li>
+          <li>Kept the real <b>100-point Most Replayed heatmap</b> front-and-centre when YouTube exposes it; YTIntel does not fabricate missing replay data.</li>
+          <li>Added <b>Copy full transcript as Markdown</b> for sending clean timestamped transcripts to another AI or workflow.</li>
+          <li>Moved the <b>concise video summary</b> to the bottom of Analyse and made it transcript-derived, with actual methods for instructional videos and no forced fake method list for entertainment.</li>
+          <li>Removed the repetitive generic <b>Do Not Copy</b> block.</li>
+          <li>Added <b>Visuals + Edit BETA</b>: replay-hotzone targeting, hotzone transcript context, content-driver tags and any YouTube-attributed audio that is available.</li>
+          <li>Preserved/migrated existing v0.7 browser history into v0.8.</li>
+        </ul>
+      </article>
+
+      <article class="card c6">
+        <div class="eyebrow">V0.7 · 4 SEP 2026</div><h3>Research library + facts layer</h3>
+        <ul class="list">
+          <li>Added History / Niche Library with auto-grouped research folders.</li>
+          <li>Added winning script-style summaries per niche: engine, WPM, first payoff, re-hook spacing and outlier performance.</li>
+          <li>Fixed the WOLF replay fixture to a real 100-point curve with the top peak at <b>7:52</b>.</li>
+          <li>Added channel-relative outlier scoring and channel outlier scanning.</li>
+          <li>Added Similar Videos.</li>
+          <li>Added report Markdown export and Print / Save PDF.</li>
+        </ul>
+      </article>
+
+      <article class="card c6">
+        <div class="eyebrow">V0.6 · 4 SEP 2026</div><h3>Deep research engine</h3>
+        <ul class="list">
+          <li>Added format-engine detection.</li>
+          <li>Added proof loops/min, payoff cadence and re-hook spacing.</li>
+          <li>Added title-promise delivery analysis and script-level risk zones.</li>
+          <li>Added the evidence-backed Remake Blueprint.</li>
+          <li>Upgraded Pattern Mine to compare stronger videos against weaker videos rather than just listing common terms.</li>
+        </ul>
+      </article>
+
+      <article class="card c6">
+        <div class="eyebrow">V0.5 / V0.5.1</div><h3>Hosted extraction reliability</h3>
+        <ul class="list">
+          <li>Moved the research backend away from direct Vercel → YouTube extraction after YouTube bot-checks blocked datacenter requests.</li>
+          <li>Added hosted transcript fallbacks and rolling-caption deduplication.</li>
+          <li>Made missing replay evidence non-fatal so the rest of the report can still complete.</li>
+          <li>Validated the WOLF transcript cleaner against the manual research fixture.</li>
+        </ul>
+      </article>
+
+      <article class="card c6">
+        <div class="eyebrow">V0.3 → V0.2</div><h3>From command line to product</h3>
+        <ul class="list">
+          <li>Turned the original analyser into a responsive phone + desktop web app/PWA.</li>
+          <li>Added batch analysis, channel mode, resumable manifests and cross-video comparison.</li>
+          <li>Added Style Banks, script adaptation, batch AI synthesis and diagnostic tooling.</li>
+        </ul>
+      </article>
+
+      <article class="card c12">
+        <div class="split"><div><div class="eyebrow">NEXT / ROADMAP</div><h2 style="margin:4px 0">What is not finished yet</h2></div><span class="pill hot">PLANNED / BETA</span></div>
+        <ul class="list">
+          <li><b>Accounts + cloud history:</b> login, private synced research, folders and saved reports across devices.</li>
+          <li><b>True frame-by-frame Visual Intelligence:</b> shot changes, zooms, captions, overlays, B-roll, motion graphics and edit-style classification around replay hotzones.</li>
+          <li><b>Visual/audio history bank:</b> rank recurring effects, motion graphics and audio by niche, outlier multiple and replay strength after enough videos have been analysed.</li>
+          <li><b>Comment mining:</b> top comments, repeated audience pain points, praise, confusion and requested follow-ups.</li>
+          <li><b>True edit pace:</b> actual cut density instead of transcript/content proxies.</li>
+          <li><b>Launch protection:</b> authenticated usage, rate limits / credits and quota controls before commercial release.</li>
+        </ul>
+      </article>
+    </div>
   </section>
 </div>
 <script>
