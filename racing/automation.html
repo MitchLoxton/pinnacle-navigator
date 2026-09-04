@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>Automation · MITCHELL Racing</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07111f;--panel:#0c1828;--panel2:#101f31;--line:#2d425b;--text:#edf4fb;--muted:#91a7bd;--good:#78f2b5;--warn:#ffc34f;--bad:#ff9eaa;--blue:#8dc8ff}
+    *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:linear-gradient(180deg,#07111f,#091521 34%,#07111f);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,a{font:inherit}.shell{width:min(1100px,calc(100% - 22px));margin:0 auto;padding:14px 0 60px}.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0 12px;background:rgba(7,17,31,.93);backdrop-filter:blur(12px);border-bottom:1px solid rgba(70,94,120,.35)}
+    .brand span,.eyebrow{display:block;color:#7f96ae;font-size:9px;font-weight:950;letter-spacing:.1em}.brand strong{display:block;font-size:16px;margin-top:2px}.nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.nav a{text-decoration:none;color:#b8c9da;border:1px solid #314760;background:#0e1b2b;padding:8px 10px;border-radius:10px;font-size:10px;font-weight:950}.nav a.active{background:#173455;border-color:#4d79a8;color:#fff}
+    .hero{margin:17px 0 12px;padding:18px;border:1px solid #36516d;border-radius:18px;background:radial-gradient(circle at top right,rgba(49,111,161,.25),transparent 40%),#0c1928}.hero h1{font-size:31px;margin:4px 0 5px}.hero p{margin:0;color:#9eb3c7;font-size:11px;line-height:1.55;max-width:760px}.mode{margin-top:14px;padding:16px;border-radius:14px;border:1px solid #2a8058;background:#0d3023}.mode .label{font-size:9px;font-weight:950;color:#9bb4a9}.mode strong{display:block;font-size:25px;color:var(--good);margin-top:3px}.mode p{font-size:10px;color:#b5d7c7;margin:5px 0 0;line-height:1.45}
+    .live-lock{margin:10px 0;padding:14px;border:1px solid #7c3843;border-radius:13px;background:#30161d}.live-lock strong{font-size:14px;color:var(--bad)}.live-lock p{font-size:10px;line-height:1.5;color:#e7b8bf;margin:5px 0 0}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.card{border:1px solid #2d435b;background:#0d1a29;border-radius:14px;padding:14px}.card h2{font-size:16px;margin:2px 0 3px}.card>p{font-size:10px;color:#93a8bd;line-height:1.5;margin:4px 0 11px}.status-row{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 12px}.pill{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:8px;font-weight:950;border:1px solid #35506c;background:#15273a;color:#b8c9db}.pill.good{border-color:#2a8058;background:#0d3525;color:var(--good)}.pill.warn{border-color:#765f2a;background:#2a2413;color:var(--warn)}.pill.bad{border-color:#74323e;background:#35151d;color:var(--bad)}
+    .rows{display:grid}.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(64,87,110,.4);font-size:9px}.row span{color:#8fa4b9}.row strong{text-align:right}.goodtxt{color:var(--good)}.warntxt{color:var(--warn)}.badtxt{color:var(--bad)}
+    .section{margin:12px 0;padding:14px;border:1px solid #2c4259;border-radius:14px;background:#0b1827}.section h2{font-size:16px;margin:3px 0 5px}.section>p{font-size:10px;color:#91a6bb;line-height:1.5;margin:0 0 10px}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.check{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #2f455d;border-radius:10px;background:#0f1e30}.dot{width:9px;height:9px;border-radius:50%;background:#ff9eaa;flex:0 0 auto}.check.good .dot{background:#78f2b5}.check.warn .dot{background:#ffc34f}.check div{min-width:0}.check strong{display:block;font-size:9px}.check small{display:block;color:#8298ae;font-size:8px;margin-top:2px}.simple{padding:15px;border:1px solid #2a8058;background:#0c2b20;border-radius:14px}.simple h2{font-size:15px;margin:0 0 9px;color:#d6f8e7}.steps{display:grid;gap:7px}.step{padding:10px;border-radius:10px;background:#10251d;font-size:10px;line-height:1.45}.step b{color:var(--good)}
+    .refresh{display:inline-flex;margin-top:10px;border:1px solid #456886;background:#12263a;color:#dce9f5;border-radius:10px;padding:8px 11px;font-weight:900;font-size:9px;cursor:pointer}.refresh:disabled{opacity:.55;cursor:wait}.updated{margin-top:8px;color:#72889d;font-size:8px}.footer{margin:18px 2px;color:#71869b;font-size:8px;display:flex;justify-content:space-between;gap:8px}
+    @media(max-width:760px){.grid,.checklist{grid-template-columns:1fr}.top{align-items:flex-start}.hero h1{font-size:27px}.footer{display:block}.footer span{display:block;margin-top:4px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand"><span>MITCHELL RACING</span><strong>AUTOMATION</strong></div>
+      <nav class="nav"><a href="./">LIVE</a><a href="./#hong-kong">HONG KONG</a><a class="active" href="./automation.html">AUTO</a><a href="./stats.html">STATS</a></nav>
+    </header>
+
+    <div id="autoRoot">
+      <section class="hero">
+        <span class="eyebrow">AUTOMATION CONTROL</span>
+        <h1>LOADING AUTO STATUS…</h1>
+        <p>Checking the frozen AU and HK strategies and the execution safety chain.</p>
+      </section>
+    </div>
+
+    <footer class="footer"><span id="autoUpdated">Not loaded yet</span><span>Fail closed · accepted execution is truth</span></footer>
+  </main>
+  <script src="./automation.js?v=1" defer></script>
+</body>
+</html>
