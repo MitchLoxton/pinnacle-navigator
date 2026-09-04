@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 2,
-  "appVersion": "1.8.0",
-  "updatedAt": "2026-09-04T13:08:00+08:00",
+  "schemaVersion": 3,
+  "appVersion": "1.8.1",
+  "updatedAt": "2026-09-04T14:18:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-06",
@@ -13,67 +13,104 @@
     "status": "FIELDS CONFIRMED",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
   },
-  "systemStatus": "HK R15 BALANCED LOADED · LIVE MODEL/QUOTE FEED REQUIRED",
-  "systemMessage": "Hong Kong runs its own R15 Balanced strategy. It is completely separate from Australian V11. Never reuse PR/SR/MR states, streaks or ROI for Sha Tin.",
+  "systemStatus": "HK PARITY V2 LOADED · LOW FREQUENCY · LIVE MODEL/QUOTE FEED REQUIRED",
+  "systemMessage": "Hong Kong now uses HK PARITY V2, a frozen low-frequency WIN strategy designed to run at almost the same historical cadence as Australia V11. It is separate from the Australian streak/state system.",
   "strategy": {
-    "name": "HK R15 HYBRID CONSISTENCY — BALANCED",
-    "mode": "BALANCED",
-    "status": "RESEARCH DEFAULT · FAIL-CLOSED LIVE EXECUTION",
+    "name": "HK PARITY V2",
+    "mode": "LOW FREQUENCY AUSTRALIA PARITY",
+    "status": "SHADOW / RESEARCH · FAIL-CLOSED LIVE EXECUTION",
+    "historicalCadence": {
+      "completedBets": 423,
+      "completedYears": 11,
+      "betsPerYear": 38.45454545454545,
+      "australiaV11BetsPerYear": 38.833333333333336
+    },
+    "historicalHeadline": {
+      "annualProfitAud": 182955.0028312372,
+      "roi": 0.579424840278043,
+      "losingCompletedYears": 0,
+      "maxDrawdownAud": 217491.68440885167,
+      "partial2026PlAud": 6933.293570102145
+    },
     "prediction": {
-      "winModel": "R4C clean-book market-offset CatBoost",
-      "placeModel": "R8 residual PLACE CatBoost",
+      "coreModel": "R2 CORE / Rclean",
+      "satelliteModel": "Rvenue satellite classification",
+      "calibrationLogOddsIntercept": 0.1679327961221175,
+      "calibratedModelEvAudPerYear": 42667.66188116626,
       "resultLeakageAllowed": false
     },
-    "markets": {
-      "WIN": {"minOdds": 1.5, "maxOddsInclusive": 6.0},
-      "PLACE": {"minOdds": 1.1, "maxOddsExclusive": 10.0}
+    "market": "WIN",
+    "rules": {
+      "coreLow": {
+        "requiresR2Core": true,
+        "minOddsInclusive": 5.0,
+        "maxOddsExclusive": 8.0,
+        "stakeAud": 7892.146394305168
+      },
+      "coreLong": {
+        "requiresR2Core": true,
+        "minOddsInclusive": 20.0,
+        "maxOddsExclusive": 30.0,
+        "stakeAud": 10000
+      },
+      "mainSatellite": {
+        "requiresSatelliteOnly": true,
+        "minOddsInclusive": 4.0,
+        "maxOddsExclusive": 7.0,
+        "maxMarketRank": 2,
+        "stakeAud": 7892.146394305168
+      },
+      "extraSatellite": {
+        "requiresSatelliteOnly": true,
+        "minimumOriginalRawModelEv": 0.12,
+        "stakeAud": 7892.146394305168
+      }
     },
-    "execution": {
-      "minimumNetEv": 0.01,
-      "quoteSafetyBufferEv": 0.01,
-      "exchangeCommissionBaseRate": 0.06,
-      "backRouting": "BEST POSITIVE-NET-EV EXECUTABLE FIXED/EXCHANGE QUOTE",
-      "layRouting": "EXCHANGE ONLY",
-      "toteUnknownAllowed": false
+    "historicalScoring": {
+      "rebateAssumed": false,
+      "winningProfitPriceDamage": 0.03,
+      "note": "The 3% price damage is a historical stress assumption, not permission to invent a live price. Live bets require a real executable quote."
     },
     "risk": {
-      "targetRiskPerPositionAud": 5000,
-      "absoluteHardMaxAud": 8000,
+      "hardMaxStakeAud": 10000,
+      "longCoreStakeAud": 10000,
+      "otherSleeveStakeAud": 7892.146394305168,
       "duplicateRiskAcrossVenues": false
     },
     "requiredGates": [
-      "MODEL_PROBABILITY_VERIFIED",
-      "PORTFOLIO_VERIFIED",
-      "EXECUTABLE_QUOTE_VERIFIED",
+      "HORSE_IDENTITY_VERIFIED",
+      "R2_OR_RVENUE_MODEL_CLASSIFICATION_VERIFIED",
+      "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
+      "EXECUTABLE_WIN_QUOTE_VERIFIED",
+      "FROZEN_V2_SELECTION_RULE_PASSED",
       "CAPACITY_VERIFIED",
-      "PRICE_IN_R15_RANGE",
-      "NET_EV_AT_LEAST_1_PERCENT",
-      "RISK_WITHIN_CAP"
+      "STAKE_WITHIN_FROZEN_CAP",
+      "ACCEPTED_BET_CONFIRMED"
     ],
     "liveFeed": {
       "status": "NOT VERIFIED",
-      "modelProbabilitiesVerified": false,
+      "modelClassificationVerified": false,
       "executableQuotesVerified": false,
       "capacityVerified": false,
-      "message": "WAIT — R15 is loaded, but no horse may become a live bet until the R4C/R8 probabilities and executable quotes/capacity are verified."
+      "message": "WAIT — HK PARITY V2 is loaded, but no horse may become BET NOW until the frozen model classifications and real executable WIN price/capacity are verified."
     },
-    "benchmark": {
-      "name": "R2 SHADOW",
-      "role": "ACTUAL-PRICE FORWARD-TEST BENCHMARK",
-      "note": "R15 remains fail-closed because historical PLACE execution/liquidity in the later research package includes proxy assumptions."
+    "archivedResearch": {
+      "name": "HK R15 BALANCED",
+      "status": "REFERENCE ONLY",
+      "reason": "Archived from the active tab because its ~1,071 proxy positions/year is far above the requested Australia-like low-frequency style."
     }
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — NOT SCORED","signals":[]},
-    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — NOT SCORED","signals":[]}
+    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]},
+    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — V2 NOT SCORED","signals":[]}
   ]
 }
