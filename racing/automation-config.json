@@ -1,24 +1,35 @@
 {
-  "schemaVersion": 2,
-  "updatedAt": "2026-09-04T23:05:00+08:00",
-  "masterMode": "SHADOW_AUTO",
+  "schemaVersion": 3,
+  "updatedAt": "2026-09-04T23:29:00+08:00",
+  "masterMode": "SCHEDULED_SHADOW_AUTO",
   "liveExecutionUnlocked": false,
-  "liveExecutionReason": "The server-side V11 shadow evaluator is active, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
+  "liveExecutionReason": "The AU V11 server shadow monitor is now scheduled and burst-checks near jump, but no authenticated bookmaker execution adapter and accepted-fill callback are configured. Real-money unattended execution stays locked.",
   "architecture": {
-    "browserRole": "STATUS_AND_CONTROL_UI_ONLY",
+    "browserRole": "STATUS_CONTROL_ALERTING_AND_MANUAL_EXECUTION_AUDIT",
     "unattendedExecutionRequiresServer": true,
-    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Genuine full auto must run on an always-on backend with authenticated execution, idempotency, settlement and audit logging.",
+    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server shadow evaluation now continues independently during the Saturday monitoring window; real unattended wagering still requires an authenticated execution adapter, fill callback, exposure control and kill switch.",
     "hardFailClosed": true,
     "masterKillSwitchRequired": true,
-    "acceptedFillIsTruth": true
+    "acceptedFillIsTruth": true,
+    "databaseTriggerSearchPathHardened": true,
+    "raceDayWakeLockAssist": true,
+    "optInBetAlerts": true
   },
   "shadowBackend": {
-    "status": "ACTIVE",
+    "status": "ACTIVE_SCHEDULED",
     "function": "racing-v11-auto",
     "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR",
-    "scheduled": false,
+    "scheduled": true,
+    "schedule": "Every minute Saturday 00:00-13:59 UTC (08:00-21:59 Perth)",
+    "nearJumpBurst": {
+      "enabled": true,
+      "windowSeconds": 180,
+      "intervalSeconds": 4,
+      "maxBurstDurationSeconds": 48,
+      "purpose": "Once a watched race is within three minutes, the server performs short high-frequency shadow checks so the 20s→10s V11 window is not dependent on a one-minute cron tick."
+    },
     "placesWagers": false,
-    "note": "The Supabase worker can independently read the trusted AU watchlist and evaluate live V11 decisions. It is not yet a recurring scheduler and cannot submit wagers."
+    "note": "This worker can independently read the trusted AU watchlist and write/evaluate V11 shadow state even if the browser is closed. It cannot submit a wager."
   },
   "australia": {
     "strategy": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
@@ -28,10 +39,14 @@
     "autoEvaluate": true,
     "autoLog": true,
     "autoExecute": false,
+    "browserPollingSeconds": {"far":15,"near":5,"hot":2.5},
+    "serverShadowBurstSeconds": 4,
     "minimumAcceptedPrice": 3.0,
-    "signalWindowSeconds": {"open": 20, "cutoff": 10},
+    "signalWindowSeconds": {"open":20,"cutoff":10},
     "hardMaxStakeAud": 10000,
     "safeFloorAud": 100000,
+    "executionRecordIdempotent": true,
+    "settlementLedgerAutomaticAfterConfirmedExecution": true,
     "historical": {
       "completedYears": 18,
       "bets": 699,
@@ -98,13 +113,14 @@
   },
   "liveUnlockChecklist": [
     {"id":"shadow-worker","label":"Server-side V11 shadow evaluator","status":"READY"},
-    {"id":"scheduler","label":"Always-on recurring scheduler / worker loop","status":"MISSING"},
+    {"id":"scheduler","label":"Saturday recurring scheduler + near-jump burst loop","status":"READY"},
+    {"id":"client-assist","label":"Adaptive live polling + health + wake-lock/alert assist","status":"READY"},
+    {"id":"record-idempotency","label":"Internal execution-record idempotency / duplicate protection","status":"READY"},
     {"id":"bookmaker","label":"Authenticated legitimate bookmaker/exchange API adapter","status":"MISSING"},
-    {"id":"quotes","label":"Executable price and available-capacity feed","status":"NOT_VERIFIED"},
-    {"id":"idempotency","label":"One instruction = at most one submitted wager","status":"MISSING"},
-    {"id":"fills","label":"Accepted/partial/rejected fill callback","status":"MISSING"},
-    {"id":"settlement","label":"Automatic settlement and realised P/L reconciliation","status":"MISSING"},
+    {"id":"quotes","label":"Executable price and available-capacity feed","status":"PARTIAL"},
+    {"id":"fills","label":"Bookmaker accepted/partial/rejected fill callback","status":"MISSING"},
+    {"id":"settlement","label":"Automatic settlement and realised P/L reconciliation","status":"PARTIAL"},
     {"id":"killswitch","label":"Server-side master kill switch and exposure caps","status":"MISSING"},
-    {"id":"audit","label":"Immutable order/fill/settlement audit log","status":"MISSING"}
+    {"id":"audit","label":"Immutable order/fill/settlement audit log","status":"PARTIAL"}
   ]
 }
