@@ -1,6 +1,8 @@
 (() => {
   'use strict';
 
+  let australiaCollapsedOnce = false;
+
   function addStyles() {
     if (document.getElementById('mitchell-easy-styles')) return;
     const style = document.createElement('style');
@@ -15,12 +17,16 @@
     document.head.appendChild(style);
   }
 
-  function collapseAustralia() {
+  function collapseAustraliaOnce() {
+    if (australiaCollapsedOnce) return;
+    const panel = document.getElementById('auRacingPanel');
+    if (!panel) return;
     ['watchDetails','resultsDetails','lastWeekDetails'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.open = false;
     });
-    document.querySelectorAll('#auRacingPanel .details-card').forEach(el => { el.open = false; });
+    panel.querySelectorAll('.details-card').forEach(el => { el.open = false; });
+    australiaCollapsedOnce = true;
   }
 
   function addMasterRule() {
@@ -48,7 +54,7 @@
 
   function run() {
     addStyles();
-    collapseAustralia();
+    collapseAustraliaOnce();
     addMasterRule();
     simplifyHongKong();
   }
@@ -56,7 +62,12 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once:true });
   else run();
 
-  const observer = new MutationObserver(run);
+  const observer = new MutationObserver(() => {
+    addStyles();
+    collapseAustraliaOnce();
+    addMasterRule();
+    simplifyHongKong();
+  });
   observer.observe(document.documentElement, { childList:true, subtree:true });
   setTimeout(() => observer.disconnect(), 30000);
 })();
