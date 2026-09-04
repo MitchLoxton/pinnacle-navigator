@@ -1,67 +1,97 @@
 {
-  "schemaVersion": 6,
-  "updatedAt": "2026-09-04T19:18:00+08:00",
-  "system": "HK OPTIMAL V3 · AU-RISK MAX PROFIT",
-  "evidenceStatus": "HISTORICAL OPTIMISATION · ONE BET PER RACE · SHADOW / FORWARD VALIDATION REQUIRED",
+  "schemaVersion": 7,
+  "updatedAt": "2026-09-04T22:08:00+08:00",
+  "system": "HK OPTIMAL V4 · DAILY RISK GUARD",
+  "evidenceStatus": "HISTORICAL OPTIMISATION · DAILY RISK OVERLAY · SHADOW / FORWARD VALIDATION REQUIRED",
   "sourceWorkbook": "HK_BEAT_AUSTRALIA_V1_RESEARCH.xlsx",
   "sourceHistoryWorkbook": "HKJC_R3_COMBO_PROPOSAL_V2.xlsx",
-  "operatingMode": "MAX PROFIT INSIDE AU RECORDED-DD CEILING · <=100 BETS/YEAR",
+  "operatingMode": "MAX 1 BET/RACE · MAX 2 BETS/RACE DAY · -A$10K DAILY LOSS STOP · <=100 BETS/YEAR",
   "decision": {
     "activeResearchCandidate": true,
     "productionApproved": false,
-    "selectionRuleChanged": true,
-    "stakingChanged": true,
+    "baseSelectionVersion": "HK OPTIMAL V3",
+    "selectionThresholdsChanged": false,
+    "stakeScheduleChanged": false,
+    "dailyRiskOverlayChanged": true,
     "maxOneBetPerRace": true,
-    "reason": "From the tested low-frequency rule/stake grid, this was the highest completed-history annual P/L candidate that kept the stored historical max drawdown at or below Australia V11's A$79,850 recorded drawdown and never exceeded 100 bets in a completed calendar year."
+    "reason": "V4 keeps V3's horse-selection thresholds and stake schedule but adds two live-feasible race-day controls. In the stored history it increased annual P/L, reduced stored drawdown, increased ROI, reduced the busiest-year bet count and improved day-block sequence stress. Because every historical bet removed by the overlay happened to lose, V4 must now be frozen and forward-tested rather than retuned again."
   },
   "frequency": {
     "completedYears": 11,
     "completedPeriod": "2015–2025",
-    "completedBets": 405,
-    "betsPerYear": 36.81818181818182,
-    "maxBetsAnyCompletedYear": 61,
+    "completedBets": 393,
+    "betsPerYear": 35.72727272727273,
+    "maxBetsAnyCompletedYear": 57,
     "calendarYearBetCap": 100,
+    "maxBetsPerRaceDay": 2,
     "australiaV11BetsPerYear": 38.833333333333336,
-    "partial2026Bets": 26,
+    "partial2026Bets": 25,
     "partial2026SourceCutoff": "2026-07-12"
   },
   "historical": {
-    "totalTurnoverAud": 2315000,
-    "totalHistoricalProfitAud": 1167200,
-    "annualTurnoverAud": 210454.54545454544,
-    "annualHistoricalProfitAud": 106109.09090909091,
-    "historicalRoi": 0.5041900647948164,
+    "totalTurnoverAud": 2263000,
+    "totalHistoricalProfitAud": 1219200,
+    "annualTurnoverAud": 205727.27272727274,
+    "annualHistoricalProfitAud": 110836.36363636363,
+    "historicalRoi": 0.538753866548829,
     "losingCompletedYears": 0,
     "positiveCompletedYears": 11,
     "worstCompletedYearAud": 12708,
     "worstCompletedYear": 2019,
-    "raceLevelMaxDrawdownAud": 78914,
-    "partial2026TurnoverAud": 133000,
+    "raceLevelMaxDrawdownAud": 75766,
+    "partial2026TurnoverAud": 130000,
+    "partial2026PlAud": 13095,
+    "partial2026Roi": 0.10073076923076923,
+    "method": "Same V3 qualifying runners and stake schedule. Maximum one runner per race; maximum two confirmed HK bets per race day; no new HK bet after realised daily HK P/L reaches -A$10,000 or worse. No rebate. Winning profit portion stressed 3% worse than historical HKJC research odds."
+  },
+  "dailyRiskGuard": {
+    "maxConfirmedBetsPerRaceDay": 2,
+    "dailyRealizedLossStopAud": 10000,
+    "lossStopRule": "After each settled confirmed HK bet, if realised HK P/L for that race day is <= -A$10,000, take no more HK bets that day.",
+    "liveFeasibility": "Uses only confirmed earlier bets and settled realised P/L from the same race day; no later-race outcome is used to make an earlier decision.",
+    "completedHistoryBetsRemovedVsV3": 12,
+    "partial2026BetsRemovedVsV3": 1,
+    "historicalRemovedBetObservation": "All 13 removed bets across completed history plus the 2026 partial happened to be losses. This improves the backtest but is also a material sequencing-overfit warning."
+  },
+  "baselineV3": {
+    "completedBets": 405,
+    "betsPerYear": 36.81818181818182,
+    "maxBetsAnyCompletedYear": 61,
+    "annualHistoricalProfitAud": 106109.09090909091,
+    "historicalRoi": 0.5041900647948164,
+    "storedHistoricalMaxDrawdownAud": 78914,
+    "partial2026Bets": 26,
     "partial2026PlAud": 10095,
     "partial2026Roi": 0.07590225563909775,
-    "method": "At most one selection per race. No rebate. Winning profit portion stressed 3% worse than historical HKJC research odds."
+    "status": "ARCHIVED AS V3 BASELINE"
   },
   "developmentCheck": {
     "period": "2015–2021",
-    "bets": 297,
-    "annualHistoricalProfitAud": 116655,
-    "historicalRoi": 0.4831863905325443,
-    "maxDrawdownAud": 78914,
-    "losingYears": 0
+    "bets": 286,
+    "turnoverAud": 1641000,
+    "totalHistoricalProfitAud": 865585,
+    "annualHistoricalProfitAud": 123655,
+    "historicalRoi": 0.5274734917733089,
+    "maxDrawdownAud": 75766,
+    "losingYears": 0,
+    "calibratedModelEvAudPerYear": 21236.5
   },
   "laterCheck": {
     "period": "2022–2025 audit/reused segment",
-    "bets": 108,
-    "annualHistoricalProfitAud": 87653.75,
-    "historicalRoi": 0.560984,
+    "bets": 107,
+    "turnoverAud": 622000,
+    "totalHistoricalProfitAud": 353615,
+    "annualHistoricalProfitAud": 88403.75,
+    "historicalRoi": 0.5685128617363344,
     "maxDrawdownAud": 72754,
-    "losingYears": 0
+    "losingYears": 0,
+    "calibratedModelEvAudPerYear": 13166.3
   },
   "model": {
     "calibrationLogOddsIntercept": 0.1679327961221175,
-    "calibratedModelEvAudPerYear": 18624.384078935964,
-    "calibratedModelRoi": 0.0884959934636266,
-    "note": "The calibrated model EV remains the more conservative forward anchor. The A$106.1k historical annual P/L is an optimized historical result, not an income promise."
+    "calibratedModelEvAudPerYear": 18301.8813,
+    "calibratedModelRoi": 0.08896186224,
+    "note": "The calibrated model EV is the more conservative forward anchor. The A$110.8k historical annual result is an optimized historical path, not an income forecast."
   },
   "risk": {
     "lowCoreStakeAud": 3000,
@@ -69,16 +99,21 @@
     "mainSatelliteStakeAud": 7000,
     "extraSatelliteStakeAud": 10000,
     "hardMaxStakeAud": 10000,
+    "maxBetsPerRaceDay": 2,
+    "dailyRealizedLossStopAud": 10000,
     "australiaRecordedMaxDrawdownAud": 79850,
     "australiaReorderStressMaxDrawdownAud": 108800,
-    "riskParityStatus": "ACTIVE HISTORICAL PATH HELD JUST BELOW AU RECORDED DD CEILING",
-    "riskParityReason": "The active optimizer uses A$79,850 as a research ceiling for the stored historical path. It does not mean future drawdown is capped at A$79,850."
+    "riskParityStatus": "STORED V4 HISTORICAL DD BELOW AU RECORDED DD · STRESS STILL MATERIAL",
+    "riskParityReason": "V4's stored chronological drawdown is A$75,766. Different ordering of race-day blocks can still produce substantially deeper drawdowns."
   },
   "sequenceStress": {
-    "method": "10,000 deterministic random permutations of completed-history race-level P/L, seed 20260904; descriptive sequence stress only, not a probability forecast",
-    "medianMaxDrawdownAud": 131779,
-    "p95MaxDrawdownAud": 208726.85,
-    "p99MaxDrawdownAud": 252280.45
+    "method": "10,000 deterministic random permutations of completed-history race-day P/L blocks, seed 20260904. Whole race days are kept intact because V4's two-bet/day and daily-loss rules depend on same-day chronology. Descriptive stress only, not a probability forecast.",
+    "medianMaxDrawdownAud": 122295.5,
+    "p95MaxDrawdownAud": 191902.95,
+    "p99MaxDrawdownAud": 233691.12,
+    "baselineV3DayBlockMedianMaxDrawdownAud": 126740.5,
+    "baselineV3DayBlockP95MaxDrawdownAud": 198557.55,
+    "baselineV3DayBlockP99MaxDrawdownAud": 242617.14
   },
   "selectionRules": {
     "market": "WIN",
@@ -113,50 +148,51 @@
   },
   "optimizationFrontier": [
     {
-      "profile": "MIN-DRAWDOWN",
+      "profile": "MIN-DRAWDOWN V3 FAMILY",
       "annualHistoricalProfitAud": 70569,
       "storedHistoricalMaxDrawdownAud": 47870,
-      "stakesAud": {"lowCore":2000,"longCore":3000,"mainSatellite":4000,"extraSatellite":10000},
-      "partial2026PlAud": 3512,
-      "status": "LOWER RISK / LOWER HISTORICAL PROFIT"
+      "status": "LOWER HISTORICAL RISK / LOWER PROFIT"
     },
     {
-      "profile": "BALANCED",
+      "profile": "BALANCED V3 FAMILY",
       "annualHistoricalProfitAud": 83778,
       "storedHistoricalMaxDrawdownAud": 58214,
-      "stakesAud": {"lowCore":2000,"longCore":4000,"mainSatellite":5000,"extraSatellite":10000},
-      "partial2026PlAud": 1339,
       "status": "MIDDLE FRONTIER"
     },
     {
-      "profile": "AU-RISK MAX PROFIT",
+      "profile": "OPTIMAL V3",
       "annualHistoricalProfitAud": 106109.09090909091,
       "storedHistoricalMaxDrawdownAud": 78914,
-      "stakesAud": {"lowCore":3000,"longCore":5000,"mainSatellite":7000,"extraSatellite":10000},
-      "partial2026PlAud": 10095,
-      "status": "ACTIVE"
+      "status": "ARCHIVED BASELINE"
+    },
+    {
+      "profile": "OPTIMAL V4 · DAILY RISK GUARD",
+      "annualHistoricalProfitAud": 110836.36363636363,
+      "storedHistoricalMaxDrawdownAud": 75766,
+      "status": "ACTIVE SHADOW CANDIDATE"
     }
   ],
   "optimizerScope": {
-    "constraint": "Maximum 100 bets in any completed calendar year and stored historical max drawdown <= A$79,850 for the active profile.",
     "candidatePoolRows": 1489,
     "sourceFields": ["date","race ID","venue","research odds","market rank","winner","R2 core","satellite only","raw model EV","base conservative probability"],
     "antiClusterRule": "Maximum one selected runner per race.",
-    "warning": "The optimizer searched historical rules/stakes and therefore can overfit. Fresh post-cutoff forward evidence is required before production approval."
+    "dailyRiskRule": "Maximum two confirmed selections per race day and stop after realised daily HK P/L <= -A$10,000.",
+    "calendarYearRule": "Maximum 100 confirmed HK bets per calendar year.",
+    "warning": "The rule and risk overlay were selected using historical outcomes and can overfit. V4 should be frozen for genuine forward validation after the source cutoff."
   },
   "yearByYear": [
     {"year":2015,"bets":35,"races":35,"wins":14,"turnoverAud":194000,"plAud":152958,"roi":0.7884432989690721},
     {"year":2016,"bets":29,"races":29,"wins":11,"turnoverAud":180000,"plAud":194081,"roi":1.0782277777777778},
-    {"year":2017,"bets":61,"races":61,"wins":15,"turnoverAud":305000,"plAud":38847,"roi":0.1273672131147541},
-    {"year":2018,"bets":54,"races":54,"wins":9,"turnoverAud":279000,"plAud":97338,"roi":0.3488817204301075},
+    {"year":2017,"bets":57,"races":57,"wins":15,"turnoverAud":289000,"plAud":54847,"roi":0.18978200692041523},
+    {"year":2018,"bets":50,"races":50,"wins":9,"turnoverAud":259000,"plAud":117338,"roi":0.45304247104247106},
     {"year":2019,"bets":30,"races":30,"wins":7,"turnoverAud":184000,"plAud":12708,"roi":0.06906521739130435},
-    {"year":2020,"bets":44,"races":44,"wins":8,"turnoverAud":269000,"plAud":145930,"roi":0.5424907063197026},
-    {"year":2021,"bets":44,"races":44,"wins":9,"turnoverAud":279000,"plAud":174723,"roi":0.626247311827957},
+    {"year":2020,"bets":42,"races":42,"wins":8,"turnoverAud":263000,"plAud":151930,"roi":0.577680608365019},
+    {"year":2021,"bets":43,"races":43,"wins":9,"turnoverAud":272000,"plAud":181723,"roi":0.6680992647058823},
     {"year":2022,"bets":23,"races":23,"wins":7,"turnoverAud":139000,"plAud":177808,"roi":1.2791942446043165},
     {"year":2023,"bets":23,"races":23,"wins":5,"turnoverAud":141000,"plAud":14183,"roi":0.1005886524822695},
-    {"year":2024,"bets":25,"races":25,"wins":9,"turnoverAud":133000,"plAud":98905,"roi":0.7436466165413533},
+    {"year":2024,"bets":24,"races":24,"wins":9,"turnoverAud":130000,"plAud":101905,"roi":0.7838846153846154},
     {"year":2025,"bets":37,"races":37,"wins":8,"turnoverAud":212000,"plAud":59719,"roi":0.2816933962264151},
-    {"year":2026,"bets":26,"races":26,"wins":7,"turnoverAud":133000,"plAud":10095,"roi":0.07590225563909775,"status":"PARTIAL THROUGH 2026-07-12 SOURCE CUTOFF"}
+    {"year":2026,"bets":25,"races":25,"wins":7,"turnoverAud":130000,"plAud":13095,"roi":0.10073076923076923,"status":"PARTIAL THROUGH 2026-07-12 SOURCE CUTOFF"}
   ],
   "liveExecution": {
     "status": "NOT VERIFIED",
@@ -164,16 +200,19 @@
     "requiresVerifiedCalibratedModelEv": true,
     "requiresVerifiedExecutableOdds": true,
     "requiresVerifiedCapacity": true,
+    "requiresVerifiedYearBetCount": true,
+    "requiresVerifiedTodayRiskState": true,
     "requiresAcceptedBetConfirmation": true,
-    "message": "Fail closed. Do not place a Hong Kong bet until the model classifications, within-race calibrated-EV ranking, executable WIN price and accepted capacity are verified."
+    "message": "Fail closed. Do not place a Hong Kong bet until model classification, within-race calibrated-EV ranking, executable WIN price, capacity, year count, today's confirmed HK bet count and today's realised HK P/L are all verified."
   },
   "caveats": [
-    "HK OPTIMAL V3 is a newly optimized historical research candidate, not production-approved.",
-    "The 100-bet rule is a hard cap; the optimized history averaged 36.8 bets/year and the busiest completed year had 61.",
-    "A$78,914 is the stored chronological historical drawdown, not a guaranteed maximum. Sequence stress was materially larger.",
+    "HK OPTIMAL V4 is a historically optimized research candidate, not production-approved.",
+    "The horse-selection thresholds and stakes are unchanged from V3; V4 adds only the race-day risk guard.",
+    "All historical V3 bets removed by the new daily guard happened to lose. That may be genuine risk control benefit, but it is also a strong sequencing-overfit warning.",
+    "A$75,766 is the stored chronological historical drawdown, not a guaranteed maximum. Race-day-block sequence stress is materially larger.",
     "Historical HKJC research/closing prices plus a 3% adverse-price stress are not the same as verified live accepted bookmaker prices.",
-    "The A$106.1k annual historical result is not a forward forecast; calibrated model EV is about A$18.6k/year.",
+    "The A$110.8k annual historical result is not a forward forecast; calibrated model EV is about A$18.3k/year.",
     "2026 is partial through the source cutoff and is not a completed year.",
-    "Do not keep retuning thresholds after new results. Freeze this version for genuine forward validation."
+    "Freeze V4 and collect fresh forward evidence rather than continuing to retune the historical sample."
   ]
 }
