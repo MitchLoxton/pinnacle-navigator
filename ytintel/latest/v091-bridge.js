@@ -1,23 +1,14 @@
-api=async function(action,body={}){const r=await fetch(`https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093?action=${encodeURIComponent(action)}`,{method:'POST',headers:{'content-type':'application/json','x-ytintel-client':'web-v093'},body:JSON.stringify(body)}),d=await r.json().catch(()=>({}));if(!r.ok||d.ok===false)throw Error(d.error||`HTTP ${r.status}`);return d};fetch('https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093?action=health').then(r=>r.json()).then(d=>{const x=document.querySelector('#status');if(x)x.textContent=`v${d.version} ready`}).catch(()=>{});
-window.addEventListener('load',()=>{if(typeof renderPatternMine==='function'){const originalRenderPatternMine=renderPatternMine;renderPatternMine=function(p){if(p){const n=Math.max(1,Number(p.video_count||0));const majority=Math.ceil(n/2);p={...p,most_repeated:(p.most_repeated||[]).filter(x=>Number(x.video_count||0)>=majority)};}return originalRenderPatternMine(p);};}
-  // Keep the public changelog chronological and explicitly dated.
+api=async function(action,body={}){const r=await fetch(`https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093?action=${encodeURIComponent(action)}`,{method:'POST',headers:{'content-type':'application/json','x-ytintel-client':'web-v093'},body:JSON.stringify(body)}),d=await r.json().catch(()=>({}));if(!r.ok||d.ok===false)throw Error(d.error||`HTTP ${r.status}`);return d};
+fetch('https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093?action=health').then(r=>r.json()).then(d=>{const x=document.querySelector('#status');if(x)x.textContent=`v${d.version} ready`}).catch(()=>{});
+window.addEventListener('load',()=>{
+  // Preserve the explicitly dated legacy releases.
   const releases=[...document.querySelectorAll('#updates .release')];
   const byText=(needle)=>releases.find(x=>(x.querySelector('.eyebrow')?.textContent||'').toLowerCase().includes(needle.toLowerCase()));
   const setEyebrow=(card,text)=>{const e=card?.querySelector('.eyebrow');if(e)e.textContent=text;};
-  setEyebrow(byText('v0.9.1'),'V0.9.1 · 4 SEP 2026 · CURRENT');
+  setEyebrow(byText('v0.9.1'),'V0.9.1 · 4 SEP 2026');
   const combined=byText('v0.8 / 0.8.1');
-  if(combined){
-    setEyebrow(combined,'V0.8.1 · 4 SEP 2026');
-    const h=combined.querySelector('h3');if(h)h.textContent='Visible update system';
-    const ul=combined.querySelector('ul');if(ul)ul.innerHTML='<li><b>What’s New popup</b> after each release.</li><li>Permanent <b>What’s New</b> button and Updates tab.</li><li>Cache-safe latest build to stop stale front-end versions.</li><li>v0.8 research history preserved through the update.</li>';
-    if(!document.querySelector('[data-release="v080"]')){
-      const card=document.createElement('article');card.className='card c6 release';card.dataset.release='v080';card.innerHTML='<div class="eyebrow">V0.8 · 4 SEP 2026</div><h3>Evidence-first analyser UI</h3><ul class="list"><li>Hook → Re-hook → Promise Fulfillment with transcript evidence.</li><li>Dedicated Outlier Multiplier section.</li><li>Copy full transcript as Markdown.</li><li>Concise transcript-derived summary at the end of Analyse.</li><li>Visuals + Edit beta introduced.</li><li>Removed repetitive generic Do Not Copy output.</li></ul>';
-      combined.insertAdjacentElement('afterend',card);
-    }
-  }
-  setEyebrow(byText('v0.7'),'V0.7 · 4 SEP 2026');
-  setEyebrow(byText('v0.6'),'V0.6 · 4 SEP 2026');
-  const foundation=byText('v0.5');
-  if(foundation)setEyebrow(foundation,'V0.5 → V0.2 · 3–4 SEP 2026');
-  const popupVersion=document.querySelector('.update-version');if(popupVersion)popupVersion.textContent='YTIntel v0.9.1 · 4 SEP 2026 · NEW';
+  if(combined){setEyebrow(combined,'V0.8.1 · 4 SEP 2026');const h=combined.querySelector('h3');if(h)h.textContent='Visible update system';const ul=combined.querySelector('ul');if(ul)ul.innerHTML='<li><b>What’s New popup</b> after each release.</li><li>Permanent <b>What’s New</b> button and Updates tab.</li><li>Cache-safe latest build to stop stale front-end versions.</li><li>v0.8 research history preserved through the update.</li>';if(!document.querySelector('[data-release="v080"]')){const card=document.createElement('article');card.className='card c6 release';card.dataset.release='v080';card.innerHTML='<div class="eyebrow">V0.8 · 4 SEP 2026</div><h3>Evidence-first analyser UI</h3><ul class="list"><li>Hook → Re-hook → Promise Fulfillment with transcript evidence.</li><li>Dedicated Outlier Multiplier section.</li><li>Copy full transcript as Markdown.</li><li>Concise transcript-derived summary at the end of Analyse.</li><li>Visuals + Edit beta introduced.</li><li>Removed repetitive generic Do Not Copy output.</li></ul>';combined.insertAdjacentElement('afterend',card)}}
+  setEyebrow(byText('v0.7'),'V0.7 · 4 SEP 2026');setEyebrow(byText('v0.6'),'V0.6 · 4 SEP 2026');const foundation=byText('v0.5');if(foundation)setEyebrow(foundation,'V0.5 → V0.2 · 3–4 SEP 2026');
+  // Load accuracy-reset overrides after the existing v0.9 UI functions exist.
+  const s=document.createElement('script');s.src='v10-ui.js?v=0101-accuracy-reset';s.defer=false;document.body.appendChild(s);
 });
