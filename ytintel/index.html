@@ -4,29 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08090c">
-<title>YTIntel v0.7</title>
+<title>YTIntel v0.8</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><span class="status" id="status">v0.7 checking…</span></div>
+  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><span class="status" id="status">v0.8 checking…</span></div>
   <nav class="tabs no-print">
     <button class="on" data-tab="analyse">Analyse</button>
     <button data-tab="history">History</button>
     <button data-tab="similar">Similar Videos</button>
     <button data-tab="batch">Pattern Mine</button>
-    <button data-tab="summary">Summariser</button>
+    <button data-tab="visuals">Visuals + Edit <span class="beta">BETA</span></button>
   </nav>
 
   <section id="analyse" class="view active">
-    <div class="hero no-print"><div class="eyebrow">FACTS FIRST → MECHANICS → REMAKE</div><h1>Find the engine. See where viewers replayed. Know what to rebuild.</h1><p>YTIntel starts with the facts layer: live views, upload data, a 100-point Most Replayed curve, transcript, pacing and channel-relative outlier multiple. Then it turns that evidence into repeatable mechanics.</p><form id="analyseForm" class="formrow"><input id="videoUrl" type="url" placeholder="Paste a YouTube video URL" required><button class="btn primary">Analyse deeply</button></form></div>
+    <div class="hero no-print"><div class="eyebrow">FACTS → REPLAY EVIDENCE → MECHANICS → REMAKE</div><h1>Find what won, where viewers replayed, and what to rebuild.</h1><p>YTIntel starts with facts and the real 100-point Most Replayed curve. Then it maps the hook, re-hooks, promise fulfillment, script mechanics, channel-relative outlier performance and the useful methods inside the transcript.</p><form id="analyseForm" class="formrow"><input id="videoUrl" type="url" placeholder="Paste a YouTube video URL" required><button class="btn primary">Analyse deeply</button></form></div>
     <div id="loading" class="load">Building the evidence report. Heatmap + transcript + channel baseline can take a little while…</div>
     <div id="error" class="error"></div>
     <div id="report"></div>
   </section>
 
   <section id="history" class="view">
-    <div class="hero"><div class="eyebrow">NICHE LIBRARY</div><h1>Your research compounds instead of disappearing.</h1><p>Every analysis is auto-filed into a niche. Open a folder to see the winning script style and the mechanics that keep repeating across the strongest videos.</p></div>
+    <div class="hero"><div class="eyebrow">NICHE LIBRARY</div><h1>Your research should compound.</h1><p>Every analysis is auto-filed into a niche. Open a folder to see the winning script style, common hotzone drivers and the mechanics that keep repeating across the strongest videos.</p><div class="launch-note">Current preview: saved in this browser. Launch plan: account login + cloud-synced history so the same library follows you across devices.</div></div>
     <div id="historyRoot"></div>
   </section>
 
@@ -45,9 +45,9 @@
     <div id="batchLoad" class="load">Analysing the set serially…</div><div id="batchError" class="error"></div><div id="batchRoot"></div>
   </section>
 
-  <section id="summary" class="view">
-    <div class="hero"><div class="eyebrow">VIDEO SUMMARISER</div><h1>Pull out the useful stuff, not a generic paragraph.</h1><p>Summariser converts the most recent analysis into key points, methods, important sections, recurring concepts and the practical strategy to remember.</p></div>
-    <div id="summaryRoot"></div>
+  <section id="visuals" class="view">
+    <div class="hero"><div class="eyebrow">VISUAL + EDIT INTELLIGENCE</div><h1>Turn replay peaks into a visual/edit bank.</h1><p>The first live layer targets the exact Most Replayed moments, attaches the transcript and detected content driver, and banks any YouTube-attributed audio. True frame-by-frame motion-graphic / cut / overlay classification is the next expensive layer and is deliberately not faked.</p></div>
+    <div id="visualRoot"></div>
   </section>
 </div>
 <script src="app-core.js"></script>
