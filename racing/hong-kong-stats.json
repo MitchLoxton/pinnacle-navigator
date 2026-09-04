@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "updatedAt": "2026-09-04T13:50:00+08:00",
   "system": "HK R15 HYBRID CONSISTENCY — BALANCED",
   "evidenceStatus": "SYNTHETIC EXECUTION PROXY — NOT LIVE VALIDATED",
@@ -14,7 +14,12 @@
     "winModel": "R4C clean-book market-offset CatBoost",
     "placeModel": "R8 residual PLACE CatBoost",
     "expectedUnitsPerYear": 27.27206830894003,
-    "modelImpliedProfitAudAtRiskCap": 136360.34154470015
+    "modelImpliedProfitAudAtRiskCap": 136360.34154470015,
+    "approxPositionsPerYear": 1071,
+    "approxRacesWithPositionsPerYear": 419.5,
+    "approxPositionsPerActiveRace": 2.5530393325387365,
+    "positionCountPeriod": "2020–2021 validation proxy",
+    "positionCountNote": "A position is one R15 BACK or LAY action in WIN or PLACE. A single race can contain more than one position, so 1,071 positions/year does not mean 1,071 separate races or 1,071 verified live accepted bookmaker bets."
   },
   "validationProxy": {
     "averageUnitsPerYear": 72.58354763024117,
