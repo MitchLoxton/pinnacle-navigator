@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-04T13:08:00+08:00",
+  "timezone": "Australia/Perth",
+  "meeting": {
+    "date": "2026-09-06",
+    "venue": "Sha Tin",
+    "country": "Hong Kong",
+    "track": "Turf",
+    "course": "A",
+    "meetingNo": 1,
+    "status": "FIELDS CONFIRMED",
+    "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
+  },
+  "systemStatus": "SEPARATE RESEARCH TAB — NOT PART OF AUSTRALIAN V11 CORE",
+  "systemMessage": "Hong Kong is deliberately isolated from PR/SR/MR. Do not reuse Australian V11 states or historical ROI for Sha Tin until a Hong Kong-specific evidence set has been built and validated.",
+  "races": [
+    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5"},
+    {"race":2,"name":null,"timeHkt":null,"distanceM":1600,"class":"Class 5"},
+    {"race":3,"name":null,"timeHkt":null,"distanceM":1000,"class":"Class 4"},
+    {"race":4,"name":null,"timeHkt":null,"distanceM":1200,"class":"Class 4"},
+    {"race":5,"name":null,"timeHkt":null,"distanceM":1400,"class":"Class 4"},
+    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4"},
+    {"race":7,"name":null,"timeHkt":null,"distanceM":1400,"class":"Class 3"},
+    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4"},
+    {"race":9,"name":null,"timeHkt":null,"distanceM":1200,"class":"Class 3"},
+    {"race":10,"name":"HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":null,"distanceM":1200,"class":"Group 3"}
+  ]
+}
