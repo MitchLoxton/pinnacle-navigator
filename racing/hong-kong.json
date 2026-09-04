@@ -16,14 +16,14 @@
   "systemMessage": "Hong Kong is deliberately isolated from PR/SR/MR. Do not reuse Australian V11 states or historical ROI for Sha Tin until a Hong Kong-specific evidence set has been built and validated.",
   "races": [
     {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5"},
-    {"race":2,"name":null,"timeHkt":null,"distanceM":1600,"class":"Class 5"},
-    {"race":3,"name":null,"timeHkt":null,"distanceM":1000,"class":"Class 4"},
-    {"race":4,"name":null,"timeHkt":null,"distanceM":1200,"class":"Class 4"},
-    {"race":5,"name":null,"timeHkt":null,"distanceM":1400,"class":"Class 4"},
+    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4"},
+    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3"},
+    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5"},
+    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4"},
     {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4"},
-    {"race":7,"name":null,"timeHkt":null,"distanceM":1400,"class":"Class 3"},
+    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2"},
     {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4"},
-    {"race":9,"name":null,"timeHkt":null,"distanceM":1200,"class":"Class 3"},
-    {"race":10,"name":"HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":null,"distanceM":1200,"class":"Group 3"}
+    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3"},
+    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3"}
   ]
 }
