@@ -1,15 +1,17 @@
 {
-  "schemaVersion": 3,
-  "updatedAt": "2026-09-04T14:18:00+08:00",
-  "system": "HK PARITY V2",
-  "evidenceStatus": "LOW-FREQUENCY HISTORICAL RESEARCH · SHADOW ONLY",
+  "schemaVersion": 4,
+  "updatedAt": "2026-09-04T14:50:00+08:00",
+  "system": "HK PARITY V2 + SAFE STAKING V1",
+  "evidenceStatus": "LOW-FREQUENCY HISTORICAL RESEARCH · SAFE STAKING OVERLAY · SHADOW ONLY",
   "sourceWorkbook": "HK_PARITY_V2_RESEARCH.xlsx",
   "sourceHistoryWorkbook": "HKJC_R3_COMBO_PROPOSAL_V2.xlsx",
-  "operatingMode": "AUSTRALIA-PARITY LOW FREQUENCY",
+  "operatingMode": "AUSTRALIA-PARITY LOW FREQUENCY · LOWER DRAWDOWN",
   "decision": {
     "activeResearchCandidate": true,
     "productionApproved": false,
-    "reason": "This is the strongest current Hong Kong candidate for Australia-like betting frequency. It matches Australia V11 closely on completed-history bets/year, annual turnover, historical annual profit, ROI and A$10k maximum stake, but drawdown and live accepted-price evidence remain blockers."
+    "selectionRuleChanged": false,
+    "stakingChanged": true,
+    "reason": "Keep the frozen HK PARITY V2 selections and ~38.45 bets/year, but cut risk in the sleeves that drove the deepest drawdowns. The safer rounded stakes were chosen from development-period risk work and then checked against the later 2022–2025 segment and the 2026 partial without changing the entry thresholds."
   },
   "frequency": {
     "completedYears": 11,
@@ -22,31 +24,70 @@
     "partial2026IndependentRaces": 21
   },
   "historical": {
+    "totalTurnoverAud": 2048000,
+    "totalHistoricalProfitAud": 1050210,
+    "annualTurnoverAud": 186181.81818181818,
+    "annualHistoricalProfitAud": 95473.63636363637,
+    "historicalRoi": 0.5127978515625,
+    "losingCompletedYears": 0,
+    "positiveCompletedYears": 11,
+    "worstCompletedYearAud": 24610,
+    "worstCompletedYear": 2018,
+    "raceLevelMaxDrawdownAud": 76000,
+    "partial2026TurnoverAud": 144000,
+    "partial2026PlAud": 5310,
+    "partial2026Roi": 0.036875,
+    "method": "Same frozen V2 qualifying bets. No rebate. Winning profit portion stressed 3% worse than research odds. Safe rounded sleeve stakes: LOW CORE A$2k, LONG CORE A$4k, MAIN SAT A$8k, EXTRA EV SAT A$2k."
+  },
+  "aggressiveBaseline": {
+    "label": "Original V2 turnover-matched staking",
     "annualTurnoverAud": 315752.77777777775,
     "annualHistoricalProfitAud": 182955.0028312372,
     "historicalRoi": 0.579424840278043,
-    "losingCompletedYears": 0,
-    "positiveCompletedYears": 11,
-    "worstCompletedYearAud": 27842.8419606933,
-    "worstCompletedYear": 2019,
     "raceLevelMaxDrawdownAud": 217491.68440885167,
     "partial2026PlAud": 6933.293570102145,
-    "method": "No rebate. Winning profit portion stressed 3% worse than research odds. Frozen sleeve stakes."
+    "status": "ARCHIVED AS TOO AGGRESSIVE FOR ACTIVE HK RISK"
+  },
+  "developmentCheck": {
+    "period": "2015–2021",
+    "annualHistoricalProfitAud": 106235.14285714286,
+    "historicalRoi": 0.5312,
+    "maxDrawdownAud": 76000,
+    "losingYears": 0
+  },
+  "laterCheck": {
+    "period": "2022–2025 audit/reused segment",
+    "annualHistoricalProfitAud": 76641,
+    "historicalRoi": 0.4731,
+    "maxDrawdownAud": 62000,
+    "losingYears": 0
   },
   "model": {
     "calibrationLogOddsIntercept": 0.1679327961221175,
-    "calibratedModelEvAudPerYear": 42667.66188116626,
-    "calibratedModelRoi": 0.13512996522613385,
-    "note": "The calibrated model EV is the more conservative forward anchor. The much larger A$182,955 historical annual P/L is a historical stressed result, not a forward income promise."
+    "calibratedModelEvAudPerYear": 19880.22211596682,
+    "calibratedModelRoi": 0.10677853675568116,
+    "note": "The calibrated model EV is deliberately shown as the more conservative forward anchor. The A$95.5k historical annual P/L remains a historical result, not an income promise."
   },
   "risk": {
-    "longCoreStakeAud": 10000,
-    "otherSleeveStakeAud": 7892.146394305168,
-    "hardMaxStakeAud": 10000,
+    "lowCoreStakeAud": 2000,
+    "longCoreStakeAud": 4000,
+    "mainSatelliteStakeAud": 8000,
+    "extraSatelliteStakeAud": 2000,
+    "hardMaxStakeAud": 8000,
     "australiaRecordedMaxDrawdownAud": 79850,
     "australiaReorderStressMaxDrawdownAud": 108800,
-    "riskParityStatus": "FAIL / CAUTION",
-    "riskParityReason": "HK same-race multi-runner exposure produced a materially deeper completed-history drawdown than Australia V11."
+    "riskParityStatus": "HISTORICAL PATH NOW CLOSE TO AU RECORDED DD · STRESS STILL HIGHER",
+    "riskParityReason": "The safe overlay cuts stored HK race-level historical drawdown from about A$217k to A$76k without changing the qualifying horses. Sequence/reordering risk can still produce materially larger drawdowns than the single historical path."
+  },
+  "sequenceStress": {
+    "method": "10,000 deterministic random permutations of completed-history race-level P/L; descriptive stress only, not a probability forecast",
+    "seed": 20260904,
+    "safeMedianMaxDrawdownAud": 124806,
+    "safeP95MaxDrawdownAud": 198424,
+    "safeP99MaxDrawdownAud": 242006,
+    "aggressiveMedianMaxDrawdownAud": 204585,
+    "aggressiveP95MaxDrawdownAud": 323379,
+    "aggressiveP99MaxDrawdownAud": 391882
   },
   "selectionRules": {
     "market": "WIN",
@@ -54,42 +95,56 @@
       "requiresR2Core": true,
       "minOddsInclusive": 5.0,
       "maxOddsExclusive": 8.0,
-      "stakeAud": 7892.146394305168
+      "stakeAud": 2000
     },
     "coreLong": {
       "requiresR2Core": true,
       "minOddsInclusive": 20.0,
       "maxOddsExclusive": 30.0,
-      "stakeAud": 10000
+      "stakeAud": 4000
     },
     "mainSatellite": {
       "requiresSatelliteOnly": true,
       "minOddsInclusive": 4.0,
       "maxOddsExclusive": 7.0,
       "maxMarketRank": 2,
-      "stakeAud": 7892.146394305168
+      "stakeAud": 8000
     },
     "extraSatellite": {
       "requiresSatelliteOnly": true,
       "minimumOriginalRawModelEv": 0.12,
-      "stakeAud": 7892.146394305168
+      "stakeAud": 2000
     },
     "historicalPriceStress": 0.03,
     "rebateAssumed": false,
     "freezeRule": true
   },
+  "yearByYear": [
+    {"year":2015,"bets":38,"races":30,"wins":10,"turnoverAud":168000,"plAud":73880,"roi":0.4397619047619048},
+    {"year":2016,"bets":35,"races":23,"wins":8,"turnoverAud":156000,"plAud":103580,"roi":0.663974358974359},
+    {"year":2017,"bets":57,"races":50,"wins":13,"turnoverAud":228000,"plAud":140608,"roi":0.6167017543859649},
+    {"year":2018,"bets":52,"races":50,"wins":7,"turnoverAud":216000,"plAud":24610,"roi":0.1139351851851852},
+    {"year":2019,"bets":25,"races":25,"wins":6,"turnoverAud":154000,"plAud":37186,"roi":0.2414675324675325},
+    {"year":2020,"bets":37,"races":36,"wins":9,"turnoverAud":218000,"plAud":152668,"roi":0.7003119266055046},
+    {"year":2021,"bets":52,"races":41,"wins":9,"turnoverAud":260000,"plAud":211114,"roi":0.8119769230769231},
+    {"year":2022,"bets":20,"races":20,"wins":6,"turnoverAud":138000,"plAud":154722,"roi":1.1211739130434783},
+    {"year":2023,"bets":24,"races":22,"wins":6,"turnoverAud":142000,"plAud":36396,"roi":0.25630985915492956},
+    {"year":2024,"bets":26,"races":21,"wins":6,"turnoverAud":114000,"plAud":69246,"roi":0.607421052631579},
+    {"year":2025,"bets":57,"races":36,"wins":11,"turnoverAud":254000,"plAud":46200,"roi":0.18188976377952755},
+    {"year":2026,"bets":30,"races":21,"wins":6,"turnoverAud":144000,"plAud":5310,"roi":0.036875,"status":"PARTIAL THROUGH SOURCE CUTOFF"}
+  ],
   "liveExecution": {
     "status": "NOT VERIFIED",
     "requiresVerifiedModelClassification": true,
     "requiresVerifiedExecutableOdds": true,
     "requiresVerifiedCapacity": true,
     "requiresAcceptedBetConfirmation": true,
-    "message": "Fail closed. Do not place a Hong Kong bet until the frozen R2/Rvenue classifications, market rank/raw EV where required, executable WIN price and accepted stake are verified."
+    "message": "Fail closed. Do not place a Hong Kong bet until the frozen R2/Rvenue classifications, market rank/raw EV where required, executable WIN price and capacity for the SAFE stake are verified."
   },
   "rejectedFrequencySearch": {
     "target": "Approximately 50 bets/year while retaining Australia-like historical results",
     "decision": "REJECT LITERAL-50 RETUNING",
-    "reason": "Nearby 49–51 bet/year variants could be made to look strong on older completed history but deteriorated sharply in the newest 2026 partial evidence. The frozen 38.45 bet/year V2 is more defensible and already matches Australia V11's true 38.83 bet/year cadence almost exactly."
+    "reason": "Nearby 49–51 bet/year variants deteriorated in the newest 2026 partial evidence. Keep the frozen 38.45 bet/year selection rule and solve risk through staking instead."
   },
   "archivedR15": {
     "status": "RESEARCH REFERENCE ONLY",
@@ -97,11 +152,12 @@
     "reasonArchived": "Far too high-frequency for the requested Australia-like operating style and dependent on synthetic/proxy PLACE execution assumptions."
   },
   "caveats": [
-    "HK PARITY V2 is research/shadow only, not production-approved.",
+    "HK PARITY V2 + SAFE STAKING V1 is research/shadow only, not production-approved.",
+    "The selection thresholds were not changed for the safer version; only staking was reduced/reweighted.",
     "Historical HKJC research/closing prices plus a 3% adverse-price stress are not the same as verified live accepted bookmaker prices.",
-    "The A$182,955 annual historical figure is not a forward income forecast; the calibrated model EV anchor is materially lower at about A$42.7k/year.",
-    "The historical race-level max drawdown of about A$217k is materially worse than Australia V11 and remains the major risk blocker.",
+    "The A$95.5k annual historical figure is not a forward income forecast; the calibrated model EV anchor is about A$19.9k/year.",
+    "The stored historical max drawdown is A$76k, but reorder stress remains materially larger; do not treat A$76k as a guaranteed maximum loss.",
     "2026 is partial and must not be treated as a completed year.",
-    "Do not retune the frozen rule after future wins or losses simply to preserve backtest appearance."
+    "Do not retune the frozen selection rule or SAFE stakes after future wins or losses simply to preserve backtest appearance."
   ]
 }
