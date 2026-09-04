@@ -1,7 +1,52 @@
-const CACHE='pn-shell-live-v5352';
-const PRIVATE='pn-private-bundle-live-v5352';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./miter-48-template.html'];
-self.addEventListener('message',event=>{if(event.data==='SKIP_WAITING')self.skipWaiting();});
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));});
-self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>(k.startsWith('pn-shell-')||k.startsWith('pn-private-bundle-'))&&k!==CACHE&&k!==PRIVATE).map(k=>caches.delete(k)));await self.clients.claim();})());});
-self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin!==self.location.origin)return;if(url.pathname.includes('/.private-navigator'))return;if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/manifest.webmanifest')||url.pathname.endsWith('/index.html')||url.pathname==='/'||url.pathname.endsWith('/pinnacle-navigator/')){event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{if(res&&res.ok){const copy=res.clone();caches.open(CACHE).then(c=>c.put('./index.html',copy));}return res;}).catch(()=>caches.match('./index.html').then(r=>r||caches.match('./'))));return;}if(url.pathname.endsWith('/v51.js')||url.pathname.endsWith('/v51.css')||url.pathname.endsWith('/fabrication.js')||url.pathname.endsWith('/miter-48-template.html')){event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{if(res&&res.ok){const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));}return res;}).catch(()=>caches.match(req)));return;}if(req.mode==='navigate'){event.respondWith(fetch(req,{cache:'no-store'}).then(res=>res).catch(()=>caches.match('./index.html').then(r=>r||caches.match('./'))));return;}event.respondWith(caches.match(req).then(cached=>cached||fetch(req)));});
+const SHELL='pn-shell-stable-v5354';
+const REMOTE='pn-remote-modules-stable-v5354';
+const PRIVATE='pn-private-bundle-stable-v1';
+const PRIVATE_URL=new URL('./.private-navigator-stable',self.registration.scope).href;
+const BUNDLE_ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-bundle-v52?shell=5354';
+const SUPABASE_ORIGIN='https://dkmacktcfhubsumwrydw.supabase.co';
+const LOCAL=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability.js','./miter-48-template.html'];
+const REMOTE_SLUGS=['navigator-v536-mobile-stable','navigator-v5335-today','navigator-v5338-colin-method','navigator-v5345-work-register','navigator-v5349-anyone-done'];
+const REMOTE_URLS=REMOTE_SLUGS.map(s=>SUPABASE_ORIGIN+'/functions/v1/'+s+'?b=5354');
+
+function canonicalLocal(url){return new Request(new URL(url.pathname,self.location.origin).href);}
+async function updateLocal(req){try{const res=await fetch(req,{cache:'no-store'});if(res&&res.ok){const c=await caches.open(SHELL);await c.put(canonicalLocal(new URL(req.url)),res.clone());}return res;}catch(e){return null;}}
+async function localCachedFirst(req){const c=await caches.open(SHELL),key=canonicalLocal(new URL(req.url)),cached=await c.match(key);const fresh=updateLocal(req);return cached||(await fresh)||Response.error();}
+async function remoteCachedFirst(req){const c=await caches.open(REMOTE),cached=await c.match(req,{ignoreSearch:true});const refresh=fetch(req,{cache:'no-store'}).then(async res=>{if(res&&res.ok)await c.put(req,res.clone());return res;}).catch(()=>null);return cached||(await refresh)||Response.error();}
+async function refreshPrivateBundle(pin){
+  if(!/^\d{6}$/.test(String(pin||'')))return false;
+  try{
+    const res=await fetch(BUNDLE_ENDPOINT,{method:'POST',headers:{'content-type':'application/json','x-navigator-shell':'sw-5354'},body:JSON.stringify({projectId:'mundi-pos1',pin:String(pin)}),cache:'no-store'});
+    if(!res.ok||(res.headers.get('x-navigator-integrity')||'')!=='ok')return false;
+    const html=await res.text();if(!html.includes('Pinnacle Navigator')||!html.includes('</body>'))return false;
+    const c=await caches.open(PRIVATE);await c.put(PRIVATE_URL,new Response(html,{headers:{'content-type':'text/html;charset=utf-8','x-pn-version':res.headers.get('x-navigator-version')||'v53.50','x-pn-cached-at':new Date().toISOString()}}));return true;
+  }catch(e){return false;}
+}
+
+self.addEventListener('message',event=>{
+  const d=event.data||{};
+  if(d==='SKIP_WAITING'||d.type==='SKIP_WAITING'){self.skipWaiting();return;}
+  if(d.type==='REFRESH_BUNDLE')event.waitUntil(refreshPrivateBundle(d.pin));
+});
+
+self.addEventListener('install',event=>{
+  event.waitUntil((async()=>{
+    const shell=await caches.open(SHELL);await shell.addAll(LOCAL);
+    const remote=await caches.open(REMOTE);
+    await Promise.allSettled(REMOTE_URLS.map(async u=>{try{const r=await fetch(u,{cache:'no-store'});if(r.ok)await remote.put(u,r.clone());}catch(e){}}));
+    await self.skipWaiting();
+  })());
+});
+
+self.addEventListener('activate',event=>{event.waitUntil(self.clients.claim());});
+
+self.addEventListener('fetch',event=>{
+  const req=event.request;if(req.method!=='GET')return;
+  const url=new URL(req.url);
+  if(url.href===PRIVATE_URL||url.pathname.includes('/.private-navigator'))return;
+  if(url.origin===SUPABASE_ORIGIN&&REMOTE_SLUGS.some(s=>url.pathname.endsWith('/'+s))){event.respondWith(remoteCachedFirst(req));return;}
+  if(url.origin!==self.location.origin)return;
+  if(req.mode==='navigate'||url.pathname.endsWith('/index.html')||url.pathname==='/'||url.pathname.endsWith('/pinnacle-navigator/')){event.respondWith(localCachedFirst(new Request(new URL('./index.html',self.registration.scope).href,{headers:req.headers})));return;}
+  if(url.pathname.endsWith('/version.json')){event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.open(SHELL).then(c=>c.match(canonicalLocal(url)))));return;}
+  if(LOCAL.some(p=>p!=='./'&&url.pathname.endsWith('/'+p.replace('./','')))){event.respondWith(localCachedFirst(req));return;}
+  event.respondWith(caches.match(req,{ignoreSearch:true}).then(cached=>cached||fetch(req)));
+});
