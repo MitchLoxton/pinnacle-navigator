@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "raceDate": "2026-08-29",
+  "loggedAt": "2026-09-04T11:23:00+08:00",
+  "timezone": "Australia/Perth",
+  "systemSummary": {
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "note": "No accepted V11 execution was confirmed on 29 Aug. PR2 had an old model signal but is NO SYSTEM BET; SR6 was not live in time. State results still update every stream."
+  },
+  "stateRule": "Favourite WIN resets the stream to state 0; favourite LOSS increments the state by 1. Price and whether a wager was placed do not control the state sequence.",
+  "officialSpEvidence": {
+    "status": "UNVERIFIED",
+    "note": "This weekly state log does not invent Official SP. Exact-state ROI evidence must only be updated when true Official SP is separately verified."
+  },
+  "results": [
+    {"race":"PR1","venue":"Belmont Park","stateBefore":4,"favourite":"DAWN DANCER","favouriteNumber":1,"outcome":"LOSS","stateAfter":5,"systemBet":false},
+    {"race":"PR2","venue":"Belmont Park","stateBefore":4,"favourite":"SEPTEMBER BORN","favouriteNumber":7,"outcome":"LOSS","stateAfter":5,"systemBet":false,"note":"Old model signal preserved for audit only; no accepted execution confirmed."},
+    {"race":"PR3","venue":"Belmont Park","stateBefore":0,"favourite":"ETERNAL WINE","favouriteNumber":4,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"PR4","venue":"Belmont Park","stateBefore":0,"favourite":"COUNTRY GOD","favouriteNumber":6,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"PR5","venue":"Belmont Park","stateBefore":0,"favourite":"GOD'S GATE","favouriteNumber":1,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"PR6","venue":"Belmont Park","stateBefore":0,"favourite":"CHANTEL","favouriteNumber":9,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"PR7","venue":"Belmont Park","stateBefore":0,"favourite":"SILENT DIVA","favouriteNumber":2,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"SR1","venue":"Rosehill Gardens","stateBefore":0,"favourite":"DORADUS","favouriteNumber":3,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"SR2","venue":"Rosehill Gardens","stateBefore":0,"favourite":"ZALIQUE","favouriteNumber":6,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"SR3","venue":"Rosehill Gardens","stateBefore":3,"favourite":"AETHELWULF","favouriteNumber":3,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"SR4","venue":"Rosehill Gardens","stateBefore":0,"favourite":"TRANSCEND","favouriteNumber":6,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"SR5","venue":"Rosehill Gardens","stateBefore":0,"favourite":"MR MILLER","favouriteNumber":2,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"SR6","venue":"Rosehill Gardens","stateBefore":5,"favourite":"SHE'S AN ARTIST","favouriteNumber":1,"outcome":"LOSS","stateAfter":6,"systemBet":false,"note":"TAB.com.au final fixed favourite was SHE'S AN ARTIST; TABtouch substitution favourite showed STREET ARTIST. Both lost, so state outcome is unambiguous. No accepted execution confirmed."},
+    {"race":"SR7","venue":"Rosehill Gardens","stateBefore":1,"favourite":"SAVAGRAM","favouriteNumber":9,"outcome":"LOSS","stateAfter":2,"systemBet":false},
+    {"race":"MR1","venue":"Caulfield","stateBefore":3,"favourite":"DAVIDA","favouriteNumber":1,"outcome":"LOSS","stateAfter":4,"systemBet":false},
+    {"race":"MR2","venue":"Caulfield","stateBefore":0,"favourite":"JENNI MULTABELLA","favouriteNumber":14,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"MR3","venue":"Caulfield","stateBefore":0,"favourite":"DARKBONEE","favouriteNumber":10,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"MR4","venue":"Caulfield","stateBefore":1,"favourite":"ITAZURA","favouriteNumber":13,"outcome":"LOSS","stateAfter":2,"systemBet":false},
+    {"race":"MR5","venue":"Caulfield","stateBefore":0,"favourite":"SHADHAVAR","favouriteNumber":6,"outcome":"LOSS","stateAfter":1,"systemBet":false},
+    {"race":"MR6","venue":"Caulfield","stateBefore":7,"favourite":"OLIVEANOTHERDAY","favouriteNumber":3,"outcome":"WIN","stateAfter":0,"systemBet":false},
+    {"race":"MR7","venue":"Caulfield","stateBefore":0,"favourite":"AMERICAN EAGLE","favouriteNumber":9,"outcome":"WIN","stateAfter":0,"systemBet":false}
+  ],
+  "sources": {
+    "PR":"https://www.tabtouch.com.au/racing/2026-08-29/pr/expanded",
+    "SR":"https://www.tabtouch.com.au/racing/2026-08-29/sr/expanded",
+    "MR":"https://www.tabtouch.com.au/racing/2026-08-29/mr/expanded"
+  }
+}
