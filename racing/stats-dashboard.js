@@ -132,6 +132,8 @@
     return section('HONG KONG R15 BALANCED · RESEARCH STATS', 'R15 uses separate Hong Kong models. Its later historical execution tests are proxy/synthetic and are not equivalent to verified live fills.', `
       <div class="evidence-banner proxy"><strong>${esc(hkStats?.evidenceStatus || 'PROXY')}</strong><span>Do not read the proxy P/L as guaranteed income.</span></div>
       <div class="metric-grid">
+        ${metric('Approx bets / positions per year', n0(m.approxPositionsPerYear), `${m.positionCountPeriod || 'Validation proxy'} · a race can have multiple positions`, 'good')}
+        ${metric('Approx active races / year', n1(m.approxRacesWithPositionsPerYear), `${n1(m.approxPositionsPerActiveRace)} positions per active race`)}
         ${metric('Active risk cap / position', money(r.riskCapPerPositionAud), 'Total risk, not per bookmaker')}
         ${metric('Absolute hard maximum', money(r.absoluteHardMaximumAud))}
         ${metric('Expected units / year', n1(m.expectedUnitsPerYear), 'Central model estimate', 'good')}
@@ -159,11 +161,13 @@
         <div class="subcard">
           <h3>Evidence quality</h3>
           <div class="rows">
+            <div><span>Proxy positions / year</span><strong>${n0(m.approxPositionsPerYear)}</strong></div>
             <div><span>Completed proxy years</span><strong>${n0(p.positiveCompletedProxyYears)} / ${n0(p.completedProxyYears)} positive</strong></div>
             <div><span>2026 partial proxy</span><strong>${p.partial2026Positive ? 'POSITIVE' : 'NEGATIVE'}</strong></div>
             <div><span>Raw R13 proxy max DD</span><strong>~${n1(p.rawR13MaxDrawdownUnitsApprox)} units</strong></div>
             <div><span>Balanced proxy max DD</span><strong>~${n1(p.maxDrawdownUnits)} units</strong></div>
           </div>
+          <p>${esc(m.positionCountNote || '')}</p>
           <p>${esc(p.periodNote || '')}</p>
         </div>
       </div>
@@ -189,14 +193,15 @@
     return section('AU V11 vs HK R15 · WHAT IS ACTUALLY COMPARABLE', 'The headline dollars are from different evidence types. The table keeps that distinction visible.', `
       <div class="table-wrap compare-table"><table><thead><tr><th>Metric</th><th>Australia V11</th><th>Hong Kong R15 Balanced</th></tr></thead><tbody>
         <tr><td>Evidence type</td><td><b>18 completed FY historical model-replay</b></td><td><b>Model + synthetic execution proxy</b></td></tr>
+        <tr><td>Bets / positions per year</td><td><b>${n1(h.betsPerYear)} historical bets/year</b></td><td><b>${n0(hkM.approxPositionsPerYear)} proxy positions/year</b> · multiple positions can occur in one race</td></tr>
         <tr><td>Primary annual figure</td><td>${money(h.avgCompletedFyAud)} historical avg FY</td><td>${money(hkM.modelImpliedProfitAudAtRiskCap)} central model-implied @ A$5k</td></tr>
-        <tr><td>Historical / proxy sample</td><td>${n0(h.completedFys)} FY · ${n0(h.bets)} bets</td><td>${n0(hkP.completedProxyYears)} completed proxy years</td></tr>
+        <tr><td>Historical / proxy sample</td><td>${n0(h.completedFys)} FY · ${n0(h.bets)} bets</td><td>${n0(hkP.completedProxyYears)} completed proxy years · ~${n1(hkM.approxRacesWithPositionsPerYear)} active races/year</td></tr>
         <tr><td>ROI</td><td class="good-text">${pct(h.roiPct)} historical</td><td>Not promoted as a live ROI figure</td></tr>
         <tr><td>Drawdown</td><td>${money(h.recordedMaxDrawdownAud)} recorded · ${money(h.reorderStressMaxDrawdownAud)} reorder stress</td><td>${n1(hkP.maxDrawdownUnits)} proxy units · ${money(hkP.equivalentMaxDrawdownAudAtRiskCap)} @ A$5k</td></tr>
         <tr><td>Active position/stake cap</td><td>A$10,000 hard model stake cap</td><td>${money(hkR.riskCapPerPositionAud)} active · ${money(hkR.absoluteHardMaximumAud)} absolute</td></tr>
         <tr><td>Live confidence</td><td><span class="pill good-pill">PRODUCTION V11</span></td><td><span class="pill warn-pill">PROXY / FAIL-CLOSED</span></td></tr>
       </tbody></table></div>
-      <div class="truth-box"><strong>Bottom line</strong><p>AU V11 currently has the stronger evidence base. HK R15 is promising research, but its historical PLACE execution/liquidity assumptions still need real timestamped market data and accepted fills before the proxy returns should be trusted as live performance.</p></div>
+      <div class="truth-box"><strong>Bottom line</strong><p>AU V11 currently has the stronger evidence base. HK R15 is much higher-frequency in the research proxy at about ${n0(hkM.approxPositionsPerYear)} positions/year, but those positions are not the same thing as verified live accepted bets. Its historical PLACE execution/liquidity assumptions still need real timestamped market data and accepted fills before the proxy returns should be trusted as live performance.</p></div>
     `, 'compare');
   }
 
@@ -219,7 +224,7 @@
     root.innerHTML = `
       <section class="hero">
         <div><span>FULL SYSTEM AUDIT</span><h1>RACING STATS</h1><p>AU V11 + HK R15 · historical performance, current forward record, state map, drawdowns, risk and evidence quality.</p></div>
-        <div class="hero-kpis"><div><span>AU HIST ROI</span><strong>${pct(h.roiPct)}</strong></div><div><span>AU AVG FY</span><strong>${money(h.avgCompletedFyAud)}</strong></div><div><span>HK MODEL-IMPLIED</span><strong>${money(hkM.modelImpliedProfitAudAtRiskCap)}</strong></div></div>
+        <div class="hero-kpis"><div><span>AU HIST ROI</span><strong>${pct(h.roiPct)}</strong></div><div><span>AU AVG FY</span><strong>${money(h.avgCompletedFyAud)}</strong></div><div><span>HK POSITIONS/YR</span><strong>${n0(hkM.approxPositionsPerYear)}</strong></div></div>
       </section>
       ${compare(stats, hkStats)}
       ${auHistorical(stats)}
