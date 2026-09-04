@@ -4,11 +4,13 @@
   const LIVE_URL = 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-tab-live';
   const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
   const POLL_MS = 15000;
+  const BASE_REFRESH_MS = 300000;
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
   let busy = false;
   let lastData = null;
   let lastResults = [];
+  let baseFetchedAt = 0;
 
   const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
   const raceCode = v => String(v || '').trim().toUpperCase();
@@ -30,9 +32,17 @@
   }
 
   async function getJson(path) {
-    const r = await fetch(`${path}?live=${Date.now()}`, { cache:'no-store' });
+    const r = await fetch(`${path}?v=1.8.1`, { cache:'no-cache' });
     if (!r.ok) throw new Error(`${path} HTTP ${r.status}`);
     return r.json();
+  }
+
+  async function getBaseData(force = false) {
+    if (!force && lastData && (Date.now() - baseFetchedAt) < BASE_REFRESH_MS) return lastData;
+    const data = await getJson('./current.json');
+    lastData = data;
+    baseFetchedAt = Date.now();
+    return data;
   }
 
   async function fetchLive(requests) {
@@ -204,11 +214,11 @@
     }
   }
 
-  async function refresh() {
+  async function refresh(forceBase = false) {
     if (busy || document.visibilityState==='hidden') return;
     busy=true;
     try {
-      const data=await getJson('./current.json');
+      const data=await getBaseData(forceBase);
       const watch=Array.isArray(data?.watchlist)?data.watchlist:[];
       const requests=watch.map(i=>({race:raceCode(i.race||i.code),date:i.date,venue:i.venue||i.region})).filter(x=>x.race&&x.date&&x.venue);
       if(!requests.length){render(data,[]);return;}
@@ -218,10 +228,16 @@
     finally { busy=false; }
   }
 
-  window.addEventListener('mitchell-base-ready',()=>setTimeout(refresh,50));
-  window.addEventListener('mitchell-refresh-live',()=>setTimeout(refresh,50));
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(refresh,50)});
-  window.addEventListener('online',()=>setTimeout(refresh,50));
-  setTimeout(refresh,500);
-  setInterval(refresh,POLL_MS);
+  window.addEventListener('mitchell-base-ready', event => {
+    if (event?.detail) {
+      lastData = event.detail;
+      baseFetchedAt = Date.now();
+    }
+    setTimeout(() => refresh(false), 50);
+  });
+  window.addEventListener('mitchell-refresh-live',()=>setTimeout(() => refresh(false),50));
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(() => refresh(false),50)});
+  window.addEventListener('online',()=>setTimeout(() => refresh(false),50));
+  setTimeout(() => refresh(false),500);
+  setInterval(() => refresh(false),POLL_MS);
 })();
