@@ -9,7 +9,24 @@
     return 'WAIT';
   };
 
+  function normalizeMonitoringState() {
+    const card = $('decisionCard');
+    const message = $('decisionMessage');
+    const bottom = $('bottomCommand');
+    const text = String(message?.textContent || '');
+    if (!card || !card.classList.contains('no-bet')) return;
+    if (!/upcoming V11 race|being monitored/i.test(text)) return;
+    card.className = 'decision-card waiting';
+    if (bottom) bottom.className = 'bottom-command waiting';
+    if ($('decisionKicker')) $('decisionKicker').textContent = 'YOUR ACTION';
+    if ($('decisionTitle')) $('decisionTitle').textContent = 'WAIT';
+    if (message) message.textContent = 'Possible races are being monitored. Do not bet unless this box turns green and says BET NOW.';
+    if ($('bottomLabel')) $('bottomLabel').textContent = 'WAIT';
+    if ($('bottomText')) $('bottomText').textContent = 'Do nothing unless the top box turns green and says BET NOW.';
+  }
+
   function syncPlainInstruction() {
+    normalizeMonitoringState();
     const card = $('decisionCard');
     const panel = $('plainInstruction');
     if (!card || !panel) return;
