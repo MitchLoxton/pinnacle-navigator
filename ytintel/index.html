@@ -4,12 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08090c">
-<title>YTIntel v0.8</title>
-<link rel="stylesheet" href="style.css">
+<title>YTIntel v0.8.1</title>
+<link rel="stylesheet" href="style.css?v=0.8.1">
+<style>
+.update-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,5,8,.84);backdrop-filter:blur(8px)}
+.update-modal.show{display:flex}.update-panel{width:min(760px,100%);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#151820,#0f1218);border:1px solid #343b49;border-radius:22px;box-shadow:0 30px 100px rgba(0,0,0,.55);padding:24px}.update-top{display:flex;gap:12px;align-items:flex-start}.update-top .grow{flex:1}.update-panel h2{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:6px 0 8px}.update-panel p{margin:0 0 14px}.update-close{width:36px;height:36px;border-radius:10px;border:1px solid #343b49;background:#191d25;color:#fff;font-size:20px;cursor:pointer}.update-version{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(85,226,157,.35);background:rgba(85,226,157,.07);color:#8cf0bd;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:900}.update-items{display:grid;gap:8px;margin:16px 0}.update-item{display:grid;grid-template-columns:25px 1fr;gap:10px;padding:11px;border:1px solid #262d39;border-radius:13px;background:#0a0d12}.update-item .tick{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:rgba(85,226,157,.09);color:#75ecad;font-weight:950}.update-item b{display:block;margin-bottom:2px}.update-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.update-actions button{border:1px solid #343b49;background:#191d25;color:#fff;border-radius:11px;padding:10px 13px;font:inherit;font-weight:850;cursor:pointer}.update-actions .primary{background:#ff4f47;border-color:#ff4f47}.whats-new-btn{border:1px solid rgba(141,169,255,.35)!important;background:rgba(141,169,255,.08)!important;color:#cdd8ff!important}
+@media(max-width:620px){.update-panel{padding:18px}.update-panel h2{font-size:25px}}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><span class="status" id="status">v0.8 checking…</span></div>
+  <div class="top"><div class="brand"><span class="logo">Y</span><span>YTIntel</span></div><div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.8 checking…</span></div></div>
   <nav class="tabs no-print">
     <button class="on" data-tab="analyse">Analyse</button>
     <button data-tab="history">History</button>
@@ -56,7 +61,16 @@
 
     <div class="grid">
       <article class="card c12 winner-box">
-        <div class="split"><div><div class="eyebrow">V0.8 · CURRENT · 4 SEP 2026</div><h2 style="margin:4px 0">Evidence-first analyser upgrade</h2></div><span class="pill good">LIVE</span></div>
+        <div class="split"><div><div class="eyebrow">V0.8.1 · CURRENT · 4 SEP 2026</div><h2 style="margin:4px 0">What’s New popup + visible changelog</h2></div><span class="pill good">LIVE</span></div>
+        <ul class="list">
+          <li>Added a <b>What’s New popup</b> that appears automatically after a new YTIntel version is published.</li>
+          <li>Added a permanent <b>What’s New</b> button beside the version status so the changelog is always one click away.</li>
+          <li>Added cache-busting version tags to the app files so browsers are less likely to keep showing an old YTIntel build after an update.</li>
+        </ul>
+      </article>
+
+      <article class="card c12 winner-box">
+        <div class="split"><div><div class="eyebrow">V0.8 · 4 SEP 2026</div><h2 style="margin:4px 0">Evidence-first analyser upgrade</h2></div><span class="pill good">LIVE</span></div>
         <ul class="list">
           <li>Rebuilt Hook Teardown into <b>Hook → Re-hook → Promise Fulfillment</b> with timestamped transcript evidence.</li>
           <li>Added a dedicated <b>Outlier Multiplier</b> section comparing the video with the creator's recent long-form channel median.</li>
@@ -125,6 +139,24 @@
     </div>
   </section>
 </div>
+
+<div class="update-modal" id="updateModal" role="dialog" aria-modal="true" aria-labelledby="updateTitle">
+  <div class="update-panel">
+    <div class="update-top">
+      <div class="grow"><span class="update-version">YTIntel v0.8.1 · NEW</span><h2 id="updateTitle">What’s new in YTIntel</h2><p>The latest build is focused on making updates obvious and keeping the research workflow moving forward.</p></div>
+      <button class="update-close" id="closeUpdate" aria-label="Close">×</button>
+    </div>
+    <div class="update-items">
+      <div class="update-item"><div class="tick">✓</div><div><b>Hook → Re-hook → Fulfillment</b><span class="muted">The opening analysis now shows the actual hook, a later attention reset, and where the promise gets paid off.</span></div></div>
+      <div class="update-item"><div class="tick">✓</div><div><b>Dedicated outlier multiplier</b><span class="muted">See how the video performs versus that creator’s own recent long-form baseline.</span></div></div>
+      <div class="update-item"><div class="tick">✓</div><div><b>Most Replayed heatmap</b><span class="muted">Real 100-point replay evidence stays front-and-centre whenever YouTube exposes it.</span></div></div>
+      <div class="update-item"><div class="tick">✓</div><div><b>Transcript Markdown copy + concise summary</b><span class="muted">Copy the full clean transcript and get the key methods/takeaway at the bottom of Analyse.</span></div></div>
+      <div class="update-item"><div class="tick">✓</div><div><b>Visuals + Edit beta</b><span class="muted">Replay hotzones are now the targets for the future frame/audio/effects intelligence bank.</span></div></div>
+    </div>
+    <div class="update-actions"><button class="primary" id="continueUpdate">Continue to YTIntel</button><button id="viewAllUpdates">View full update log</button></div>
+  </div>
+</div>
+
 <script>
 try{
   const oldKey='ytintel-v07-history',newKey='ytintel-v08-history';
@@ -137,7 +169,23 @@ try{
   }
 }catch{}
 </script>
-<script src="app-core.js"></script>
-<script src="app-features.js"></script>
+<script src="app-core.js?v=0.8.1"></script>
+<script src="app-features.js?v=0.8.1"></script>
+<script>
+(function(){
+  const VERSION_KEY='ytintel-whats-new-seen-v081';
+  const modal=document.getElementById('updateModal');
+  const open=()=>modal.classList.add('show');
+  const close=()=>{modal.classList.remove('show');try{localStorage.setItem(VERSION_KEY,'1')}catch{}};
+  document.getElementById('closeUpdate').onclick=close;
+  document.getElementById('continueUpdate').onclick=close;
+  document.getElementById('whatsNewBtn').onclick=open;
+  document.getElementById('viewAllUpdates').onclick=()=>{close();if(typeof tab==='function')tab('updates')};
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))close()});
+  let seen=false;try{seen=localStorage.getItem(VERSION_KEY)==='1'}catch{}
+  if(!seen)setTimeout(open,350);
+})();
+</script>
 </body>
 </html>
