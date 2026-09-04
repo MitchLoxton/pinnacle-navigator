@@ -33,13 +33,13 @@
     <section class="only-rule">
       <div class="only-rule-label">YOUR ONLY BETTING RULE</div>
       <div class="only-rule-main">ONLY BET WHEN THE BIG TOP BOX IS <b>GREEN</b> AND LITERALLY SAYS <b>BET NOW</b></div>
-      <div class="only-rule-sub">Anything else means you do not place a bet. A horse being a favourite, being $3+, or appearing under “possible races” is not enough.</div>
+      <div class="only-rule-sub">Anything else means you do nothing. A horse being favourite, being $3+, or appearing under possible races is never enough by itself.</div>
     </section>
 
     <section class="plain-instruction plain-wait" id="plainInstruction" aria-live="polite">
       <span>WHAT YOU DO NOW</span>
       <strong data-simple-title>WAIT — DO NOTHING</strong>
-      <p data-simple-text>Keep the app open. A possible race is not a bet. Only act if the top box turns green and literally says BET NOW.</p>
+      <p data-simple-text>Keep the app open. Only act if the big action box turns green and literally says BET NOW.</p>
     </section>
 
     <section class="traffic-guide" aria-label="Race-day colour guide">
@@ -51,21 +51,21 @@
     <section class="today-focus">
       <span>TODAY'S POSSIBILITIES</span>
       <strong id="focusRaces">Loading current V11 CORE races…</strong>
-      <p>These are only races the system is watching. They are not pre-approved bets.</p>
+      <p>Information only. If the big action box is not green, you do not bet.</p>
     </section>
 
-    <details class="watch-details" id="watchDetails" open>
-      <summary><div><span class="section-label">POSSIBLE BETS — NOT BETS YET</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">WAIT FOR GREEN</span></summary>
-      <div class="watch-body"><p>Use this section only to see what the app is watching. The simple command on each card tells you WAIT, SKIP, or CHECK THE TOP BOX. Extra live checks are hidden unless you choose “Show live details”.</p><div id="watchlist" class="watch-list"></div></div>
+    <details class="watch-details" id="watchDetails">
+      <summary><div><span class="section-label">POSSIBLE RACES · OPTIONAL DETAIL</span><strong id="watchSummary">Checking live races…</strong></div><span class="not-bet">NOT A BET LIST</span></summary>
+      <div class="watch-body"><p>This section is only for audit/detail. The simple command on each card tells you WAIT, SKIP, or CHECK THE TOP BOX. Extra checks stay hidden unless you choose Show live details.</p><div id="watchlist" class="watch-list"></div></div>
     </details>
 
-    <details class="watch-details" id="resultsDetails" open hidden>
-      <summary><div><span class="section-label">TODAY'S RESULTS</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
+    <details class="watch-details" id="resultsDetails" hidden>
+      <summary><div><span class="section-label">TODAY'S RESULTS · OPTIONAL DETAIL</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
       <div class="watch-body"><p><b>SYSTEM BET</b> tells you whether money counted. <b>STATE RESULT</b> only tracks whether the favourite won or lost for the sequence.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="watch-details" id="lastWeekDetails">
-      <summary><div><span class="section-label">LAST WEEK</span><strong id="lastWeekSummary">Loading 29 Aug…</strong></div><span class="not-bet">HISTORY</span></summary>
+      <summary><div><span class="section-label">LAST WEEK · OPTIONAL AUDIT</span><strong id="lastWeekSummary">Loading 29 Aug…</strong></div><span class="not-bet">HISTORY</span></summary>
       <div class="watch-body"><p>Open this only if you want the audit trail. Last week's favourite results are stored separately from actual system-bet P/L.</p><div id="lastWeekLog"></div></div>
     </details>
 
@@ -73,7 +73,7 @@
       <summary>Advanced system details</summary>
       <div class="details-body">
         <div class="mini-grid">
-          <div><span>System</span><strong>V11 CORE</strong></div>
+          <div><span>System</span><strong>V11 CORE · FROZEN</strong></div>
           <div><span>Signal window</span><strong>20s → 10s pre-jump</strong></div>
           <div><span>Minimum accepted price</span><strong>$3.00+</strong></div>
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
@@ -87,11 +87,11 @@
         <div class="info-row"><span>Current FY model P/L</span><strong id="seasonProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
-        <p class="small-note">The app deliberately fails closed. If live price, favourite, timing or execution cannot be verified, the instruction is not to bet.</p>
+        <p class="small-note">The app fails closed. If live price, favourite, timing or execution cannot be verified, the instruction is not to bet.</p>
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.8.1 · AU V11 + HK OPTIMAL V4 + STATS</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.8.1 · AU V11 + HK OPTIMAL V4 + AUTO + STATS</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -106,6 +106,7 @@
   <script src="./weekly-history.js?v=1" defer></script>
   <script src="./simple-ui.js?v=2" defer></script>
   <script src="./hong-kong-tab.js?v=5" defer></script>
-  <script src="./stats-link.js?v=1" defer></script>
+  <script src="./easy-mode.js?v=1" defer></script>
+  <script src="./stats-link.js?v=2" defer></script>
 </body>
 </html>
