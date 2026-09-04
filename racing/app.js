@@ -3,7 +3,9 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.7.0';
+  const CLIENT_BUILD = '1.8.1';
+  const BUILD_CHECK_MS = 300000;
+  const SW_CHECK_MS = 600000;
   let updateReloading = false;
 
   window.__MITCHELL_BASE_DATA = null;
@@ -15,13 +17,13 @@
     updateReloading = true;
     const url = new URL(window.location.href);
     url.searchParams.set('build', String(build || CLIENT_BUILD));
-    url.searchParams.set('_refresh', String(Date.now()));
+    url.searchParams.delete('_refresh');
     window.location.replace(url.toString());
   }
 
   async function checkClientBuild() {
     try {
-      const r = await fetch(`./version.json?t=${Date.now()}`, { cache: 'no-store' });
+      const r = await fetch(`./version.json?v=${encodeURIComponent(CLIENT_BUILD)}`, { cache: 'no-cache' });
       if (!r.ok) return;
       const version = await r.json();
       if (version?.build && version.build !== CLIENT_BUILD) reloadForBuild(version.build);
@@ -38,7 +40,7 @@
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (hadController && !controllerReloaded) {
             controllerReloaded = true;
-            reloadForBuild(CLIENT_BUILD);
+            window.location.reload();
           }
         });
         navigator.serviceWorker.addEventListener('message', event => {
@@ -50,14 +52,14 @@
           scope: './',
           updateViaCache: 'none'
         });
-        await reg.update();
-        window.setInterval(() => reg.update().catch(() => {}), 30000);
+        reg.update().catch(() => {});
+        window.setInterval(() => reg.update().catch(() => {}), SW_CHECK_MS);
       } catch (e) {
         console.warn('Service worker update check unavailable', e);
       }
     }
     await checkClientBuild();
-    window.setInterval(checkClientBuild, 15000);
+    window.setInterval(checkClientBuild, BUILD_CHECK_MS);
   }
 
   function fmtUpdated(value) {
@@ -69,7 +71,7 @@
   }
 
   async function json(path) {
-    const r = await fetch(`${path}?t=${Date.now()}`, { cache: 'no-store' });
+    const r = await fetch(`${path}?v=${encodeURIComponent(CLIENT_BUILD)}`, { cache: 'no-cache' });
     if (!r.ok) throw new Error(`${path} HTTP ${r.status}`);
     return r.json();
   }
@@ -143,7 +145,7 @@
   function manualRefresh() {
     setChecking();
     checkClientBuild();
-    loadBase().finally(() => window.dispatchEvent(new Event('mitchell-refresh-live')));
+    loadBase().finally(() => window.dispatchEvent(new CustomEvent('mitchell-refresh-live', { detail: { forceBase: true } })));
   }
 
   $('refreshButton')?.addEventListener('click', manualRefresh);
