@@ -5,26 +5,36 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07090d">
   <meta name="color-scheme" content="dark">
+  <meta name="application-name" content="YTIntel">
+  <meta name="description" content="Free public YouTube creator intelligence: find channel-relative outliers, validate competitor patterns, analyse videos, build original titles and thumbnail briefs, and turn research into a production-ready video plan.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="YTIntel — Free YouTube Research & Creator Intelligence">
+  <meta property="og:description" content="Paste a YouTube video or type a topic. YTIntel finds the signal, validates the evidence and turns it into an original production-ready brief.">
+  <meta property="og:url" content="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
+  <meta name="twitter:card" content="summary">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="YTIntel">
-  <title>YTIntel v0.20.1 — Creator Intelligence</title>
+  <title>YTIntel — Free YouTube Research & Creator Intelligence</title>
+  <link rel="canonical" href="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
   <link rel="preconnect" href="https://dkmacktcfhubsumwrydw.supabase.co" crossorigin>
   <link rel="dns-prefetch" href="//dkmacktcfhubsumwrydw.supabase.co">
-  <link rel="manifest" href="manifest.webmanifest?v=0201">
-  <link rel="icon" href="icon.svg?v=0201" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=0201">
-  <link rel="stylesheet" href="../style.css?v=0201">
-  <link rel="stylesheet" href="v09.css?v=0201">
-  <link rel="stylesheet" href="v130-design.css?v=0201">
-  <link rel="stylesheet" href="v140-research-os.css?v=0201">
-  <link rel="stylesheet" href="v150-platform.css?v=0201">
-  <link rel="stylesheet" href="v160-smartstart.css?v=0201">
-  <link rel="stylesheet" href="v170-research-sprint.css?v=0201">
-  <link rel="stylesheet" href="v180-premium.css?v=0201" data-v180-premium="1">
-  <link rel="stylesheet" href="v180-workflow-fixes.css?v=0201">
-  <link rel="stylesheet" href="v190-desire.css?v=0201">
-  <link rel="stylesheet" href="v200-universal.css?v=0201">
+  <link rel="manifest" href="manifest.webmanifest?v=0210">
+  <link rel="icon" href="icon.svg?v=0210" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=0210">
+  <link rel="stylesheet" href="../style.css?v=0210">
+  <link rel="stylesheet" href="v09.css?v=0210">
+  <link rel="stylesheet" href="v130-design.css?v=0210">
+  <link rel="stylesheet" href="v140-research-os.css?v=0210">
+  <link rel="stylesheet" href="v150-platform.css?v=0210">
+  <link rel="stylesheet" href="v160-smartstart.css?v=0210">
+  <link rel="stylesheet" href="v170-research-sprint.css?v=0210">
+  <link rel="stylesheet" href="v180-premium.css?v=0210" data-v180-premium="1">
+  <link rel="stylesheet" href="v180-workflow-fixes.css?v=0210">
+  <link rel="stylesheet" href="v190-desire.css?v=0210">
+  <link rel="stylesheet" href="v200-universal.css?v=0210">
+  <link rel="stylesheet" href="v210-public.css?v=0210">
   <style>
     .update-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,5,8,.88);backdrop-filter:blur(9px)}
     .update-modal.show{display:flex}.update-panel{width:min(780px,100%);max-height:88vh;overflow:auto;background:#11151d;border:1px solid #343b49;border-radius:22px;padding:24px}.update-top{display:flex;gap:12px}.update-top .grow{flex:1}.update-close{width:36px;height:36px;border-radius:10px;border:1px solid #343b49;background:#191d25;color:#fff}.update-version{display:inline-flex;border:1px solid #315b49;color:#8cf0bd;border-radius:999px;padding:6px 9px}.update-items{display:grid;gap:8px;margin:16px 0}.update-item{display:grid;grid-template-columns:25px 1fr;gap:10px;padding:11px;border:1px solid #262d39;border-radius:13px}.update-item b{display:block}.update-actions{display:flex;gap:8px;margin-top:18px}.release.current{border-left:3px solid #55e29d}.radar-video input{accent-color:#8da9ff}.radar-video .actions{align-items:center}.package-option blockquote{margin:8px 0;padding:11px 13px;border-left:3px solid #8da9ff;background:#080b0f;border-radius:0 11px 11px 0}
@@ -34,12 +44,12 @@
 <div class="app">
   <div class="top">
     <div class="brand"><span class="logo">YT</span><span>YTIntel</span></div>
-    <div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.20.1 · checking intelligence…</span></div>
+    <div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.21.0 · checking intelligence…</span></div>
   </div>
 
   <nav class="tabs no-print">
     <button class="on" data-tab="os">Smart Start</button>
-    <button data-tab="sprint">Research Sprint <span class="beta">NEW</span></button>
+    <button data-tab="sprint">Research Sprint <span class="beta">CORE</span></button>
     <button data-tab="loop">Creator Loop</button>
     <button data-tab="analyse">Analyse</button>
     <button data-tab="radar">Opportunity Radar</button>
@@ -52,7 +62,7 @@
   </nav>
 
   <section id="os" class="view active">
-    <div class="hero no-print"><div class="eyebrow">CREATOR INTELLIGENCE</div><h1>Turn creator research into your next winning video.</h1><p>Paste a topic, video, channel or competitor set. YTIntel finds the signal, validates the pattern and turns the evidence into a production-ready next move.</p></div>
+    <div class="hero no-print"><div class="eyebrow">FREE PUBLIC CREATOR INTELLIGENCE</div><h1>Find your next YouTube video with evidence, not guesswork.</h1><p>Start with a topic or a video. YTIntel finds channel-relative breakouts, validates patterns across creators, builds original packaging and turns the evidence into a production-ready next move.</p></div>
     <div id="osRoot"><div class="load show">Building Research OS…</div></div>
   </section>
 
@@ -101,31 +111,32 @@
 if(!Array.prototype.at)Object.defineProperty(Array.prototype,'at',{value:function(n){n=Math.trunc(n)||0;if(n<0)n+=this.length;return this[n]}});
 if(!window.CSS)window.CSS={};
 if(!CSS.escape)CSS.escape=function(s){return String(s).replace(/[^a-zA-Z0-9_-]/g,function(c){return'\\'+c})};
-window.YTINTEL_VERSION='0.20.1';
-window.YTINTEL_UPDATE_OWNER='ytintel-whats-new-0.20.1-always-on';
-try{['ytintel-whats-new-0.10.1','ytintel-whats-new-0.10.2','ytintel-whats-new-0.10.4','ytintel-whats-new-0.10.5','ytintel-whats-new-0.10.7-actual','ytintel-whats-new-0.10.8','ytintel-whats-new-0.10.9','ytintel-whats-new-0.10.9-ai-live','ytintel-whats-new-0.11.0-actionboard','ytintel-whats-new-0.11.1-decision-gate','ytintel-whats-new-0.11.2-replication','ytintel-whats-new-0.12.0-opportunity-radar','ytintel-whats-new-0.12.1-packaging-lab','ytintel-whats-new-0.13.0-interface-rebuild','ytintel-whats-new-0.13.1-ui-stability','ytintel-whats-new-0.14.0-research-os','ytintel-whats-new-0.15.0-creator-loop','ytintel-whats-new-0.16.0-smart-start','ytintel-whats-new-0.17.0-research-sprint','ytintel-whats-new-0.18.0-premium-interface','ytintel-whats-new-0.18.1-premium-stability','ytintel-whats-new-0.19.0-desire-layer','ytintel-whats-new-0.20.0-universal-usefulness'].forEach(k=>localStorage.setItem(k,'seen'));localStorage.setItem('ytintel-ai-intelligence-milestone-2026-09-05-v2','1')}catch{}
+window.YTINTEL_VERSION='0.21.0';
+window.YTINTEL_UPDATE_OWNER='ytintel-whats-new-0.21.0-public-launch';
+try{['ytintel-whats-new-0.10.1','ytintel-whats-new-0.10.2','ytintel-whats-new-0.10.4','ytintel-whats-new-0.10.5','ytintel-whats-new-0.10.7-actual','ytintel-whats-new-0.10.8','ytintel-whats-new-0.10.9','ytintel-whats-new-0.10.9-ai-live','ytintel-whats-new-0.11.0-actionboard','ytintel-whats-new-0.11.1-decision-gate','ytintel-whats-new-0.11.2-replication','ytintel-whats-new-0.12.0-opportunity-radar','ytintel-whats-new-0.12.1-packaging-lab','ytintel-whats-new-0.13.0-interface-rebuild','ytintel-whats-new-0.13.1-ui-stability','ytintel-whats-new-0.14.0-research-os','ytintel-whats-new-0.15.0-creator-loop','ytintel-whats-new-0.16.0-smart-start','ytintel-whats-new-0.17.0-research-sprint','ytintel-whats-new-0.18.0-premium-interface','ytintel-whats-new-0.18.1-premium-stability','ytintel-whats-new-0.19.0-desire-layer','ytintel-whats-new-0.20.0-universal-usefulness','ytintel-whats-new-0.20.1-always-on'].forEach(k=>localStorage.setItem(k,'seen'));localStorage.setItem('ytintel-ai-intelligence-milestone-2026-09-05-v2','1')}catch{}
 </script>
-<script src="v09-core.js?v=0201"></script>
-<script src="v091-bridge.js?v=0201"></script>
-<script src="v09-features.js?v=0201"></script>
-<script src="v107-fixes.js?v=0201-stable"></script>
-<script src="v109-ai-live.js?v=0201"></script>
-<script src="v110-actionboard.js?v=0201"></script>
-<script src="v111-decisiongate.js?v=0201"></script>
-<script src="v112-replication.js?v=0201"></script>
-<script src="v120-radar.js?v=0201"></script>
-<script src="v121-packaging.js?v=0201"></script>
-<script src="v140-research-os.js?v=0201"></script>
-<script src="v150-platform.js?v=0201"></script>
-<script src="v150-data.js?v=0201"></script>
-<script src="v160-smartstart.js?v=0201"></script>
-<script src="v170-sprint.js?v=0201"></script>
-<script src="v170-mobile.js?v=0201"></script>
-<script src="v180-premium.js?v=0201" data-v180-premium="1"></script>
-<script src="v170-shell.js?v=0201"></script>
-<script src="v180-workflow-fixes.js?v=0201"></script>
-<script src="v190-desire.js?v=0201"></script>
-<script src="v200-universal.js?v=0201"></script>
-<script src="v201-always-on.js?v=0201"></script>
+<script src="v09-core.js?v=0210"></script>
+<script src="v091-bridge.js?v=0210"></script>
+<script src="v09-features.js?v=0210"></script>
+<script src="v107-fixes.js?v=0210-stable"></script>
+<script src="v109-ai-live.js?v=0210"></script>
+<script src="v110-actionboard.js?v=0210"></script>
+<script src="v111-decisiongate.js?v=0210"></script>
+<script src="v112-replication.js?v=0210"></script>
+<script src="v120-radar.js?v=0210"></script>
+<script src="v121-packaging.js?v=0210"></script>
+<script src="v140-research-os.js?v=0210"></script>
+<script src="v150-platform.js?v=0210"></script>
+<script src="v150-data.js?v=0210"></script>
+<script src="v160-smartstart.js?v=0210"></script>
+<script src="v170-sprint.js?v=0210"></script>
+<script src="v170-mobile.js?v=0210"></script>
+<script src="v180-premium.js?v=0210" data-v180-premium="1"></script>
+<script src="v170-shell.js?v=0210"></script>
+<script src="v180-workflow-fixes.js?v=0210"></script>
+<script src="v190-desire.js?v=0210"></script>
+<script src="v200-universal.js?v=0210"></script>
+<script src="v201-always-on.js?v=0210"></script>
+<script src="v210-public.js?v=0210"></script>
 </body>
 </html>
