@@ -1,27 +1,27 @@
 {
-  "release_id": "ytintel-0.23.0-conversion-layer",
-  "version": "v0.23.0",
-  "title": "Conversion Layer — Easy to Understand, Sell and Share",
-  "summary": "YTIntel now explains its paid value in seconds: the public experience leads with the expensive creator problem it solves, demonstrates the full Research → Validate → Package → Learn workflow, differentiates YTIntel from generic AI, handles buyer objections and gives the owner a one-click marketing kit for outreach, posts and demos.",
+  "release_id": "ytintel-0.24.0-usefulness-first",
+  "version": "v0.24.0",
+  "title": "Usefulness First — Open YTIntel and Know What Matters Now",
+  "summary": "YTIntel now prioritises repeat creator usefulness over marketing. The home experience combines current market opportunity, tracked competitor changes, personal Creator Loop evidence, saved production ideas and the next useful actions, with one-click intelligence refresh and marketing moved into a secondary share kit.",
   "discord_changes": [
-    "Rebuilt the public value story around one sellable promise: decide what deserves production time before spending hours making the wrong video.",
-    "Added a 60-second illustrative product example, clear paid-value outcomes, use cases for solo creators / faceless channels / agencies, and a YTIntel-vs-generic-AI comparison.",
-    "Added a one-click Marketing Kit with the product one-liner, short sales pitch, outreach DM, short-form video hook and shareable demo link."
+    "Added a Today creator brief that combines the strongest market opportunity, competitor movement, personal channel-fit evidence and the next actions worth taking.",
+    "Added Refresh My Intelligence: one click refreshes tracked competitors plus the saved creator niche without forcing users through separate tools.",
+    "Added Watchtower change history, Personal Fit summaries and a Production Queue so YTIntel becomes more useful every time a creator comes back."
   ],
   "changes": [
-    "Rewrote the public hero around the core buyer pain: reducing uncertainty before committing writing, filming, editing and thumbnail time.",
-    "Added a conversion-focused value section that explains what a paying creator is buying: better idea selection, evidence-backed packaging and a research advantage that compounds.",
-    "Added a 60-second illustrative walkthrough showing how one topic becomes discovery, validation, packaging and Creator Loop learning.",
-    "Added a direct comparison between generic AI brainstorming and YTIntel's evidence-first creator intelligence workflow.",
-    "Added dedicated buyer use cases for solo creators, faceless/high-volume channels and agencies/teams so visitors can self-identify quickly.",
-    "Added a recurring-value stack for Competitor Watchtower, Opportunity Radar, Deep Analyse, Packaging Lab, Idea Vault and Creator Loop.",
-    "Added an objection-handling FAQ covering guarantees, YouTube account connection, user credits, generic AI and why the product has repeat-use value.",
-    "Added top-level Why YTIntel and Share YTIntel actions so returning users can reopen the sales story or share the product without hunting through the app.",
-    "Added a Marketing Kit modal with copy-ready one-line pitch, short sales pitch, outreach DM, short-form video script and demo link.",
-    "Added ?demo=1 and ?pitch=1 / ?marketing=1 deep links so marketing campaigns can open directly into the product walkthrough or marketing kit.",
-    "Updated the browser title and social-description copy dynamically around the clearer creator outcome.",
-    "Returning users with existing workspace history keep the command-center-first experience while new visitors see the full conversion story by default.",
-    "Preserved v0.22 Creator Command Center, Watchtower, Idea Vault, Always-On analysis, winner-vs-control checks, originality guardrails and no-guarantee positioning."
+    "Rebuilt the Smart Start home experience around daily creator usefulness rather than the sales story.",
+    "Added a Today brief with the top current market opportunity, most relevant tracked-competitor change and personal channel-fit signal.",
+    "Added a deterministic next-action plan that changes with workspace state: setup, refresh, market research, packaging, production, outcome measurement or Idea Vault review.",
+    "Added Refresh My Intelligence. From the home screen, YTIntel can scan all saved competitor channels and refresh the saved creator niche without navigating away.",
+    "Added persistent Watchtower snapshots so repeat refreshes can compare what changed rather than only showing a fresh list.",
+    "Added change detection for new competitor uploads, newly verified 1.5x+ channel-relative breakouts, strongest tracked outlier and fastest observed view movement between snapshots.",
+    "Added a Personal Fit panel using measured Creator Loop public outcomes. Repeated mechanisms only surface after at least two measured tests and the UI keeps small-sample warnings intact.",
+    "Added a Production Queue on the home screen for saved Idea Vault research, with Watch → Shortlist → Build → Published progression.",
+    "Added a 60-second workspace setup for channel/workspace name, niche and direct competitors so the product can reuse context every session.",
+    "Simplified the default home page by hiding overlapping legacy dashboards while preserving the deeper Research OS behind an explicit advanced toggle.",
+    "Kept the one-input launcher so a pasted YouTube video routes to Deep Analyse and a typed topic routes to full Research Sprint automatically.",
+    "Moved marketing copy into a secondary Share / Marketing Kit modal so the product experience remains usefulness-first.",
+    "Preserved Opportunity Radar, winner-vs-control validation, channel-baseline caps, Always-On analysis, Packaging Lab originality guardrails, Idea Vault and Creator Loop evidence rules."
   ],
-  "why_it_matters": "A product is hard to sell when the prospect has to understand the feature list before understanding the outcome. v0.23 makes YTIntel easy to pitch in one sentence, easy to demonstrate in one minute, easy for a visitor to map to their own use case, and easy for the owner to share repeatedly without rebuilding the sales message each time."
+  "why_it_matters": "Creators are more likely to keep using and paying for a product that becomes useful on every return visit. v0.24 turns YTIntel into a repeat-use workspace: refresh current evidence, see what changed, decide what deserves production time, move ideas forward and learn from measured outcomes without relearning the app each session."
 }
