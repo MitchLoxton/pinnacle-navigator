@@ -2,8 +2,8 @@
   "id": "./?app=ytintel",
   "name": "YTIntel — Creator Intelligence OS",
   "short_name": "YTIntel",
-  "description": "YouTube creator intelligence with Smart Start, competitor research, market memory, evidence-backed packaging and creator outcome tracking.",
-  "start_url": "./?source=pwa&v=0160",
+  "description": "YouTube creator intelligence with Smart Start, guided Research Sprint, competitor research, evidence-backed packaging and creator outcome tracking.",
+  "start_url": "./?source=pwa&v=0170",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -11,13 +11,13 @@
   "orientation": "any",
   "categories": ["productivity", "business"],
   "icons": [
-    {"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=0170","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Smart Start","short_name":"Start","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Analyse Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Loop","short_name":"Creator Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Smart Start","short_name":"Start","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0170","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0170","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Analyse Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0170","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Loop","short_name":"Creator Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0170","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {
     "action": "./?source=share",
