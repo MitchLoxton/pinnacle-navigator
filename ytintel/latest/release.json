@@ -1,25 +1,26 @@
 {
-  "release_id": "ytintel-0.18.1-radar-workflow-hotfix",
-  "version": "v0.18.1",
-  "title": "Radar + Workflow Clarity Hotfix",
-  "summary": "Opportunity Radar now uses a stricter transparent score, Research Sprint can reliably receive saved Radar scans, and Creator Loop explains when it is actually useful.",
+  "release_id": "ytintel-0.19.0-desire-layer",
+  "version": "v0.19.0",
+  "title": "Desire Layer — Premium Product Polish",
+  "summary": "YTIntel now feels more like a premium creator intelligence product: clearer value, stronger hierarchy, better decision states, richer empty states and a more desirable Smart Start experience.",
   "discord_changes": [
-    "Fixed a circular Radar data bug that could stop scans saving and leave Research Sprint waiting for a result that never arrived.",
-    "Rebuilt Opportunity Score around channel breakout strength, age-adjusted velocity, recency, cross-channel replication and replay evidence, with missing baselines capped below Priority.",
-    "Explained the validation/research set in plain English and simplified empty Creator Loop + Research Sprint onboarding so users know exactly what each workflow is for."
+    "Rebuilt Smart Start around the outcome: find the signal, prove it and leave with a production-ready next move.",
+    "Added clearer workflow rails, stronger score presentation and next-best-action prompts across Radar, Research Sprint, Packaging Lab and Creator Loop.",
+    "Added premium visual polish, stronger empty states and restrained motion so the product feels faster, clearer and more valuable without weakening evidence guardrails."
   ],
   "changes": [
-    "Fixed the Opportunity Radar circular serialization path where video objects could reference cluster objects that referenced the same videos, causing localStorage save failure.",
-    "Research Sprint can now reliably detect a newly completed Radar scan instead of appearing to hang while waiting for a scan that was never persisted.",
-    "Replaced the old opaque Opportunity Score with a transparent five-part model: 45% channel-relative breakout, 25% age-adjusted view velocity, 15% independent cross-channel replication, 10% recency and 5% public replay evidence.",
-    "A video without a verified channel baseline is now capped below 60 so raw views alone cannot produce a Priority recommendation.",
-    "Each Radar result now exposes its breakout, velocity and replication components instead of showing one unexplained number.",
-    "The former Research Set is now explained as a validation set: the 5–8 videos YTIntel will send into Pattern Mine to test repeated mechanisms across verified winners and controls.",
-    "The recommended validation set now deliberately seeks channel diversity, verified winners and controls instead of simply checking the first five ranked videos.",
-    "Creator Loop no longer presents an empty 0/100 calibration dashboard as if it were useful before the creator has published anything.",
-    "Empty Creator Loop now explains the intended sequence: get a brief, track the idea, publish and paste the URL, then let YTIntel learn from multiple outcomes.",
-    "Research Sprint now includes a plain-English five-stage explanation showing Radar, validation set, Pattern Mine, Packaging and the final Ready-to-Make Brief.",
-    "Added fresh workflow-fix assets to the PWA cache while keeping the existing evidence and originality guardrails intact."
+    "Smart Start is now the real hero instead of sitting beneath a duplicate introductory section.",
+    "The primary Smart Start message is now outcome-led: find the signal, prove it and ship the video.",
+    "Added a four-part product value strip covering Discover, Validate, Package and Learn.",
+    "Added a compact trust rail for channel-relative baselines, winner-vs-control reasoning, cross-channel validation and originality guardrails.",
+    "Added screen-level workflow rails to Opportunity Radar, Research Sprint, Packaging Lab and Creator Loop so each area explains its job immediately.",
+    "Opportunity scores now render like decision instruments rather than plain dashboard numbers, while still avoiding guaranteed-performance claims.",
+    "Packaging results now visually prioritise the strongest test candidate without presenting the score as a promise of views.",
+    "Added next-best-action bars that push research into validation, packaging into execution and ready briefs into Creator Loop tracking.",
+    "Reworked Radar and Packaging empty states so zero-data screens explain what will unlock and give a useful next action.",
+    "Added subtle scan, loading and pulse motion with reduced-motion support for accessibility.",
+    "Strengthened active navigation, card hierarchy, spacing, hover feedback, primary actions and a restrained YTIntel signal-red brand accent.",
+    "Kept the v0.18.1 Radar scoring, workflow reliability fixes, evidence gates and originality protections intact."
   ],
-  "why_it_matters": "The previous product exposed powerful pieces but did not make the handoff between them obvious, and one hidden serialization bug could break that handoff entirely. This hotfix makes Opportunity Radar stricter and easier to audit, makes the validation set understandable, and makes Research Sprint and Creator Loop behave like stages of one creator workflow instead of unexplained standalone tools."
+  "why_it_matters": "YTIntel already had increasingly strong research mechanics, but powerful software still loses users when the interface feels like a collection of tools. This release makes the product communicate value faster, makes the next action more obvious, and makes important intelligence feel important while preserving the evidence-first guardrails underneath it."
 }
