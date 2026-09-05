@@ -3,100 +3,63 @@ const VERSION='0.13.1';
 const TITLE=`YTIntel v${VERSION} — Research Workspace`;
 const RELEASE='ytintel-whats-new-0.13.1-ui-stability';
 const HEALTH='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v082?action=health';
-const OLD_RELEASE_KEYS=[
- 'ytintel-whats-new-0.10.1','ytintel-whats-new-0.10.2','ytintel-whats-new-0.10.4','ytintel-whats-new-0.10.5',
- 'ytintel-whats-new-0.10.7-actual','ytintel-whats-new-0.10.8','ytintel-whats-new-0.10.9','ytintel-whats-new-0.10.9-ai-live',
- 'ytintel-whats-new-0.11.0-actionboard','ytintel-whats-new-0.11.1-decision-gate','ytintel-whats-new-0.11.2-replication',
- 'ytintel-whats-new-0.12.0-opportunity-radar','ytintel-whats-new-0.12.1-packaging-lab','ytintel-whats-new-0.13.0-interface-rebuild'
-];
+if(document.documentElement.dataset.yt131Owner==='1')return;
+document.documentElement.dataset.yt131Owner='1';
 window.YTINTEL_VERSION=VERSION;
 window.YTINTEL_UPDATE_OWNER=RELEASE;
-try{OLD_RELEASE_KEYS.forEach(k=>localStorage.setItem(k,'seen'))}catch{}
+document.body.classList.add('yt-ui-v13');
 
-let explicitModalOpen=false;
-let enforcing=false;
-let aiLive=null;
+const OLD_RELEASE_KEYS=['ytintel-whats-new-0.10.1','ytintel-whats-new-0.10.2','ytintel-whats-new-0.10.4','ytintel-whats-new-0.10.5','ytintel-whats-new-0.10.7-actual','ytintel-whats-new-0.10.8','ytintel-whats-new-0.10.9','ytintel-whats-new-0.10.9-ai-live','ytintel-whats-new-0.11.0-actionboard','ytintel-whats-new-0.11.1-decision-gate','ytintel-whats-new-0.11.2-replication','ytintel-whats-new-0.12.0-opportunity-radar','ytintel-whats-new-0.12.1-packaging-lab','ytintel-whats-new-0.13.0-interface-rebuild'];
+try{OLD_RELEASE_KEYS.forEach(k=>localStorage.setItem(k,'seen'))}catch{}
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icon=name=>{const p={analyse:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/><path d="M8.5 11h5M11 8.5v5"/>',radar:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 12 18 6"/>',packaging:'<path d="m12 3 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4M4 17l8 4 8-4"/>',history:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',similar:'<circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M9.5 8.5 14.5 15.5M17 4v6M14 7h6"/>',batch:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',visuals:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 17 5-5 3 3 2-2 6 5"/>',updates:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p[name]||p.search}</svg>`};
+
+let explicitModalOpen=false,enforcing=false,aiLive=null;
 const modal=()=>document.querySelector('#updateModal');
 const status=()=>document.querySelector('#status');
+function lockTitle(){if(document.title!==TITLE)document.title=TITLE}
+function wantedStatus(){return aiLive===true?`v${VERSION} · GPT-5.6 Sol intelligence LIVE`:aiLive===false?`v${VERSION} · intelligence ready`:`v${VERSION} · checking intelligence…`}
+function lockStatus(){const s=status();if(!s)return;const w=wantedStatus();if(s.textContent!==w){enforcing=true;s.textContent=w;enforcing=false}s.classList.toggle('is-live',aiLive===true);if(aiLive===true){s.style.borderColor='rgba(85,226,157,.28)';s.style.color='#bfead3'}}
+async function refreshHealth(){try{const r=await fetch(`${HEALTH}&t=${Date.now()}`,{cache:'no-store'}),d=await r.json();aiLive=!!(r.ok&&d&&d.configured)}catch{aiLive=null}lockStatus()}
 
-function lockTitle(){
- if(document.title!==TITLE)document.title=TITLE;
+function buildWorkspace(){
+ const brand=document.querySelector('.brand');if(brand)brand.innerHTML='<span class="logo" aria-hidden="true">YT</span><span class="brand-copy"><strong>YTIntel</strong><small>Creator Intelligence</small></span>';
+ const top=document.querySelector('.top > .split');if(top){top.classList.add('top-actions');if(!document.querySelector('#ytCommandBtn')){const b=document.createElement('button');b.type='button';b.className='btn small yt-command-btn no-print';b.id='ytCommandBtn';b.innerHTML=`${icon('search')}<span>Quick switch</span><kbd>⌘K</kbd>`;top.insertBefore(b,top.firstChild)}}
+ const nav=document.querySelector('.tabs');if(!nav)return;
+ const cfg={analyse:['Analyse','analyse'],radar:['Opportunity Radar','radar'],packaging:['Packaging Lab','packaging'],history:['History','history'],similar:['Similar Videos','similar'],batch:['Pattern Mine','batch'],visuals:['Visuals + Audio','visuals'],updates:['Updates','updates']};
+ nav.setAttribute('aria-label','YTIntel workspace');
+ nav.querySelectorAll('button[data-tab]').forEach(b=>{const c=cfg[b.dataset.tab];if(!c)return;const beta=b.querySelector('.beta')?.outerHTML||'';b.innerHTML=`<span class="nav-ico">${icon(c[1])}</span><span class="nav-label">${E(c[0])}</span>${beta}`;b.setAttribute('aria-label',c[0])});
+ const group=(key,label)=>{if(nav.querySelector(`[data-nav-group="${key}"]`))return;const before=nav.querySelector(`[data-tab="${key}"]`);if(!before)return;const s=document.createElement('span');s.className='nav-group';s.dataset.navGroup=key;s.textContent=label;nav.insertBefore(s,before)};group('analyse','Research');group('history','Library');group('updates','System');
+ if(!document.querySelector('#ytWorkflowRail')){const r=document.createElement('div');r.id='ytWorkflowRail';r.className='workflow-rail no-print';r.setAttribute('aria-label','Core research workflow');nav.insertAdjacentElement('afterend',r)}
 }
-lockTitle();
-const titleNode=document.querySelector('title');
-if(titleNode)new MutationObserver(()=>{if(!enforcing)lockTitle()}).observe(titleNode,{childList:true,subtree:true,characterData:true});
+function goTab(key,focus){document.querySelector(`.tabs [data-tab="${key}"]`)?.click();setTimeout(()=>{syncNav();syncRail();if(focus)document.querySelector(focus)?.focus()},30)}
+const FLOW=[['radar','01','Discover','Find opportunity'],['analyse','02','Investigate','Deep evidence'],['batch','03','Validate','Cross-video proof'],['packaging','04','Package','Build execution']];
+function hasData(k){try{const x=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(x)&&x.length>0}catch{return false}}
+function syncNav(){const a=document.querySelector('.view.active')?.id;document.querySelectorAll('.tabs [data-tab]').forEach(b=>{const on=b.dataset.tab===a;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
+function syncRail(){const r=document.querySelector('#ytWorkflowRail');if(!r)return;const active=document.querySelector('.view.active')?.id||'analyse',core=FLOW.some(x=>x[0]===active);r.classList.toggle('show',core);if(!core)return;const done={radar:hasData('ytintel-v120-radar-history'),analyse:hasData('ytintel-v09-history'),batch:hasData('ytintel-v10-pattern-history'),packaging:hasData('ytintel-v121-package-history')};r.innerHTML=FLOW.map(x=>`<button type="button" class="flow-step ${x[0]===active?'current':''} ${done[x[0]]?'done':''}" data-flow="${x[0]}"><span class="flow-no">${done[x[0]]?'✓':x[1]}</span><span><strong>${x[2]}</strong><small>${x[3]}</small></span></button>`).join('');r.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>goTab(b.dataset.flow)))}
 
-function statusText(){
- if(aiLive===true)return `v${VERSION} · GPT-5.6 Sol intelligence LIVE`;
- if(aiLive===false)return `v${VERSION} · intelligence ready`;
- return `v${VERSION} · checking intelligence…`;
-}
-function lockStatus(){
- const s=status();if(!s)return;
- const wanted=statusText();
- if(s.textContent!==wanted){enforcing=true;s.textContent=wanted;enforcing=false}
- s.classList.toggle('is-live',aiLive===true);
- if(aiLive===true){s.style.borderColor='rgba(85,226,157,.28)';s.style.color='#bfead3'}
-}
-async function refreshHealth(){
- try{const r=await fetch(`${HEALTH}&t=${Date.now()}`,{cache:'no-store'}),d=await r.json();aiLive=!!(r.ok&&d&&d.configured)}catch{aiLive=null}
- lockStatus();
-}
+const COMMANDS=[['Analyse a video','Open Deep Analyse and paste a YouTube URL','analyse','#videoUrl','A','analyse'],['Run Opportunity Radar','Discover and rank what is worth analysing','radar','#radarQuery','R','radar'],['Open Packaging Lab','Turn verified research into titles, thumbnails and hooks','packaging','#packageAngle','P','packaging'],['Open Pattern Mine','Validate patterns across competitors','batch','#batchUrls','M','batch'],['Research history','Return to saved niche intelligence','history','', 'H','history'],['Find similar videos','Explore adjacent videos and channel outliers','similar','#similarQuery','S','similar'],['Visuals + Audio','Inspect media evidence and replay hotzones','visuals','', 'V','visuals'],['Updates','Open the product changelog','updates','', 'U','updates']];
+let commandOverlay=null,commandInput=null,commandList=null,filtered=COMMANDS.slice(),selected=0;
+function drawCommands(q=''){const z=String(q||'').toLowerCase().trim();filtered=COMMANDS.filter(c=>!z||`${c[0]} ${c[1]}`.toLowerCase().includes(z));selected=Math.min(selected,Math.max(0,filtered.length-1));commandList.innerHTML=filtered.length?filtered.map((c,i)=>`<button type="button" class="yt-command-item" data-ci="${i}" aria-selected="${i===selected}"><span class="ci">${icon(c[5])}</span><span><b>${E(c[0])}</b><small>${E(c[1])}</small></span><kbd>${c[4]}</kbd></button>`).join(''):'<div class="yt-command-empty">No matching workspace action.</div>';commandList.querySelectorAll('[data-ci]').forEach(b=>b.addEventListener('click',()=>runCommand(Number(b.dataset.ci))))}
+function runCommand(i){const c=filtered[i];if(!c)return;closeCommands();goTab(c[2],c[3])}
+function openCommands(){if(!commandOverlay)return;commandOverlay.classList.add('show');document.body.style.overflow='hidden';selected=0;drawCommands();setTimeout(()=>commandInput.focus(),20)}
+function closeCommands(){if(!commandOverlay)return;commandOverlay.classList.remove('show');document.body.style.overflow='';commandInput.value=''}
+function buildCommands(){if(document.querySelector('#ytCommandOverlay'))return;commandOverlay=document.createElement('div');commandOverlay.id='ytCommandOverlay';commandOverlay.className='yt-command-overlay no-print';commandOverlay.setAttribute('role','dialog');commandOverlay.setAttribute('aria-modal','true');commandOverlay.innerHTML=`<div class="yt-command-panel"><div class="yt-command-search">${icon('search')}<input id="ytCommandInput" type="search" autocomplete="off" placeholder="Jump anywhere in YTIntel…" aria-label="Search YTIntel commands"></div><div class="yt-command-list" id="ytCommandList"></div></div>`;document.body.appendChild(commandOverlay);commandInput=commandOverlay.querySelector('#ytCommandInput');commandList=commandOverlay.querySelector('#ytCommandList');commandOverlay.addEventListener('mousedown',e=>{if(e.target===commandOverlay)closeCommands()});commandInput.addEventListener('input',()=>{selected=0;drawCommands(commandInput.value)});commandInput.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();selected=Math.min(selected+1,filtered.length-1);drawCommands(commandInput.value)}else if(e.key==='ArrowUp'){e.preventDefault();selected=Math.max(0,selected-1);drawCommands(commandInput.value)}else if(e.key==='Enter'){e.preventDefault();runCommand(selected)}else if(e.key==='Escape'){closeCommands()}});document.querySelector('#ytCommandBtn')?.addEventListener('click',openCommands);document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();commandOverlay.classList.contains('show')?closeCommands():openCommands()}else if(e.key==='Escape'&&commandOverlay.classList.contains('show'))closeCommands()})}
 
-function currentModalHtml(){return `<div class="update-panel"><div class="update-top"><div class="grow"><span class="update-version">YTIntel v${VERSION} · UI STABILITY</span><h2>One app. One current update.</h2><p class="muted">Legacy feature modules can no longer change the browser title or cycle old release popups after the current workspace loads.</p></div><button class="update-close" data-v131-close aria-label="Close">×</button></div><div class="update-items"><div class="update-item"><div class="tick">✓</div><div><b>Old popup loop removed</b><span class="muted">Update screens no longer flicker through v0.10.x, v0.11.x and v0.12.x on launch.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>Current title locked</b><span class="muted">The browser tab stays on YTIntel v${VERSION} instead of being overwritten by the old Sol module.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>What’s New has one owner</b><span class="muted">Older feature scripts keep their functionality but cannot hijack the current update button.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>Fresh PWA cache</b><span class="muted">The latest shell replaces stale installed-app caches while keeping the app installable.</span></div></div></div><div class="update-actions"><button class="primary" data-v131-close>Continue</button><button data-v131-log>Full update log</button></div></div>`}
+function currentModalHtml(){return `<div class="update-panel"><div class="update-top"><div class="grow"><span class="update-version">YTIntel v${VERSION} · UI STABILITY</span><h2>One app. One current update.</h2><p class="muted">Legacy feature modules can no longer change the browser title or cycle old release popups after the current workspace loads.</p></div><button class="update-close" data-v131-close aria-label="Close">×</button></div><div class="update-items"><div class="update-item"><div class="tick">✓</div><div><b>Old popup loop removed</b><span class="muted">Old release screens no longer flicker through on launch.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>Current title locked</b><span class="muted">The browser tab stays on YTIntel v${VERSION}.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>One What’s New owner</b><span class="muted">Older feature scripts keep their functionality without hijacking the app shell.</span></div></div><div class="update-item"><div class="tick">✓</div><div><b>Fresh PWA shell</b><span class="muted">Stale installed-app caches are retired automatically.</span></div></div></div><div class="update-actions"><button class="primary" data-v131-close>Continue</button><button data-v131-log>Full update log</button></div></div>`}
 function closeModal(){const m=modal();if(!m)return;explicitModalOpen=false;m.classList.remove('show');try{localStorage.setItem(RELEASE,'seen')}catch{}}
-function openCurrentModal(){
- const m=modal();if(!m)return;
- explicitModalOpen=true;
- enforcing=true;
- m.innerHTML=currentModalHtml();
- m.classList.add('show');
- enforcing=false;
- m.querySelectorAll('[data-v131-close]').forEach(x=>x.addEventListener('click',closeModal));
- m.querySelector('[data-v131-log]')?.addEventListener('click',()=>{closeModal();if(typeof tab==='function')tab('updates');else document.querySelector('[data-tab="updates"]')?.click()});
-}
-function protectModal(){
- const m=modal();if(!m||enforcing)return;
- const tag=(m.querySelector('.update-version')?.textContent||'');
- if(m.classList.contains('show')&&!explicitModalOpen){enforcing=true;m.classList.remove('show');enforcing=false}
- if(explicitModalOpen&&!tag.includes(`v${VERSION}`))openCurrentModal();
-}
-function bindWhatsNew(){
- const b=document.querySelector('#whatsNewBtn');if(!b||b.dataset.v131Owner==='1')return;
- b.dataset.v131Owner='1';
- b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();openCurrentModal()},true);
-}
-function ensureReleaseCard(){
- const g=document.querySelector('#updates .grid');if(!g||enforcing)return;
- enforcing=true;
- g.querySelectorAll('.release.current').forEach(x=>x.classList.remove('current'));
- let a=g.querySelector('[data-v131-release]');
- if(!a){a=document.createElement('article');a.className='card c12 release current';a.dataset.v131Release='1';a.innerHTML=`<div class="eyebrow">V${VERSION} · 5 SEP 2026 · CURRENT</div><h3>UI Stability — one current shell, one update owner</h3><ul class="list"><li><b>Browser-title lock:</b> legacy v0.10.5 code can no longer overwrite the current app title.</li><li><b>Popup ownership:</b> old delayed update modals are suppressed before they can paint.</li><li><b>What’s New ownership:</b> the current shell owns the button even when older modules clone it.</li><li><b>Status ownership:</b> old patches can no longer downgrade the visible app version.</li><li><b>PWA refresh:</b> stale YTIntel shell caches are removed when the current service worker takes over.</li></ul>`;g.prepend(a)}else{a.classList.add('current');if(g.firstElementChild!==a)g.prepend(a)}
- enforcing=false;
-}
+function openCurrentModal(){const m=modal();if(!m)return;explicitModalOpen=true;enforcing=true;m.innerHTML=currentModalHtml();m.classList.add('show');enforcing=false;m.querySelectorAll('[data-v131-close]').forEach(x=>x.addEventListener('click',closeModal));m.querySelector('[data-v131-log]')?.addEventListener('click',()=>{closeModal();goTab('updates')})}
+function protectModal(){const m=modal();if(!m||enforcing)return;const tag=m.querySelector('.update-version')?.textContent||'';if(m.classList.contains('show')&&!explicitModalOpen){enforcing=true;m.classList.remove('show');enforcing=false}if(explicitModalOpen&&!tag.includes(`v${VERSION}`))openCurrentModal()}
+function bindWhatsNew(){const b=document.querySelector('#whatsNewBtn');if(!b||b.dataset.v131Owner==='1')return;b.dataset.v131Owner='1';b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();openCurrentModal()},true)}
+function ensureReleaseCard(){const g=document.querySelector('#updates .grid');if(!g||enforcing)return;enforcing=true;let a=g.querySelector('[data-v131-release]');g.querySelectorAll('.release.current').forEach(x=>{if(x!==a)x.classList.remove('current')});if(!a){a=document.createElement('article');a.className='card c12 release current';a.dataset.v131Release='1';a.innerHTML=`<div class="eyebrow">V${VERSION} · 5 SEP 2026 · CURRENT</div><h3>UI Stability — one current shell, one update owner</h3><ul class="list"><li><b>Browser-title lock:</b> legacy code can no longer overwrite the current version.</li><li><b>Popup ownership:</b> delayed historical release modals are suppressed before paint.</li><li><b>What’s New ownership:</b> one current button opens one current update.</li><li><b>Status ownership:</b> old patches cannot downgrade the visible app version.</li><li><b>PWA refresh:</b> stale YTIntel shell caches are retired automatically.</li></ul>`;g.prepend(a)}else{if(!a.classList.contains('current'))a.classList.add('current');if(g.firstElementChild!==a)g.prepend(a)}enforcing=false}
 
-const shellObserver=new MutationObserver(()=>{
- if(enforcing)return;
- lockTitle();lockStatus();bindWhatsNew();protectModal();ensureReleaseCard();
-});
-shellObserver.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class'],characterData:true});
+async function refreshServiceWorker(){if(!('serviceWorker'in navigator))return;try{const reg=await navigator.serviceWorker.register('./sw.js?v=0131',{updateViaCache:'none'});await reg.update();if('caches'in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('ytintel-shell-')&&k!=='ytintel-shell-v0131').map(k=>caches.delete(k)))}}catch{}}
+function stabilize(){if(enforcing)return;lockTitle();lockStatus();bindWhatsNew();protectModal();ensureReleaseCard();syncNav();syncRail()}
 
-async function refreshServiceWorker(){
- if(!('serviceWorker'in navigator))return;
- try{
-  const reg=await navigator.serviceWorker.register('./sw.js?v=0131',{updateViaCache:'none'});
-  await reg.update();
-  if('caches'in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('ytintel-shell-')&&k!=='ytintel-shell-v0131').map(k=>caches.delete(k)))}
- }catch{}
-}
-
-function init(){
- lockTitle();lockStatus();bindWhatsNew();protectModal();ensureReleaseCard();
- // No update modal auto-opens anymore. Users open What's New deliberately.
- const m=modal();if(m)m.classList.remove('show');
- refreshHealth();setTimeout(refreshHealth,2500);setInterval(refreshHealth,60000);
- window.addEventListener('focus',refreshHealth);
- window.addEventListener('load',refreshServiceWorker,{once:true});
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+buildWorkspace();buildCommands();lockTitle();lockStatus();bindWhatsNew();ensureReleaseCard();syncNav();syncRail();
+const t=document.querySelector('title');if(t)new MutationObserver(lockTitle).observe(t,{childList:true,subtree:true,characterData:true});
+const observer=new MutationObserver(stabilize);observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class'],characterData:true});
+document.querySelectorAll('.tabs [data-tab]').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>{syncNav();syncRail()},20)));
+const m=modal();if(m)m.classList.remove('show');
+refreshHealth();setTimeout(refreshHealth,2500);setInterval(refreshHealth,60000);window.addEventListener('focus',refreshHealth);window.addEventListener('load',refreshServiceWorker,{once:true});
 })();
