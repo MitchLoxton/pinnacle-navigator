@@ -1,20 +1,25 @@
 {
-  "release_id": "ytintel-0.18.1-premium-stability",
+  "release_id": "ytintel-0.18.1-radar-workflow-hotfix",
   "version": "v0.18.1",
-  "title": "Premium Interface Stability",
-  "summary": "YTIntel v0.18.1 fixes the browser-freezing observer loop from the first premium-interface release and forces clients onto the corrected shell.",
+  "title": "Radar + Workflow Clarity Hotfix",
+  "summary": "Opportunity Radar now uses a stricter transparent score, Research Sprint can reliably receive saved Radar scans, and Creator Loop explains when it is actually useful.",
   "discord_changes": [
-    "Fixed the MutationObserver feedback loop that could make Chrome show Page Unresponsive on v0.18.0.",
-    "Forced a fresh v0.18.1 asset and service-worker cache so the broken shell is not reused.",
-    "Preserved the premium Smart Start, streamlined navigation, Intelligence Pulse, proof cards and upgraded Research Sprint visuals."
+    "Fixed a circular Radar data bug that could stop scans saving and leave Research Sprint waiting for a result that never arrived.",
+    "Rebuilt Opportunity Score around channel breakout strength, age-adjusted velocity, recency, cross-channel replication and replay evidence, with missing baselines capped below Priority.",
+    "Explained the validation/research set in plain English and simplified empty Creator Loop + Research Sprint onboarding so users know exactly what each workflow is for."
   ],
   "changes": [
-    "Removed the self-triggering Updates-panel MutationObserver behaviour that repeatedly removed and re-added the current release class.",
-    "Changed release synchronization so it mutates the DOM only when the release state actually needs to change.",
-    "Reduced the Updates observer to child-list changes only instead of watching class attributes throughout the subtree.",
-    "Bumped all production asset references to v0.18.1 so the corrected shell bypasses the cached v0.18.0 JavaScript.",
-    "Changed the service worker to a new v0.18.1 cache and network-first delivery for core JavaScript/CSS assets during the hotfix transition.",
-    "Kept the full premium visual overhaul and existing research/intelligence behaviour intact."
+    "Fixed the Opportunity Radar circular serialization path where video objects could reference cluster objects that referenced the same videos, causing localStorage save failure.",
+    "Research Sprint can now reliably detect a newly completed Radar scan instead of appearing to hang while waiting for a scan that was never persisted.",
+    "Replaced the old opaque Opportunity Score with a transparent five-part model: 45% channel-relative breakout, 25% age-adjusted view velocity, 15% independent cross-channel replication, 10% recency and 5% public replay evidence.",
+    "A video without a verified channel baseline is now capped below 60 so raw views alone cannot produce a Priority recommendation.",
+    "Each Radar result now exposes its breakout, velocity and replication components instead of showing one unexplained number.",
+    "The former Research Set is now explained as a validation set: the 5–8 videos YTIntel will send into Pattern Mine to test repeated mechanisms across verified winners and controls.",
+    "The recommended validation set now deliberately seeks channel diversity, verified winners and controls instead of simply checking the first five ranked videos.",
+    "Creator Loop no longer presents an empty 0/100 calibration dashboard as if it were useful before the creator has published anything.",
+    "Empty Creator Loop now explains the intended sequence: get a brief, track the idea, publish and paste the URL, then let YTIntel learn from multiple outcomes.",
+    "Research Sprint now includes a plain-English five-stage explanation showing Radar, validation set, Pattern Mine, Packaging and the final Ready-to-Make Brief.",
+    "Added fresh workflow-fix assets to the PWA cache while keeping the existing evidence and originality guardrails intact."
   ],
-  "why_it_matters": "The first v0.18 visual release contained a UI synchronization bug that could trap the browser main thread in an observer feedback loop. v0.18.1 removes that loop and deliberately invalidates the affected cached assets so users can load the premium interface normally without losing the visual upgrade or research features."
+  "why_it_matters": "The previous product exposed powerful pieces but did not make the handoff between them obvious, and one hidden serialization bug could break that handoff entirely. This hotfix makes Opportunity Radar stricter and easier to audit, makes the validation set understandable, and makes Research Sprint and Creator Loop behave like stages of one creator workflow instead of unexplained standalone tools."
 }
