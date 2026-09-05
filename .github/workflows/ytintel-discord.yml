@@ -1,99 +1,32 @@
-name: YTIntel Discord Notifications
+name: YTIntel Discord Manual Test
 
 on:
-  workflow_run:
-    workflows: ["Deploy Pinnacle Navigator to GitHub Pages"]
-    types: [completed]
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# One clean Discord post per successful YTIntel release.
-# Finalize a release by updating ytintel/latest/release.json last.
+# Automatic YTIntel release notifications now live inside pages.yml so the
+# Discord post happens only after the new app version is successfully live.
+# Keep this workflow only as an explicit webhook/manual-preview test.
 
 jobs:
-  release-notify:
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+  manual-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout deployed commit
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-          fetch-depth: 2
-
-      - name: Check for finalized YTIntel release
-        id: release
-        shell: bash
-        run: |
-          SHA="${{ github.event.workflow_run.head_sha }}"
-          FILES="$(git diff-tree --no-commit-id --name-only -r "$SHA" || true)"
-          if printf '%s\n' "$FILES" | grep -qx 'ytintel/latest/release.json'; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Post beautiful release card to Discord
-        if: steps.release.outputs.ready == 'true'
+      - name: Send YTIntel Discord test card
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
         shell: bash
         run: |
-          if [ -z "$WEBHOOK" ] || [ ! -f ytintel/latest/release.json ]; then
-            exit 0
+          set -euo pipefail
+          if [ -z "${WEBHOOK:-}" ]; then
+            echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."
+            exit 1
           fi
-
-          VERSION="$(jq -r '.version // ""' ytintel/latest/release.json)"
-          RELEASE_TITLE="$(jq -r '.title // "New update"' ytintel/latest/release.json)"
-          SUMMARY="$(jq -r '.summary // empty' ytintel/latest/release.json)"
-          CHANGES="$(jq -r '[.changes[]?][0:5] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
-
-          SUMMARY="${SUMMARY:0:420}"
-          CHANGES="${CHANGES:0:1500}"
-
-          DESCRIPTION=""
-          if [ -n "$SUMMARY" ]; then
-            DESCRIPTION="$SUMMARY"
-          fi
-          if [ -n "$CHANGES" ]; then
-            if [ -n "$DESCRIPTION" ]; then DESCRIPTION="$DESCRIPTION\n\n"; fi
-            DESCRIPTION="${DESCRIPTION}**What’s new**\n${CHANGES}"
-          fi
-          DESCRIPTION="${DESCRIPTION}\n\n[**Open YTIntel →**](${LIVE_URL})"
-
-          PAYLOAD="$(jq -n \
-            --arg version "$VERSION" \
-            --arg release_title "$RELEASE_TITLE" \
-            --arg description "$DESCRIPTION" \
-            --arg live "$LIVE_URL" \
-            '{
-              username:"YTIntel",
-              embeds:[{
-                title:("✨ " + (if $version=="" then "YTIntel" else "YTIntel " + $version end) + " · " + $release_title),
-                description:$description,
-                url:$live,
-                color:5763719
-              }]
-            }')"
-
+          PAYLOAD="$(jq -n --arg live "$LIVE_URL" '{username:"YTIntel",embeds:[{title:"✨ YTIntel · Notification test",description:("The Discord webhook is connected and ready for automatic post-deployment release notifications.\n\n[**Open YTIntel →**]("+$live+")"),url:$live,color:5763719}]}')"
           curl --fail --silent --show-error \
             -H 'Content-Type: application/json' \
             -d "$PAYLOAD" \
             "$WEBHOOK"
-
-  manual-test:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Preview simplified Discord style
-        env:
-          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
-          LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
-        shell: bash
-        run: |
-          if [ -z "$WEBHOOK" ]; then exit 1; fi
-          PAYLOAD="$(jq -n --arg live "$LIVE_URL" '{username:"YTIntel",embeds:[{title:"✨ YTIntel · Release notifications",description:("Clean update cards are ready. Future releases will show only the useful changes and one link to the app.\n\n[**Open YTIntel →**]("+$live+")"),url:$live,color:5763719}]}')"
-          curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
