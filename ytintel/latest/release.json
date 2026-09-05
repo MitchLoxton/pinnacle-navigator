@@ -1,15 +1,21 @@
 {
-  "release_id": "ytintel-0.11.1-decision-gate",
-  "version": "v0.11.1",
-  "title": "Decision Gate",
-  "summary": "YTIntel now tells you whether a competitor analysis is strong enough to act on instead of treating every interesting video like a proven opportunity.",
-  "changes": [
-    "Added a GO / TEST / HOLD verdict after every deep analysis.",
-    "Added an evidence sufficiency score using transcript, Most Replayed, channel-baseline sample size, source receipts, hook evidence and Sol intelligence.",
-    "Added hard confidence caps for missing transcripts, tiny baseline samples and videos that are not genuine channel outliers.",
-    "Added bias warnings for stale uploads, missing replay evidence, weak source receipts and control-like performance.",
-    "Added exact next-research actions when the evidence is not strong enough to justify full production yet.",
-    "Added one-click Decision Brief export and refreshed the PWA cache so installed copies receive v0.11.1."
+  "release_id": "ytintel-0.11.2-replication-check",
+  "version": "v0.11.2",
+  "title": "Replication Check",
+  "summary": "YTIntel now checks whether a winning mechanism repeats across other saved winners before treating one competitor video like a proven pattern.",
+  "discord_changes": [
+    "Cross-checks current mechanisms against saved same-niche winners and controls.",
+    "Caps a single-video GO at TEST until independent winner replication exists.",
+    "Flags patterns that also appear heavily in ordinary-performing control videos."
   ],
-  "why_it_matters": "The new gate reduces false confidence. YTIntel can now tell you when the evidence supports building, when an idea only deserves a cheap test, and when you should keep researching instead of wasting production time."
+  "changes": [
+    "Added automatic cross-video replication after every deep analysis using the existing niche research library.",
+    "Added winner-versus-control matching for transferable mechanics so common style is not mistaken for a winning driver.",
+    "Added independent-channel requirements before a mechanism can be labelled REPLICATED.",
+    "Added a replication cap that downgrades a single-video GO to TEST until the mechanism repeats across multiple winner channels.",
+    "Added control-heavy warnings when the same mechanism also appears repeatedly in ordinary-performing videos.",
+    "Added a copyable Replication Brief and direct jump into niche History for further validation.",
+    "Refreshed the PWA cache so installed YTIntel copies receive v0.11.2 automatically."
+  ],
+  "why_it_matters": "One breakout can be noise, creator-specific style or luck. Replication Check makes YTIntel demand repeatable cross-video evidence before confidence increases, reducing the chance of building around a one-off winner."
 }
