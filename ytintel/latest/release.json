@@ -1,25 +1,26 @@
 {
-  "release_id": "ytintel-0.12.1-packaging-lab",
-  "version": "v0.12.1",
-  "title": "Packaging Lab",
-  "summary": "YTIntel now turns verified winner-vs-control research into original title, thumbnail and opening-hook packages instead of stopping at analysis.",
+  "release_id": "ytintel-0.13.0-interface-rebuild",
+  "version": "v0.13.0",
+  "title": "Interface Rebuild",
+  "summary": "YTIntel has been rebuilt visually as a serious research workspace, with faster navigation, clearer evidence hierarchy and a much stronger desktop and mobile experience.",
   "discord_changes": [
-    "Builds 3–5 original title + thumbnail + hook packages from verified Radar research.",
-    "Uses GPT-5.6 Sol to compare winner patterns against controls and source thumbnails.",
-    "Adds evidence gating, copy-risk checks, falsifiers and a concrete test plan for every package."
+    "New premium research workspace with desktop sidebar and cleaner mobile navigation.",
+    "Added a Radar → Analyse → Validate → Package workflow rail plus Cmd/Ctrl + K Quick Switch.",
+    "Rebuilt cards, evidence states, forms, loading, tables, accessibility and the installed app identity."
   ],
   "changes": [
-    "Added a new top-level Packaging Lab that consumes the latest Opportunity Radar evidence.",
-    "Added a new server-side GPT-5.6 Sol packaging action with strict structured output and max reasoning.",
-    "Added winner-versus-control packaging analysis so common style is not mistaken for a winning mechanism.",
-    "Added multimodal thumbnail evidence from verified winners and controls.",
-    "Added 3–5 ranked original packages containing title, alternate titles, thumbnail composition, opening hook and viewer promise.",
-    "Added evidence-fit, novelty, clarity, replication and package decision scores that are explicitly not view or CTR predictions.",
-    "Added browser-side source-title overlap detection to flag copy risk even after the model response.",
-    "Added an evidence gate requiring multiple verified winners across independent channels before strong packaging recommendations are generated.",
-    "Added originality delta, risk, falsifier and test-plan fields to every package so weak ideas can be killed before production.",
-    "Added copyable package briefs and local Packaging Lab history.",
-    "Refreshed the PWA cache so installed copies receive v0.12.1 automatically."
+    "Rebuilt the desktop shell around a persistent research sidebar instead of a long horizontal tab strip.",
+    "Reworked tablet and mobile navigation with compact touch-first controls and reduced horizontal clutter.",
+    "Added a contextual Discover → Investigate → Validate → Package workflow rail across the core research tools.",
+    "Added a Cmd/Ctrl + K Quick Switch command palette for instant navigation to Analyse, Radar, Packaging Lab, Pattern Mine, History, Similar Videos, Visuals and Updates.",
+    "Rebuilt the visual hierarchy with calmer neutral surfaces, less border noise, stronger typography and more deliberate use of the YTIntel red accent.",
+    "Improved evidence density across metrics, pills, nested evidence cards, tables, transcripts, heatmaps and source notes.",
+    "Added cleaner loading, error and empty states so long-running research feels intentional instead of frozen.",
+    "Added clearer keyboard focus, semantic navigation, a skip link, reduced-motion support and larger touch targets.",
+    "Added live-status treatment that keeps the current app version visible even when older async health modules update the status text.",
+    "Rebuilt the What's New experience so the current release wins over older async popup handlers.",
+    "Replaced the old app icon with a cleaner premium YT monogram and refreshed PWA name, description, theme and cache.",
+    "Preserved all existing Opportunity Radar, Deep Analyse, Replication Check, Decision Gate, Pattern Mine and Packaging Lab functionality underneath the new shell."
   ],
-  "why_it_matters": "YTIntel now closes another major gap between research and execution: verified competitor evidence can become an original production-ready package without silently copying the winner or treating a one-off breakout as proof."
+  "why_it_matters": "YTIntel had outgrown its prototype interface. The product now has enough intelligence and workflow depth that navigation, hierarchy and evidence readability directly affect whether users can act on the research. v0.13 makes the interface match the seriousness of the underlying system without removing the evidence guardrails."
 }
