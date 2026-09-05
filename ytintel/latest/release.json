@@ -1,24 +1,29 @@
 {
-  "release_id": "ytintel-0.13.1-ui-stability",
-  "version": "v0.13.1",
-  "title": "UI Stability",
-  "summary": "YTIntel now has one current app shell and one update owner, eliminating the stale v0.10.5 title and the old release-popup flicker on launch.",
+  "release_id": "ytintel-0.14.0-research-os",
+  "version": "v0.14.0",
+  "title": "Research OS",
+  "summary": "YTIntel now remembers how a niche changes over time and turns the whole research stack into one Command Center with momentum, evidence health and next-best actions.",
   "discord_changes": [
-    "Removed the startup loop that cycled through old YTIntel update screens.",
-    "Locked the browser title, status and What’s New experience to the current v0.13.1 shell.",
-    "Refreshed the PWA cache so stale installed-app shells are retired automatically."
+    "New Command Center combines Radar, analyses, replication and packaging into one research priority board.",
+    "Added Market Memory and observed between-scan momentum so rising and cooling opportunities can be separated.",
+    "Added concept trajectories, watchlists, research health, action queues and full research backup/restore."
   ],
   "changes": [
-    "Replaced layered shell ownership with a single stable v0.13.1 workspace controller.",
-    "Removed v0.13.0 shell execution from the current page so two workspace observers cannot fight over version state.",
-    "Marked every historical v0.10.x, v0.11.x, v0.12.x and v0.13.0 release popup as historical before legacy feature modules initialise.",
-    "Added a browser-title lock so the legacy v0.10.5 Sol module can no longer leave the tab title on an old release.",
-    "Added current-status ownership so delayed feature patches cannot downgrade the visible YTIntel version.",
-    "Added modal ownership that suppresses automatic historical popups before paint and only opens the current update when the user deliberately presses What’s New.",
-    "Added capture-level What’s New ownership so older modules can keep their feature logic even if they clone or rebind the button.",
-    "Separated chrome observers from page-navigation observers to prevent UI self-trigger loops.",
-    "Updated the service worker to network-refresh core JS/CSS assets and delete stale YTIntel shell caches after activation.",
-    "Kept Opportunity Radar, Deep Analyse, Decision Gate, Replication Check, Pattern Mine, Packaging Lab and the v0.13 workspace design intact."
+    "Added a new top-level Command Center and made it the default YTIntel workspace.",
+    "Added longitudinal Market Memory that preserves repeated Opportunity Radar snapshots for the same niche instead of losing the previous state.",
+    "Added observed between-scan view velocity, opportunity-score change and rank movement so YTIntel can distinguish static popularity from actual recent movement.",
+    "Added SURGING, RISING, STABLE, COOLING, NEW and TOO SOON signal states with conservative timing rules for repeat scans.",
+    "Added per-video opportunity-score sparklines across saved market snapshots.",
+    "Added cross-channel concept trajectories that show when repeated clusters are spreading, stable, weakening or newly appearing.",
+    "Added a Research Health score based on repeat snapshots, verified channel baselines, independent channels, winner/control evidence, replicated concepts, deep analyses and Packaging Lab work.",
+    "Added an automatic next-best-action queue that routes users into Radar, Deep Analyse, Pattern Mine or Packaging Lab depending on the missing evidence.",
+    "Added a persistent watchlist for important candidate videos across future scans.",
+    "Added one-click research briefs that summarise evidence health, top signals, concept trajectories and next actions.",
+    "Added full local research backup and restore so Radar memory, analyses, package labs, watchlists and active research context can be exported from the browser.",
+    "Added active-niche switching so multiple research missions can be managed from the same Command Center.",
+    "Updated Packaging Lab handoff so opening it from an active mission promotes the matching Radar research set instead of blindly using an unrelated recent niche.",
+    "Kept the v0.13 single-owner shell architecture: no automatic legacy update popups and no old module is allowed to downgrade the current title or version.",
+    "Bumped the PWA to the v0.14.0 cache and updated the installed-app identity for Research OS."
   ],
-  "why_it_matters": "The app was loading the new workspace but older incremental modules were still allowed to mutate global UI state afterward. Centralising shell ownership removes that architectural conflict rather than hiding the symptoms."
+  "why_it_matters": "The biggest remaining weakness was that YTIntel could produce strong individual analyses without learning from repeated market observations. Research OS changes the unit of analysis from one video or one scan to a growing research history. That makes repeated evidence more useful, makes stale opportunities easier to deprioritise, and gives creators a clearer path from discovery to validated execution without pretending the system can guarantee views or causation."
 }
