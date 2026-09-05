@@ -1,9 +1,9 @@
 {
   "id": "./?app=ytintel",
-  "name": "YTIntel — Viral Forensics + Creator Intelligence",
+  "name": "YTIntel — Viral Research to Script Production",
   "short_name": "YTIntel",
-  "description": "Paste breakout YouTube videos, inspect public Most Replayed moments, hook and re-hook structure, pacing and media evidence, then bank winning styles by niche and write from the evidence.",
-  "start_url": "./?source=pwa&v=0270",
+  "description": "Paste breakout YouTube videos, inspect public Most Replayed moments and creator mechanics, bank winning styles by niche, auto-compare similar videos and turn the evidence into a timed script production blueprint.",
+  "start_url": "./?source=pwa&v=0280",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -11,14 +11,14 @@
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
   "icons": [
-    {"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Viral Forensics","short_name":"Viral Lab","url":"./?tab=viral&source=shortcut","icons":[{"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Intelligence","short_name":"Intelligence","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0270","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Viral Forensics","short_name":"Viral Lab","url":"./?tab=viral&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Intelligence","short_name":"Intelligence","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {
     "action": "./?source=share",
