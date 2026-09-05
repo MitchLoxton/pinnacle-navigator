@@ -1,27 +1,24 @@
 {
-  "release_id": "ytintel-0.24.0-usefulness-first",
-  "version": "v0.24.0",
-  "title": "Usefulness First — Open YTIntel and Know What Matters Now",
-  "summary": "YTIntel now prioritises repeat creator usefulness over marketing. The home experience combines current market opportunity, tracked competitor changes, personal Creator Loop evidence, saved production ideas and the next useful actions, with one-click intelligence refresh and marketing moved into a secondary share kit.",
+  "release_id": "ytintel-0.25.0-proactive-intelligence",
+  "version": "v0.25.0",
+  "title": "Proactive Intelligence — Watch Movement, Not Just Snapshots",
+  "summary": "YTIntel now pushes further toward the core paid-product promise: open the workspace and get one evidence-backed production decision, a ranked opportunity feed, real before-and-after video movement, easier competitor setup and automatic stale-data refresh while the app is running.",
   "discord_changes": [
-    "Added a Today creator brief that combines the strongest market opportunity, competitor movement, personal channel-fit evidence and the next actions worth taking.",
-    "Added Refresh My Intelligence: one click refreshes tracked competitors plus the saved creator niche without forcing users through separate tools.",
-    "Added Watchtower change history, Personal Fit summaries and a Production Queue so YTIntel becomes more useful every time a creator comes back."
+    "Added Make This Next: one top production lead with channel-relative evidence, cross-channel receipts, longitudinal snapshots and a direct path into Deep Analyse / Packaging / production.",
+    "Added a unified Opportunity Feed plus per-video longitudinal tracking so YTIntel can distinguish observed movement from a one-off view count instead of pretending a snapshot is momentum.",
+    "Added automatic competitor discovery, auto-refresh-on-open and optional browser opportunity alerts so the workspace gets useful faster and is easier to return to repeatedly."
   ],
   "changes": [
-    "Rebuilt the Smart Start home experience around daily creator usefulness rather than the sales story.",
-    "Added a Today brief with the top current market opportunity, most relevant tracked-competitor change and personal channel-fit signal.",
-    "Added a deterministic next-action plan that changes with workspace state: setup, refresh, market research, packaging, production, outcome measurement or Idea Vault review.",
-    "Added Refresh My Intelligence. From the home screen, YTIntel can scan all saved competitor channels and refresh the saved creator niche without navigating away.",
-    "Added persistent Watchtower snapshots so repeat refreshes can compare what changed rather than only showing a fresh list.",
-    "Added change detection for new competitor uploads, newly verified 1.5x+ channel-relative breakouts, strongest tracked outlier and fastest observed view movement between snapshots.",
-    "Added a Personal Fit panel using measured Creator Loop public outcomes. Repeated mechanisms only surface after at least two measured tests and the UI keeps small-sample warnings intact.",
-    "Added a Production Queue on the home screen for saved Idea Vault research, with Watch → Shortlist → Build → Published progression.",
-    "Added a 60-second workspace setup for channel/workspace name, niche and direct competitors so the product can reuse context every session.",
-    "Simplified the default home page by hiding overlapping legacy dashboards while preserving the deeper Research OS behind an explicit advanced toggle.",
-    "Kept the one-input launcher so a pasted YouTube video routes to Deep Analyse and a typed topic routes to full Research Sprint automatically.",
-    "Moved marketing copy into a secondary Share / Marketing Kit modal so the product experience remains usefulness-first.",
-    "Preserved Opportunity Radar, winner-vs-control validation, channel-baseline caps, Always-On analysis, Packaging Lab originality guardrails, Idea Vault and Creator Loop evidence rules."
+    "Added Make This Next to the top of the creator workspace. Verified channel-relative leads are explicitly separated from leads that still need baseline verification.",
+    "Added visible evidence receipts for opportunity score, channel-relative breakout evidence, observed movement and cross-channel replication. Scores remain decision aids, not predictions of views, CTR or retention.",
+    "Added a unified Opportunity Feed that combines saved niche Radar evidence and tracked-competitor results, with evidence-based states such as Breaking Out, Rising, Priority, Repeating, Watch, Verify and Cooling.",
+    "Added longitudinal local video histories. YTIntel preserves up to 40 observed points per video across repeat Radar and Watchtower snapshots so movement requires a real before-and-after observation.",
+    "Added automatic competitor discovery inside workspace setup. Enter a niche and YTIntel proposes relevant channels from existing Radar evidence or fresh niche discovery, then the user chooses the actual watchlist.",
+    "Added Auto-refresh on open. When enabled, YTIntel refreshes stale workspace intelligence after six hours, but only while the app is open; this is not a background scheduler or push service.",
+    "Added optional browser opportunity alerts after explicit notification permission. Alerts are generated while YTIntel is running and are not represented as background push notifications.",
+    "Added a serializable Radar persistence fallback so a rendered Radar scan is not silently lost when cross-channel cluster objects cannot be stored directly.",
+    "Updated the PWA cache and installed-app metadata for the new opportunity-first workflow.",
+    "Preserved Always-On analysis, winner-vs-control validation, channel-relative evidence, originality guardrails, Idea Vault and Creator Loop small-sample warnings."
   ],
-  "why_it_matters": "Creators are more likely to keep using and paying for a product that becomes useful on every return visit. v0.24 turns YTIntel into a repeat-use workspace: refresh current evidence, see what changed, decide what deserves production time, move ideas forward and learn from measured outcomes without relearning the app each session."
+  "why_it_matters": "The product becomes more defensible when it does not merely answer a research query once. v0.25 starts building the repeated-use intelligence loop: remember the market, remember each video's observed trajectory, reduce setup work, surface one decision and make the next visit more useful than the previous one."
 }
