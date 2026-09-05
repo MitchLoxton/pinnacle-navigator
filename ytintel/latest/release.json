@@ -1,11 +1,15 @@
 {
-  "release_id": "ytintel-discord-style-test-2026-09-05",
-  "version": "",
-  "title": "Notification Preview",
-  "summary": "This is the new YTIntel update style — short, clean and only the useful stuff.",
+  "release_id": "ytintel-0.11.1-decision-gate",
+  "version": "v0.11.1",
+  "title": "Decision Gate",
+  "summary": "YTIntel now tells you whether a competitor analysis is strong enough to act on instead of treating every interesting video like a proven opportunity.",
   "changes": [
-    "One notification per release.",
-    "Only the actual changes are shown.",
-    "One clean link straight to YTIntel."
-  ]
+    "Added a GO / TEST / HOLD verdict after every deep analysis.",
+    "Added an evidence sufficiency score using transcript, Most Replayed, channel-baseline sample size, source receipts, hook evidence and Sol intelligence.",
+    "Added hard confidence caps for missing transcripts, tiny baseline samples and videos that are not genuine channel outliers.",
+    "Added bias warnings for stale uploads, missing replay evidence, weak source receipts and control-like performance.",
+    "Added exact next-research actions when the evidence is not strong enough to justify full production yet.",
+    "Added one-click Decision Brief export and refreshed the PWA cache so installed copies receive v0.11.1."
+  ],
+  "why_it_matters": "The new gate reduces false confidence. YTIntel can now tell you when the evidence supports building, when an idea only deserves a cheap test, and when you should keep researching instead of wasting production time."
 }
