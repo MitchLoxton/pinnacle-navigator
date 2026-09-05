@@ -1,16 +1,11 @@
 {
-  "release_id": "ytintel-0.11.0-creator-action-board",
-  "version": "v0.11.0",
-  "title": "Creator Action Board",
-  "summary": "YTIntel now turns competitor evidence into a practical next-video execution plan instead of stopping at analysis.",
+  "release_id": "ytintel-discord-style-test-2026-09-05",
+  "version": "",
+  "title": "Notification Preview",
+  "summary": "This is the new YTIntel update style — short, clean and only the useful stuff.",
   "changes": [
-    "Added a Creator Action Board after each video analysis so the research ends with a concrete next move.",
-    "Added a reuse-vs-change breakdown showing which proven mechanics are worth borrowing and which parts should stay original.",
-    "Added a hook target that turns the competitor hook evidence into a clear opening objective for your own video.",
-    "Added delivery and re-hook guidance so the plan tells you what the video must actually fulfil and where attention resets belong.",
-    "Added format-engine guidance to translate the winning structure into an original repeatable framework.",
-    "Added a pre-publish checklist plus a Copy action plan button for scripting, briefing an editor, or saving the plan elsewhere.",
-    "Kept GPT-5.6 Sol intelligence, evidence guardrails, v0.10.7 analyser fixes, and previous update history intact."
-  ],
-  "why_it_matters": "The goal is to close the gap between research and execution: analyse a competitor, understand why it worked, then leave YTIntel with a usable plan for the next video rather than a report you still have to translate yourself."
+    "One notification per release.",
+    "Only the actual changes are shown.",
+    "One clean link straight to YTIntel."
+  ]
 }
