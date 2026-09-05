@@ -1,22 +1,27 @@
 {
-  "release_id": "ytintel-0.20.1-always-on-analyser",
-  "version": "v0.20.1",
-  "title": "Always-On Analyser",
-  "summary": "YTIntel analysis no longer stops behind app-level daily limits or surfaces provider credit/quota errors to users. The evidence analyser stays available continuously, with GPT-5.6 Sol used only as an optional cloud enhancement when available.",
+  "release_id": "ytintel-0.21.0-public-launch",
+  "version": "v0.21.0",
+  "title": "Public Launch — Useful in One Box, Powerful When You Go Deeper",
+  "summary": "YTIntel is now built to make sense to a first-time public visitor immediately: paste a YouTube video or type a topic, get routed into the right workflow, then share, copy, download or continue from the result without learning the product first.",
   "discord_changes": [
-    "Removed YTIntel's previous per-IP and global daily AI-call caps from the analyser backend.",
-    "Added an always-on evidence engine so Deep Analyse, Pattern Mine and Packaging can continue when the cloud AI provider is unavailable.",
-    "Provider credit, billing and quota failures now fall back automatically instead of asking users to add credits or killing the analysis."
+    "Added a one-box public start: paste a YouTube video for instant analysis or type a topic to launch a full Research Sprint toward a production-ready brief.",
+    "Simplified the default navigation for new users while keeping Opportunity Radar, Packaging Lab, Pattern Mine, History, Similar Videos and Visuals one click away under Advanced tools.",
+    "Added share, copy, Markdown download and next-step actions to completed Analyse, Radar, Packaging, Research Sprint and Pattern Mine results, plus share-target/deep-link routing."
   ],
   "changes": [
-    "Rebuilt ytintel-v082 so YTIntel itself no longer enforces the previous 5-calls-per-IP and 25-calls-global daily AI quotas.",
-    "Deep Analyse now attempts the GPT-5.6 Sol enhancement first and automatically falls back to YTIntel's deterministic evidence engine if the cloud model cannot run.",
-    "Pattern Mine now has an always-on structured comparison fallback instead of failing when cloud AI is unavailable.",
-    "Packaging Lab now has an evidence-grounded always-on package generator that preserves winner/control, originality, risk and falsifier guardrails.",
-    "Cloud provider billing, credit, quota, spend-limit, missing-key and availability failures are no longer returned to the user as blocking credit errors.",
-    "The UI now labels the feature as Always-On Intelligence rather than implying every result necessarily came from GPT-5.6 Sol.",
-    "Cloud GPT-5.6 Sol remains available as an enhancement whenever the configured provider account can serve the request.",
-    "Updated the installed PWA cache to v0.20.1 so phone and desktop installs receive the always-on analyser changes."
+    "Repositioned the home screen around the public user's actual job: get a useful answer from one input instead of learning product terminology first.",
+    "Added a one-box launcher that detects YouTube URLs and routes them to Deep Analyse, while normal topics launch the full Research Sprint workflow.",
+    "Added quick example topics across AI, fitness, gaming, beauty and business so a first-time visitor can understand the input model immediately.",
+    "Added a clear public trust strip: no signup wall, no user credit prompt, Always-On analysis, evidence-first research and production-ready outputs.",
+    "Added plain privacy language explaining that research uses public YouTube evidence and workspace history stays local in the browser unless the user exports or shares it.",
+    "Added a four-part value explanation covering signal discovery, source receipts, packaging and Creator Loop learning.",
+    "New visitors now see the core product path first; advanced research tabs are collapsed behind an Advanced tools control. Existing research-heavy users automatically keep the full navigation.",
+    "Added result action bars to Analyse, Opportunity Radar, Packaging Lab, Research Sprint and Pattern Mine with Share, Copy report, Download Markdown and Next step controls.",
+    "Added reusable deep links for video analysis and topic research so creators can share a YTIntel route with collaborators.",
+    "Added PWA share-target handling so a YouTube link shared into an installed YTIntel app can open directly in Analyse.",
+    "Improved public SEO metadata, page title, description, canonical URL and social preview copy.",
+    "Updated the installed PWA manifest and service-worker shell to v0.21.0 so phone and desktop installs receive the public-launch experience.",
+    "Kept v0.20.1 Always-On fallback behavior, evidence guardrails, winner-vs-control logic, originality checks and no-guarantee positioning intact."
   ],
-  "why_it_matters": "The analyser is a core workflow and should not become unusable because a separate cloud-model provider hits a billing or quota issue. v0.20.1 makes YTIntel itself remain operational continuously while still taking advantage of deeper cloud reasoning when it is available."
+  "why_it_matters": "A public creator product cannot rely on users already understanding outliers, validation sets or research tooling. v0.21 makes the first useful action obvious, reduces navigation overload, makes outputs portable, and preserves the deeper evidence system for users who want more control."
 }
