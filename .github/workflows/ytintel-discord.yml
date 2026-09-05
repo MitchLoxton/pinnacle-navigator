@@ -1,0 +1,138 @@
+name: YTIntel Discord Notifications
+
+on:
+  workflow_run:
+    workflows: ["Deploy Pinnacle Navigator to GitHub Pages"]
+    types: [completed]
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deployment-notify:
+    if: github.event_name == 'workflow_run'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout deployed commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 2
+
+      - name: Check whether YTIntel changed
+        id: changed
+        shell: bash
+        run: |
+          SHA="${{ github.event.workflow_run.head_sha }}"
+          FILES="$(git diff-tree --no-commit-id --name-only -r "$SHA" || true)"
+          echo "$FILES"
+          if printf '%s\n' "$FILES" | grep -qE '^ytintel/'; then
+            echo "ytintel=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ytintel=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post deployment result to Discord
+        if: steps.changed.outputs.ytintel == 'true'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
+          STATUS: ${{ github.event.workflow_run.conclusion }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          COMMIT_MESSAGE: ${{ github.event.workflow_run.head_commit.message }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
+        shell: bash
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DISCORD_YTINTEL_WEBHOOK is not configured; skipping Discord post."
+            exit 0
+          fi
+          SHORT_SHA="${SHA:0:7}"
+          if [ "$STATUS" = "success" ]; then
+            TITLE="🚀 YTIntel update deployed"
+            COLOR=5763719
+            SUMMARY="The newest YTIntel build is live and ready to test."
+          else
+            TITLE="🚨 YTIntel deployment failed"
+            COLOR=15548997
+            SUMMARY="The latest YTIntel update did not deploy successfully."
+          fi
+          PAYLOAD="$(jq -n \
+            --arg title "$TITLE" \
+            --arg summary "$SUMMARY" \
+            --arg commit "$COMMIT_MESSAGE" \
+            --arg sha "$SHORT_SHA" \
+            --arg status "$STATUS" \
+            --arg live "$LIVE_URL" \
+            --arg run "$RUN_URL" \
+            --argjson color "$COLOR" \
+            '{username:"YTIntel",embeds:[{title:$title,description:$summary,url:$live,color:$color,fields:[{name:"Update",value:$commit,inline:false},{name:"Status",value:$status,inline:true},{name:"Commit",value:$sha,inline:true},{name:"Open YTIntel",value:("[Launch latest build]("+$live+")"),inline:false},{name:"Deployment log",value:("[Open GitHub Actions]("+$run+")"),inline:false}],timestamp:(now|todateiso8601)}]}')"
+          curl --fail --silent --show-error \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            "$WEBHOOK"
+
+  health-monitor:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check YTIntel public app and AI backend
+        id: health
+        shell: bash
+        run: |
+          set +e
+          SITE_CODE="$(curl -L -sS -o /tmp/site.html -w '%{http_code}' --max-time 25 'https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?health=1')"
+          AI_JSON="$(curl -sS --max-time 25 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v082?action=health')"
+          AI_OK="$(printf '%s' "$AI_JSON" | jq -r '(.ok == true) and (.configured == true)' 2>/dev/null)"
+          MODEL="$(printf '%s' "$AI_JSON" | jq -r '.model // "unknown"' 2>/dev/null)"
+          if [ "$SITE_CODE" = "200" ] && [ "$AI_OK" = "true" ]; then
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "healthy=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "site_code=$SITE_CODE" >> "$GITHUB_OUTPUT"
+          echo "ai_ok=$AI_OK" >> "$GITHUB_OUTPUT"
+          echo "model=$MODEL" >> "$GITHUB_OUTPUT"
+
+      - name: Send Discord alert if something is wrong
+        if: steps.health.outputs.healthy != 'true'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
+          SITE_CODE: ${{ steps.health.outputs.site_code }}
+          AI_OK: ${{ steps.health.outputs.ai_ok }}
+          MODEL: ${{ steps.health.outputs.model }}
+          LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
+        shell: bash
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DISCORD_YTINTEL_WEBHOOK is not configured; skipping Discord alert."
+            exit 0
+          fi
+          PAYLOAD="$(jq -n \
+            --arg site "$SITE_CODE" \
+            --arg ai "$AI_OK" \
+            --arg model "$MODEL" \
+            --arg live "$LIVE_URL" \
+            '{username:"YTIntel Monitor",embeds:[{title:"🚨 YTIntel needs attention",description:"The automated health check found a problem.",url:$live,color:15548997,fields:[{name:"Public site HTTP",value:$site,inline:true},{name:"AI configured + reachable",value:$ai,inline:true},{name:"Model",value:$model,inline:true},{name:"Open YTIntel",value:("[Launch app]("+$live+")"),inline:false}],timestamp:(now|todateiso8601)}]}')"
+          curl --fail --silent --show-error \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            "$WEBHOOK"
+
+      - name: Send test message on manual run when healthy
+        if: github.event_name == 'workflow_dispatch' && steps.health.outputs.healthy == 'true'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
+          MODEL: ${{ steps.health.outputs.model }}
+          LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
+        shell: bash
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DISCORD_YTINTEL_WEBHOOK is not configured; skipping Discord test."
+            exit 0
+          fi
+          PAYLOAD="$(jq -n --arg model "$MODEL" --arg live "$LIVE_URL" '{username:"YTIntel",embeds:[{title:"✅ YTIntel Discord notifications connected",description:"Public app and AI backend both passed the health check.",url:$live,color:5763719,fields:[{name:"AI model",value:$model,inline:true},{name:"Open YTIntel",value:("[Launch latest build]("+$live+")"),inline:false}],timestamp:(now|todateiso8601)}]}')"
+          curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
