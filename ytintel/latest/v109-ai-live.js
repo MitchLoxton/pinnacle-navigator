@@ -1,5 +1,5 @@
 (function(){
-const VERSION='0.10.9';
+const VERSION=window.YTINTEL_VERSION||'0.10.9';
 const API='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v082?action=health';
 const RELEASE='ytintel-whats-new-0.10.9-ai-live';
 let last=null;
@@ -28,7 +28,7 @@ function updateRelease(d){
   g.querySelector('[data-v109-release]')?.remove();
   g.querySelectorAll('.release.current').forEach(x=>x.classList.remove('current'));
   const a=document.createElement('article');a.className='card c12 release current';a.dataset.v109Release='1';
-  a.innerHTML=d.configured?`<div class="eyebrow">V0.10.9 · 5 SEP 2026 · CURRENT</div><h3>GPT-5.6 Sol intelligence is now live</h3><ul class="list"><li><b>Server-side OpenAI key detected:</b> the public app never receives or exposes the key.</li><li><b>Deep Analyse now has a real model pass:</b> hook, re-hooks, promise fulfillment, key takeaways, why it worked, format engine and transferable mechanics are model-judged from the evidence YTIntel collected first.</li><li><b>Pattern Mine gets a second intelligence pass:</b> Sol re-checks whether competitor patterns are genuinely the same instead of trusting surface keyword overlap.</li><li><b>Max reasoning stays enabled</b> with strict evidence guardrails against invented timestamps, quotes, private retention data or causal claims.</li><li><b>v0.10.8 reliability, v0.10.7 analyser fixes and the v0.10.6 AI implementation milestone remain active underneath this release.</b></li></ul>`:`<div class="eyebrow">V0.10.9 · AI ACTIVATION CHECK</div><h3>GPT-5.6 Sol connection still pending</h3><p class="muted">YTIntel is checking the backend for the server-side OpenAI key. Refresh once after saving the secret.</p>`;
+  a.innerHTML=d.configured?`<div class="eyebrow">V0.10.9 · 5 SEP 2026</div><h3>GPT-5.6 Sol intelligence is now live</h3><ul class="list"><li><b>Server-side OpenAI key detected:</b> the public app never receives or exposes the key.</li><li><b>Deep Analyse now has a real model pass:</b> hook, re-hooks, promise fulfillment, key takeaways, why it worked, format engine and transferable mechanics are model-judged from the evidence YTIntel collected first.</li><li><b>Pattern Mine gets a second intelligence pass:</b> Sol re-checks whether competitor patterns are genuinely the same instead of trusting surface keyword overlap.</li><li><b>Max reasoning stays enabled</b> with strict evidence guardrails against invented timestamps, quotes, private retention data or causal claims.</li></ul>`:`<div class="eyebrow">V0.10.9 · AI ACTIVATION CHECK</div><h3>GPT-5.6 Sol connection still pending</h3><p class="muted">YTIntel is checking the backend for the server-side OpenAI key. Refresh once after saving the secret.</p>`;
   g.prepend(a);
   const old=[g.querySelector('[data-v108-release]'),g.querySelector('[data-v107-release]'),g.querySelector('[data-release="ai-intelligence"]')].filter(Boolean);
   let after=a;for(const x of old){after.insertAdjacentElement('afterend',x);after=x}
