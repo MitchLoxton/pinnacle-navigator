@@ -22,7 +22,8 @@
     "Added an evidence-backed Script Starter. Creators can enter their next idea and get a production brief using the bank's observed hook style, format engine, WPM, first-payoff timing, re-hook cadence, replay-position tendency, visual/audio evidence and repeated language themes.",
     "Added five starting-angle prompts from the active Style Bank so idea creation begins from observed niche mechanics rather than a generic blank AI prompt.",
     "Wrapped Pattern Mine so a 5-10 near-identical winner/control study can attach directly to the active Style Bank with repeated points, short source excerpts and the winner-vs-pack evidence preserved.",
-    "Added a direct Open Viral Forensics action to completed video analyses and a dedicated PWA shortcut for Viral Lab.",
+    "Added a direct Open Viral Forensics action to completed video analyses, a dedicated PWA shortcut for Viral Lab and a deep-link router so installed-app shortcuts can open the new workflow reliably.",
+    "Added a server-side entitlement foundation with early_access, discord, creator, pro and founder tiers. It is intentionally not a fake paywall: Stripe billing and Discord membership verification are not activated until real provider connections are supplied.",
     "Updated PWA cache and installed-app metadata for v0.27.",
     "Preserved the evidence guardrails: Most Replayed is public replay/seek interest rather than private retention, outlier multiples are observations rather than forecasts, and the product tells creators to borrow mechanics and cadence rather than copy distinctive wording or scenes."
   ],
