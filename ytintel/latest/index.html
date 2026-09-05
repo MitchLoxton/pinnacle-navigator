@@ -43,7 +43,7 @@
 
 <script>try{const keys=['ytintel-v09-history','ytintel-v08-history','ytintel-v07-history'],current=JSON.parse(localStorage.getItem('ytintel-v09-history')||'[]'),seen=new Set(current.map(x=>x&&x.id).filter(Boolean));for(const k of keys.slice(1)){const rows=JSON.parse(localStorage.getItem(k)||'[]');if(Array.isArray(rows))for(const x of rows)if(x&&(!x.id||!seen.has(x.id))){current.push(x);if(x.id)seen.add(x.id)}}localStorage.setItem('ytintel-v09-history',JSON.stringify(current.slice(0,200)))}catch{}</script>
 <script src="v09-core.js?v=0104"></script>
-<script src="v091-bridge.js?v=0104"></script>
+<script src="v091-bridge.js?v=0104b"></script>
 <script src="v09-features.js?v=0104"></script>
 </body>
 </html>
