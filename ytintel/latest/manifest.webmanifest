@@ -2,8 +2,8 @@
   "id": "./?app=ytintel",
   "name": "YTIntel — YouTube Creator Intelligence OS",
   "short_name": "YTIntel",
-  "description": "Watch competitors, track breakout movement over time, rank evidence-backed YouTube opportunities and turn the strongest signals into production decisions.",
-  "start_url": "./?source=pwa&v=0250",
+  "description": "Track YouTube opportunities, preserve channel-relative history, sync your creator workspace and keep scheduled competitor intelligence running between visits.",
+  "start_url": "./?source=pwa&v=0260",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -11,14 +11,14 @@
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
   "icons": [
-    {"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Opportunity Feed","short_name":"Opportunities","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Loop","short_name":"Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0250","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Creator Intelligence","short_name":"Intelligence","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Loop","short_name":"Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0260","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {
     "action": "./?source=share",
