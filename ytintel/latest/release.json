@@ -1,24 +1,27 @@
 {
-  "release_id": "ytintel-0.25.0-proactive-intelligence",
-  "version": "v0.25.0",
-  "title": "Proactive Intelligence — Watch Movement, Not Just Snapshots",
-  "summary": "YTIntel now pushes further toward the core paid-product promise: open the workspace and get one evidence-backed production decision, a ranked opportunity feed, real before-and-after video movement, easier competitor setup and automatic stale-data refresh while the app is running.",
+  "release_id": "ytintel-0.26.0-cloud-intelligence",
+  "version": "v0.26.0",
+  "title": "Cloud Intelligence — YTIntel Keeps Learning Between Visits",
+  "summary": "YTIntel is no longer limited to one browser session. v0.26 adds optional creator accounts, secure multi-device workspace sync, server-side scheduled monitoring, persistent opportunity alerts, cloud longitudinal history and own-channel fit evidence while preserving the existing evidence guardrails.",
   "discord_changes": [
-    "Added Make This Next: one top production lead with channel-relative evidence, cross-channel receipts, longitudinal snapshots and a direct path into Deep Analyse / Packaging / production.",
-    "Added a unified Opportunity Feed plus per-video longitudinal tracking so YTIntel can distinguish observed movement from a one-off view count instead of pretending a snapshot is momentum.",
-    "Added automatic competitor discovery, auto-refresh-on-open and optional browser opportunity alerts so the workspace gets useful faster and is easier to return to repeatedly."
+    "Added optional creator accounts + secure cloud workspace sync so research, ideas and longitudinal intelligence can follow the creator across devices.",
+    "Added real server-side scheduled monitoring for saved competitors, niche evidence and the creator’s own channel, with persistent breakout/acceleration alerts.",
+    "Added own-channel fit evidence so Make This Next can show whether a market opportunity overlaps with repeated patterns from the creator’s stronger channel-relative uploads."
   ],
   "changes": [
-    "Added Make This Next to the top of the creator workspace. Verified channel-relative leads are explicitly separated from leads that still need baseline verification.",
-    "Added visible evidence receipts for opportunity score, channel-relative breakout evidence, observed movement and cross-channel replication. Scores remain decision aids, not predictions of views, CTR or retention.",
-    "Added a unified Opportunity Feed that combines saved niche Radar evidence and tracked-competitor results, with evidence-based states such as Breaking Out, Rising, Priority, Repeating, Watch, Verify and Cooling.",
-    "Added longitudinal local video histories. YTIntel preserves up to 40 observed points per video across repeat Radar and Watchtower snapshots so movement requires a real before-and-after observation.",
-    "Added automatic competitor discovery inside workspace setup. Enter a niche and YTIntel proposes relevant channels from existing Radar evidence or fresh niche discovery, then the user chooses the actual watchlist.",
-    "Added Auto-refresh on open. When enabled, YTIntel refreshes stale workspace intelligence after six hours, but only while the app is open; this is not a background scheduler or push service.",
-    "Added optional browser opportunity alerts after explicit notification permission. Alerts are generated while YTIntel is running and are not represented as background push notifications.",
-    "Added a serializable Radar persistence fallback so a rendered Radar scan is not silently lost when cross-channel cluster objects cannot be stored directly.",
-    "Updated the PWA cache and installed-app metadata for the new opportunity-first workflow.",
-    "Preserved Always-On analysis, winner-vs-control validation, channel-relative evidence, originality guardrails, Idea Vault and Creator Loop small-sample warnings."
+    "Added Supabase Auth-based creator accounts without forcing sign-in for local trial use.",
+    "Added per-user Row Level Security for creator profiles, competitor watchlists, workspace state, cloud snapshots, alerts and product feedback.",
+    "Added multi-device cloud workspace sync for Creator Workspace, competitors, Idea Vault, Radar history, package history, Creator Loop experiments, Watchtower history and longitudinal timelines.",
+    "Added a server-side monitoring worker that reuses YTIntel’s current discovery engine and stores timestamped channel-relative observations in the cloud.",
+    "Added a pg_cron scheduler that wakes every 15 minutes and processes creator workspaces when their selected monitoring interval is due; the default interval is six hours and can be changed to 3, 6, 12 or 24 hours.",
+    "Added persistent cloud alerts for new uploads, newly verified >=1.5x breakouts, >=3x strong breakouts and observed channel-relative acceleration. Alerts are threshold evidence, not forecasts.",
+    "Added background niche monitoring with channel-baseline verification for a limited set of candidate channels rather than inventing niche-wide outlier multiples from raw views.",
+    "Added own-channel longitudinal snapshots and a personal evidence model built from repeated >=1.5x channel-relative winners.",
+    "Added personal fit evidence to the production decision. It waits for at least five own-channel observations and multiple winners before displaying stronger overlap language.",
+    "Added cloud-to-local hydration so server snapshots compound the existing v0.25 longitudinal timeline on the creator’s device.",
+    "Added a lightweight usefulness feedback control so real creator feedback can be collected against the current workspace state.",
+    "Added an in-app v0.26 release card and updated the PWA cache/installed-app metadata.",
+    "Preserved Always-On analysis, verified-vs-unverified language, channel-relative baselines, winner/control checks, originality guardrails and the rule that public evidence does not prove future views, CTR, private retention or causation."
   ],
-  "why_it_matters": "The product becomes more defensible when it does not merely answer a research query once. v0.25 starts building the repeated-use intelligence loop: remember the market, remember each video's observed trajectory, reduce setup work, surface one decision and make the next visit more useful than the previous one."
+  "why_it_matters": "This closes one of the largest gaps between an impressive research tool and a product creators can rely on repeatedly: YTIntel can now remember the workspace across devices, keep collecting real observations between visits and make the next session more personal because it has retained both market history and the creator’s own channel evidence."
 }
