@@ -1,26 +1,24 @@
 {
-  "release_id": "ytintel-0.13.0-interface-rebuild",
-  "version": "v0.13.0",
-  "title": "Interface Rebuild",
-  "summary": "YTIntel has been rebuilt visually as a serious research workspace, with faster navigation, clearer evidence hierarchy and a much stronger desktop and mobile experience.",
+  "release_id": "ytintel-0.13.1-ui-stability",
+  "version": "v0.13.1",
+  "title": "UI Stability",
+  "summary": "YTIntel now has one current app shell and one update owner, eliminating the stale v0.10.5 title and the old release-popup flicker on launch.",
   "discord_changes": [
-    "New premium research workspace with desktop sidebar and cleaner mobile navigation.",
-    "Added a Radar → Analyse → Validate → Package workflow rail plus Cmd/Ctrl + K Quick Switch.",
-    "Rebuilt cards, evidence states, forms, loading, tables, accessibility and the installed app identity."
+    "Removed the startup loop that cycled through old YTIntel update screens.",
+    "Locked the browser title, status and What’s New experience to the current v0.13.1 shell.",
+    "Refreshed the PWA cache so stale installed-app shells are retired automatically."
   ],
   "changes": [
-    "Rebuilt the desktop shell around a persistent research sidebar instead of a long horizontal tab strip.",
-    "Reworked tablet and mobile navigation with compact touch-first controls and reduced horizontal clutter.",
-    "Added a contextual Discover → Investigate → Validate → Package workflow rail across the core research tools.",
-    "Added a Cmd/Ctrl + K Quick Switch command palette for instant navigation to Analyse, Radar, Packaging Lab, Pattern Mine, History, Similar Videos, Visuals and Updates.",
-    "Rebuilt the visual hierarchy with calmer neutral surfaces, less border noise, stronger typography and more deliberate use of the YTIntel red accent.",
-    "Improved evidence density across metrics, pills, nested evidence cards, tables, transcripts, heatmaps and source notes.",
-    "Added cleaner loading, error and empty states so long-running research feels intentional instead of frozen.",
-    "Added clearer keyboard focus, semantic navigation, a skip link, reduced-motion support and larger touch targets.",
-    "Added live-status treatment that keeps the current app version visible even when older async health modules update the status text.",
-    "Rebuilt the What's New experience so the current release wins over older async popup handlers.",
-    "Replaced the old app icon with a cleaner premium YT monogram and refreshed PWA name, description, theme and cache.",
-    "Preserved all existing Opportunity Radar, Deep Analyse, Replication Check, Decision Gate, Pattern Mine and Packaging Lab functionality underneath the new shell."
+    "Replaced layered shell ownership with a single stable v0.13.1 workspace controller.",
+    "Removed v0.13.0 shell execution from the current page so two workspace observers cannot fight over version state.",
+    "Marked every historical v0.10.x, v0.11.x, v0.12.x and v0.13.0 release popup as historical before legacy feature modules initialise.",
+    "Added a browser-title lock so the legacy v0.10.5 Sol module can no longer leave the tab title on an old release.",
+    "Added current-status ownership so delayed feature patches cannot downgrade the visible YTIntel version.",
+    "Added modal ownership that suppresses automatic historical popups before paint and only opens the current update when the user deliberately presses What’s New.",
+    "Added capture-level What’s New ownership so older modules can keep their feature logic even if they clone or rebind the button.",
+    "Separated chrome observers from page-navigation observers to prevent UI self-trigger loops.",
+    "Updated the service worker to network-refresh core JS/CSS assets and delete stale YTIntel shell caches after activation.",
+    "Kept Opportunity Radar, Deep Analyse, Decision Gate, Replication Check, Pattern Mine, Packaging Lab and the v0.13 workspace design intact."
   ],
-  "why_it_matters": "YTIntel had outgrown its prototype interface. The product now has enough intelligence and workflow depth that navigation, hierarchy and evidence readability directly affect whether users can act on the research. v0.13 makes the interface match the seriousness of the underlying system without removing the evidence guardrails."
+  "why_it_matters": "The app was loading the new workspace but older incremental modules were still allowed to mutate global UI state afterward. Centralising shell ownership removes that architectural conflict rather than hiding the symptoms."
 }
