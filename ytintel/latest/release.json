@@ -1,18 +1,21 @@
 {
   "release_id": "ytintel-0.28.0-production-studio",
   "version": "v0.28.0",
-  "title": "Production Studio — Viral Research to Script Blueprint",
-  "summary": "YTIntel now pushes the Viral Forensics workflow all the way into production: automatically build a comparable niche set, attach the repeated winner/control evidence to a Style Bank, convert the observed hook/pacing/payoff/re-hook DNA into a timed script blueprint and track the exact hypothesis on our own published videos through Creator Loop.",
+  "title": "Production Studio + Evidence-Backed Idea Lab",
+  "summary": "YTIntel now pushes the core viral-research workflow from discovery into production: paste a breakout video, inspect public replay moments and script DNA, bank the niche style, auto-build a 5-10 video comparison set, generate original idea packages from winner/control evidence, convert the chosen idea into a timed script blueprint and track the exact hypothesis on our own channel through Creator Loop.",
   "discord_changes": [
-    "Added one-click niche comparison from a Style Bank: YTIntel discovers comparable videos, mines 5-10 transcripts and attaches the repeated Pattern Mine evidence to the bank.",
-    "Added a timed Production Blueprint using the bank's observed WPM, hook type, format engine, first-payoff timing and re-hook cadence to create section-by-section word budgets and writing goals.",
-    "Added Track on our channel: the exact Style Bank hypothesis and production blueprint can be sent into Creator Loop so our published outcomes become the first validation dataset before paid launch."
+    "Added an Evidence-Backed Idea Lab inside each Style Bank: generate original titles, hooks and thumbnail directions from the bank's saved winners, controls and attached Pattern Mine evidence.",
+    "Added one-click niche comparison plus a timed Production Blueprint using observed WPM, hook type, format engine, first-payoff timing and re-hook cadence.",
+    "Added Track on our channel so the exact Style Bank hypothesis and blueprint can be measured against our own public channel baseline before paid launch."
   ],
   "changes": [
     "Built on v0.27 Viral Forensics: paste one breakout video, inspect public Most Replayed timestamps beside nearby transcript evidence, hook/re-hook structure, WPM, payoff timing and available visual/audio evidence.",
     "Built on v0.27 Niche Style Banks: keep compact winner DNA by niche, sync signed-in banks across devices and aggregate dominant hook/format, pacing, replay-position tendencies, repeated short language, visual drivers and attributed audio.",
     "Added Auto-build niche comparison inside the active Style Bank. It discovers similar public videos, prioritises any already-verified channel-relative breakouts, keeps the current analysed video in the set and runs a 5-10 video Pattern Mine.",
     "Automatic comparison preserves short source receipts and winner-vs-pack evidence from Pattern Mine instead of reducing the result to generic AI advice.",
+    "Added an Evidence-Backed Idea Lab that sends the active Style Bank's verified winners, controls and repeated pattern evidence into YTIntel's existing Always-On packaging engine.",
+    "Idea Lab returns 3-5 original packages with title, concept, opening hook, thumbnail direction, evidence receipts, risk language and a visible package score. Cloud AI can deepen the result when available; the deterministic Always-On engine remains the fallback.",
+    "A generated idea can be sent directly into the script blueprint with one click, keeping research, packaging and writing in the same workflow.",
     "Added a Production Studio directly inside each Style Bank so research and writing no longer live in separate workflows.",
     "Added target-runtime input and a calculated spoken-word target from the bank's observed WPM median. When the bank does not yet have enough pacing evidence, the product uses a clearly conservative 150 WPM fallback rather than pretending the number was measured.",
     "Added a section-by-section production timeline with time ranges, approximate word budgets, hook, first-payoff, proof/progression, re-hook and final-payoff roles.",
@@ -28,7 +31,7 @@
     "Added RLS-protected Style Bank persistence and a server-side entitlement foundation with early_access, discord, creator, pro and founder tiers.",
     "New authenticated users are automatically seeded with active early_access entitlements during the private validation phase; this gives us a clean path to map Discord testers to free access and paid customers to Stripe-backed plans later without faking checkout today.",
     "Updated the PWA cache and installed-app metadata for v0.28.",
-    "Preserved the core guardrails: Most Replayed is replay/seek interest rather than private audience retention, outlier multiples are observations rather than future-view predictions, and public correlations do not prove causation."
+    "Preserved the core guardrails: Most Replayed is replay/seek interest rather than private audience retention, outlier multiples are observations rather than future-view predictions, package scores are decision aids rather than CTR/view forecasts, and public correlations do not prove causation."
   ],
-  "why_it_matters": "The product loop is now much closer to the intended business: find a video that is popping off, see what happened at the public replay moments, bank the repeatable niche mechanics, automatically compare more examples, turn that evidence into the next script structure, publish it on our own channel and feed the result back into the system. That is a much stronger recurring product than a generic AI idea generator."
+  "why_it_matters": "This is much closer to the intended paid product: find what is popping off, see what viewers publicly replayed, understand the hook/script/pacing/media DNA, learn the repeated language and winner/control differences across the niche, generate an original idea from that evidence, turn it into a timed writing plan, publish it and feed the outcome back into the system."
 }
