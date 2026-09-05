@@ -41,9 +41,15 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      # Discord is deliberately downstream of the live deployment. A failed or
-      # cancelled deployment must never announce an update that is not live.
-      - name: Detect YTIntel changes since last successful live deploy
+      - name: Settle YTIntel release burst
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          # Multiple files are often committed within one release. Waiting briefly
+          # lets GitHub Actions cancel intermediate runs so Discord gets one final card.
+          sleep 45
+
+      - name: Detect YTIntel changes
         if: github.event_name == 'push'
         id: ytintel
         env:
@@ -53,25 +59,33 @@ jobs:
           set -euo pipefail
           AFTER="${{ github.sha }}"
 
-          # This run is still in progress, so the newest successful pages run is
-          # the previous live deployment. Comparing against it also catches YTIntel
-          # changes from an intermediate deployment that was cancelled by concurrency.
+          # If a newer YTIntel commit landed while this run was settling, leave the
+          # notification to that newer deployment. Non-YTIntel commits do not suppress it.
+          git fetch origin main --quiet
+          LATEST="$(git rev-parse origin/main)"
+          if [ "$LATEST" != "$AFTER" ]; then
+            NEWER_YT="$(git diff --name-only "$AFTER" "$LATEST" | grep '^ytintel/' || true)"
+            if [ -n "$NEWER_YT" ]; then
+              echo "changed=false" >> "$GITHUB_OUTPUT"
+              echo "Newer YTIntel changes exist; skipping intermediate notification."
+              exit 0
+            fi
+          fi
+
           BASE="$(curl --fail --silent --show-error \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/pages.yml/runs?branch=main&status=success&per_page=10" \
             | jq -r '.workflow_runs[0].head_sha // empty')"
 
-          if [ -z "$BASE" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+          if [ -z "$BASE" ] || [ "$BASE" = "$AFTER" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
             BASE="${{ github.event.before }}"
           fi
           if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
             BASE="$(git rev-parse "${AFTER}^" 2>/dev/null || printf '%s' "$AFTER")"
           fi
 
-          FILES="$(git diff --name-only "$BASE" "$AFTER" || true)"
-          YT_FILES="$(printf '%s\n' "$FILES" | grep '^ytintel/' || true)"
-
+          YT_FILES="$(git diff --name-only "$BASE" "$AFTER" | grep '^ytintel/' || true)"
           if [ -z "$YT_FILES" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
@@ -81,16 +95,13 @@ jobs:
           echo "base=$BASE" >> "$GITHUB_OUTPUT"
           echo "after=$AFTER" >> "$GITHUB_OUTPUT"
 
-          if printf '%s\n' "$YT_FILES" | grep -qx 'ytintel/latest/release.json'; then
+          if git diff --name-only "$BASE" "$AFTER" | grep -qx 'ytintel/latest/release.json'; then
             echo "release_changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "release_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-          # Save the changed paths for the posting step without fighting multiline outputs.
-          printf '%s\n' "$YT_FILES" > /tmp/ytintel-changed-files.txt
-
-      - name: Post YTIntel live update to Discord
+      - name: Send clean YTIntel Discord update
         if: github.event_name == 'push' && steps.ytintel.outputs.changed == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
@@ -101,66 +112,55 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
           if [ -z "${WEBHOOK:-}" ]; then
             echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."
             exit 1
           fi
 
           VERSION=""
-          RELEASE_TITLE=""
-          SUMMARY=""
-          CHANGES=""
+          TITLE="Update live"
+          SUMMARY="A new YTIntel update is live."
+          BULLETS=""
 
           if [ "$RELEASE_CHANGED" = "true" ] && [ -f ytintel/latest/release.json ]; then
             VERSION="$(jq -r '.version // ""' ytintel/latest/release.json)"
-            RELEASE_TITLE="$(jq -r '.title // "New update"' ytintel/latest/release.json)"
-            SUMMARY="$(jq -r '.summary // empty' ytintel/latest/release.json)"
-            CHANGES="$(jq -r '[.changes[]?][0:5] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
+            TITLE="$(jq -r '.title // "Update live"' ytintel/latest/release.json)"
+            SUMMARY="$(jq -r '.summary // "A new YTIntel update is live."' ytintel/latest/release.json)"
+            BULLETS="$(jq -r '
+              [(.discord_changes // .changes // [])[]][0:3]
+              | map(sub("^Added "; "") | sub("^Updated "; "") | if length > 105 then .[0:102] + "…" else . end | "• " + .)
+              | join("\n")
+            ' ytintel/latest/release.json)"
           else
-            # No hand-written release note is required anymore. Use the latest
-            # YTIntel commit plus the actual changed files as a clean fallback.
             YT_COMMIT="$(git log -1 --format='%H' "${BASE_SHA}..${AFTER_SHA}" -- ytintel/ 2>/dev/null || true)"
             if [ -z "$YT_COMMIT" ]; then YT_COMMIT="$AFTER_SHA"; fi
-            RELEASE_TITLE="$(git log -1 --format='%s' "$YT_COMMIT")"
-            SUMMARY="A new YTIntel update is live."
-            CHANGES="$(head -n 5 /tmp/ytintel-changed-files.txt \
-              | sed 's#^ytintel/latest/##' \
-              | sed 's#^ytintel/##' \
-              | sed 's#^#✦ Updated `#' \
-              | sed 's#$#`#')"
+            TITLE="$(git log -1 --format='%s' "$YT_COMMIT" | sed -E 's/^Add YTIntel v[0-9.]+ //; s/^Release YTIntel v[0-9.]+ //')"
+            SUMMARY="A new YTIntel improvement is now live."
           fi
 
-          RELEASE_TITLE="${RELEASE_TITLE:0:180}"
-          SUMMARY="${SUMMARY:0:420}"
-          CHANGES="${CHANGES:0:1500}"
+          TITLE="${TITLE:0:90}"
+          SUMMARY="${SUMMARY:0:180}"
 
-          DESCRIPTION="$SUMMARY"
-          if [ -n "$CHANGES" ]; then
-            if [ -n "$DESCRIPTION" ]; then DESCRIPTION="$DESCRIPTION\n\n"; fi
-            DESCRIPTION="${DESCRIPTION}**What’s new**\n${CHANGES}"
-          fi
-          DESCRIPTION="${DESCRIPTION}\n\n[**Open YTIntel →**](${LIVE_URL})"
-
-          SHORT_SHA="${AFTER_SHA:0:7}"
           PAYLOAD="$(jq -n \
             --arg version "$VERSION" \
-            --arg release_title "$RELEASE_TITLE" \
-            --arg description "$DESCRIPTION" \
+            --arg title "$TITLE" \
+            --arg summary "$SUMMARY" \
+            --arg bullets "$BULLETS" \
             --arg live "$LIVE_URL" \
-            --arg sha "$SHORT_SHA" \
             '{
               username:"YTIntel",
               embeds:[{
-                title:("✨ " + (if $version=="" then "YTIntel" else "YTIntel " + $version end) + " · " + $release_title),
-                description:$description,
+                title:("✨ " + (if $version=="" then "YTIntel" else "YTIntel " + $version end) + " — " + $title),
+                description:(
+                  $summary
+                  + (if $bullets=="" then "" else "\n\n" + $bullets end)
+                  + "\n\n[Open YTIntel →](" + $live + ")"
+                ),
                 url:$live,
-                color:5763719,
-                footer:{text:("Live deployment · " + $sha)}
+                color:5763719
               }]
             }')"
 
-          # Retry transient Discord failures instead of silently losing the notification.
           for attempt in 1 2 3; do
             if curl --fail --silent --show-error \
               -H 'Content-Type: application/json' \
@@ -169,9 +169,8 @@ jobs:
               echo "YTIntel Discord notification sent."
               exit 0
             fi
-            echo "Discord attempt $attempt failed; retrying..." >&2
             sleep $((attempt * 3))
           done
 
-          echo "::error::YTIntel deployed successfully, but Discord notification failed after 3 attempts."
+          echo "::error::YTIntel deployed, but the Discord notification failed after 3 attempts."
           exit 1
