@@ -10,6 +10,25 @@
 <link rel="manifest" href="./manifest.webmanifest?v=5354">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <title>Pinnacle Navigator · v53.50</title>
+<script>
+(function(){
+  const ROOT_SCOPE='/pinnacle-navigator/';
+  if(!location.pathname.startsWith(ROOT_SCOPE+'ytintel/'))return;
+  document.documentElement.style.visibility='hidden';
+  if(!('serviceWorker' in navigator)){document.documentElement.style.visibility='';return;}
+  navigator.serviceWorker.getRegistrations().then(async regs=>{
+    let removed=false;
+    for(const reg of regs){
+      try{
+        if(new URL(reg.scope).pathname===ROOT_SCOPE)removed=(await reg.unregister())||removed;
+      }catch(e){}
+    }
+    if(removed){location.reload();return;}
+    document.documentElement.style.visibility='';
+  }).catch(()=>{document.documentElement.style.visibility='';});
+  setTimeout(()=>{document.documentElement.style.visibility='';},3000);
+})();
+</script>
 <style>
 :root{--bg:#f4f4f1;--text:#111;--muted:#676762;--line:#ddd;--red:#9f2626}*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;background:var(--bg);overflow-y:auto}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text);min-height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}.app{max-width:680px;margin:auto;padding:10px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.brand{font-size:22px;font-weight:900}.sub{font-size:12px;color:var(--muted);margin-top:3px}.badge{padding:7px 10px;border-radius:999px;background:#111;color:#fff;font-size:10px;font-weight:900;white-space:nowrap}.card{position:relative;z-index:1;background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;text-align:center}.label{font-size:11px;font-weight:900;letter-spacing:.07em;color:var(--muted)}h1{font-size:29px;line-height:1.05;margin:8px 0}.intro{font-size:15px;color:var(--muted);line-height:1.45;margin:0 auto 18px;max-width:520px}.pinLabel{display:block;text-align:left;font-size:12px;font-weight:900;color:var(--muted);max-width:360px;margin:auto}.pin{position:relative;z-index:5;pointer-events:auto!important;display:block;width:100%;max-width:360px;margin:6px auto 14px;border:2px solid #bbb;border-radius:13px;padding:15px;font-size:24px;letter-spacing:.18em;text-align:center;background:#fff}.names{position:relative;z-index:10;display:grid;gap:11px;pointer-events:auto!important}.person{position:relative!important;z-index:20!important;pointer-events:auto!important;-webkit-user-select:none;user-select:none;width:100%;min-height:76px;border:2px solid var(--line);border-radius:14px;background:#fff;color:#111;font-size:22px;font-weight:900;touch-action:manipulation}.person:active{transform:scale(.99);background:#f0f0ec}.person small{display:block;font-size:12px;color:var(--muted);margin-top:4px}.err{min-height:20px;margin-top:10px;font-size:12px;font-weight:900;color:var(--red)}.loading{padding:34px 10px}.spinner{width:36px;height:36px;border:4px solid #ddd;border-top-color:#111;border-radius:50%;margin:18px auto;animation:spin .75s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.retry{position:relative;z-index:20;pointer-events:auto!important;width:100%;border:0;border-radius:12px;background:#111;color:#fff;min-height:54px;font-weight:900;font-size:16px;margin-top:12px;touch-action:manipulation}.note{font-size:11px;color:var(--muted);line-height:1.4;margin-top:14px}@media(max-width:520px){.app{padding:8px}.card{padding:14px}h1{font-size:27px}}
 </style>
@@ -57,7 +76,7 @@ async function openNavigator(){
   try{const r=await fetchFresh(12000);if(!r.auth){pin='';person='';login('Incorrect crew PIN.');return;}localStorage.setItem(PIN_KEY,pin);localStorage.setItem(PERSON_KEY,person);localStorage.setItem(VERSION_KEY,VERSION);await saveBundle(r.html);askBackgroundRefresh();launch(r.html);return;}catch(e){showError('Navigator needs one successful connection on this device before its stable local copy is available. Tap TRY AGAIN.');}
 }
 function showError(message){loginBusy=false;view.innerHTML=`<section class="card"><div class="label">PINNACLE NAVIGATOR · STABLE</div><h1>Could not open yet</h1><p class="intro">${esc(message)}</p><button id="retry" class="retry" type="button">TRY AGAIN</button><div class="note">Shared job progress has not been changed.</div></section>`;const b=document.getElementById('retry'),go=e=>{if(e){e.preventDefault();e.stopPropagation();}openNavigator();};b.addEventListener('click',go,{capture:true});b.addEventListener('touchend',go,{passive:false,capture:true});}
-if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js?v=5354',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});}
+if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js?v=5355',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});}
 if(person&&valid(pin))openNavigator();else login();
 })();
 </script>
