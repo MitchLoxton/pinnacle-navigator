@@ -1,9 +1,9 @@
 {
   "id": "./?app=ytintel",
-  "name": "YTIntel — Free YouTube Creator Intelligence",
+  "name": "YTIntel — YouTube Creator Intelligence OS",
   "short_name": "YTIntel",
-  "description": "Free public YouTube creator intelligence: paste a video or type a topic to discover opportunities, validate competitor evidence, build original packaging and leave with a production-ready video brief.",
-  "start_url": "./?source=pwa&v=0210",
+  "description": "Track competitors, discover channel-relative outliers, validate patterns, save opportunities, build original packaging and turn YouTube research into production decisions.",
+  "start_url": "./?source=pwa&v=0220",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -11,14 +11,14 @@
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
   "icons": [
-    {"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Start Research","short_name":"Start","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Loop","short_name":"Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0210","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Creator Command Center","short_name":"Command Center","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Loop","short_name":"Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {
     "action": "./?source=share",
