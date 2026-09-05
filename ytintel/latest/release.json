@@ -1,26 +1,29 @@
 {
-  "release_id": "ytintel-0.19.0-desire-layer",
-  "version": "v0.19.0",
-  "title": "Desire Layer — Premium Product Polish",
-  "summary": "YTIntel now feels more like a premium creator intelligence product: clearer value, stronger hierarchy, better decision states, richer empty states and a more desirable Smart Start experience.",
+  "release_id": "ytintel-0.20.0-universal-usefulness",
+  "version": "v0.20.0",
+  "title": "Universal Usefulness — Easier for Beginners, Faster for Power Users",
+  "summary": "YTIntel now adapts to what the user is trying to accomplish, explains the research system in plain English, and removes more of the friction between opening the app and getting a useful creator decision.",
   "discord_changes": [
-    "Rebuilt Smart Start around the outcome: find the signal, prove it and leave with a production-ready next move.",
-    "Added clearer workflow rails, stronger score presentation and next-best-action prompts across Radar, Research Sprint, Packaging Lab and Creator Loop.",
-    "Added premium visual polish, stronger empty states and restrained motion so the product feels faster, clearer and more valuable without weakening evidence guardrails."
+    "Added a goal-first home for finding ideas, analysing competitors, researching niches, improving packaging, learning from your channel or getting a first-time tour.",
+    "Added creator-profile guidance, a 60-second product tour, plain-English glossary, global Ctrl/Cmd+K command palette and clearer contextual next steps.",
+    "Added workspace export, accessibility improvements, mobile quick start and better error recovery so YTIntel is useful to beginners, established creators, teams and researchers."
   ],
   "changes": [
-    "Smart Start is now the real hero instead of sitting beneath a duplicate introductory section.",
-    "The primary Smart Start message is now outcome-led: find the signal, prove it and ship the video.",
-    "Added a four-part product value strip covering Discover, Validate, Package and Learn.",
-    "Added a compact trust rail for channel-relative baselines, winner-vs-control reasoning, cross-channel validation and originality guardrails.",
-    "Added screen-level workflow rails to Opportunity Radar, Research Sprint, Packaging Lab and Creator Loop so each area explains its job immediately.",
-    "Opportunity scores now render like decision instruments rather than plain dashboard numbers, while still avoiding guaranteed-performance claims.",
-    "Packaging results now visually prioritise the strongest test candidate without presenting the score as a promise of views.",
-    "Added next-best-action bars that push research into validation, packaging into execution and ready briefs into Creator Loop tracking.",
-    "Reworked Radar and Packaging empty states so zero-data screens explain what will unlock and give a useful next action.",
-    "Added subtle scan, loading and pulse motion with reduced-motion support for accessibility.",
-    "Strengthened active navigation, card hierarchy, spacing, hover feedback, primary actions and a restrained YTIntel signal-red brand accent.",
-    "Kept the v0.18.1 Radar scoring, workflow reliability fixes, evidence gates and originality protections intact."
+    "Added a goal-first Universal Usefulness board under Smart Start so users choose the outcome they want instead of learning every tool name first.",
+    "Added creator profiles for no-channel-yet, growing channel, established channel, team/client and research/strategy use cases.",
+    "Profile guidance changes the explanation and recommended workflow without changing evidence thresholds or manufacturing confidence.",
+    "Added one-click example niches across tech, fitness, gaming, beauty, business and education so a new user can understand the input model immediately.",
+    "Added a global Ctrl/Cmd+K command palette to jump directly to Smart Start, Research Sprint, Analyse, Radar, Packaging Lab, Creator Loop, Pattern Mine, History, Guide or Export.",
+    "Added an in-app Guide drawer explaining the recommended Discover → Validate → Package → Measure workflow.",
+    "Added a plain-English glossary for channel-relative outliers, Opportunity Score, controls, validation sets, Pattern Mine and Creator Loop.",
+    "Added a four-step 60-second product tour that explains the evidence model before a user has to run any research.",
+    "Added contextual help underneath major workflow heroes so Analyse, Radar, Packaging Lab, Pattern Mine and Creator Loop each explain what the tool is for and what should happen next.",
+    "Added workspace export to download locally stored Radar scans, Packaging Labs, Research Sprints, Creator Loop experiments and related state as JSON for backup or team handoff.",
+    "Added better error recovery text that distinguishes network problems from thin-evidence problems instead of leaving the user at a dead end.",
+    "Added keyboard-visible focus, a skip link, aria labels, live status/error semantics, larger interactive targets and reduced-motion compatibility.",
+    "Added a mobile Start Research action so the primary entry point stays one tap away on smaller screens.",
+    "Updated the PWA manifest and service-worker cache to v0.20.0 so installed copies receive the new universal layer.",
+    "Kept v0.18.1 workflow reliability, v0.19 premium design, Radar evidence caps, winner-vs-control logic and originality guardrails intact."
   ],
-  "why_it_matters": "YTIntel already had increasingly strong research mechanics, but powerful software still loses users when the interface feels like a collection of tools. This release makes the product communicate value faster, makes the next action more obvious, and makes important intelligence feel important while preserving the evidence-first guardrails underneath it."
+  "why_it_matters": "A creator intelligence product is not broadly useful if only advanced users understand how to operate it. v0.20 makes the system understandable from the user's goal first, keeps advanced workflows one shortcut away, and preserves the distinction between market evidence, creator-fit evidence and unsupported certainty."
 }
