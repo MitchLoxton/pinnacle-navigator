@@ -9,11 +9,8 @@ on:
 permissions:
   contents: read
 
-# Release notification rule:
-# - YTIntel code/assets can be committed freely without Discord spam.
-# - When a release is ready, update ytintel/latest/release.json LAST.
-# - Only a successful Pages deployment containing that release.json change posts to Discord.
-# - Cancelled/intermediate/failed deploys never create release spam.
+# One clean Discord post per successful YTIntel release.
+# Finalize a release by updating ytintel/latest/release.json last.
 
 jobs:
   release-notify:
@@ -26,74 +23,59 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 2
 
-      - name: Check whether this commit finalizes a YTIntel release
+      - name: Check for finalized YTIntel release
         id: release
         shell: bash
         run: |
           SHA="${{ github.event.workflow_run.head_sha }}"
           FILES="$(git diff-tree --no-commit-id --name-only -r "$SHA" || true)"
-          echo "$FILES"
           if printf '%s\n' "$FILES" | grep -qx 'ytintel/latest/release.json'; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
           else
             echo "ready=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Post one release note to Discord
+      - name: Post beautiful release card to Discord
         if: steps.release.outputs.ready == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
-          RUN_URL: ${{ github.event.workflow_run.html_url }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
-          SHA: ${{ github.event.workflow_run.head_sha }}
         shell: bash
         run: |
-          if [ -z "$WEBHOOK" ]; then
-            echo "DISCORD_YTINTEL_WEBHOOK is not configured; skipping Discord post."
-            exit 0
-          fi
-          if [ ! -f ytintel/latest/release.json ]; then
-            echo "release.json missing; skipping."
+          if [ -z "$WEBHOOK" ] || [ ! -f ytintel/latest/release.json ]; then
             exit 0
           fi
 
-          VERSION="$(jq -r '.version // "Unversioned"' ytintel/latest/release.json)"
-          RELEASE_TITLE="$(jq -r '.title // "YTIntel update"' ytintel/latest/release.json)"
-          SUMMARY="$(jq -r '.summary // "The newest YTIntel release is live."' ytintel/latest/release.json)"
-          WHY="$(jq -r '.why_it_matters // empty' ytintel/latest/release.json)"
-          CHANGES="$(jq -r '[.changes[]? | "• " + .] | join("\n")' ytintel/latest/release.json)"
-          SHORT_SHA="${SHA:0:7}"
+          VERSION="$(jq -r '.version // ""' ytintel/latest/release.json)"
+          RELEASE_TITLE="$(jq -r '.title // "New update"' ytintel/latest/release.json)"
+          SUMMARY="$(jq -r '.summary // empty' ytintel/latest/release.json)"
+          CHANGES="$(jq -r '[.changes[]?][0:5] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
 
-          # Discord embed field values cap at 1024 characters.
-          CHANGES="${CHANGES:0:1000}"
-          WHY="${WHY:0:1000}"
+          SUMMARY="${SUMMARY:0:420}"
+          CHANGES="${CHANGES:0:1500}"
+
+          DESCRIPTION=""
+          if [ -n "$SUMMARY" ]; then
+            DESCRIPTION="$SUMMARY"
+          fi
+          if [ -n "$CHANGES" ]; then
+            if [ -n "$DESCRIPTION" ]; then DESCRIPTION="$DESCRIPTION\n\n"; fi
+            DESCRIPTION="${DESCRIPTION}**What’s new**\n${CHANGES}"
+          fi
+          DESCRIPTION="${DESCRIPTION}\n\n[**Open YTIntel →**](${LIVE_URL})"
 
           PAYLOAD="$(jq -n \
             --arg version "$VERSION" \
             --arg release_title "$RELEASE_TITLE" \
-            --arg summary "$SUMMARY" \
-            --arg changes "$CHANGES" \
-            --arg why "$WHY" \
+            --arg description "$DESCRIPTION" \
             --arg live "$LIVE_URL" \
-            --arg run "$RUN_URL" \
-            --arg sha "$SHORT_SHA" \
             '{
-              username:"YTIntel Updates",
+              username:"YTIntel",
               embeds:[{
-                title:("🚀 YTIntel " + $version + " — " + $release_title),
-                description:$summary,
+                title:("✨ " + (if $version=="" then "YTIntel" else "YTIntel " + $version end) + " · " + $release_title),
+                description:$description,
                 url:$live,
-                color:5763719,
-                fields:(
-                  [{name:"What changed",value:(if $changes=="" then "Release notes not supplied." else $changes end),inline:false}]
-                  + (if $why=="" then [] else [{name:"Why it matters",value:$why,inline:false}] end)
-                  + [
-                    {name:"Open YTIntel",value:("[Launch the live update]("+$live+")"),inline:false},
-                    {name:"Deployment",value:("[GitHub Actions]("+$run+") · `"+$sha+"`"),inline:false}
-                  ]
-                ),
-                footer:{text:"One Discord post per successful YTIntel release"},
-                timestamp:(now|todateiso8601)
+                color:5763719
               }]
             }')"
 
@@ -106,15 +88,12 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - name: Send one formatting test
+      - name: Preview simplified Discord style
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
         shell: bash
         run: |
-          if [ -z "$WEBHOOK" ]; then
-            echo "DISCORD_YTINTEL_WEBHOOK is not configured."
-            exit 1
-          fi
-          PAYLOAD="$(jq -n --arg live "$LIVE_URL" '{username:"YTIntel Updates",embeds:[{title:"✅ YTIntel release notifications configured",description:"Future releases will send one message containing the actual update log — cancelled/intermediate deploys are ignored.",url:$live,color:5763719,footer:{text:"YTIntel release feed"},timestamp:(now|todateiso8601)}]}')"
+          if [ -z "$WEBHOOK" ]; then exit 1; fi
+          PAYLOAD="$(jq -n --arg live "$LIVE_URL" '{username:"YTIntel",embeds:[{title:"✨ YTIntel · Release notifications",description:("Clean update cards are ready. Future releases will show only the useful changes and one link to the app.\n\n[**Open YTIntel →**]("+$live+")"),url:$live,color:5763719}]}')"
           curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
