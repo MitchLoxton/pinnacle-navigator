@@ -1,29 +1,22 @@
 {
-  "release_id": "ytintel-0.20.0-universal-usefulness",
-  "version": "v0.20.0",
-  "title": "Universal Usefulness — Easier for Beginners, Faster for Power Users",
-  "summary": "YTIntel now adapts to what the user is trying to accomplish, explains the research system in plain English, and removes more of the friction between opening the app and getting a useful creator decision.",
+  "release_id": "ytintel-0.20.1-always-on-analyser",
+  "version": "v0.20.1",
+  "title": "Always-On Analyser",
+  "summary": "YTIntel analysis no longer stops behind app-level daily limits or surfaces provider credit/quota errors to users. The evidence analyser stays available continuously, with GPT-5.6 Sol used only as an optional cloud enhancement when available.",
   "discord_changes": [
-    "Added a goal-first home for finding ideas, analysing competitors, researching niches, improving packaging, learning from your channel or getting a first-time tour.",
-    "Added creator-profile guidance, a 60-second product tour, plain-English glossary, global Ctrl/Cmd+K command palette and clearer contextual next steps.",
-    "Added workspace export, accessibility improvements, mobile quick start and better error recovery so YTIntel is useful to beginners, established creators, teams and researchers."
+    "Removed YTIntel's previous per-IP and global daily AI-call caps from the analyser backend.",
+    "Added an always-on evidence engine so Deep Analyse, Pattern Mine and Packaging can continue when the cloud AI provider is unavailable.",
+    "Provider credit, billing and quota failures now fall back automatically instead of asking users to add credits or killing the analysis."
   ],
   "changes": [
-    "Added a goal-first Universal Usefulness board under Smart Start so users choose the outcome they want instead of learning every tool name first.",
-    "Added creator profiles for no-channel-yet, growing channel, established channel, team/client and research/strategy use cases.",
-    "Profile guidance changes the explanation and recommended workflow without changing evidence thresholds or manufacturing confidence.",
-    "Added one-click example niches across tech, fitness, gaming, beauty, business and education so a new user can understand the input model immediately.",
-    "Added a global Ctrl/Cmd+K command palette to jump directly to Smart Start, Research Sprint, Analyse, Radar, Packaging Lab, Creator Loop, Pattern Mine, History, Guide or Export.",
-    "Added an in-app Guide drawer explaining the recommended Discover → Validate → Package → Measure workflow.",
-    "Added a plain-English glossary for channel-relative outliers, Opportunity Score, controls, validation sets, Pattern Mine and Creator Loop.",
-    "Added a four-step 60-second product tour that explains the evidence model before a user has to run any research.",
-    "Added contextual help underneath major workflow heroes so Analyse, Radar, Packaging Lab, Pattern Mine and Creator Loop each explain what the tool is for and what should happen next.",
-    "Added workspace export to download locally stored Radar scans, Packaging Labs, Research Sprints, Creator Loop experiments and related state as JSON for backup or team handoff.",
-    "Added better error recovery text that distinguishes network problems from thin-evidence problems instead of leaving the user at a dead end.",
-    "Added keyboard-visible focus, a skip link, aria labels, live status/error semantics, larger interactive targets and reduced-motion compatibility.",
-    "Added a mobile Start Research action so the primary entry point stays one tap away on smaller screens.",
-    "Updated the PWA manifest and service-worker cache to v0.20.0 so installed copies receive the new universal layer.",
-    "Kept v0.18.1 workflow reliability, v0.19 premium design, Radar evidence caps, winner-vs-control logic and originality guardrails intact."
+    "Rebuilt ytintel-v082 so YTIntel itself no longer enforces the previous 5-calls-per-IP and 25-calls-global daily AI quotas.",
+    "Deep Analyse now attempts the GPT-5.6 Sol enhancement first and automatically falls back to YTIntel's deterministic evidence engine if the cloud model cannot run.",
+    "Pattern Mine now has an always-on structured comparison fallback instead of failing when cloud AI is unavailable.",
+    "Packaging Lab now has an evidence-grounded always-on package generator that preserves winner/control, originality, risk and falsifier guardrails.",
+    "Cloud provider billing, credit, quota, spend-limit, missing-key and availability failures are no longer returned to the user as blocking credit errors.",
+    "The UI now labels the feature as Always-On Intelligence rather than implying every result necessarily came from GPT-5.6 Sol.",
+    "Cloud GPT-5.6 Sol remains available as an enhancement whenever the configured provider account can serve the request.",
+    "Updated the installed PWA cache to v0.20.1 so phone and desktop installs receive the always-on analyser changes."
   ],
-  "why_it_matters": "A creator intelligence product is not broadly useful if only advanced users understand how to operate it. v0.20 makes the system understandable from the user's goal first, keeps advanced workflows one shortcut away, and preserves the distinction between market evidence, creator-fit evidence and unsupported certainty."
+  "why_it_matters": "The analyser is a core workflow and should not become unusable because a separate cloud-model provider hits a billing or quota issue. v0.20.1 makes YTIntel itself remain operational continuously while still taking advantage of deeper cloud reasoning when it is available."
 }
