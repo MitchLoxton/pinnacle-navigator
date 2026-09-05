@@ -1,0 +1,3 @@
+YTIntel Discord notifications connected.
+Created: 2026-09-05
+Purpose: one-time deployment trigger to verify the YTIntel -> GitHub Pages -> Discord notification pipeline.
