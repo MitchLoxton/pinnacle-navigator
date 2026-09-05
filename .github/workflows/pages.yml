@@ -27,6 +27,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate YTIntel release
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check ytintel/latest/v201-always-on.js
+          node --check ytintel/latest/v220-sync.js
+          node --check ytintel/latest/v250-radar-persistence.js
+          node --check ytintel/latest/v250-app.js
+          jq empty ytintel/latest/release.json
+          jq empty ytintel/latest/manifest.webmanifest
+          echo "YTIntel release validation passed."
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
