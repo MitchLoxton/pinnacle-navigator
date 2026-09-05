@@ -1,14 +1,28 @@
 {
-  "name": "YTIntel — Research OS for YouTube Creators",
+  "id": "./?app=ytintel",
+  "name": "YTIntel — Creator Research OS",
   "short_name": "YTIntel",
-  "description": "Longitudinal YouTube competitor intelligence with market memory, momentum tracking, evidence health, opportunity discovery and packaging research.",
-  "start_url": "./?source=pwa&v=0140",
+  "description": "YouTube creator research OS with longitudinal market memory, evidence-backed packaging, creator outcome tracking and personal calibration.",
+  "start_url": "./?source=pwa&v=0150",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
   "theme_color": "#07090d",
   "orientation": "any",
+  "categories": ["productivity", "business"],
   "icons": [
-    {"src":"./icon.svg?v=0140","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+    {"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"Command Center","short_name":"Home","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Analyse Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Loop","short_name":"Creator Loop","url":"./?tab=loop&source=shortcut","icons":[{"src":"./icon.svg?v=0150","sizes":"any","type":"image/svg+xml"}]}
+  ],
+  "share_target": {
+    "action": "./?source=share",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {"title":"title","text":"text","url":"share"}
+  }
 }
