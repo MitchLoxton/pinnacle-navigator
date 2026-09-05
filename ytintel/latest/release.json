@@ -23,7 +23,10 @@
     "Added one-click Copy Blueprint for the full evidence-backed writing plan.",
     "Added Track on our channel. It creates a Creator Loop experiment carrying the Style Bank ID/name, verified-winner count, original hook, runtime, WPM, first-payoff target, re-hook target and complete production blueprint.",
     "Creator Loop can then attach the published YouTube URL and keep public channel-relative outcome snapshots, turning our own uploads into a falsifiable validation loop before broad paid launch.",
-    "Added RLS-protected Style Bank persistence and a server-side entitlement foundation with early_access, discord, creator, pro and founder tiers. Billing and Discord membership verification are intentionally not faked before real provider wiring is completed.",
+    "Changed the one-box starting experience so pasted YouTube URLs now route into Viral Forensics first, while niche/topic text still routes into the broader Research Sprint.",
+    "The starting screen now explains the actual recurring product loop: rewind moments, script DNA, niche Style Banks and production handoff instead of treating a deep video analysis as a generic report.",
+    "Added RLS-protected Style Bank persistence and a server-side entitlement foundation with early_access, discord, creator, pro and founder tiers.",
+    "New authenticated users are automatically seeded with active early_access entitlements during the private validation phase; this gives us a clean path to map Discord testers to free access and paid customers to Stripe-backed plans later without faking checkout today.",
     "Updated the PWA cache and installed-app metadata for v0.28.",
     "Preserved the core guardrails: Most Replayed is replay/seek interest rather than private audience retention, outlier multiples are observations rather than future-view predictions, and public correlations do not prove causation."
   ],
