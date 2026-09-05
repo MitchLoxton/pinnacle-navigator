@@ -1,29 +1,20 @@
 {
-  "release_id": "ytintel-0.18.0-premium-interface",
-  "version": "v0.18.0",
-  "title": "Premium Creator Intelligence Interface",
-  "summary": "YTIntel now presents its research like a premium creator-intelligence product instead of a dense internal toolbox, while keeping the evidence-first engine and guardrails intact.",
+  "release_id": "ytintel-0.18.1-premium-stability",
+  "version": "v0.18.1",
+  "title": "Premium Interface Stability",
+  "summary": "YTIntel v0.18.1 fixes the browser-freezing observer loop from the first premium-interface release and forces clients onto the corrected shell.",
   "discord_changes": [
-    "Rebuilt Smart Start into a premium creator-intelligence landing experience with a stronger universal input and live research-flow visual.",
-    "Simplified navigation around four core workflows and moved advanced research tools into a cleaner expandable toolkit.",
-    "Added Intelligence Pulse, capability proof cards, trust cues and an illustrative ready-to-make brief so the product value is visible immediately.",
-    "Upgraded Research Sprint, cards, controls, command palette, loading states, motion and mobile navigation with a deeper premium visual system.",
-    "Kept the existing research engine, evidence stops, cross-channel validation and originality guardrails intact."
+    "Fixed the MutationObserver feedback loop that could make Chrome show Page Unresponsive on v0.18.0.",
+    "Forced a fresh v0.18.1 asset and service-worker cache so the broken shell is not reused.",
+    "Preserved the premium Smart Start, streamlined navigation, Intelligence Pulse, proof cards and upgraded Research Sprint visuals."
   ],
   "changes": [
-    "Rebuilt Smart Start into a premium creator-intelligence landing experience with a stronger universal input and a visual Topic → Opportunity → Validation → Packaging → Brief flow.",
-    "Simplified the desktop navigation around Smart Start, Research Sprint, Analyse and Creator Loop, with the remaining research modules inside an expandable Research Toolkit.",
-    "Added a live Intelligence Pulse that surfaces saved Research Sprints, Radar scans, Packaging Labs and Creator Loop items from the current device.",
-    "Added three capability proof cards for breakout discovery, cross-competitor validation and original packaging, plus explicit evidence-first trust cues.",
-    "Added an illustrative Ready-to-Make Brief preview on the home experience so users can understand the intended final output before running research.",
-    "Upgraded the complete visual system with layered dark surfaces, premium glass treatment, sharper typography hierarchy, stronger spacing, richer shadows and restrained blue-violet intelligence accents.",
-    "Upgraded cards, metrics, pills, inputs and primary actions so evidence feels more structured and high-value without reducing readability.",
-    "Made Research Sprint the visual showpiece with improved progress states, evidence presentation, ready-brief hierarchy, score treatment and production handoff surfaces.",
-    "Upgraded the command palette, loading shimmer, empty-state calls to action, update modal and mobile dock.",
-    "Added subtle motion and hover feedback with reduced-motion support for accessibility.",
-    "Updated the runtime shell to v0.18.0 while preserving all existing research modules and APIs.",
-    "Updated the PWA runtime cache to v0.18.0 and added the new premium interface assets to the offline shell.",
-    "Kept evidence stops, winner-vs-control logic, cross-channel validation, originality rules and public-signal guardrails unchanged."
+    "Removed the self-triggering Updates-panel MutationObserver behaviour that repeatedly removed and re-added the current release class.",
+    "Changed release synchronization so it mutates the DOM only when the release state actually needs to change.",
+    "Reduced the Updates observer to child-list changes only instead of watching class attributes throughout the subtree.",
+    "Bumped all production asset references to v0.18.1 so the corrected shell bypasses the cached v0.18.0 JavaScript.",
+    "Changed the service worker to a new v0.18.1 cache and network-first delivery for core JavaScript/CSS assets during the hotfix transition.",
+    "Kept the full premium visual overhaul and existing research/intelligence behaviour intact."
   ],
-  "why_it_matters": "YTIntel already had increasingly strong research workflows, but the interface still read like a collection of tools. v0.18 changes the perceived product from a dense research dashboard into a premium creator-intelligence operating system: the entry point is clearer, the core workflow is easier to understand, advanced tools are still available without dominating the screen, and the final production brief is presented as the destination. The visual upgrade does not make weak evidence look strong; the same research guardrails remain underneath it."
+  "why_it_matters": "The first v0.18 visual release contained a UI synchronization bug that could trap the browser main thread in an observer feedback loop. v0.18.1 removes that loop and deliberately invalidates the affected cached assets so users can load the premium interface normally without losing the visual upgrade or research features."
 }
