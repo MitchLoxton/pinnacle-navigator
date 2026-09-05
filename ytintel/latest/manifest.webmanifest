@@ -1,0 +1,14 @@
+{
+  "name": "YTIntel — YouTube Competitor Intelligence",
+  "short_name": "YTIntel",
+  "description": "Evidence-first YouTube competitor research and creator intelligence.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#08090c",
+  "theme_color": "#08090c",
+  "orientation": "any",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
