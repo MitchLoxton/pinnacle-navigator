@@ -1,27 +1,30 @@
 {
-  "release_id": "ytintel-0.21.0-public-launch",
-  "version": "v0.21.0",
-  "title": "Public Launch — Useful in One Box, Powerful When You Go Deeper",
-  "summary": "YTIntel is now built to make sense to a first-time public visitor immediately: paste a YouTube video or type a topic, get routed into the right workflow, then share, copy, download or continue from the result without learning the product first.",
+  "release_id": "ytintel-0.22.0-creator-command-center",
+  "version": "v0.22.0",
+  "title": "Creator Command Center — Built to Be Worth Paying For",
+  "summary": "YTIntel now behaves like a persistent creator intelligence workspace instead of a collection of research tools: one premium command center shows the strongest opportunity, best package, next action, tracked competitors, saved ideas and creator-specific workspace context.",
   "discord_changes": [
-    "Added a one-box public start: paste a YouTube video for instant analysis or type a topic to launch a full Research Sprint toward a production-ready brief.",
-    "Simplified the default navigation for new users while keeping Opportunity Radar, Packaging Lab, Pattern Mine, History, Similar Videos and Visuals one click away under Advanced tools.",
-    "Added share, copy, Markdown download and next-step actions to completed Analyse, Radar, Packaging, Research Sprint and Pattern Mine results, plus share-target/deep-link routing."
+    "Added the Creator Command Center with the strongest market signal, best current package, workspace metrics and one evidence-based next move in a premium dashboard.",
+    "Added Competitor Watchtower: save the channels that matter, scan them together and surface their strongest current channel-relative breakouts without retyping each competitor.",
+    "Added Idea Vault + side-by-side opportunity comparison so research can move through Watch → Shortlist → Build → Published instead of disappearing after each scan."
   ],
   "changes": [
-    "Repositioned the home screen around the public user's actual job: get a useful answer from one input instead of learning product terminology first.",
-    "Added a one-box launcher that detects YouTube URLs and routes them to Deep Analyse, while normal topics launch the full Research Sprint workflow.",
-    "Added quick example topics across AI, fitness, gaming, beauty and business so a first-time visitor can understand the input model immediately.",
-    "Added a clear public trust strip: no signup wall, no user credit prompt, Always-On analysis, evidence-first research and production-ready outputs.",
-    "Added plain privacy language explaining that research uses public YouTube evidence and workspace history stays local in the browser unless the user exports or shares it.",
-    "Added a four-part value explanation covering signal discovery, source receipts, packaging and Creator Loop learning.",
-    "New visitors now see the core product path first; advanced research tabs are collapsed behind an Advanced tools control. Existing research-heavy users automatically keep the full navigation.",
-    "Added result action bars to Analyse, Opportunity Radar, Packaging Lab, Research Sprint and Pattern Mine with Share, Copy report, Download Markdown and Next step controls.",
-    "Added reusable deep links for video analysis and topic research so creators can share a YTIntel route with collaborators.",
-    "Added PWA share-target handling so a YouTube link shared into an installed YTIntel app can open directly in Analyse.",
-    "Improved public SEO metadata, page title, description, canonical URL and social preview copy.",
-    "Updated the installed PWA manifest and service-worker shell to v0.21.0 so phone and desktop installs receive the public-launch experience.",
-    "Kept v0.20.1 Always-On fallback behavior, evidence guardrails, winner-vs-control logic, originality checks and no-guarantee positioning intact."
+    "Rebuilt the top-level experience around a persistent Creator Command Center: Research → Decide → Ship.",
+    "Added a local creator workspace for channel/workspace name, channel URL or handle, niche and primary growth goal.",
+    "Added workspace metrics for latest Radar candidates, verified Priority signals, saved ideas, tracked competitors and Creator Loop experiments.",
+    "Added a deterministic Best Next Move card that routes users based on the actual state of their evidence, packaging and Creator Loop history.",
+    "Added a premium Top Opportunity card with opportunity score ring, channel-relative outlier evidence, confidence, cluster state and direct Analyse / Save / Package actions.",
+    "Added a Best Package card with package, evidence-fit and replication scores plus direct copy and production actions.",
+    "Added Competitor Watchtower. Users can persist up to 20 competitor channels, scan them in one action through YTIntel's existing channel discovery engine, rank returned uploads by verified channel-relative outlier evidence when available, then Analyse or save them.",
+    "Added Idea Vault. Radar, Deep Analyse and Watchtower research can now be saved into one persistent pipeline with Watch, Shortlist, Build and Published stages.",
+    "Added side-by-side comparison for the strongest saved ideas using YTIntel signal score and verified channel-relative outlier evidence rather than raw view count alone.",
+    "Added Copy Intelligence Brief to turn the current workspace state into a portable creator-strategy brief containing the best next move, strongest opportunity, best package, saved ideas and evidence guardrail.",
+    "Added Save Idea actions directly onto Opportunity Radar cards and a Save to Idea Vault control on Deep Analyse.",
+    "Added live workspace synchronisation so new Radar, Packaging, Research Sprint and Creator Loop results update the command center without requiring a reload.",
+    "Removed 'free tool' positioning from the product shell and PWA metadata so YTIntel presents as a serious creator intelligence product rather than a disposable utility.",
+    "Added a premium dark-tech visual system with signal-red accents, score rings, stronger information hierarchy, sticky blurred navigation, responsive data panels and upgraded mobile layouts.",
+    "Updated SEO, PWA name, manifest shortcuts and installed-app cache to v0.22.0.",
+    "Kept Always-On analysis, winner-vs-control validation, channel-baseline caps, originality guardrails and the rule that scores are decision aids rather than predictions of views or CTR."
   ],
-  "why_it_matters": "A public creator product cannot rely on users already understanding outliers, validation sets or research tooling. v0.21 makes the first useful action obvious, reduces navigation overload, makes outputs portable, and preserves the deeper evidence system for users who want more control."
+  "why_it_matters": "Creators pay when a product saves repeated research time, keeps valuable intelligence organised, watches the market they care about and helps them make a better production decision. v0.22 turns YTIntel from a set of individual analyses into a persistent operating system for competitor research, opportunity selection, packaging and learning."
 }
