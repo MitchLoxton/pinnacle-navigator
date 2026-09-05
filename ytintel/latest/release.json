@@ -1,27 +1,30 @@
 {
-  "release_id": "ytintel-0.26.0-cloud-intelligence",
-  "version": "v0.26.0",
-  "title": "Cloud Intelligence — YTIntel Keeps Learning Between Visits",
-  "summary": "YTIntel is no longer limited to one browser session. v0.26 adds optional creator accounts, secure multi-device workspace sync, server-side scheduled monitoring, persistent opportunity alerts, cloud longitudinal history and own-channel fit evidence while preserving the existing evidence guardrails.",
+  "release_id": "ytintel-0.27.0-viral-forensics-style-banks",
+  "version": "v0.27.0",
+  "title": "Viral Forensics + Niche Style Banks",
+  "summary": "YTIntel now has a dedicated workflow for the core product promise: paste a video that is blowing up, inspect the public replay peaks and script mechanics, bank the style evidence by niche, compare repeated winner language and turn the accumulated evidence into a new script brief instead of starting from a blank page.",
   "discord_changes": [
-    "Added optional creator accounts + secure cloud workspace sync so research, ideas and longitudinal intelligence can follow the creator across devices.",
-    "Added real server-side scheduled monitoring for saved competitors, niche evidence and the creator’s own channel, with persistent breakout/acceleration alerts.",
-    "Added own-channel fit evidence so Make This Next can show whether a market opportunity overlaps with repeated patterns from the creator’s stronger channel-relative uploads."
+    "Added Viral Forensics: paste one breakout video and see the exact public Most Replayed timestamps beside the nearby transcript, plus hook, re-hooks, script engine, WPM, payoff timing and available visual/audio evidence.",
+    "Added Niche Style Banks that compound winner DNA across saved videos and surface dominant hook/format, pacing, re-hook cadence, replay position, recurring short phrases, visual drivers and attributed audio.",
+    "Added evidence-backed Script Starter briefs and direct Pattern Mine attachment so a 5-10 video winner/control study can feed the same niche bank used to plan the next video."
   ],
   "changes": [
-    "Added Supabase Auth-based creator accounts without forcing sign-in for local trial use.",
-    "Added per-user Row Level Security for creator profiles, competitor watchlists, workspace state, cloud snapshots, alerts and product feedback.",
-    "Added multi-device cloud workspace sync for Creator Workspace, competitors, Idea Vault, Radar history, package history, Creator Loop experiments, Watchtower history and longitudinal timelines.",
-    "Added a server-side monitoring worker that reuses YTIntel’s current discovery engine and stores timestamped channel-relative observations in the cloud.",
-    "Added a pg_cron scheduler that wakes every 15 minutes and processes creator workspaces when their selected monitoring interval is due; the default interval is six hours and can be changed to 3, 6, 12 or 24 hours.",
-    "Added persistent cloud alerts for new uploads, newly verified >=1.5x breakouts, >=3x strong breakouts and observed channel-relative acceleration. Alerts are threshold evidence, not forecasts.",
-    "Added background niche monitoring with channel-baseline verification for a limited set of candidate channels rather than inventing niche-wide outlier multiples from raw views.",
-    "Added own-channel longitudinal snapshots and a personal evidence model built from repeated >=1.5x channel-relative winners.",
-    "Added personal fit evidence to the production decision. It waits for at least five own-channel observations and multiple winners before displaying stronger overlap language.",
-    "Added cloud-to-local hydration so server snapshots compound the existing v0.25 longitudinal timeline on the creator’s device.",
-    "Added a lightweight usefulness feedback control so real creator feedback can be collected against the current workspace state.",
-    "Added an in-app v0.26 release card and updated the PWA cache/installed-app metadata.",
-    "Preserved Always-On analysis, verified-vs-unverified language, channel-relative baselines, winner/control checks, originality guardrails and the rule that public evidence does not prove future views, CTR, private retention or causation."
+    "Added a new Viral Lab tab as a first-class workflow rather than forcing creators to jump between Analyse, Visuals, History and Pattern Mine.",
+    "Viral Lab shows channel-relative outlier evidence when available and explicitly labels the baseline as unverified when it is not.",
+    "Added a Rewind Map using the public Most Replayed curve: up to eight replay/seek-interest peaks with exact timestamps, nearby transcript excerpts and the nearest evidence-backed hotzone driver where available.",
+    "Added a Hook + Re-hook DNA view using the measured hook type, short opening excerpt, re-hook timestamps, re-hook reasons, payoff timing and cadence evidence already extracted by YTIntel.",
+    "Added a Script Engine view for format engine, WPM, sentence style, proof/test loops per minute, payoff/reveal cadence and transferable mechanics.",
+    "Added a Visual + Audio DNA handoff that reuses the real storyboard sampling and public caption/audio evidence rather than inventing editing metrics that cannot be measured from the public sources.",
+    "Added Niche Style Banks with local persistence and optional authenticated cloud sync through a new per-user RLS-protected Supabase table.",
+    "Style Banks keep compact evidence from each saved video: channel-relative outlier, hook, re-hooks, WPM, payoff timing, format engine, replay peaks, recurring terms, visual drivers, audio cues and attributed tracks.",
+    "Style Bank winner aggregates use verified >=1.5x channel-relative breakouts once at least two verified winners exist; before that the bank stays explicitly in LEARNING mode instead of pretending the sample is proven.",
+    "Added cross-video short-phrase mining across saved hook, re-hook and replay excerpts. A phrase only surfaces after appearing in at least two different saved videos and is shown as recurring language evidence, not copy to paste.",
+    "Added an evidence-backed Script Starter. Creators can enter their next idea and get a production brief using the bank's observed hook style, format engine, WPM, first-payoff timing, re-hook cadence, replay-position tendency, visual/audio evidence and repeated language themes.",
+    "Added five starting-angle prompts from the active Style Bank so idea creation begins from observed niche mechanics rather than a generic blank AI prompt.",
+    "Wrapped Pattern Mine so a 5-10 near-identical winner/control study can attach directly to the active Style Bank with repeated points, short source excerpts and the winner-vs-pack evidence preserved.",
+    "Added a direct Open Viral Forensics action to completed video analyses and a dedicated PWA shortcut for Viral Lab.",
+    "Updated PWA cache and installed-app metadata for v0.27.",
+    "Preserved the evidence guardrails: Most Replayed is public replay/seek interest rather than private retention, outlier multiples are observations rather than forecasts, and the product tells creators to borrow mechanics and cadence rather than copy distinctive wording or scenes."
   ],
-  "why_it_matters": "This closes one of the largest gaps between an impressive research tool and a product creators can rely on repeatedly: YTIntel can now remember the workspace across devices, keep collecting real observations between visits and make the next session more personal because it has retained both market history and the creator’s own channel evidence."
+  "why_it_matters": "This moves YTIntel much closer to the intended paid product: not another generic idea generator, but a creator research system that can explain why a niche winner is unusual, show where public viewers replayed it, remember how winning scripts in that niche are structured and turn that accumulated evidence into the next production brief."
 }
