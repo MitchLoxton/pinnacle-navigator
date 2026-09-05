@@ -1,21 +1,23 @@
 {
-  "release_id": "ytintel-0.11.2-replication-check",
-  "version": "v0.11.2",
-  "title": "Replication Check",
-  "summary": "YTIntel now checks whether a winning mechanism repeats across other saved winners before treating one competitor video like a proven pattern.",
+  "release_id": "ytintel-0.12.0-opportunity-radar",
+  "version": "v0.12.0",
+  "title": "Opportunity Radar",
+  "summary": "YTIntel can now find and rank the competitor research set for you instead of making you manually hunt videos one by one.",
   "discord_changes": [
-    "Cross-checks current mechanisms against saved same-niche winners and controls.",
-    "Caps a single-video GO at TEST until independent winner replication exists.",
-    "Flags patterns that also appear heavily in ordinary-performing control videos."
+    "Discovers niche videos and verifies channel-relative breakouts automatically.",
+    "Ranks opportunities using velocity, recency, outlier strength and replay evidence.",
+    "Builds a cross-channel research set you can send straight into Pattern Mine."
   ],
   "changes": [
-    "Added automatic cross-video replication after every deep analysis using the existing niche research library.",
-    "Added winner-versus-control matching for transferable mechanics so common style is not mistaken for a winning driver.",
-    "Added independent-channel requirements before a mechanism can be labelled REPLICATED.",
-    "Added a replication cap that downgrades a single-video GO to TEST until the mechanism repeats across multiple winner channels.",
-    "Added control-heavy warnings when the same mechanism also appears repeatedly in ordinary-performing videos.",
-    "Added a copyable Replication Brief and direct jump into niche History for further validation.",
-    "Refreshed the PWA cache so installed YTIntel copies receive v0.11.2 automatically."
+    "Added a new top-level Opportunity Radar tab for automatic niche and topic discovery.",
+    "Added channel-relative verification across the strongest candidate creators so raw view count is not mistaken for an outlier.",
+    "Added age-adjusted view velocity and recency ranking so emerging videos can outrank stale high-view uploads.",
+    "Added cross-channel title-concept clustering with winner-heavy, cross-channel and control-heavy classifications.",
+    "Added an Opportunity Score with explicit confidence limits when channel baseline data is unavailable.",
+    "Added automatic channel-diverse research-set selection and one-click handoff of 5–10 videos into Pattern Mine.",
+    "Added browser-local Radar history so previous opportunity maps can be restored without another discovery pass.",
+    "Fixed live version-status drift so the GPT-5.6 Sol health checker now respects the current YTIntel release version.",
+    "Refreshed the PWA cache so installed copies receive v0.12.0 automatically."
   ],
-  "why_it_matters": "One breakout can be noise, creator-specific style or luck. Replication Check makes YTIntel demand repeatable cross-video evidence before confidence increases, reducing the chance of building around a one-off winner."
+  "why_it_matters": "YTIntel now covers the step before analysis: finding what is worth analysing. That closes the loop from discovery to verification to deep analysis to cross-video Pattern Mine, while keeping channel baselines and replication checks between raw popularity and a production decision."
 }
