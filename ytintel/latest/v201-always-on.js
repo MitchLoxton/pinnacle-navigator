@@ -7,7 +7,7 @@ const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(
 let state={always_on:true,enhancement_configured:false};
 function setStatus(){
   const s=$('#status');if(!s)return;
-  s.textContent='v0.20.1 · Always-On intelligence live';
+  s.textContent=`v${window.YTINTEL_VERSION||'0.20.1'} · Always-On intelligence live`;
   s.style.borderColor='rgba(85,226,157,.48)';
   s.style.color='#9af1c2';
   s.title=state.enhancement_configured?'YTIntel always-on analysis is active. GPT-5.6 Sol is available as a cloud enhancement when the provider is available.':'YTIntel always-on analysis is active. Cloud model access is optional; the analyser does not stop when it is unavailable.';
