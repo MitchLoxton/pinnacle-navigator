@@ -2,8 +2,8 @@
   "id": "./?app=ytintel",
   "name": "YTIntel — YouTube Creator Intelligence OS",
   "short_name": "YTIntel",
-  "description": "Track competitors, discover channel-relative outliers, validate patterns, save opportunities, build original packaging and turn YouTube research into production decisions.",
-  "start_url": "./?source=pwa&v=0220",
+  "description": "Open YTIntel to see what changed, what deserves production time, what to make next and what your own channel is teaching you.",
+  "start_url": "./?source=pwa&v=0240",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -14,7 +14,7 @@
     {"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Creator Command Center","short_name":"Command Center","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Today Brief","short_name":"Today","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
     {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
     {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
     {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0220","sizes":"any","type":"image/svg+xml"}]},
