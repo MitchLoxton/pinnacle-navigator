@@ -36,6 +36,9 @@ jobs:
           node --check ytintel/latest/v250-radar-persistence.js
           node --check ytintel/latest/v250-app.js
           node --check ytintel/latest/v281-auth-fix.js
+          node --check ytintel/latest/v283-deep-packaging.js
+          node --check ytintel/latest/v284-luxe.js
+          node --check ytintel/latest/v290-commercial.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           echo "YTIntel release validation passed."
@@ -58,8 +61,6 @@ jobs:
         if: github.event_name == 'push'
         shell: bash
         run: |
-          # Multiple files are often committed within one release. Waiting briefly
-          # lets GitHub Actions cancel intermediate runs so Discord gets one final card.
           sleep 45
 
       - name: Detect YTIntel changes
@@ -71,9 +72,6 @@ jobs:
         run: |
           set -euo pipefail
           AFTER="${{ github.sha }}"
-
-          # If a newer YTIntel commit landed while this run was settling, leave the
-          # notification to that newer deployment. Non-YTIntel commits do not suppress it.
           git fetch origin main --quiet
           LATEST="$(git rev-parse origin/main)"
           if [ "$LATEST" != "$AFTER" ]; then
