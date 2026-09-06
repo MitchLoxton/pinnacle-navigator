@@ -1,25 +1,21 @@
 {
-  "release_id": "ytintel-0.29.0-paid-launch-foundation",
-  "version": "v0.29.0",
-  "title": "Paid Launch Foundation",
-  "summary": "YTIntel now has a real commercial layer around its creator intelligence: Free and Founding Pro plans, persistent usage limits, premium upgrade UX, conversion tracking and Stripe-backed subscription provisioning.",
+  "release_id": "ytintel-0.29.1-auth-focus-reset",
+  "version": "v0.29.1",
+  "title": "Auth Focus Reset",
+  "summary": "YTIntel is now locking onto one core experience at a time. First target: one reliable account session and a core Analyse flow that never gets blocked by a false sign-in state.",
   "discord_changes": [
-    "Added a polished Free vs Founding Pro experience directly inside YTIntel around the Analyse → Packaging workflow.",
-    "Added persistent monthly usage tracking, plan-aware limits and automatic Stripe-to-YTIntel Pro entitlement provisioning.",
-    "Created live YTIntel Pro at $39 USD/month; the only checkout blocker left is Stripe's required public business-name field."
+    "One shared YTIntel auth session now powers account, cloud and plan layers instead of competing Supabase clients.",
+    "Analyse automatically recovers from false Sign in required states and stays usable without an account.",
+    "Feature expansion is paused while the Sign in → Analyse core loop is perfected first."
   ],
   "changes": [
-    "Added the v0.29 commercial UI with Unlock Pro, a premium pricing modal, usage status, value rails and contextual limit-reached upgrade states.",
-    "Set Free to 3 deep analyses, 1 source-specific package run and 5 Radar scans per month so creators can reach first value before paying.",
-    "Set Founding Pro to $39 USD/month with 60 deep analyses, 30 deep package runs and 200 Radar scans per month.",
-    "Created live Stripe product prod_VCygL88mhGJJ1o and monthly recurring price price_1UCYjIKCi4Ty31a3z4fouGu1.",
-    "Added Supabase subscription-state, monthly-usage and commercial-event tables with RLS plus authenticated status and usage-consumption RPCs.",
-    "Added account-email mapping so a completed Stripe checkout can safely attach the subscription to the correct signed-in YTIntel account.",
-    "Repurposed the retired v0.5 ytintel-api slot into a signature-verified live Stripe webhook for checkout, subscription lifecycle and failed-payment events.",
-    "Registered a live Stripe webhook for checkout.session.completed, subscription create/update/delete and invoice paid/failed events.",
-    "Added conversion instrumentation for app opens, pricing views, upgrade clicks, action starts, free-limit hits and package-result views.",
-    "Bumped the PWA shell to v0.29.0 and expanded CI syntax validation to the commercial, Luxe and deep-packaging launch files.",
-    "Kept checkout visibly unavailable until Stripe has the required public business name instead of exposing a broken purchase flow."
+    "Added a canonical auth core that loads before the cloud, account and commercial layers and forces them to reuse one Supabase client/session.",
+    "Added session refresh and a single ytintel:auth state event so signed-in UI and backend actions stop disagreeing about whether the user is authenticated.",
+    "Added an Analyse recovery path that retries the original public analyser directly if another layer incorrectly injects a Sign in required error.",
+    "Added signed-in retry recovery for account-backed actions when a stale token causes a false authentication failure.",
+    "Kept core Analyse public: account sign-in remains optional for the primary evidence workflow.",
+    "Bumped the PWA shell to v0.29.1 and added deployment syntax validation for the new auth core.",
+    "Development focus is now intentionally frozen on Sign in + Analyse before another feature receives priority."
   ],
-  "why_it_matters": "The product-side paid loop and the server-side entitlement foundation now exist. Once Stripe's public business name is filled in, the live Payment Link can be created and dropped into YTIntel without another product redesign or entitlement rebuild."
+  "why_it_matters": "A product with ten features is not useful if the first action feels unreliable. This release makes authentication one system instead of several competing systems and formally shifts YTIntel to one-core-loop-at-a-time development."
 }
