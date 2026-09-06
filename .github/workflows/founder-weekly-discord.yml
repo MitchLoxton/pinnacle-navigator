@@ -1,0 +1,142 @@
+name: Founder Weekly Progress Discord
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: founder-weekly-progress-discord
+  cancel-in-progress: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    environment: github-pages
+    steps:
+      - name: Restore prior notification state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .founder-state
+          echo '[]' > .founder-state/state.json
+          ARTIFACT_URL="$(curl --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts?name=founder-weekly-discord-state&per_page=20" \
+            | jq -r '[.artifacts[] | select(.expired==false)] | sort_by(.created_at) | last | .archive_download_url // empty')"
+          if [ -n "$ARTIFACT_URL" ]; then
+            curl -L --fail --silent --show-error \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "$ARTIFACT_URL" -o /tmp/founder-state.zip || true
+            if [ -s /tmp/founder-state.zip ]; then
+              unzip -oq /tmp/founder-state.zip -d /tmp/founder-state || true
+              if [ -f /tmp/founder-state/state.json ]; then cp /tmp/founder-state/state.json .founder-state/state.json; fi
+            fi
+          fi
+          jq empty .founder-state/state.json || echo '[]' > .founder-state/state.json
+
+      - name: Post new progress events
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEEKLY_WEBHOOK }}
+          DASHBOARD: https://mitchloxton.github.io/pinnacle-navigator/founder-weekly/
+          SUPA_URL: https://dkmacktcfhubsumwrydw.supabase.co
+          SUPA_KEY: sb_publishable_VATM2AkVyl-yvxv28S2FXw_CqMpBr6q
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${WEBHOOK:-}" ]; then
+            echo "::error::DISCORD_YTINTEL_WEEKLY_WEBHOOK is not configured."
+            exit 1
+          fi
+
+          FEED="$(curl --fail --silent --show-error \
+            -X POST \
+            -H "apikey: $SUPA_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$SUPA_URL/rest/v1/rpc/founder_weekly_discord_feed")"
+
+          echo "$FEED" | jq -e 'type=="array"' >/dev/null
+          posted=0
+          while IFS= read -r row; do
+            [ -n "$row" ] || continue
+            key="$(printf '%s' "$row" | base64 -d | jq -r '.event_key')"
+            if jq -e --arg k "$key" 'index($k) != null' .founder-state/state.json >/dev/null; then
+              continue
+            fi
+
+            decoded="$(printf '%s' "$row" | base64 -d)"
+            kind="$(jq -r '.event_kind' <<<"$decoded")"
+            title="$(jq -r '.title' <<<"$decoded")"
+            body="$(jq -r '.body' <<<"$decoded")"
+            color="$(jq -r '.color // 16171850' <<<"$decoded")"
+
+            case "$kind" in
+              checkpoint_complete) prefix="✅ CHECKPOINT CLEARED" ;;
+              checkpoint_update) prefix="⚡ PROGRESS MOVED" ;;
+              review_approved) prefix="🟢 REVIEW CLEARED" ;;
+              review_rework) prefix="🔁 REWORK REQUIRED" ;;
+              review_clarification) prefix="💬 CLARIFICATION" ;;
+              week_approval) prefix="✓ WEEK APPROVAL" ;;
+              week_locked) prefix="🔒 WEEK LOCKED" ;;
+              sunday_result) prefix="🏆 SUNDAY RESULT SHIPPED" ;;
+              bottom_frag) prefix="🚨 BOTTOM FRAG" ;;
+              final_boss) prefix="⏳ FINAL BOSS" ;;
+              *) prefix="⚡ FOUNDER WEEKLY" ;;
+            esac
+
+            PAYLOAD="$(jq -n \
+              --arg prefix "$prefix" \
+              --arg title "$title" \
+              --arg body "$body" \
+              --arg dashboard "$DASHBOARD" \
+              --argjson color "$color" \
+              '{
+                username:"Founder Weekly",
+                content:"",
+                allowed_mentions:{parse:[]},
+                embeds:[{
+                  title:($prefix + " · " + $title),
+                  url:$dashboard,
+                  description:($body + "\n\n**[OPEN THE BOARD →](" + $dashboard + ")**"),
+                  color:$color,
+                  footer:{text:"Founder Weekly • progress is earned, not typed"}
+                }]
+              }')"
+
+            sent=false
+            for attempt in 1 2 3; do
+              if curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"; then
+                sent=true
+                break
+              fi
+              sleep $((attempt * 2))
+            done
+            if [ "$sent" != "true" ]; then
+              echo "::error::Failed to post Founder Weekly event: $key"
+              exit 1
+            fi
+
+            jq --arg k "$key" '. + [$k] | unique | if length > 500 then .[-500:] else . end' .founder-state/state.json > .founder-state/state.tmp
+            mv .founder-state/state.tmp .founder-state/state.json
+            posted=$((posted+1))
+          done < <(printf '%s' "$FEED" | jq -r '.[] | @base64')
+
+          echo "Founder Weekly Discord events posted: $posted"
+
+      - name: Save notification state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: founder-weekly-discord-state
+          path: .founder-state/state.json
+          retention-days: 90
+          overwrite: true
