@@ -1,0 +1,46 @@
+/* YTIntel v0.29.2 — owner access + commercial polish */
+
+/* Remove the decorative faux-play card from the Analyse / Packaging heroes. */
+body.yt-ui-v284 .v284-hero-note{display:none!important}
+body.yt-ui-v284 #analyse>.hero p,
+body.yt-ui-v284 #packaging>.hero p{padding-right:0!important;max-width:930px!important}
+
+/* Cleaner pricing surface: calmer hierarchy, one accent system, less clutter. */
+.yt290-modal{padding:20px!important;background:rgba(2,4,8,.9)!important;backdrop-filter:blur(18px) saturate(115%)!important}
+.yt290-panel{width:min(880px,100%)!important;max-height:90vh!important;padding:24px!important;border-radius:22px!important;border:1px solid rgba(255,255,255,.1)!important;background:radial-gradient(760px 320px at 90% -8%,rgba(255,79,104,.09),transparent 62%),linear-gradient(180deg,#0d1118 0%,#080b10 100%)!important;box-shadow:0 34px 110px rgba(0,0,0,.64),inset 0 1px 0 rgba(255,255,255,.03)!important}
+.yt290-close{right:16px!important;top:16px!important;width:36px!important;height:36px!important;border-radius:10px!important;background:#121720!important;border-color:rgba(255,255,255,.09)!important;color:#cdd5df!important}
+.yt290-head{max-width:none!important;margin:0 0 20px!important;padding:0 52px 0 2px!important;text-align:left!important}
+.yt290-kicker{font-size:9px!important;letter-spacing:.17em!important;color:#ff8294!important}
+.yt290-head h2{max-width:700px!important;margin:8px 0 9px!important;font-size:clamp(30px,4vw,44px)!important;line-height:1.02!important;letter-spacing:-.045em!important;text-wrap:balance}
+.yt290-head p{max-width:680px!important;margin:0!important;color:#929daf!important;font-size:13px!important;line-height:1.55!important}
+.yt290-plans{grid-template-columns:.88fr 1.12fr!important;gap:12px!important}
+.yt290-plan{padding:19px!important;border-radius:18px!important;border-color:rgba(255,255,255,.075)!important;background:rgba(255,255,255,.018)!important}
+.yt290-plan:not(.pro){opacity:.82}
+.yt290-plan.pro{border-color:rgba(255,79,104,.32)!important;background:radial-gradient(420px 220px at 100% 0%,rgba(255,79,104,.08),transparent 68%),linear-gradient(155deg,rgba(255,255,255,.03),rgba(255,255,255,.014))!important;box-shadow:0 18px 48px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025)!important}
+.yt290-plan h3{font-size:21px!important;letter-spacing:-.025em!important}
+.yt290-price{font-size:30px!important;letter-spacing:-.035em!important}
+.yt290-price small{font-size:9px!important;color:#778397!important;letter-spacing:.045em!important}
+.yt290-pill{padding:5px 8px!important;background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.08)!important;color:#9aa6b8!important;font-size:8px!important;letter-spacing:.1em!important}
+.yt290-plan.pro .yt290-pill{background:rgba(255,79,104,.08)!important;border-color:rgba(255,79,104,.18)!important;color:#ff93a2!important}
+.yt290-list{gap:8px!important;margin:16px 0 18px!important}
+.yt290-list div{font-size:12px!important;color:#cdd5df!important;line-height:1.42!important}
+.yt290-list b{color:#72e0aa!important}
+.yt290-cta{min-height:44px!important;border-radius:11px!important}
+.yt290-fine{margin-top:8px!important;font-size:9px!important;color:#687487!important}
+.yt290-proof{display:none!important}
+.yt290-blocked{margin-top:10px!important;padding:9px 10px!important;border-radius:11px!important;border-color:rgba(255,255,255,.07)!important;background:rgba(255,255,255,.025)!important;color:#8f9bad!important;font-size:10px!important;line-height:1.45!important}
+.yt290-cta:disabled{cursor:not-allowed!important;opacity:.52!important;transform:none!important;box-shadow:none!important}
+
+/* The owner account is a developer workspace, not a paying customer. */
+body.ytintel-developer .yt290-upgrade{display:none!important}
+body.ytintel-developer .yt290-usage{border-color:rgba(97,226,161,.2)!important;background:rgba(97,226,161,.045)!important;color:#9badb9!important}
+body.ytintel-developer .yt290-usage b{color:#79e7b0!important}
+
+@media(max-width:760px){
+  .yt290-modal{padding:10px!important}
+  .yt290-panel{padding:18px 14px!important;border-radius:18px!important}
+  .yt290-head{padding-right:42px!important}
+  .yt290-plans{grid-template-columns:1fr!important}
+  .yt290-plan:not(.pro){order:2}
+  .yt290-plan.pro{order:1}
+}
