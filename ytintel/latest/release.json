@@ -2,22 +2,24 @@
   "release_id": "ytintel-0.29.0-paid-launch-foundation",
   "version": "v0.29.0",
   "title": "Paid Launch Foundation",
-  "summary": "YTIntel now has the commercial layer needed to move from a powerful creator tool toward a paid SaaS: clear Free and Founding Pro plans, usage limits, premium upgrade UX, conversion tracking and persistent subscription/usage infrastructure.",
+  "summary": "YTIntel now has a real commercial layer around its creator intelligence: Free and Founding Pro plans, persistent usage limits, premium upgrade UX, conversion tracking and Stripe-backed subscription provisioning.",
   "discord_changes": [
-    "Added a polished Free vs Founding Pro upgrade experience directly inside YTIntel, built around the Analyse → Packaging workflow.",
-    "Added persistent monthly usage tracking and plan-aware limits for deep analyses, Packaging Lab and Opportunity Radar.",
-    "Created the live YTIntel Pro product in Stripe at $39 USD/month; checkout activation is waiting on Stripe's required public business-name field."
+    "Added a polished Free vs Founding Pro experience directly inside YTIntel around the Analyse → Packaging workflow.",
+    "Added persistent monthly usage tracking, plan-aware limits and automatic Stripe-to-YTIntel Pro entitlement provisioning.",
+    "Created live YTIntel Pro at $39 USD/month; the only checkout blocker left is Stripe's required public business-name field."
   ],
   "changes": [
-    "Added the v0.29 commercial UI with an in-app Unlock Pro control, premium pricing modal, usage status pill and limit-reached upgrade states.",
-    "Positioned the free plan at 3 deep analyses, 1 source-specific package run and 5 Radar scans per month so users can reach first value before paying.",
-    "Positioned Founding Pro at $39 USD/month with 60 deep analyses, 30 deep package runs and 200 Radar scans per month.",
-    "Created live Stripe product prod_VCygL88mhGJJ1o and recurring monthly price price_1UCYjIKCi4Ty31a3z4fouGu1.",
+    "Added the v0.29 commercial UI with Unlock Pro, a premium pricing modal, usage status, value rails and contextual limit-reached upgrade states.",
+    "Set Free to 3 deep analyses, 1 source-specific package run and 5 Radar scans per month so creators can reach first value before paying.",
+    "Set Founding Pro to $39 USD/month with 60 deep analyses, 30 deep package runs and 200 Radar scans per month.",
+    "Created live Stripe product prod_VCygL88mhGJJ1o and monthly recurring price price_1UCYjIKCi4Ty31a3z4fouGu1.",
     "Added Supabase subscription-state, monthly-usage and commercial-event tables with RLS plus authenticated status and usage-consumption RPCs.",
+    "Added account-email mapping so a completed Stripe checkout can safely attach the subscription to the correct signed-in YTIntel account.",
+    "Repurposed the retired v0.5 ytintel-api slot into a signature-verified live Stripe webhook for checkout, subscription lifecycle and failed-payment events.",
+    "Registered a live Stripe webhook for checkout.session.completed, subscription create/update/delete and invoice paid/failed events.",
     "Added conversion instrumentation for app opens, pricing views, upgrade clicks, action starts, free-limit hits and package-result views.",
-    "Added premium value rails to Analyse and Packaging Lab so first-time users can understand the core payoff without learning the whole navigation system.",
-    "Bumped the PWA shell to v0.29.0 and added CI syntax checks for the commercial and deep-packaging launch files.",
-    "Kept live checkout disabled until Stripe has the required public business name rather than exposing a broken or unverifiable purchase flow."
+    "Bumped the PWA shell to v0.29.0 and expanded CI syntax validation to the commercial, Luxe and deep-packaging launch files.",
+    "Kept checkout visibly unavailable until Stripe has the required public business name instead of exposing a broken purchase flow."
   ],
-  "why_it_matters": "The product is no longer missing the commercial experience around its intelligence. Users can understand what is free, what Pro unlocks and when an upgrade is relevant. The remaining launch blocker is payment-account activation and secure post-payment entitlement provisioning, not another creator feature."
+  "why_it_matters": "The product-side paid loop and the server-side entitlement foundation now exist. Once Stripe's public business name is filled in, the live Payment Link can be created and dropped into YTIntel without another product redesign or entitlement rebuild."
 }
