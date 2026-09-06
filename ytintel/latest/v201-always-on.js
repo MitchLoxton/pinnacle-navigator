@@ -20,7 +20,8 @@ async function loadLatest(){
     ['v281-ideas.js?v=0293','v281-ideas'],['v281-auth-fix.js?v=0293','v281-auth-fix'],
     ['v282-product-fix.js?v=0293','v282-product-fix'],['v283-deep-packaging.js?v=0293','v283-deep-packaging'],
     ['v284-luxe.js?v=0293','v284-luxe'],['v290-commercial.js?v=0293','v290-commercial'],
-    ['v292-owner-polish.js?v=0293','v292-owner-polish'],['v293-notes-focus.js?v=0293','v293-notes-focus']
+    ['v292-owner-polish.js?v=0293','v292-owner-polish'],['v293-notes-focus.js?v=0293','v293-notes-focus'],
+    ['v293-release-card.js?v=0293','v293-release-card']
   ];
   for(const [src,key] of queue)await one(src,key);
   try{window.dispatchEvent(new CustomEvent('ytintel:late-layers-ready'))}catch{}
