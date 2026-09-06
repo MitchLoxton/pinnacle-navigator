@@ -35,6 +35,7 @@ jobs:
           node --check ytintel/latest/v220-sync.js
           node --check ytintel/latest/v250-radar-persistence.js
           node --check ytintel/latest/v250-app.js
+          node --check ytintel/latest/v281-auth-fix.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           echo "YTIntel release validation passed."
