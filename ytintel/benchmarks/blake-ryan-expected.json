@@ -1,0 +1,73 @@
+{
+  "benchmark_id": "ytintel-benchmark-13-blake-ryan-2026-09-06",
+  "video_url": "https://www.youtube.com/watch?v=GzhT10i4vag",
+  "video_id": "GzhT10i4vag",
+  "title_watch_page": "YouTube's New Content Format… Here's How I'd Exploit It",
+  "channel": "Blake Ryan Unscripted",
+  "channel_handle": "@blakeryanunscripted",
+  "ground_truth": {
+    "duration_seconds": 561,
+    "subscriber_count": 6190,
+    "views_watch_pull": 1242,
+    "views_rss_pull": 1264,
+    "word_count": 2154,
+    "wpm": 230.4,
+    "channel_median_views": 2241,
+    "outlier_multiple": 0.55,
+    "video_age_hours_approx": 32,
+    "likes": 31,
+    "comments": 2,
+    "most_replayed_available": false,
+    "chapters_available": false,
+    "selling_share_percent": 31,
+    "time_to_first_receipt_seconds": 54,
+    "time_to_first_creator_payoff_seconds": 110,
+    "time_to_first_sell_seconds": 441,
+    "beat_count": 12,
+    "median_beat_seconds": 44,
+    "longest_beat_seconds": 103,
+    "longest_silence_seconds": 1.9
+  },
+  "title_variants": [
+    "YouTube's New Content Format… Here's How I'd Exploit It",
+    "YouTube's Secret Plan For Creators.. (TV Content)",
+    "YouTube Has A New Video Format.. (And It's TV)"
+  ],
+  "required_quality_behaviors": [
+    "Synthesize the main message across the whole video instead of restating captions.",
+    "Use de-duplicated word-timed captions for WPM and reject implausible pacing outputs.",
+    "Attach pull time or age context to time-sensitive metrics.",
+    "Compute or explicitly explain missing channel baseline and outlier context.",
+    "When Most Replayed is absent, explain the absence and use clearly-labelled transcript-derived attention hypotheses instead of fabricated hotzones.",
+    "Analyze the first 30–60 seconds by function: hook, proof, re-hook, receipt and payoff.",
+    "Map major beats across the full runtime rather than selecting only opening transcript segments.",
+    "Separate creator claims from verified facts with a claim verdict.",
+    "Detect likely title testing when watch/channel/search surfaces expose different titles concurrently.",
+    "Analyze business/funnel intent including sales/demo/CTA share where evidence permits.",
+    "Use storyboard evidence as a visual fallback when the full video file is blocked and state the limitation.",
+    "Distinguish transferable mechanics from literal copying or unsupported claims.",
+    "Generate user-specific remake directions from the evidence rather than generic preset title formulas.",
+    "Provide a measurement plan for testing the remake hypothesis after publication."
+  ],
+  "known_old_failures": {
+    "subscriber_count_reported": 0,
+    "wpm_reported": 692.7,
+    "channel_median_missing": true,
+    "outlier_missing": true,
+    "title_test_not_detected": true,
+    "premium_takeaways_were_transcript_echo": true
+  },
+  "acceptance": {
+    "wpm_absolute_tolerance": 12,
+    "subscriber_count_tolerance_percent": 10,
+    "channel_median_tolerance_percent": 20,
+    "outlier_multiple_tolerance": 0.15,
+    "must_not_show_692_7_wpm": true,
+    "must_not_claim_most_replayed_exists": true,
+    "must_explain_missing_replay": true,
+    "must_include_whole_video_synthesis": true,
+    "must_include_claims_or_uncertainty_layer": true,
+    "must_include_business_or_funnel_read": true,
+    "must_avoid_transcript_echo_as_takeaways": true
+  }
+}
