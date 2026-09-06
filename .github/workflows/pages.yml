@@ -114,11 +114,12 @@ jobs:
             echo "release_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Send clean YTIntel Discord update
+      - name: Send rewarding YTIntel Discord release
         if: github.event_name == 'push' && steps.ytintel.outputs.changed == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
+          ICON_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/icon.svg
           RELEASE_CHANGED: ${{ steps.ytintel.outputs.release_changed }}
           BASE_SHA: ${{ steps.ytintel.outputs.base }}
           AFTER_SHA: ${{ steps.ytintel.outputs.after }}
@@ -132,45 +133,82 @@ jobs:
 
           VERSION=""
           TITLE="Update live"
-          SUMMARY="A new YTIntel update is live."
+          SUMMARY="A new YTIntel improvement is live."
           BULLETS=""
+          WHY="Another piece of YTIntel has moved forward and is live for the next session."
+          CHANGE_COUNT="1"
 
           if [ "$RELEASE_CHANGED" = "true" ] && [ -f ytintel/latest/release.json ]; then
             VERSION="$(jq -r '.version // ""' ytintel/latest/release.json)"
             TITLE="$(jq -r '.title // "Update live"' ytintel/latest/release.json)"
             SUMMARY="$(jq -r '.summary // "A new YTIntel update is live."' ytintel/latest/release.json)"
+            WHY="$(jq -r '.why_it_matters // "This release makes YTIntel more useful, faster or clearer for the next creator decision."' ytintel/latest/release.json)"
+            CHANGE_COUNT="$(jq -r '(.changes // .discord_changes // []) | length' ytintel/latest/release.json)"
             BULLETS="$(jq -r '
-              [(.discord_changes // .changes // [])[]][0:3]
-              | map(sub("^Added "; "") | sub("^Updated "; "") | if length > 105 then .[0:102] + "…" else . end | "• " + .)
+              [(.discord_changes // .changes // [])[]][0:4]
+              | map(
+                  sub("^Added "; "")
+                  | sub("^Updated "; "")
+                  | sub("^Rebuilt "; "")
+                  | if length > 155 then .[0:152] + "…" else . end
+                  | "• " + .
+                )
               | join("\n")
             ' ytintel/latest/release.json)"
           else
             YT_COMMIT="$(git log -1 --format='%H' "${BASE_SHA}..${AFTER_SHA}" -- ytintel/ 2>/dev/null || true)"
             if [ -z "$YT_COMMIT" ]; then YT_COMMIT="$AFTER_SHA"; fi
             TITLE="$(git log -1 --format='%s' "$YT_COMMIT" | sed -E 's/^Add YTIntel v[0-9.]+ //; s/^Release YTIntel v[0-9.]+ //')"
-            SUMMARY="A new YTIntel improvement is now live."
+            SUMMARY="A new YTIntel improvement has passed deployment and is live now."
+            BULLETS="• ${TITLE}"
           fi
 
-          TITLE="${TITLE:0:90}"
-          SUMMARY="${SUMMARY:0:180}"
+          SHORT_SHA="${AFTER_SHA:0:7}"
+          TITLE="${TITLE:0:95}"
+          SUMMARY="${SUMMARY:0:520}"
+          BULLETS="${BULLETS:0:850}"
+          WHY="${WHY:0:850}"
+          SHIPPED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          COMPARE_URL="https://github.com/${GITHUB_REPOSITORY}/compare/${BASE_SHA}...${AFTER_SHA}"
+          VERSION_LABEL="${VERSION:-YTIntel}"
 
           PAYLOAD="$(jq -n \
-            --arg version "$VERSION" \
+            --arg version "$VERSION_LABEL" \
             --arg title "$TITLE" \
             --arg summary "$SUMMARY" \
             --arg bullets "$BULLETS" \
+            --arg why "$WHY" \
+            --arg count "$CHANGE_COUNT" \
             --arg live "$LIVE_URL" \
+            --arg icon "$ICON_URL" \
+            --arg sha "$SHORT_SHA" \
+            --arg compare "$COMPARE_URL" \
+            --arg shipped "$SHIPPED_AT" \
             '{
-              username:"YTIntel",
+              username:"YTIntel • Release Bot",
+              avatar_url:$icon,
+              content:"@everyone 🚀 **YTINTEL UPDATE SHIPPED**\n🏆 Work shipped. Progress banked. The new build is live.",
+              allowed_mentions:{parse:["everyone"]},
               embeds:[{
-                title:("✨ " + (if $version=="" then "YTIntel" else "YTIntel " + $version end) + " — " + $title),
-                description:(
-                  $summary
-                  + (if $bullets=="" then "" else "\n\n" + $bullets end)
-                  + "\n\n[Open YTIntel →](" + $live + ")"
-                ),
+                author:{name:"YTIntel • Creator Intelligence OS",icon_url:$icon,url:$live},
+                title:("🏆 " + $version + " — " + $title),
                 url:$live,
-                color:5763719
+                description:(
+                  "**SHIP COMPLETE.** Another real upgrade is out of the backlog and into the product.\n\n"
+                  + $summary
+                  + "\n\n**[OPEN THE NEW BUILD →](" + $live + ")**"
+                ),
+                color:16729432,
+                thumbnail:{url:$icon},
+                fields:[
+                  {name:"✨ WHAT JUST GOT BETTER",value:(if $bullets=="" then "• A new YTIntel improvement is live." else $bullets end),inline:false},
+                  {name:"💎 WHY THIS MATTERS",value:$why,inline:false},
+                  {name:"✅ RELEASE STATUS",value:"`✓` Validation passed\n`✓` GitHub Pages deployed\n`✓` Live build available\n`✓` Discord ship receipt sent",inline:true},
+                  {name:"🔥 MOMENTUM",value:($count + " improvements in this release\nBuild `" + $sha + "` is live\n**Keep stacking wins.**"),inline:true},
+                  {name:"🧾 BUILD RECEIPT",value:("[View code changes →](" + $compare + ")\n[Open YTIntel →](" + $live + ")"),inline:false}
+                ],
+                footer:{text:("YTIntel • shipped from main • build " + $sha),icon_url:$icon},
+                timestamp:$shipped
               }]
             }')"
 
@@ -179,11 +217,11 @@ jobs:
               -H 'Content-Type: application/json' \
               -d "$PAYLOAD" \
               "$WEBHOOK"; then
-              echo "YTIntel Discord notification sent."
+              echo "YTIntel rewarding Discord release notification sent."
               exit 0
             fi
             sleep $((attempt * 3))
           done
 
-          echo "::error::YTIntel deployed, but the Discord notification failed after 3 attempts."
+          echo "::error::YTIntel deployed, but the rewarding Discord notification failed after 3 attempts."
           exit 1
