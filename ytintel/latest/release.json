@@ -1,37 +1,24 @@
 {
-  "release_id": "ytintel-0.28.0-production-studio",
-  "version": "v0.28.0",
-  "title": "Production Studio + Evidence-Backed Idea Lab",
-  "summary": "YTIntel now pushes the core viral-research workflow from discovery into production: paste a breakout video, inspect public replay moments and script DNA, bank the niche style, auto-build a 5-10 video comparison set, generate original idea packages from winner/control evidence, convert the chosen idea into a timed script blueprint and track the exact hypothesis on our own channel through Creator Loop.",
+  "release_id": "ytintel-0.28.1-account-access-fix",
+  "version": "v0.28.1",
+  "title": "Account & Access Fix",
+  "summary": "YTIntel's account flow is now separated, personalised and production-aware: signup has its own screen with a username, successful account creation is shown as success rather than an error, verification links request a return to the live YTIntel app, and core analysis controls are kept available instead of being accidentally left restricted by account UI state.",
   "discord_changes": [
-    "Added an Evidence-Backed Idea Lab inside each Style Bank: generate original titles, hooks and thumbnail directions from the bank's saved winners, controls and attached Pattern Mine evidence.",
-    "Added one-click niche comparison plus a timed Production Blueprint using observed WPM, hook type, format engine, first-payoff timing and re-hook cadence.",
-    "Added Track on our channel so the exact Style Bank hypothesis and blueprint can be measured against our own public channel baseline before paid launch."
+    "Fixed account verification redirects so new signup emails request the live YTIntel URL instead of localhost.",
+    "Split Create account into its own screen with username, confirm-password and clear green success feedback.",
+    "Added personalised Welcome back messaging and hardened Analyse/Viral Lab controls so account UI state cannot leave the core analyser disabled."
   ],
   "changes": [
-    "Built on v0.27 Viral Forensics: paste one breakout video, inspect public Most Replayed timestamps beside nearby transcript evidence, hook/re-hook structure, WPM, payoff timing and available visual/audio evidence.",
-    "Built on v0.27 Niche Style Banks: keep compact winner DNA by niche, sync signed-in banks across devices and aggregate dominant hook/format, pacing, replay-position tendencies, repeated short language, visual drivers and attributed audio.",
-    "Added Auto-build niche comparison inside the active Style Bank. It discovers similar public videos, prioritises any already-verified channel-relative breakouts, keeps the current analysed video in the set and runs a 5-10 video Pattern Mine.",
-    "Automatic comparison preserves short source receipts and winner-vs-pack evidence from Pattern Mine instead of reducing the result to generic AI advice.",
-    "Added an Evidence-Backed Idea Lab that sends the active Style Bank's verified winners, controls and repeated pattern evidence into YTIntel's existing Always-On packaging engine.",
-    "Idea Lab returns 3-5 original packages with title, concept, opening hook, thumbnail direction, evidence receipts, risk language and a visible package score. Cloud AI can deepen the result when available; the deterministic Always-On engine remains the fallback.",
-    "A generated idea can be sent directly into the script blueprint with one click, keeping research, packaging and writing in the same workflow.",
-    "Added a Production Studio directly inside each Style Bank so research and writing no longer live in separate workflows.",
-    "Added target-runtime input and a calculated spoken-word target from the bank's observed WPM median. When the bank does not yet have enough pacing evidence, the product uses a clearly conservative 150 WPM fallback rather than pretending the number was measured.",
-    "Added a section-by-section production timeline with time ranges, approximate word budgets, hook, first-payoff, proof/progression, re-hook and final-payoff roles.",
-    "The production timeline uses the bank's observed first-payoff and re-hook medians when available, with conservative fallbacks while the bank is still in learning mode.",
-    "Attached Pattern Mine themes feed each writing beat as evidence to cover in original wording; YTIntel still warns against copying distinctive competitor wording, jokes, scenes or compositions.",
-    "Repeated visual hotzone drivers and attributed audio references from the bank can appear beside production beats as references, without pretending storyboard sampling is measured cuts-per-minute or that music attribution grants reuse rights.",
-    "Added an original starter-hook generator that adapts to the dominant observed hook mechanism while avoiding source wording.",
-    "Added one-click Copy Blueprint for the full evidence-backed writing plan.",
-    "Added Track on our channel. It creates a Creator Loop experiment carrying the Style Bank ID/name, verified-winner count, original hook, runtime, WPM, first-payoff target, re-hook target and complete production blueprint.",
-    "Creator Loop can then attach the published YouTube URL and keep public channel-relative outcome snapshots, turning our own uploads into a falsifiable validation loop before broad paid launch.",
-    "Changed the one-box starting experience so pasted YouTube URLs now route into Viral Forensics first, while niche/topic text still routes into the broader Research Sprint.",
-    "The starting screen now explains the actual recurring product loop: rewind moments, script DNA, niche Style Banks and production handoff instead of treating a deep video analysis as a generic report.",
-    "Added RLS-protected Style Bank persistence and a server-side entitlement foundation with early_access, discord, creator, pro and founder tiers.",
-    "New authenticated users are automatically seeded with active early_access entitlements during the private validation phase; this gives us a clean path to map Discord testers to free access and paid customers to Stripe-backed plans later without faking checkout today.",
-    "Updated the PWA cache and installed-app metadata for v0.28.",
-    "Preserved the core guardrails: Most Replayed is replay/seek interest rather than private audience retention, outlier multiples are observations rather than future-view predictions, package scores are decision aids rather than CTR/view forecasts, and public correlations do not prove causation."
+    "Added usernames to YTIntel profiles with a case-insensitive uniqueness rule and a 3-24 character letters/numbers/underscore format.",
+    "Added a dedicated create-account screen instead of reusing the sign-in form.",
+    "Added username, email, password and confirm-password fields to signup.",
+    "Signup now stores the chosen username in account metadata and the YTIntel profile.",
+    "Successful signup feedback is displayed in green instead of inside the red error state.",
+    "Signup now requests emailRedirectTo=https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/ so verification returns to the production app when that URL is permitted by the Supabase Auth redirect allow-list.",
+    "Added personalised Welcome back messaging using the saved username and a personalised account button.",
+    "Confirmed existing private-validation entitlements remain active and separate from the public analyser.",
+    "Explicitly restores Analyse and Viral Lab inputs, buttons and tabs on account bootstrap and auth changes so authentication UI cannot strand the core analysis workflow in a disabled state.",
+    "Bumped the PWA shell cache so installed copies receive the account fix instead of continuing to serve the previous cached authentication layer."
   ],
-  "why_it_matters": "This is much closer to the intended paid product: find what is popping off, see what viewers publicly replayed, understand the hook/script/pacing/media DNA, learn the repeated language and winner/control differences across the niche, generate an original idea from that evidence, turn it into a timed writing plan, publish it and feed the outcome back into the system."
+  "why_it_matters": "Account creation and verification are the front door to a personalised creator product. The app should clearly distinguish success from failure, return users to the real product after verification, remember who they are, and never make the core analyser feel broken because of cloud-account state."
 }
