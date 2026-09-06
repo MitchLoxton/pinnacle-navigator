@@ -1,21 +1,19 @@
 {
-  "release_id": "ytintel-0.28.5-rewarding-ship-notifications",
-  "version": "v0.28.5",
-  "title": "Rewarding Ship Notifications",
-  "summary": "YTIntel releases now land in Discord like an actual product win: one final @everyone ship notification after the release burst settles, with the release headline, what improved, why it matters, live deployment proof, momentum framing and a direct link back into the product.",
+  "release_id": "ytintel-0.28.6-concise-release-updates",
+  "version": "v0.28.6",
+  "title": "Concise Release Updates",
+  "summary": "YTIntel release notifications are now intentionally short, silent and easy to scan in seconds.",
   "discord_changes": [
-    "Release notifications now send a real @everyone ping instead of a silent embed, so meaningful shipped work is impossible to miss.",
-    "Each ship card now shows what changed, why it matters, validation/deployment status, build SHA and direct links to the live app and code diff.",
-    "The notification is deliberately rewarding: work shipped, progress banked and release momentum are made visible instead of treating product work like a dry CI receipt.",
-    "Burst protection stays intact, so a multi-file release resolves into one polished final notification rather than Discord spam."
+    "Removed the @everyone ping completely so normal product updates stay useful without being intrusive.",
+    "Reduced each release card to one short summary, the three most important changes and a tiny live build receipt.",
+    "Made the release title itself open the live YTIntel build, removing extra sections and unnecessary links."
   ],
   "changes": [
-    "Rebuilt the normal YTIntel Discord release message into a premium ship card with a real @everyone mention and explicit allowed_mentions support.",
-    "Added a strong release header, creator-intelligence branding, richer coral embed styling and a direct Open YTIntel call to action.",
-    "Added WHAT JUST GOT BETTER, WHY THIS MATTERS, RELEASE STATUS, MOMENTUM and BUILD RECEIPT sections so every notification explains both the work and the payoff.",
-    "Added live deployment proof covering validation, GitHub Pages deployment, live availability and Discord receipt delivery.",
-    "Added build SHA and compare links so every release notification doubles as a lightweight permanent engineering receipt.",
-    "Kept the existing 45-second release-burst settle gate and newer-commit suppression so users get one satisfying final ping per release burst."
+    "Removed @everyone and disabled all Discord mentions for standard YTIntel release notifications.",
+    "Collapsed the old WHAT CHANGED, WHY IT MATTERS, RELEASE STATUS, MOMENTUM and BUILD RECEIPT blocks into one compact card.",
+    "Limited release highlights to the top three changes and shortened each line for fast scanning.",
+    "Kept a minimal footer showing live status, change count and short build SHA.",
+    "Kept release-burst protection so multi-file releases still produce only one final update card."
   ],
-  "why_it_matters": "Shipping should feel rewarding. If the product improves but the team barely notices, the feedback loop is weak. The new release notification turns completed work into a visible win while still carrying enough evidence to prove that the build actually validated, deployed and went live."
+  "why_it_matters": "A release notification should tell you what changed in a few seconds. Anything more becomes noise and makes important updates harder to notice."
 }
