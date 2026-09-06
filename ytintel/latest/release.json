@@ -1,21 +1,21 @@
 {
-  "release_id": "ytintel-0.29.2-developer-access-ui-polish",
-  "version": "v0.29.2",
-  "title": "Developer Access + UI Cleanup",
-  "summary": "Owner development access is now unlimited, the pricing experience is cleaner, and the pointless decorative play card is gone from the core Analyse hero.",
+  "release_id": "ytintel-0.29.3-video-notes-focus",
+  "version": "v0.29.3",
+  "title": "Video Notes Focus",
+  "summary": "Analyse now behaves more like an attentive note-taker: it fixes impossible caption-derived WPM, replaces transcript restatement with a main-message + key-notes view, and removes Opportunity Radar from the product surface for now.",
   "discord_changes": [
-    "Owner developer access now bypasses YTIntel monthly usage limits without requiring a paid Pro subscription.",
-    "Removed the decorative play-card graphic from Analyse and Packaging so the core workflow stays focused.",
-    "Reworked the Pro modal into a calmer, cleaner product surface and removed the internal Stripe setup warning from the customer-facing experience."
+    "Replaced the old transcript-echo takeaways with a synthesised main message and distinct video notes, with exact lines hidden underneath as receipts.",
+    "Recomputed WPM from de-duplicated caption words and withholds the metric when the public caption source is still implausible.",
+    "Removed Opportunity Radar navigation, CTAs, pricing references and feed surfaces so development stays focused on Analyse first."
   ],
   "changes": [
-    "Added a server-side developer/admin unlimited-access path to commercial status and usage consumption.",
-    "Granted the active owner account permanent admin/developer access with no subscription expiry.",
-    "Added a DEV · Unlimited full access state in the YTIntel header and hides upgrade prompts for developer accounts.",
-    "Removed the faux play-button hero decoration and restored the full text width in Analyse and Packaging.",
-    "Simplified pricing typography, spacing, colors, card hierarchy and mobile ordering.",
-    "Replaced the technical Stripe business-name blocker copy with a clean checkout-coming-soon state.",
-    "Bumped the PWA shell to v0.29.2 so the polish loads cleanly across existing installs."
+    "Added cross-segment rolling-caption de-duplication before calculating spoken pace.",
+    "Added a plausibility gate so broken caption sources show an em dash instead of nonsense such as 692 WPM.",
+    "Replaced KEY TAKEAWAYS / What the viewer actually learns with a new VIDEO NOTES surface centred on the video's thesis.",
+    "Spread notes across the runtime rather than allowing several near-duplicate lines from the opening caption block.",
+    "Moved exact transcript wording into expandable evidence receipts instead of presenting it as the insight itself.",
+    "Removed Opportunity Radar from navigation and hid Radar-derived calls to action while leaving the underlying code dormant for later reconsideration.",
+    "Bumped the PWA shell to v0.29.3."
   ],
-  "why_it_matters": "The owner should never be blocked by the product's customer billing limits, and the first-screen UI should explain the workflow rather than decorate it. This release makes both true."
+  "why_it_matters": "A useful analyser should tell you what the video is really saying, not hand the transcript back to you. This release narrows YTIntel around that standard and removes a distracting feature until the core Analyse experience is genuinely strong."
 }
