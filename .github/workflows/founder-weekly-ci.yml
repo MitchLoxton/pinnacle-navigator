@@ -1,0 +1,38 @@
+name: Validate Founder Weekly
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "founder-weekly/**"
+      - ".github/workflows/founder-weekly-ci.yml"
+      - ".github/workflows/founder-weekly-discord.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate app syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f founder-weekly/index.html
+          test -f founder-weekly/style.css
+          node --check founder-weekly/app.js
+      - name: Validate public Discord feed
+        shell: bash
+        run: |
+          set -euo pipefail
+          FEED="$(curl --fail --silent --show-error \
+            -X POST \
+            -H 'apikey: sb_publishable_VATM2AkVyl-yvxv28S2FXw_CqMpBr6q' \
+            -H 'Content-Type: application/json' \
+            -d '{}' \
+            'https://dkmacktcfhubsumwrydw.supabase.co/rest/v1/rpc/founder_weekly_discord_feed')"
+          printf '%s' "$FEED" | jq -e 'type=="array"' >/dev/null
+          echo "Founder Weekly validation passed."
