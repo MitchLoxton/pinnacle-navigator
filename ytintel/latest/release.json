@@ -1,24 +1,24 @@
 {
-  "release_id": "ytintel-0.28.1-account-access-fix",
-  "version": "v0.28.1",
-  "title": "Account & Access Fix",
-  "summary": "YTIntel's account flow is now separated, personalised and production-aware: signup has its own screen with a username, successful account creation is shown as success rather than an error, verification links request a return to the live YTIntel app, and core analysis controls are kept available instead of being accidentally left restricted by account UI state.",
+  "release_id": "ytintel-0.28.2-packaging-media-fix",
+  "version": "v0.28.2",
+  "title": "Packaging Lab & Media Analysis Fix",
+  "summary": "Packaging Lab now works from the current video analysis instead of forcing a Radar-first workflow, every generated package is saved into an expandable Package Library, Visuals + Audio is actually wired into the live app, and confusing creator-context/cloud-session states have been rewritten into clear actions.",
   "discord_changes": [
-    "Fixed account verification redirects so new signup emails request the live YTIntel URL instead of localhost.",
-    "Split Create account into its own screen with username, confirm-password and clear green success feedback.",
-    "Added personalised Welcome back messaging and hardened Analyse/Viral Lab controls so account UI state cannot leave the core analyser disabled."
+    "Packaging Lab now drafts thumbnail, title and opening-hook packages from the current analysis and no longer blocks on the old multi-creator gate.",
+    "Every packaging run is now saved as an expandable folder in a persistent Package Library.",
+    "Visuals + Audio is now loaded in the live app, with clearer creator-context and cloud reconnect states."
   ],
   "changes": [
-    "Added usernames to YTIntel profiles with a case-insensitive uniqueness rule and a 3-24 character letters/numbers/underscore format.",
-    "Added a dedicated create-account screen instead of reusing the sign-in form.",
-    "Added username, email, password and confirm-password fields to signup.",
-    "Signup now stores the chosen username in account metadata and the YTIntel profile.",
-    "Successful signup feedback is displayed in green instead of inside the red error state.",
-    "Signup now requests emailRedirectTo=https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/ so verification returns to the production app when that URL is permitted by the Supabase Auth redirect allow-list.",
-    "Added personalised Welcome back messaging using the saved username and a personalised account button.",
-    "Confirmed existing private-validation entitlements remain active and separate from the public analyser.",
-    "Explicitly restores Analyse and Viral Lab inputs, buttons and tabs on account bootstrap and auth changes so authentication UI cannot strand the core analysis workflow in a disabled state.",
-    "Bumped the PWA shell cache so installed copies receive the account fix instead of continuing to serve the previous cached authentication layer."
+    "Reframed Packaging Lab around the current analysis: Draft up a thumbnail, title and opening-hook package based off your current analysis.",
+    "Removed the frontend requirement that Packaging Lab must first have a verified Radar scan across multiple creators.",
+    "Current analysis evidence is now the primary packaging input; saved Radar evidence can still be used as supporting context when available.",
+    "Added an expandable Package Library that preserves up to 50 packaging runs and exposes every saved thumbnail direction, title and opening hook.",
+    "Added one-click package copying from both the current result and saved package folders.",
+    "Wired the existing Visuals + Audio media-analysis scripts into the live loader so the LIVE navigation item now has real functionality behind it.",
+    "Rewrote the creator workspace modal so it explains what channel context, niche and competitors are actually used for.",
+    "Replaced raw database 401 / JWT issued-at-future messaging with a clear cloud reconnect state and a one-time session refresh attempt.",
+    "Clears the stale Sign in required analyser error when the interface already has a synced signed-in session.",
+    "Bumped the PWA cache to v0.28.2 so installed copies receive the new media and Packaging Lab code."
   ],
-  "why_it_matters": "Account creation and verification are the front door to a personalised creator product. The app should clearly distinguish success from failure, return users to the real product after verification, remember who they are, and never make the core analyser feel broken because of cloud-account state."
+  "why_it_matters": "Packaging Lab had strong potential but the old flow made it feel like a compliance screen instead of a creative tool. This release makes it useful immediately after analysing a video, preserves the work so repeated use compounds into a real creative library, and fixes a LIVE media feature that previously was not actually loaded."
 }
