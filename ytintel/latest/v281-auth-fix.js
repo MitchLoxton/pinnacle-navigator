@@ -107,8 +107,25 @@ async function showAccount(){
 function interceptAuthClicks(){document.addEventListener('click',e=>{const hit=e.target.closest?.('#v26AccountBtn,[data-v26-auth],[data-v26-account]');if(!hit)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();closeOldAuth();session?showAccount():showSignIn()},true)}
 async function boot(){
   injectCss();restoreAnalysisAccess();interceptAuthClicks();
-  try{const lib=await loadLibrary();client=lib.createClient(SUPA,PUB,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});const g=await client.auth.getSession();session=g.data?.session||null;client.auth.onAuthStateChange((_event,s)=>{session=s||null;setTimeout(async()=>{if(session){await readProfile().catch(()=>null);await ensureUsername().catch(()=>{})}renderPersonal();restoreAnalysisAccess()},0)});if(session){await readProfile().catch(()=>null);await ensureUsername().catch(()=>{});renderPersonal();restoreAnalysisAccess();const returned=location.hash.includes('access_token')||/[?&](code|token_hash|type)=/.test(location.search);if(returned){const name=fallbackUsername();setTimeout(()=>{if(typeof window.YTIntelToast==='function')window.YTIntelToast(`Email verified. Welcome back, ${name}.`)},250);history.replaceState({},document.title,APP_URL)}}
-  catch(e){console.warn('[YTIntel auth fix]',e);restoreAnalysisAccess()}
+  try{
+    const lib=await loadLibrary();
+    client=lib.createClient(SUPA,PUB,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const g=await client.auth.getSession();
+    session=g.data?.session||null;
+    client.auth.onAuthStateChange((_event,s)=>{session=s||null;setTimeout(async()=>{if(session){await readProfile().catch(()=>null);await ensureUsername().catch(()=>{})}renderPersonal();restoreAnalysisAccess()},0)});
+    if(session){
+      await readProfile().catch(()=>null);
+      await ensureUsername().catch(()=>{});
+      renderPersonal();
+      restoreAnalysisAccess();
+      const returned=location.hash.includes('access_token')||/[?&](code|token_hash|type)=/.test(location.search);
+      if(returned){
+        const name=fallbackUsername();
+        setTimeout(()=>{if(typeof window.YTIntelToast==='function')window.YTIntelToast(`Email verified. Welcome back, ${name}.`)},250);
+        history.replaceState({},document.title,APP_URL)
+      }
+    }
+  }catch(e){console.warn('[YTIntel auth fix]',e);restoreAnalysisAccess()}
   window.YTINTEL_VERSION='0.28.1';const status=$('#status');if(status&&/cloud intelligence|always-on|checking intelligence|ready/i.test(status.textContent||''))status.textContent='v0.28.1 · account system live';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,700),{once:true});else setTimeout(boot,700);
