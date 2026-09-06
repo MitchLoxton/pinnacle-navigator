@@ -1,19 +1,20 @@
 {
-  "release_id": "ytintel-0.28.6-concise-release-updates",
-  "version": "v0.28.6",
-  "title": "Concise Release Updates",
-  "summary": "YTIntel release notifications are now intentionally short, silent and easy to scan in seconds.",
+  "release_id": "ytintel-0.28.7-rewarding-concise-ship-cards",
+  "version": "v0.28.7",
+  "title": "Rewarding Concise Ship Cards",
+  "summary": "YTIntel update cards now hit the sweet spot: fast to scan, visually rewarding and satisfying to receive without pinging anyone or turning into a wall of text.",
   "discord_changes": [
-    "Removed the @everyone ping completely so normal product updates stay useful without being intrusive.",
-    "Reduced each release card to one short summary, the three most important changes and a tiny live build receipt.",
-    "Made the release title itself open the live YTIntel build, removing extra sections and unnecessary links."
+    "A bold SHIP COMPLETE header and gold release card make each shipped update feel like a real win without using @everyone.",
+    "Each card shows the live upgrade count, one short outcome and only the three most important improvements.",
+    "A tiny +1 release receipt makes progress visible, with one-tap access straight back into the live YTIntel build."
   ],
   "changes": [
-    "Removed @everyone and disabled all Discord mentions for standard YTIntel release notifications.",
-    "Collapsed the old WHAT CHANGED, WHY IT MATTERS, RELEASE STATUS, MOMENTUM and BUILD RECEIPT blocks into one compact card.",
-    "Limited release highlights to the top three changes and shortened each line for fast scanning.",
-    "Kept a minimal footer showing live status, change count and short build SHA.",
-    "Kept release-burst protection so multi-file releases still produce only one final update card."
+    "Added a one-line SHIP COMPLETE celebration above the release card while keeping all Discord mentions disabled.",
+    "Switched the release card to a warmer gold reward treatment with a trophy/launch hierarchy designed for immediate recognition.",
+    "Added a live upgrade count so every release instantly shows how much progress landed.",
+    "Kept the body intentionally tight: one short outcome, three highlights maximum and one Open YTIntel action.",
+    "Changed the footer to a compact LIVE NOW, +1 release and build receipt so progress feels banked without adding clutter.",
+    "Preserved the existing release-burst protection so multi-file work still resolves into one final satisfying Discord card."
   ],
-  "why_it_matters": "A release notification should tell you what changed in a few seconds. Anything more becomes noise and makes important updates harder to notice."
+  "why_it_matters": "The best release notification should give you a small reward for shipping and still take only a few seconds to understand. This version makes progress feel visible and satisfying without sacrificing scan speed."
 }
