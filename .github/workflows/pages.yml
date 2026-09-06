@@ -114,7 +114,7 @@ jobs:
             echo "release_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Send concise YTIntel Discord release
+      - name: Send rewarding concise YTIntel Discord release
         if: github.event_name == 'push' && steps.ytintel.outputs.changed == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
@@ -148,8 +148,8 @@ jobs:
                   sub("^Added "; "")
                   | sub("^Updated "; "")
                   | sub("^Rebuilt "; "")
-                  | if length > 112 then .[0:109] + "…" else . end
-                  | "• " + .
+                  | if length > 92 then .[0:89] + "…" else . end
+                  | "✦ " + .
                 )
               | join("\n")
             ' ytintel/latest/release.json)"
@@ -157,13 +157,14 @@ jobs:
             YT_COMMIT="$(git log -1 --format='%H' "${BASE_SHA}..${AFTER_SHA}" -- ytintel/ 2>/dev/null || true)"
             if [ -z "$YT_COMMIT" ]; then YT_COMMIT="$AFTER_SHA"; fi
             TITLE="$(git log -1 --format='%s' "$YT_COMMIT" | sed -E 's/^Add YTIntel v[0-9.]+ //; s/^Release YTIntel v[0-9.]+ //')"
-            BULLETS="• ${TITLE}"
+            SUMMARY="A new YTIntel improvement is live."
+            BULLETS="✦ ${TITLE}"
           fi
 
           SHORT_SHA="${AFTER_SHA:0:7}"
           TITLE="${TITLE:0:72}"
-          SUMMARY="${SUMMARY:0:220}"
-          BULLETS="${BULLETS:0:430}"
+          SUMMARY="${SUMMARY:0:155}"
+          BULLETS="${BULLETS:0:320}"
           VERSION_LABEL="${VERSION:-YTIntel}"
 
           PAYLOAD="$(jq -n \
@@ -178,16 +179,19 @@ jobs:
             '{
               username:"YTIntel",
               avatar_url:$icon,
+              content:"🏆 **SHIP COMPLETE — NEW YTINTEL UPDATE**",
               allowed_mentions:{parse:[]},
               embeds:[{
-                title:((if $version=="YTIntel" then "YTIntel" else $version end) + " — " + $title),
+                title:("🚀 " + (if $version=="YTIntel" then "YTIntel" else $version end) + " — " + $title),
                 url:$live,
                 description:(
-                  $summary
+                  "**⚡ " + $count + " upgrades are LIVE**"
+                  + (if $summary=="" then "" else "\n" + $summary end)
                   + (if $bullets=="" then "" else "\n\n" + $bullets end)
+                  + "\n\n**[OPEN YTINTEL →](" + $live + ")**"
                 ),
-                color:16729432,
-                footer:{text:("✓ Live  •  " + $count + " changes  •  " + $sha)}
+                color:16171850,
+                footer:{text:("✓ LIVE NOW  •  +1 release  •  build " + $sha)}
               }]
             }')"
 
@@ -196,11 +200,11 @@ jobs:
               -H 'Content-Type: application/json' \
               -d "$PAYLOAD" \
               "$WEBHOOK"; then
-              echo "YTIntel concise Discord release notification sent."
+              echo "YTIntel rewarding concise Discord release notification sent."
               exit 0
             fi
             sleep $((attempt * 3))
           done
 
-          echo "::error::YTIntel deployed, but the concise Discord notification failed after 3 attempts."
+          echo "::error::YTIntel deployed, but the rewarding concise Discord notification failed after 3 attempts."
           exit 1
