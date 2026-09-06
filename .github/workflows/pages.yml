@@ -39,6 +39,7 @@ jobs:
           node --check ytintel/latest/v283-deep-packaging.js
           node --check ytintel/latest/v284-luxe.js
           node --check ytintel/latest/v290-commercial.js
+          node --check ytintel/latest/v291-auth-core.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           echo "YTIntel release validation passed."
