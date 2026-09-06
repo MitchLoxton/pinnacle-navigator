@@ -1,0 +1,147 @@
+name: Post YTIntel Weekly Review to Discord
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "operations/ytintel-weekly-reviews/20??-??-??.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ytintel-weekly-discord
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve weekly review
+        id: review
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "push" ]; then
+            FILE="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" -- 'operations/ytintel-weekly-reviews/20??-??-??.md' | tail -n 1)"
+          else
+            FILE="$(find operations/ytintel-weekly-reviews -maxdepth 1 -type f -name '20??-??-??.md' | sort | tail -n 1)"
+          fi
+
+          if [ -z "${FILE:-}" ] || [ ! -f "$FILE" ]; then
+            echo "::error::No dated YTIntel weekly review file was found."
+            exit 1
+          fi
+
+          DATE="$(basename "$FILE" .md)"
+          HASH="$(sha256sum "$FILE" | awk '{print $1}')"
+          RECEIPT="operations/ytintel-weekly-reviews/.posted/${DATE}.sha"
+
+          git fetch origin main --quiet
+          OLD="$(git show "origin/main:${RECEIPT}" 2>/dev/null | tr -d '\r\n' || true)"
+          if [ "$OLD" = "$HASH" ]; then
+            echo "already_posted=true" >> "$GITHUB_OUTPUT"
+            echo "Review $DATE was already posted to Discord."
+            exit 0
+          fi
+
+          echo "already_posted=false" >> "$GITHUB_OUTPUT"
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+          echo "receipt=$RECEIPT" >> "$GITHUB_OUTPUT"
+
+      - name: Verify Discord connection
+        if: steps.review.outputs.already_posted != 'true'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEEKLY_WEBHOOK }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${WEBHOOK:-}" ]; then
+            echo "::error::DISCORD_YTINTEL_WEEKLY_WEBHOOK is not configured. Add the webhook for #ytintel-weekly-review as a GitHub Actions repository secret."
+            exit 1
+          fi
+
+      - name: Post weekly review
+        if: steps.review.outputs.already_posted != 'true'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEEKLY_WEBHOOK }}
+          FILE: ${{ steps.review.outputs.file }}
+          REVIEW_DATE: ${{ steps.review.outputs.date }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TITLE="$(head -n 1 "$FILE" | sed 's/^# *//' | cut -c1-180)"
+          if [ -z "$TITLE" ]; then TITLE="YTIntel Weekly Review — $REVIEW_DATE"; fi
+
+          PREVIEW="$(python3 - "$FILE" <<'PY'
+          import pathlib, sys
+          text = pathlib.Path(sys.argv[1]).read_text(encoding='utf-8').strip()
+          # Keep the Discord card useful while the complete operating document is attached.
+          if len(text) > 2600:
+              text = text[:2597].rstrip() + '...'
+          print(text)
+          PY
+          )"
+
+          URL="https://github.com/${GITHUB_REPOSITORY}/blob/main/${FILE}"
+          DESCRIPTION="${PREVIEW}\n\n**Full weekly operating review attached.**"
+
+          PAYLOAD="$(jq -n \
+            --arg title "$TITLE" \
+            --arg description "$DESCRIPTION" \
+            --arg url "$URL" \
+            --arg date "$REVIEW_DATE" \
+            '{
+              username:"YTIntel Weekly",
+              embeds:[{
+                title:$title,
+                description:$description,
+                url:$url,
+                color:5763719,
+                footer:{text:("Sunday operating review · " + $date)}
+              }]
+            }')"
+
+          for attempt in 1 2 3; do
+            if curl --fail --silent --show-error \
+              -F "payload_json=${PAYLOAD}" \
+              -F "files[0]=@${FILE};type=text/markdown" \
+              "$WEBHOOK"; then
+              echo "YTIntel weekly review posted to Discord."
+              exit 0
+            fi
+            echo "Discord attempt $attempt failed; retrying..." >&2
+            sleep $((attempt * 3))
+          done
+
+          echo "::error::Weekly review could not be posted after 3 attempts."
+          exit 1
+
+      - name: Record successful Discord post
+        if: steps.review.outputs.already_posted != 'true'
+        env:
+          REVIEW_HASH: ${{ steps.review.outputs.hash }}
+          RECEIPT: ${{ steps.review.outputs.receipt }}
+          REVIEW_DATE: ${{ steps.review.outputs.date }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$RECEIPT")"
+          printf '%s\n' "$REVIEW_HASH" > "$RECEIPT"
+
+          git config user.name "YTIntel Weekly Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$RECEIPT"
+          git commit -m "Record YTIntel weekly Discord post $REVIEW_DATE"
+          git pull --rebase origin main
+          git push origin HEAD:main
