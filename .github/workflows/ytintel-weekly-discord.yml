@@ -18,6 +18,7 @@ concurrency:
 jobs:
   post:
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,7 +46,7 @@ jobs:
           fi
 
           if [ -z "${WEBHOOK:-}" ]; then
-            echo "::error::DISCORD_YTINTEL_WEEKLY_WEBHOOK is not configured."
+            echo "::error::DISCORD_YTINTEL_WEEKLY_WEBHOOK is not configured for this repository/environment."
             exit 1
           fi
 
