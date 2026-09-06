@@ -2,11 +2,11 @@
   "release_id": "ytintel-0.29.3-video-notes-focus",
   "version": "v0.29.3",
   "title": "Video Notes Focus",
-  "summary": "Analyse now behaves more like an attentive note-taker: it fixes impossible caption-derived WPM, replaces transcript restatement with a main-message + key-notes view, and removes Opportunity Radar from the product surface for now.",
+  "summary": "Analyse now behaves more like an attentive note-taker: impossible caption-derived WPM is rejected, transcript restatement is replaced by main-message + key-notes synthesis, and Opportunity Radar is removed from the product surface for now.",
   "discord_changes": [
-    "Replaced the old transcript-echo takeaways with a synthesised main message and distinct video notes, with exact lines hidden underneath as receipts.",
-    "Recomputed WPM from de-duplicated caption words and withholds the metric when the public caption source is still implausible.",
-    "Removed Opportunity Radar navigation, CTAs, pricing references and feed surfaces so development stays focused on Analyse first."
+    "Video Notes now gives the main message + distinct notes instead of handing the transcript back to you.",
+    "Broken caption pacing such as 692 WPM is de-duplicated and withheld when the source is still implausible.",
+    "Opportunity Radar is removed from the visible product so the team can perfect Analyse first."
   ],
   "changes": [
     "Added cross-segment rolling-caption de-duplication before calculating spoken pace.",
@@ -15,6 +15,7 @@
     "Spread notes across the runtime rather than allowing several near-duplicate lines from the opening caption block.",
     "Moved exact transcript wording into expandable evidence receipts instead of presenting it as the insight itself.",
     "Removed Opportunity Radar from navigation and hid Radar-derived calls to action while leaving the underlying code dormant for later reconsideration.",
+    "Added v0.29.3 as the current release inside the in-app Updates tab.",
     "Bumped the PWA shell to v0.29.3."
   ],
   "why_it_matters": "A useful analyser should tell you what the video is really saying, not hand the transcript back to you. This release narrows YTIntel around that standard and removes a distracting feature until the core Analyse experience is genuinely strong."
