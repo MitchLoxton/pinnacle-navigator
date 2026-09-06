@@ -53,6 +53,7 @@ jobs:
           REVIEW_DATE="$(basename "$FILE" .md)"
           REVIEW_HASH="$(sha256sum "$FILE" | awk '{print $1}')"
           RECEIPT="operations/ytintel-weekly-reviews/.posted/${REVIEW_DATE}.sha"
+          REVIEW_NO="$(find operations/ytintel-weekly-reviews -maxdepth 1 -type f -name '20??-??-??.md' | wc -l | tr -d ' ')"
 
           git fetch origin main --quiet
           OLD_HASH="$(git show "origin/main:${RECEIPT}" 2>/dev/null | tr -d '\r\n' || true)"
@@ -61,12 +62,12 @@ jobs:
             exit 0
           fi
 
-          TITLE="$(head -n 1 "$FILE" | sed 's/^# *//' | cut -c1-180)"
+          TITLE="$(head -n 1 "$FILE" | sed 's/^# *//' | cut -c1-150)"
           if [ -z "$TITLE" ]; then
             TITLE="YTIntel Weekly Review - $REVIEW_DATE"
           fi
 
-          PREVIEW="$(python3 -c 'import pathlib,sys; t=pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").strip(); print((t[:2397].rstrip()+"...") if len(t)>2400 else t)' "$FILE")"
+          PREVIEW="$(python3 -c 'import pathlib,sys; t=pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").strip(); print((t[:2197].rstrip()+"...") if len(t)>2200 else t)' "$FILE")"
           URL="https://github.com/${GITHUB_REPOSITORY}/blob/main/${FILE}"
 
           PAYLOAD="$(jq -n \
@@ -74,7 +75,44 @@ jobs:
             --arg description "$PREVIEW" \
             --arg url "$URL" \
             --arg date "$REVIEW_DATE" \
-            '{username:"YTIntel Weekly",embeds:[{title:$title,description:($description + "\n\nFull weekly operating review attached."),url:$url,color:5763719,footer:{text:("Sunday operating review - " + $date)}}]}')"
+            --arg review_no "$REVIEW_NO" \
+            '{
+              username:"🏆 YTIntel Progress Bot",
+              content:"@everyone 🏆 **WEEKLY WIN UNLOCKED — THE WORK IS BANKED.**",
+              allowed_mentions:{parse:["everyone"]},
+              embeds:[{
+                title:("🏆 REVIEW #" + $review_no + " COMPLETE — " + $title),
+                description:(
+                  "# YOU SHOWED UP AND DID THE WORK.\n\n" +
+                  "This is the part that actually compounds: **work completed, lessons captured, proof archived, momentum kept.** Most people talk about building. You have another week permanently banked.\n\n" +
+                  "🔥 **Do not skim past this win. Take it. You earned it.**\n\n" +
+                  "────────────────────\n\n" +
+                  $description +
+                  "\n\n────────────────────\n\n" +
+                  "**FULL REVIEW:** Open the attached markdown file or the linked permanent archive."
+                ),
+                url:$url,
+                color:15844367,
+                fields:[
+                  {
+                    name:"⚡ REWARD UNLOCKED",
+                    value:"**+1 weekly review completed**\n**+1 proof-of-work entry archived**\n**+1 week of momentum stacked**",
+                    inline:true
+                  },
+                  {
+                    name:"✅ STATUS",
+                    value:("**Review #" + $review_no + " locked in**\nArchive saved ✅\nDiscord delivered ✅"),
+                    inline:true
+                  },
+                  {
+                    name:"🎯 NEXT MISSION",
+                    value:"**Beat this week. Ship more. Learn faster. Keep stacking undeniable proof that you are moving forward.**",
+                    inline:false
+                  }
+                ],
+                footer:{text:("YTIntel • WORK COMPOUNDS • " + $date)}
+              }]
+            }')"
 
           posted=false
           for attempt in 1 2 3; do
