@@ -1,6 +1,11 @@
 name: Founder Weekly Progress Discord
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "founder-weekly/**"
+      - ".github/workflows/founder-weekly-discord.yml"
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
@@ -87,6 +92,7 @@ jobs:
               review_clarification) prefix="💬 CLARIFICATION" ;;
               week_approval) prefix="✓ WEEK APPROVAL" ;;
               week_locked) prefix="🔒 WEEK LOCKED" ;;
+              week_setup) prefix="🎯 NEXT WEEK SETUP" ;;
               sunday_result) prefix="🏆 SUNDAY RESULT SHIPPED" ;;
               bottom_frag) prefix="🚨 BOTTOM FRAG" ;;
               final_boss) prefix="⏳ FINAL BOSS" ;;
