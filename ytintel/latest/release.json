@@ -1,22 +1,22 @@
 {
-  "release_id": "ytintel-0.29.3-video-notes-focus",
-  "version": "v0.29.3",
-  "title": "Video Notes Focus",
-  "summary": "Analyse now behaves more like an attentive note-taker: impossible caption-derived WPM is rejected, transcript restatement is replaced by main-message + key-notes synthesis, and Opportunity Radar is removed from the product surface for now.",
+  "release_id": "ytintel-0.29.4-focus-cleanup-competitors",
+  "version": "v0.29.4",
+  "title": "Focus Cleanup + Competitor Board",
+  "summary": "YTIntel is much less overwhelming: Analyse is now the default start, the useful competitor tracker gets its own focused screen, and duplicated or broken navigation has been removed for now.",
   "discord_changes": [
-    "Video Notes now gives the main message + distinct notes instead of handing the transcript back to you.",
-    "Broken caption pacing such as 692 WPM is de-duplicated and withheld when the source is still implausible.",
-    "Opportunity Radar is removed from the visible product so the team can perfect Analyse first."
+    "Kept the useful competitor Watchtower + movement feature and gave it a dedicated Competitors screen.",
+    "Removed Smart Start and Research Sprint from the visible product for now so Analyse stays the core workflow.",
+    "Removed Quick switch, Jump to, What's New and Evidence-first from the top bar to cut duplicated UI noise."
   ],
   "changes": [
-    "Added cross-segment rolling-caption de-duplication before calculating spoken pace.",
-    "Added a plausibility gate so broken caption sources show an em dash instead of nonsense such as 692 WPM.",
-    "Replaced KEY TAKEAWAYS / What the viewer actually learns with a new VIDEO NOTES surface centred on the video's thesis.",
-    "Spread notes across the runtime rather than allowing several near-duplicate lines from the opening caption block.",
-    "Moved exact transcript wording into expandable evidence receipts instead of presenting it as the insight itself.",
-    "Removed Opportunity Radar from navigation and hid Radar-derived calls to action while leaving the underlying code dormant for later reconsideration.",
-    "Added v0.29.3 as the current release inside the in-app Updates tab.",
-    "Bumped the PWA shell to v0.29.3."
+    "Repurposed the old Smart Start route into a dedicated Competitors screen without exposing Smart Start itself.",
+    "Kept the tracked-competitor list, scan controls, recent competitor videos and movement comparison intact.",
+    "Reworded the competitor surface around 3–10 direct competitors, recent uploads, standout videos and changes between scans.",
+    "Made Analyse the default starting screen when opening the app.",
+    "Removed Research Sprint from navigation and hid the broken Sprint surface for now.",
+    "Removed Quick switch and Jump to, including their duplicate command-palette surfaces.",
+    "Removed the broken What's New button and the Evidence-first status chip from the header.",
+    "Added v0.29.4 to the in-app Updates log and bumped the PWA shell cache."
   ],
-  "why_it_matters": "A useful analyser should tell you what the video is really saying, not hand the transcript back to you. This release narrows YTIntel around that standard and removes a distracting feature until the core Analyse experience is genuinely strong."
+  "why_it_matters": "The product should feel obvious the moment it opens. Analyse handles the core video-understanding job, Competitors keeps the genuinely useful competitive-pressure workflow, and everything that duplicated those paths or added noise is out of the way for now."
 }
