@@ -42,6 +42,7 @@ jobs:
           node --check ytintel/latest/v291-auth-core.js
           node --check ytintel/latest/v292-owner-polish.js
           node --check ytintel/latest/v293-notes-focus.js
+          node --check ytintel/latest/v293-release-card.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           echo "YTIntel release validation passed."
