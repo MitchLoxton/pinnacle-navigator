@@ -1,21 +1,21 @@
 {
-  "release_id": "ytintel-0.29.1-auth-focus-reset",
-  "version": "v0.29.1",
-  "title": "Auth Focus Reset",
-  "summary": "YTIntel is now locking onto one core experience at a time. First target: one reliable account session and a core Analyse flow that never gets blocked by a false sign-in state.",
+  "release_id": "ytintel-0.29.2-developer-access-ui-polish",
+  "version": "v0.29.2",
+  "title": "Developer Access + UI Cleanup",
+  "summary": "Owner development access is now unlimited, the pricing experience is cleaner, and the pointless decorative play card is gone from the core Analyse hero.",
   "discord_changes": [
-    "One shared YTIntel auth session now powers account, cloud and plan layers instead of competing Supabase clients.",
-    "Analyse automatically recovers from false Sign in required states and stays usable without an account.",
-    "Feature expansion is paused while the Sign in → Analyse core loop is perfected first."
+    "Owner developer access now bypasses YTIntel monthly usage limits without requiring a paid Pro subscription.",
+    "Removed the decorative play-card graphic from Analyse and Packaging so the core workflow stays focused.",
+    "Reworked the Pro modal into a calmer, cleaner product surface and removed the internal Stripe setup warning from the customer-facing experience."
   ],
   "changes": [
-    "Added a canonical auth core that loads before the cloud, account and commercial layers and forces them to reuse one Supabase client/session.",
-    "Added session refresh and a single ytintel:auth state event so signed-in UI and backend actions stop disagreeing about whether the user is authenticated.",
-    "Added an Analyse recovery path that retries the original public analyser directly if another layer incorrectly injects a Sign in required error.",
-    "Added signed-in retry recovery for account-backed actions when a stale token causes a false authentication failure.",
-    "Kept core Analyse public: account sign-in remains optional for the primary evidence workflow.",
-    "Bumped the PWA shell to v0.29.1 and added deployment syntax validation for the new auth core.",
-    "Development focus is now intentionally frozen on Sign in + Analyse before another feature receives priority."
+    "Added a server-side developer/admin unlimited-access path to commercial status and usage consumption.",
+    "Granted the active owner account permanent admin/developer access with no subscription expiry.",
+    "Added a DEV · Unlimited full access state in the YTIntel header and hides upgrade prompts for developer accounts.",
+    "Removed the faux play-button hero decoration and restored the full text width in Analyse and Packaging.",
+    "Simplified pricing typography, spacing, colors, card hierarchy and mobile ordering.",
+    "Replaced the technical Stripe business-name blocker copy with a clean checkout-coming-soon state.",
+    "Bumped the PWA shell to v0.29.2 so the polish loads cleanly across existing installs."
   ],
-  "why_it_matters": "A product with ten features is not useful if the first action feels unreliable. This release makes authentication one system instead of several competing systems and formally shifts YTIntel to one-core-loop-at-a-time development."
+  "why_it_matters": "The owner should never be blocked by the product's customer billing limits, and the first-screen UI should explain the workflow rather than decorate it. This release makes both true."
 }
