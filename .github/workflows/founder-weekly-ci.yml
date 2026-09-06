@@ -24,6 +24,7 @@ jobs:
           test -f founder-weekly/index.html
           test -f founder-weekly/style.css
           node --check founder-weekly/app.js
+          node --check founder-weekly/ai.js
       - name: Validate public Discord feed
         shell: bash
         run: |
