@@ -1,23 +1,23 @@
 {
-  "release_id": "ytintel-0.28.3-deep-packaging",
-  "version": "v0.28.3",
-  "title": "Deep Source-Specific Packaging Lab",
-  "summary": "Packaging Lab now deep-reads the actual current analysis, transcript, replay evidence and visual clues before drafting anything. Generic preset-style packages are explicitly rejected instead of being shown as filler.",
+  "release_id": "ytintel-0.28.4-luxe-interface",
+  "version": "v0.28.4",
+  "title": "Luxe Interface — Analyse & Packaging Redesign",
+  "summary": "YTIntel's highest-value screens now use a new premium visual system: stronger hierarchy, richer depth, coral-led interaction design, source-evidence rails, a featured best-match package, cleaner package folders and a more polished Visuals + Audio experience without changing the underlying intelligence logic.",
   "discord_changes": [
-    "Packaging Lab now sends the full current analysis and transcript into the packaging intelligence pass, not just a topic and a few summary fields.",
-    "Generic preset patterns are explicitly banned and deep Packaging refuses to fall back to template filler when cloud intelligence is unavailable.",
-    "Package evidence now shows why each title, thumbnail and hook came from this specific analysis rather than from a reusable YouTube formula."
+    "Analyse and Packaging Lab now use a substantially upgraded premium visual system with stronger hierarchy, lighting, depth and action states.",
+    "Packaging results now visually prioritise the strongest package, make thumbnail/hook evidence easier to scan and give the Package Library a cleaner expandable-folder treatment.",
+    "Visuals + Audio, navigation, inputs, loading states, modals and responsive mobile layouts now share the same polished YTIntel design language."
   ],
   "changes": [
-    "Added a high-specificity Packaging Lab mode using GPT-5.6 Sol with max reasoning and the full current transcript/analysis context.",
-    "Expanded package inputs to include video metadata, hook framework, hook story, summary intelligence, research intelligence, specific why-it-worked receipts, extracted content points, pacing, replay peaks, visual intelligence and up to 1,200 transcript segments.",
-    "Added a hard require_deep_specificity flag so Packaging Lab does not silently degrade into the old deterministic preset generator.",
-    "Banned generic title and concept shortcuts such as 'What the winners do differently', 'playbook from scratch', generic 'I tested X' framing, ultimate-guide language and vague before/after thumbnails unless the actual source evidence calls for them.",
-    "Required five meaningfully different creative territories rather than synonym-swapped packages.",
-    "Strengthened thumbnail instructions so outputs name source-specific subjects, objects, states and contrasts instead of generic layout advice.",
-    "Strengthened opening-hook instructions so hooks use transcript-specific facts, examples and tensions and are substantial enough to save real writing time.",
-    "Added an in-product depth check and source-evidence section explaining why each package came from the current analysis.",
-    "Preserved Package Library history so deep runs continue stacking into the expandable saved-package folders."
+    "Added a new v0.28.4 luxe visual layer with a premium black/charcoal base, coral and rose interaction accents, subtle violet/cyan depth and restrained green success states.",
+    "Rebuilt the Analyse hero hierarchy with stronger typography, a premium URL input/CTA treatment and a five-part evidence rail for Transcript, Replay, Visuals, Outlier and Intelligence.",
+    "Rebuilt the Packaging Lab hero around deep source-specific packaging and added visible source chips for transcript, exact examples, replay moments, visual evidence and max reasoning.",
+    "Turned the first generated package into a featured best-match card while keeping the remaining package options clean and comparable.",
+    "Improved package cards with richer surface depth, clearer score treatment, stronger thumbnail-direction and opening-hook panels, full-width primary actions and more polished evidence expanders.",
+    "Restyled the Package Library as a premium expandable archive with clearer active/open states and better visual separation between saved sessions.",
+    "Applied the same premium system to Visuals + Audio, report cards, cloud/account modals, navigation states, loading/error feedback and responsive layouts.",
+    "Added subtle micro-interactions, hover elevation, CTA light sweeps and ambient brand lighting while respecting reduced-motion preferences.",
+    "Bumped the PWA shell to v0.28.4 so installed copies receive both the deep Packaging Lab and the new visual system."
   ],
-  "why_it_matters": "A packaging tool is worthless if it simply swaps the topic into the same templates. The useful version should save the creator hours by doing the expensive thinking: reading the source, finding the distinctive tension and examples, translating those into original title/thumbnail/hook directions, and refusing to show generic filler when that work cannot be done properly."
+  "why_it_matters": "YTIntel should look as valuable as the work it saves. The redesign makes the core research and packaging workflows feel faster to understand, more premium to use and more desirable at first glance without sacrificing evidence density or turning the product into decorative noise."
 }
