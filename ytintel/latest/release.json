@@ -1,22 +1,22 @@
 {
-  "release_id": "ytintel-0.29.4-focus-cleanup-competitors",
-  "version": "v0.29.4",
-  "title": "Focus Cleanup + Competitor Board",
-  "summary": "YTIntel is much less overwhelming: Analyse is now the default start, the useful competitor tracker gets its own focused screen, and duplicated or broken navigation has been removed for now.",
+  "release_id": "ytintel-0.29.5-core-reliability-hardening",
+  "version": "v0.29.5",
+  "title": "Core Reliability Hardening",
+  "summary": "Mitchell's core work moved forward: auth UI is reconciled against the one canonical session, Analyse/Packaging cannot inherit stale sign-in gates, and deep Packaging now rejects weak or generic outputs before they are shown or saved.",
   "discord_changes": [
-    "Kept the useful competitor Watchtower + movement feature and gave it a dedicated Competitors screen.",
-    "Removed Smart Start and Research Sprint from the visible product for now so Analyse stays the core workflow.",
-    "Removed Quick switch, Jump to, What's New and Evidence-first from the top bar to cut duplicated UI noise."
+    "Hardened visible auth state against the single canonical Supabase session so stale sign-in-required UI cannot fight the real session.",
+    "Added a source-specificity rejection gate to deep Packaging: weak receipts, generic templates and near-duplicate options are blocked.",
+    "Kept Founder Weekly honest: browser auth proof and real AI Packaging outputs are still required before those checkpoints close."
   ],
   "changes": [
-    "Repurposed the old Smart Start route into a dedicated Competitors screen without exposing Smart Start itself.",
-    "Kept the tracked-competitor list, scan controls, recent competitor videos and movement comparison intact.",
-    "Reworded the competitor surface around 3–10 direct competitors, recent uploads, standout videos and changes between scans.",
-    "Made Analyse the default starting screen when opening the app.",
-    "Removed Research Sprint from navigation and hid the broken Sprint surface for now.",
-    "Removed Quick switch and Jump to, including their duplicate command-palette surfaces.",
-    "Removed the broken What's New button and the Evidence-first status chip from the header.",
-    "Added v0.29.4 to the in-app Updates log and bumped the PWA shell cache."
+    "Added v295-core-hardening.js as a post-auth reliability layer after the focused v0.29.4 product cleanup.",
+    "Continuously reconciles the visible signed-in/signed-out state from window.YTIntelAuth, the canonical client created by v291-auth-core.",
+    "Keeps Analyse and Packaging inputs enabled and removes stale authentication-required errors from the signed-out core workflow.",
+    "Added YTIntelAuthDiagnostic() for deterministic production auth QA without exposing tokens or credentials.",
+    "Replaced the Packaging click path with a stricter v0.29.5 source contract while retaining the same deep v082 provider path.",
+    "Requires multiple source receipts, current-source citation, concrete source-anchor overlap, substantial hooks and materially distinct package territories.",
+    "Rejects generic title templates and refuses to render or save any package run that fails the client specificity gate.",
+    "Bumped the PWA shell to v0.29.5."
   ],
-  "why_it_matters": "The product should feel obvious the moment it opens. Analyse handles the core video-understanding job, Competitors keeps the genuinely useful competitive-pressure workflow, and everything that duplicated those paths or added noise is out of the way for now."
+  "why_it_matters": "The remaining Founder Weekly work is proof, not hand-waving. The app now has stronger code-level guarantees around the two unfinished critical areas while still refusing to award progress until real signed-in/signed-out browser evidence and three real source-specific Packaging outputs exist."
 }
