@@ -45,6 +45,7 @@ jobs:
           node --check ytintel/latest/v293-release-card.js
           node --check ytintel/latest/v294-focus-cleanup.js
           node --check ytintel/latest/v295-core-hardening.js
+          node --check ytintel/latest/v300-core-analysis.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           jq empty ytintel/benchmarks/blake-ryan-expected.json
