@@ -1,9 +1,9 @@
 {
   "id": "./?app=ytintel",
-  "name": "YTIntel — Viral Research to Script Production",
+  "name": "YTIntel — YouTube Creator Intelligence",
   "short_name": "YTIntel",
-  "description": "Paste breakout YouTube videos, inspect public Most Replayed moments and creator mechanics, bank winning styles by niche, auto-compare similar videos and turn the evidence into a timed script production blueprint.",
-  "start_url": "./?source=pwa&v=0280",
+  "description": "Drop a YouTube video and get a source-grounded creator research brief: full summary, hooks, re-hooks, payoffs, replay peaks, frames, audio, packaging, channel context, a brand-specific remake and permanent vault memory.",
+  "start_url": "./?source=pwa&v=0300",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
@@ -11,14 +11,12 @@
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
   "icons": [
-    {"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=0300","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Viral Forensics","short_name":"Viral Lab","url":"./?tab=viral&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Intelligence","short_name":"Intelligence","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Full Research Sprint","short_name":"Sprint","url":"./?tab=sprint&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Opportunity Radar","short_name":"Radar","url":"./?tab=radar&source=shortcut","icons":[{"src":"./icon.svg?v=0280","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0300","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Competitor Watchtower","short_name":"Competitors","url":"./?tab=os&source=shortcut","icons":[{"src":"./icon.svg?v=0300","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Research Vault","short_name":"Vault","url":"./?tab=history&source=shortcut","icons":[{"src":"./icon.svg?v=0300","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {
     "action": "./?source=share",
