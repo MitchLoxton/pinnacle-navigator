@@ -2,11 +2,11 @@
   "release_id": "ytintel-0.30.0-core-analysis-brief",
   "version": "v0.30.0",
   "title": "The Core Analysis Brief",
-  "summary": "Analyse is now the heart of YTIntel: one YouTube link runs the ordered 17-part Monday Brief, shows real parallel task progress, banks the research into a creator-specific vault and exports the result.",
+  "summary": "Analyse is now the heart of YTIntel: one YouTube link runs the ordered 17-part Monday Brief, shows real parallel task progress, banks the research into a creator-specific vault and runs a final model-backed QA pass when the provider is available.",
   "discord_changes": [
     "One video link now builds the full 17-section Monday Brief — from facts and hooks to frames, packaging, remake and transcript.",
-    "The Analysis Room now shows real parallel task progress while storyboard keyframes cover the full runtime instead of just replay peaks.",
-    "Creator niche, subniche, audience and brand rules now feed a persistent analysis/hook/package vault with side-by-side comparisons."
+    "Analyse is now the default screen; redundant research tools are hidden while Competitors and Vault stay available.",
+    "A dedicated final GPT-5.6 Sol cross-check now audits the completed report and refuses to fake a pass when model access is unavailable."
   ],
   "changes": [
     "Rebuilt Analyse around the exact Monday Brief order: Strip, Summary, Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Steal/Do Not Copy, Visuals, Motion, Audio, Packaging, Channel Context, Make It Yours, Vault, Cross-check/Export and Full Transcript.",
@@ -19,10 +19,13 @@
     "Added brand-rule-aware source-specific remake directions through the existing deep Packaging path; when cloud deep reasoning is unavailable, generic filler remains refused.",
     "Added persistent analysis vault, hook bank and package bank tables with row-level security and local signed-out fallback storage.",
     "Added a dedicated Vault UI with recent analyses, hook-bank and package-bank views plus two-item side-by-side comparisons.",
-    "Added deterministic timestamp/quote/metric cross-checks, full Markdown export, print/save-PDF support and full transcript copy/download.",
-    "Focused the visible product around Analyse, Competitors and Vault while retiring redundant top-level tools now incorporated into the Core Analysis Brief.",
+    "Added deterministic timestamp/quote/metric cross-checks plus a separate GPT-5.6 Sol final reviewer for the model-required Export cross-check stage.",
+    "The final reviewer checks sections 2, 3, 14 and 16 for unsupported claims, bad timestamps, suspicious quotes, private-metric claims and overly literal copying; provider failure is shown as unavailable rather than a fake pass.",
+    "Added full Markdown export, print/save-PDF support and full transcript copy/download.",
+    "Made Analyse the default route and focused the visible product on Analyse, Competitors and Vault while hiding Sprint, Radar, Packaging, Pattern Mine, Visuals and other duplicate top-level workflows now absorbed by the brief.",
     "Expanded full-backup coverage to include the v0.30 profile, analysis vault, hook bank and package bank local stores.",
-    "Added focused v0.30 CI plus a production Chromium smoke test that requires all 17 sections, a 100% analysis-room completion state and a plausible-or-withheld WPM value.",
+    "Added hard network-stage timeouts and guarded the storyboard pass against repeated observer-triggered fetches.",
+    "Hardened production browser smoke diagnostics with explicit button-state checks, progress heartbeats and a 16-minute acceptance window for the 10-minute benchmark.",
     "Bumped the PWA shell and dynamic late-layer loader to v0.30.0."
   ],
   "why_it_matters": "The core promise in the brief is now the product flow: hand YTIntel one video and get a source-grounded research artifact designed to replace manually watching and dissecting it, while missing replay/media/model evidence is labelled instead of invented."
