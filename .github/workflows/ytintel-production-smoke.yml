@@ -13,7 +13,7 @@ jobs:
   signed-out-core:
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -37,40 +37,57 @@ jobs:
             const browser = await chromium.launch({ headless: true });
             const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
             const page = await context.newPage();
-            const url = 'https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=production-signed-out';
+            const url = 'https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v0300-signed-out';
             try {
               await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
               await page.waitForFunction(() => window.YTIntelAuth && typeof window.YTIntelAuthDiagnostic === 'function', null, { timeout: 45000 });
               await page.waitForFunction(() => document.documentElement.dataset.ytintelAuth === 'signed-out', null, { timeout: 30000 });
+              await page.waitForFunction(() => document.documentElement.dataset.yt300CoreAnalysis === '1', null, { timeout: 45000 });
               const diag = await page.evaluate(() => window.YTIntelAuthDiagnostic());
               assert(diag && diag.canonical_client === true, 'canonical auth client not ready');
               assert(diag.signed_in === false, 'fresh production context should be signed out');
               assert(diag.analyse_enabled === true, 'Analyse must remain enabled while signed out');
               assert(diag.stale_auth_error === false, 'stale authentication-required error is visible');
               await page.waitForSelector('#analyseForm #videoUrl', { state: 'visible', timeout: 30000 });
-              await page.fill('#videoUrl', 'https://www.youtube.com/watch?v=094y1Z2wpJg');
+              await page.fill('#videoUrl', 'https://www.youtube.com/watch?v=GzhT10i4vag');
               await page.click('#analyseForm button');
               await page.waitForFunction(() => {
-                const report = (document.querySelector('#report')?.innerText || '').trim();
                 const error = (document.querySelector('#error')?.innerText || '').trim();
-                return report.length > 250 || error.length > 0;
-              }, null, { timeout: 110000 });
-              const result = await page.evaluate(() => ({
-                report_text: (document.querySelector('#report')?.innerText || '').trim(),
-                error_text: (document.querySelector('#error')?.innerText || '').trim(),
-                package_disabled: !!document.querySelector('#packageBtn')?.disabled,
-                auth_state: document.documentElement.dataset.ytintelAuth || '',
-                status: document.querySelector('#status')?.textContent || ''
-              }));
+                const sections = document.querySelectorAll('#yt300Report > .yt300-section').length;
+                const pct = (document.querySelector('#yt300Pct')?.textContent || '').trim();
+                return error.length > 0 || (sections >= 17 && pct === '100%');
+              }, null, { timeout: 180000 });
+              const result = await page.evaluate(() => {
+                const text = (document.querySelector('#yt300Report')?.innerText || '').trim();
+                const sectionHeads = [...document.querySelectorAll('#yt300Report > .yt300-section .yt300-section-head h2')].map(x => x.textContent.trim());
+                const wpmStrip = [...document.querySelectorAll('#yt300Report .yt300-strip > div')].find(x => /WPM/i.test(x.querySelector('span')?.textContent || ''))?.querySelector('b')?.textContent || '';
+                return {
+                  report_text: text,
+                  section_count: document.querySelectorAll('#yt300Report > .yt300-section').length,
+                  section_heads: sectionHeads,
+                  error_text: (document.querySelector('#error')?.innerText || '').trim(),
+                  auth_state: document.documentElement.dataset.ytintelAuth || '',
+                  status: document.querySelector('#status')?.textContent || '',
+                  progress: document.querySelector('#yt300Pct')?.textContent || '',
+                  wpm_strip: wpmStrip,
+                  retired_visible: [...document.querySelectorAll('.tabs [data-tab="loop"],.tabs [data-tab="packaging"],.tabs [data-tab="similar"],.tabs [data-tab="batch"],.tabs [data-tab="visuals"]')].some(x => getComputedStyle(x).display !== 'none')
+                };
+              });
               assert(!/sign\s*in|authentication required/i.test(result.error_text), `signed-out Analyse hit auth gate: ${result.error_text}`);
               assert(result.error_text === '', `Analyse production error: ${result.error_text}`);
-              assert(result.report_text.length > 250, 'Analyse did not render a substantive production report');
-              assert(result.package_disabled === false, 'Packaging button remained disabled after signed-out Analyse');
+              assert(result.section_count >= 17, `expected 17 ordered report sections, got ${result.section_count}`);
+              assert(result.progress === '100%', `analysis room did not complete: ${result.progress}`);
+              assert(result.report_text.length > 3000, 'Core Analysis Brief is not substantive enough');
+              const expected = ['One-line source snapshot','Enough context that you do not need to watch the whole video','Five to eight things you can act on — or the full declared list when the video is structured that way','The first 60 seconds, line by line','Every detected attention reset with the exact source line','Where the promise gets paid','Public curve unavailable — hypotheses are labelled, never invented'];
+              assert(result.section_heads.length >= 17, 'section headers missing');
+              const parsedWpm = Number(String(result.wpm_strip).replace(/[^0-9.]/g,''));
+              assert(!Number.isFinite(parsedWpm) || parsedWpm <= 330, `implausible WPM leaked into UI: ${result.wpm_strip}`);
               assert(result.auth_state === 'signed-out', 'auth state changed unexpectedly during signed-out Analyse');
-              await page.screenshot({ path: 'ytintel-signed-out-smoke.png', fullPage: true });
-              console.log(JSON.stringify({ pass: true, auth: diag, report_chars: result.report_text.length, status: result.status }, null, 2));
+              assert(result.retired_visible === false, 'retired duplicate top-level research tools are still visible');
+              await page.screenshot({ path: 'ytintel-v0300-signed-out-smoke.png', fullPage: true });
+              console.log(JSON.stringify({ pass: true, auth: diag, sections: result.section_count, report_chars: result.report_text.length, progress: result.progress, wpm: result.wpm_strip, status: result.status }, null, 2));
             } catch (e) {
-              await page.screenshot({ path: 'ytintel-signed-out-smoke.png', fullPage: true }).catch(() => {});
+              await page.screenshot({ path: 'ytintel-v0300-signed-out-smoke.png', fullPage: true }).catch(() => {});
               throw e;
             } finally {
               await browser.close();
@@ -82,7 +99,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-signed-out-production-smoke
-          path: ytintel-signed-out-smoke.png
+          name: ytintel-v0300-signed-out-production-smoke
+          path: ytintel-v0300-signed-out-smoke.png
           if-no-files-found: warn
           retention-days: 14
