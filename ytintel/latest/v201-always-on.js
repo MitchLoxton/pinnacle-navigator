@@ -23,7 +23,7 @@ async function loadLatest(){
     ['v292-owner-polish.js?v=0300','v292-owner-polish'],['v293-notes-focus.js?v=0300','v293-notes-focus'],
     ['v293-release-card.js?v=0300','v293-release-card'],['v294-focus-cleanup.js?v=0300','v294-focus-cleanup'],
     ['v295-core-hardening.js?v=0300','v295-core-hardening'],['v300-core-analysis.js?v=0300','v300-core-analysis'],
-    ['v300-vault-ui.js?v=0300','v300-vault-ui']
+    ['v300-vault-ui.js?v=0300','v300-vault-ui'],['v300-visual-pass.js?v=0300','v300-visual-pass']
   ];
   for(const [src,key] of queue)await one(src,key);
   try{window.dispatchEvent(new CustomEvent('ytintel:late-layers-ready'))}catch{}
