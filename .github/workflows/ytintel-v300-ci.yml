@@ -28,6 +28,7 @@ jobs:
           node --check ytintel/latest/v300-core-analysis.js
           node --check ytintel/latest/v300-vault-ui.js
           node --check ytintel/latest/v300-visual-pass.js
+          node --check ytintel/latest/v300-focus.js
           node --check ytintel/latest/v201-always-on.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
@@ -36,4 +37,5 @@ jobs:
           grep -q "v300-core-analysis.js" ytintel/latest/v201-always-on.js
           grep -q "v300-vault-ui.js" ytintel/latest/v201-always-on.js
           grep -q "v300-visual-pass.js" ytintel/latest/v201-always-on.js
+          grep -q "v300-focus.js" ytintel/latest/v201-always-on.js
           echo "YTIntel v0.30 core checks passed."
