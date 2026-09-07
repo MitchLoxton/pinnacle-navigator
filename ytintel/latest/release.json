@@ -1,22 +1,25 @@
 {
-  "release_id": "ytintel-0.29.5-core-reliability-hardening",
-  "version": "v0.29.5",
-  "title": "Core Reliability Hardening",
-  "summary": "Mitchell's core work moved forward: auth UI is reconciled against the one canonical session, Analyse/Packaging cannot inherit stale sign-in gates, and deep Packaging now rejects weak or generic outputs before they are shown or saved.",
+  "release_id": "ytintel-0.30.0-core-analysis-brief",
+  "version": "v0.30.0",
+  "title": "The Core Analysis Brief",
+  "summary": "Analyse is now the heart of YTIntel: one YouTube link runs an ordered 17-part research brief from source facts through transcript, replay, frames, packaging, channel context, your remake, vault memory and export.",
   "discord_changes": [
-    "Hardened visible auth state against the single canonical Supabase session so stale sign-in-required UI cannot fight the real session.",
-    "Added a source-specificity rejection gate to deep Packaging: weak receipts, generic templates and near-duplicate options are blocked.",
-    "Kept Founder Weekly honest: browser auth proof and real AI Packaging outputs are still required before those checkpoints close."
+    "One link now builds the full 17-section Core Analysis Brief in the exact research order.",
+    "Visible parallel task telemetry shows source, transcript, replay, visual, packaging, remake, vault and verification progress.",
+    "Analyses, hooks and packages now bank into persistent niche/subniche memory with Markdown, PDF and transcript export."
   ],
   "changes": [
-    "Added v295-core-hardening.js as a post-auth reliability layer after the focused v0.29.4 product cleanup.",
-    "Continuously reconciles the visible signed-in/signed-out state from window.YTIntelAuth, the canonical client created by v291-auth-core.",
-    "Keeps Analyse and Packaging inputs enabled and removes stale authentication-required errors from the signed-out core workflow.",
-    "Added YTIntelAuthDiagnostic() for deterministic production auth QA without exposing tokens or credentials.",
-    "Replaced the Packaging click path with a stricter v0.29.5 source contract while retaining the same deep v082 provider path.",
-    "Requires multiple source receipts, current-source citation, concrete source-anchor overlap, substantial hooks and materially distinct package territories.",
-    "Rejects generic title templates and refuses to render or save any package run that fails the client specificity gate.",
-    "Bumped the PWA shell to v0.29.5."
+    "Rebuilt Analyse around the Monday Brief order: Strip, Summary, Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Steal/Do Not Copy, Visuals, Motion, Audio, Packaging, Channel Context, Make It Yours, Vault, Cross-check/Export and Full Transcript.",
+    "Added a visible Analysis Room whose percentage only moves as real parallel evidence tasks resolve; it shows task telemetry rather than private model reasoning.",
+    "Added de-duplicated overall and per-minute WPM, longest-silence detection, transcript-wide beat sampling and source-backed hook/re-hook/payoff receipts.",
+    "Added public storyboard key frames at replay peaks plus honest storyboard visual-change cut/motion proxies and public caption-coded music/SFX evidence.",
+    "Added thumbnail pixel measurements, possible title-test detection against the channel feed, title/hook keyword extraction and promise-versus-delivery checks.",
+    "Added channel-context scanning for recent channel-relative hits and same/adjacent title angles.",
+    "Added brand-rule-aware source-specific remake directions through the existing deep Packaging path; when cloud deep reasoning is unavailable, generic filler remains refused.",
+    "Added persistent analysis vault, hook bank and package bank tables with row-level security plus niche, subniche, target-audience and brand-rule profile fields.",
+    "Added hook-bank side-by-side comparison, deterministic timestamp/quote/metric cross-checks, full Markdown export, print/save-PDF support and full transcript copy/download.",
+    "Focused the visible product around Analyse, Competitors and Vault while retiring redundant top-level tools now incorporated into the Core Analysis Brief.",
+    "Bumped the PWA shell and dynamic late-layer loader to v0.30.0."
   ],
-  "why_it_matters": "The remaining Founder Weekly work is proof, not hand-waving. The app now has stronger code-level guarantees around the two unfinished critical areas while still refusing to award progress until real signed-in/signed-out browser evidence and three real source-specific Packaging outputs exist."
+  "why_it_matters": "The product now matches the core promise in the brief: a creator can hand YTIntel one video and receive a source-grounded research artifact designed to replace watching and manually dissecting the entire upload, while weak or unavailable evidence is labelled instead of invented."
 }
