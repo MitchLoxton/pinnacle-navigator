@@ -24,6 +24,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          node --check ytintel/latest/v300-network-guard.js
           node --check ytintel/latest/v300-core-analysis.js
           node --check ytintel/latest/v300-vault-ui.js
           node --check ytintel/latest/v300-visual-pass.js
@@ -31,6 +32,7 @@ jobs:
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           grep -q "ytintel-shell-v0300" ytintel/latest/sw.js
+          grep -q "v300-network-guard.js" ytintel/latest/v201-always-on.js
           grep -q "v300-core-analysis.js" ytintel/latest/v201-always-on.js
           grep -q "v300-vault-ui.js" ytintel/latest/v201-always-on.js
           grep -q "v300-visual-pass.js" ytintel/latest/v201-always-on.js
