@@ -2,22 +2,32 @@
   "release_id": "ytintel-0.31.0-benchmark-quality-gates",
   "version": "v0.31.0",
   "title": "Analysis, Not Transcript Echoes",
-  "summary": "Separate model specialists, independent review, evidence checks and an animated task-driven research bar. Provider or quality failures remain incomplete instead of printing transcript filler.",
+  "summary": "The app upgrade is live. Deep AI still needs API credits; failed research no longer masquerades as a completed analysis.",
   "discord_changes": [
-    "Replaced transcript-copy summaries and takeaways with separate, source-checked model stages.",
-    "Added a lead researcher, independent editorial review and real animated task progress.",
-    "Blocked missing-model output from passing review or entering the reviewed vault."
+    "Animated progress + lead researcher, parallel specialists and independent review.",
+    "Transcript-copy summaries are rejected; all 17 Monday Brief sections stay in order.",
+    "Mobile startup repaired. Live AI output quality remains unverified until API credit is restored."
   ],
   "changes": [
-    "Kept the Monday Brief 17-section order.",
-    "Added a benchmark-derived synthesis, evidence-receipt and full-runtime coverage contract.",
-    "Added separate lead, summary, takeaway, mechanics, claims, remake and reviewer calls.",
-    "Added one bounded revision cycle for weak outputs.",
-    "Added a claims ledger with source-backed verification labels.",
-    "Added actual direction-specific beat sheets.",
-    "Animated the progress bar while real tasks run; no fake minimum-duration timer.",
-    "Export now reflects the displayed report, including incomplete status.",
-    "Removed legacy self-triggering display loops from the changed surfaces."
+    "Connected the v0.31 specialist pipeline to the actual Analyse form and ordered report.",
+    "Replaced transcript-copy summaries and takeaways with mandatory model-backed synthesis and source receipts.",
+    "Added a lead researcher, parallel summary/takeaway/structure/claims specialists, editorial review, remake and final review.",
+    "Added a bounded revision cycle and tests for literal copying, missing list items, quote grounding and runtime coverage.",
+    "Animated real task progress without an artificial minimum-duration delay.",
+    "Prevented missing-model and failed-review results from receiving 100% completion or entering the reviewed vault.",
+    "Preserved the Monday Brief's 17-section order and full transcript at the bottom.",
+    "Added claims-ledger output and original direction-specific remake beat sheets.",
+    "Made report exports reflect the displayed report and its incomplete status.",
+    "Fixed two pre-existing JavaScript syntax errors and the misplaced navigation insertion.",
+    "Stopped the obsolete first-visit tour from covering the mobile Analyse button.",
+    "Reduced mobile navigation to Analyse, Competitors and Vault.",
+    "Removed duplicate legacy model review and stale release-status overrides.",
+    "Expanded CI to every frontend JavaScript module and added deployed-site browser evidence."
   ],
-  "why_it_matters": "A long wait and 17 headings are not evidence of good analysis. The new contract requires distinct explanation, application and exact source receipts."
+  "known_limitations": [
+    "Live backend retest on 8 September 2026 returned CREDIT_BALANCE_EXHAUSTED.",
+    "Fixture tests verify control flow and rejection behavior, not real model output quality.",
+    "Storyboard proxies and caption cues do not establish exhaustive original-frame or acoustic analysis."
+  ],
+  "why_it_matters": "Explanation, application and source evidence must be distinct. An empty API balance or rejected output now leaves an explicit incomplete report instead of transcript filler."
 }
