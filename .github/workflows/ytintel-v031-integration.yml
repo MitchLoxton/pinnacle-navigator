@@ -41,11 +41,13 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Browser acceptance - fixtures, not live AI proof
         run: node ytintel/tests/browser-smoke.mjs
-      - name: Commit tested integration on feature branch only
+      - name: Full application mobile shell
+        run: node ytintel/tests/full-shell-smoke.mjs
+      - name: Commit tested application integration on feature branch only
         run: |
           git config user.name 'YTIntel integration'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ytintel/latest/v300-core-analysis.js ytintel/latest/v201-always-on.js ytintel/latest/v294-focus-cleanup.js ytintel/latest/v300-vault-ui.js ytintel/latest/sw.js ytintel/latest/index.html ytintel/latest/release.json .github/workflows/ytintel-v300-ci.yml
+          git add ytintel/latest/v300-core-analysis.js ytintel/latest/v201-always-on.js ytintel/latest/v294-focus-cleanup.js ytintel/latest/v300-vault-ui.js ytintel/latest/sw.js ytintel/latest/index.html ytintel/latest/release.json
           if ! git diff --cached --quiet; then
             git commit -m 'Integrate tested v031 model-quality gates and benchmark UI'
             git push origin HEAD:fix/ytintel-benchmark-031
