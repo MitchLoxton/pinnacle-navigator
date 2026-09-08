@@ -1,0 +1,78 @@
+/* Phone-first presentation only: no auth, quota, provider or report changes. */
+@media screen and (max-width:820px), screen and (max-width:1023px) and (pointer:coarse) {
+html[data-yt-phone]{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding:18px 0 100px}
+html[data-yt-phone] body{min-width:0}
+html[data-yt-phone] body .app{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;padding:12px max(12px,env(safe-area-inset-right)) calc(96px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important}
+html[data-yt-phone] body .app>.tabs{display:none!important}
+html[data-yt-phone] body .top{position:relative!important;top:auto!important;display:flex!important;flex-wrap:wrap;align-items:center!important;gap:10px!important;min-height:0!important;margin:0 0 14px!important;padding:12px!important;border-radius:16px!important}
+html[data-yt-phone] body .top .brand{flex:1 1 120px;min-width:0;gap:9px!important}
+html[data-yt-phone] body .brand-copy strong{font-size:19px!important}
+html[data-yt-phone] body .brand-copy small{font-size:9px!important;letter-spacing:.07em!important}
+html[data-yt-phone] body .top>.split{flex:0 1 auto;min-width:0;max-width:100%;gap:7px!important;justify-content:flex-end}
+html[data-yt-phone] body .top .btn{min-height:44px!important;padding:10px 12px!important;font-size:13px!important}
+html[data-yt-phone] body .top #status{display:block;max-width:100%;flex-basis:100%;font-size:11px!important;line-height:1.5;white-space:normal;overflow-wrap:anywhere;margin:0}
+html[data-yt-phone] body #ytAuthWelcome,html[data-yt-phone] body .top .v284-brand-label{display:none!important}
+html[data-yt-phone] body .view,html[data-yt-phone] body #report,html[data-yt-phone] body #yt300Report,html[data-yt-phone] body #osRoot,html[data-yt-phone] body #yt300VaultPage{width:100%;min-width:0!important;max-width:100%!important}
+html[data-yt-phone] body .view>.hero{padding:22px 16px!important;border-radius:18px!important;min-height:0!important}
+html[data-yt-phone] body .view>.hero h1{font-size:clamp(29px,7.8vw,43px)!important;line-height:1.12!important;letter-spacing:-.045em!important;padding-right:0!important;max-width:100%!important;overflow-wrap:break-word}
+html[data-yt-phone] body .view>.hero>p{font-size:15px!important;line-height:1.65!important;padding-right:0!important}
+html[data-yt-phone] body :is(.view,.yt-authfix-card,.v26-modal-card,.v24-modal-card) :is(input:not([type=checkbox]):not([type=radio]),textarea,select){font-size:16px!important;line-height:1.5!important;max-width:100%;min-width:0;scroll-margin:20px 0 120px}
+html[data-yt-phone] body :is(.view,.yt-authfix-card) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),select){min-height:48px}
+html[data-yt-phone] body .view :is(button,.btn,summary),html[data-yt-phone] body .yt-authfix-card button{min-height:44px!important;white-space:normal;overflow-wrap:anywhere;touch-action:manipulation}
+html[data-yt-phone] body .view .btn{font-size:14px!important;padding:11px 13px!important}
+html[data-yt-phone] body .formrow{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0}
+html[data-yt-phone] body .formrow>*{width:100%!important;max-width:100%;min-width:0}
+html[data-yt-phone] body .formrow>.primary{min-height:50px!important}
+html[data-yt-phone] body :is(.yt300-section,.yt300-room,.yt330-folder,.yt330-group,.yt320-progress){min-width:0;max-width:100%}
+html[data-yt-phone] body .yt300-section{padding:18px 14px!important;border-radius:16px!important}
+html[data-yt-phone] body .yt300-section h2{font-size:22px!important;line-height:1.25!important}
+html[data-yt-phone] body #yt300Report :is(p,li),html[data-yt-phone] body .yt300-transcript-row span{font-size:14px!important;line-height:1.65!important;overflow-wrap:anywhere}
+html[data-yt-phone] body #yt300Report :is(.yt300-item,.yt300-callout)>div{min-width:0}
+html[data-yt-phone] body .yt300-strip{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important;gap:8px}
+html[data-yt-phone] body .yt300-strip>div{min-width:0!important;width:auto!important}
+html[data-yt-phone] body .yt300-strip b{white-space:normal!important;overflow-wrap:anywhere}
+html[data-yt-phone] body :is(.yt300-summary-top,.yt300-hook-grid,.yt300-package,.yt300-channel-grid,.yt300-audio-grid,.yt300-remakes,.yt300-steal,.yt300-peaks,.yt300-bank-grid,.yt330-profile-fields,.yt300-brandbox){grid-template-columns:minmax(0,1fr)!important}
+html[data-yt-phone] body :is(.yt300-statcards,.yt300-visual-meta,.yt300-pixel-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html[data-yt-phone] body :is(.yt300-export-actions,.yt300-transcript-actions,.yt300-vault-tabs){display:flex;flex-wrap:wrap;gap:8px}
+html[data-yt-phone] body :is(.yt300-export-actions,.yt300-transcript-actions)>.btn{flex:1 1 130px}
+html[data-yt-phone] body :is(.tablewrap,.yt300-compare,.yt330-matrix){display:block;min-width:0;width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+html[data-yt-phone] body .yt330-matrix :is(td,th){font-size:13px;line-height:1.55}
+html[data-yt-phone] body :is(.yt300-transcript,.transcript){max-height:min(540px,65svh);overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+html[data-yt-phone] body #mobileDock{position:fixed!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;max-width:none!important;margin:0!important;padding:8px max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;border-radius:18px 18px 0 0!important;background:rgba(10,15,22,.97)!important;border:1px solid #293543!important;border-bottom:0!important;z-index:1000;backdrop-filter:blur(16px);box-shadow:0 -8px 30px #0004}
+html[data-yt-phone] body #mobileDock button{min-width:0!important;min-height:50px!important;padding:10px 4px!important;font-size:13px!important;font-weight:750;border-radius:11px!important;white-space:normal!important}
+html[data-yt-phone][data-yt-phone-keyboard='open'] body #mobileDock{visibility:hidden!important;pointer-events:none!important}
+html[data-yt-phone] body :is(.yt-authfix-modal,.v26-modal,.v24-setup-modal,.v25-modal,.v22-modal,.update-modal){padding:12px!important;align-items:flex-start!important;padding-top:max(12px,env(safe-area-inset-top))!important}
+html[data-yt-phone] body :is(.yt-authfix-card,.v26-modal-card,.v24-modal-card,.v25-modal-card,.v22-modal-card,.update-panel){width:100%!important;min-width:0!important;max-width:100%!important;max-height:calc(var(--yt-phone-visible-height,100dvh) - 32px)!important;overflow-y:auto!important;overscroll-behavior:contain;padding:18px!important;border-radius:16px!important}
+html[data-yt-phone] body .yt-authfix-actions{display:grid;gap:10px}
+html[data-yt-phone] body .yt-authfix-fields label{font-size:14px}
+html[data-yt-phone] body .yt-authfix-top p,html[data-yt-phone] body .yt-authfix-msg{font-size:13px!important}
+/* Script Studio uses the same phone layer on its separate development branch. */
+html[data-yt-phone] body :is(#yt320Studio,#yt320Form,#yt320Output,#yt320Inputs,.yt320-settings){min-width:0!important;max-width:100%!important}
+html[data-yt-phone] body .yt320-grid{grid-template-columns:minmax(0,1fr)!important;gap:18px}
+html[data-yt-phone] body :is(#yt320Form,#yt320Output){padding:16px!important;border-radius:16px!important}
+html[data-yt-phone] body .yt320-modes{display:grid;width:100%;grid-template-columns:1fr 1fr}
+html[data-yt-phone] body .yt320-modes button{min-height:48px;font-size:14px}
+html[data-yt-phone] body .yt320-modes span{display:none}
+html[data-yt-phone] body .yt320-head{padding:16px 0}
+html[data-yt-phone] body .yt320-head h1{font-size:clamp(30px,8vw,42px)!important}
+html[data-yt-phone] body #yt320Studio :is(textarea,input[type=number]){font-size:16px!important;line-height:1.55!important;padding:12px!important}
+html[data-yt-phone] body #yt320Script{min-height:260px;max-height:65svh}
+html[data-yt-phone] body #yt320Brief{min-height:170px}
+html[data-yt-phone] body #yt320Studio input[type=file]{display:block;width:100%;min-height:48px;font-size:14px!important;overflow:hidden}
+html[data-yt-phone] body #yt320Studio input[type=file]::file-selector-button{min-height:44px;padding:10px 12px;margin-right:8px;border:1px solid #435164;border-radius:9px;background:#1b2834;color:#edf3fa}
+html[data-yt-phone] body .yt320-checkbox{min-height:48px;gap:12px!important}
+html[data-yt-phone] body .yt320-checkbox input{width:22px;height:22px;flex:none}
+html[data-yt-phone] body :is(.yt320-actions,.yt320-export){display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+html[data-yt-phone] body :is(.yt320-actions,.yt320-export) button{width:100%;min-height:48px!important}
+html[data-yt-phone] body .yt320-source-links a{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
+html[data-yt-phone] body .yt320-view-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible}
+html[data-yt-phone] body .yt320-view-tabs button{min-width:0;white-space:normal;line-height:1.4}
+html[data-yt-phone] body .yt320-tier article{grid-template-columns:28px minmax(0,1fr);gap:8px}
+html[data-yt-phone] body #yt320Studio :is(p,q,summary,a,h2,h3,pre){overflow-wrap:anywhere}
+html[data-yt-phone] body .yt320-receipt{padding:10px;margin-left:0}
+html[data-yt-phone] body .yt320-receipt a{display:block;min-height:44px;font-size:13px;padding:6px 0}
+html[data-yt-phone] body #yt320Tasks{grid-template-columns:minmax(0,1fr)}
+html[data-yt-phone] body .yt320-saved .btn{display:block;width:100%;margin:10px 0}
+}
+@media(prefers-reduced-motion:reduce){html[data-yt-phone]{scroll-behavior:auto!important}}
+@media print{#mobileDock{display:none!important}}
