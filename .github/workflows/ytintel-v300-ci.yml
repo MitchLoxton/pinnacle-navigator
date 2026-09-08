@@ -18,16 +18,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.34 clean Monday Brief core
+      - name: Validate v0.34.1 clean Monday Brief core
         shell: bash
         run: |
           set -euo pipefail
           node --check ytintel/latest/v340-zero-credit.js
+          node --check ytintel/latest/v341-quality-core.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0340" ytintel/latest/sw.js
-          grep -q "v340-zero-credit.js?v=0340" ytintel/latest/index.html
-          grep -q "v340-zero-credit.css?v=0340" ytintel/latest/index.html
+          grep -q "ytintel-shell-v0341" ytintel/latest/sw.js
+          grep -q "v341-quality-core.js?v=0341" ytintel/latest/index.html
+          grep -q "v340-zero-credit.css?v=0341" ytintel/latest/index.html
           test "$(grep -o '<script src=' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q "v201-always-on.js" ytintel/latest/index.html
           ! grep -q "v310-deep-research.js" ytintel/latest/index.html
@@ -35,6 +36,8 @@ jobs:
           ! grep -q "Smart Start" ytintel/latest/index.html
           ! grep -q "Research Sprint" ytintel/latest/index.html
           grep -q "section(17,'Full transcript'" ytintel/latest/v340-zero-credit.js
+          grep -q "cross_segment_overlap_removed" ytintel/latest/v341-quality-core.js
+          grep -q "DETERMINISTIC WATCH-REPLACEMENT" ytintel/latest/v341-quality-core.js
           grep -q "research-stage" ytintel/tests/production-v031.mjs
           node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs
-          echo "YTIntel v0.34 clean zero-credit core contracts passed."
+          echo "YTIntel v0.34.1 zero-credit quality contracts passed."
