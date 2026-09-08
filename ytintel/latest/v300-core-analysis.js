@@ -3,7 +3,7 @@
 'use strict';
 if(document.documentElement.dataset.yt300CoreAnalysis==='1')return;
 document.documentElement.dataset.yt300CoreAnalysis='1';
-window.YTINTEL_VERSION='0.33.0';
+window.YTINTEL_VERSION='0.33.2';
 
 const CORE='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093';
 const AI='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v082';
