@@ -1,28 +1,32 @@
 {
-  "release_id": "ytintel-0.34.2-monday-brief-intelligence",
-  "version": "v0.34.2",
-  "title": "Monday Brief intelligence refinement",
-  "summary": "The zero-credit core now produces a clearer main-message synthesis, better beat roles and takeaway receipts that actually support the lesson they sit under.",
-  "published_at": "2026-09-08T13:50:00Z",
+  "release_id": "ytintel-0.35.0-heart-lock",
+  "version": "v0.35.0",
+  "title": "Heart Lock — single-video analysis first",
+  "summary": "YTIntel is now structurally focused on the endgame heart: one winning video in, a locked 17-section report out, creator DNA applied, and reusable intelligence banked for the vault.",
+  "published_at": "2026-09-08T14:05:00Z",
   "discord_changes": [
-    "MAIN MESSAGE FIX: the watch-replacement now states the actual thesis instead of grabbing a random transcript clause.",
-    "TAKEAWAY RECEIPTS FIX: each deterministic lesson now points to the sentence that supports that exact lesson.",
-    "WPM + STABILITY STAY FIXED: deduplicated pace, 100% bounded completion, one clean boot, zero paid API credits."
+    "HEART LOCK: Analyse + Vault are the active product. Watchtower is deliberately hidden until the 17-section single-video core is excellent.",
+    "CREATOR DNA: first-run setup now asks niche, subniche, channel, audience, brand rules and key competitors so prescriptive output has user context.",
+    "RESEARCH CONSOLE: analysis now exposes real task/workstream status, the 17-section roadmap and an activity feed — without fake waiting or hidden chain-of-thought."
   ],
   "changes": [
-    "Added thesis-specific rules for the 07/09/26 Monday Brief watch-replacement summary.",
-    "Improved beat classification across opening, receipts, thesis, mechanism, case studies, demonstrations, objections, funnel and close.",
-    "Selected evidence sentences according to the role of the beat instead of simply preferring whichever sentence contained the largest number.",
-    "Rebuilt the eight core deterministic takeaways so each source quote matches the lesson being asserted.",
-    "Collapsed noisy repeated caption words/short phrases inside displayed evidence receipts.",
-    "Preserved the v0.34.1 rolling-caption WPM correction and normalized transcript source.",
-    "Preserved the exact 17-section 07/09/26 Monday Brief order, clean Analyse/Competitors/Vault shell and zero-credit local-model option."
+    "Added a canonical ENDGAME_BRIEF.md so the product scope and exact 17-section Monday Brief order stop drifting.",
+    "Added a first-run Creator DNA profile with niche, subniche, user channel, audience, brand rules and key competitors.",
+    "Composed user channel and key-competitor context into the existing creator-tailoring context used by local remake synthesis.",
+    "Added a live research workstream console with source, structure, retention, replay/visual, audio, packaging/channel, blueprint and cross-check lanes.",
+    "Added a visible 17-section analysis roadmap driven by actual pipeline progress rather than an artificial ten-minute timer.",
+    "Added an activity feed that shows concise task/evidence outcomes instead of hidden model reasoning.",
+    "Added a source-backed why-it-popped mechanics hypothesis to the summary section.",
+    "Added an intelligence bank that stores completed winner packages, opening hooks and creator context for later vault comparison surfaces.",
+    "Hidden the Watchtower/Competitors surface from the active v0.35.0 navigation while preserving its underlying code for the next product slice.",
+    "Preserved the deduplicated transcript/WPM correction and the exact 17-section report contract from v0.34.2."
   ],
   "known_limitations": [
-    "No-credit YTIntel cannot guarantee Claude Max/GPT-5.6-class reasoning. A ready on-device model is still the only zero-credit path to genuine model synthesis.",
-    "The deterministic watch-replacement is evidence interpretation, not a substitute for a frontier cloud research model.",
-    "Motion graphics and acoustic sound-design claims remain withheld when actual source frames/audio are unavailable.",
-    "Automated browser acceptance does not replace every physical iPhone/Android configuration."
+    "Full frame-by-frame video inspection is not yet available when the source engine does not provide actual frames/video.",
+    "Acoustic music/SFX analysis is not claimed when raw audio is unavailable.",
+    "Most Replayed is only treated as real when a public replay curve is actually exposed; otherwise hypotheses remain labelled hypotheses.",
+    "Zero-credit mode cannot guarantee frontier cloud-model reasoning. Sections 2, 3, 14 and 16 use genuine on-device model synthesis only when a ready local model exists.",
+    "Creator DNA is local-first in this release; account-backed profile persistence can be wired when the login/account layer is reintroduced."
   ],
-  "why_it_matters": "The product should tell you what the video is actually saying, then show the source receipt underneath—not confuse the receipt for the intelligence."
+  "why_it_matters": "The product now has one explicit center of gravity: save creators from watching and manually dissecting a winning video, then turn the evidence into something useful for their own channel."
 }
