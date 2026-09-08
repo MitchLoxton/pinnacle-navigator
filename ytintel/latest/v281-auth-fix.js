@@ -45,6 +45,7 @@ async function ensureUsername(wanted=''){
   localStorage.removeItem(PENDING);profile={...(profile||{}),username};
 }
 function restoreAnalysisAccess(){
+  if(document.querySelector('#yt300Progress[data-phase="running"]'))return;
   ['#videoUrl','#analyseForm button','#v27Url','#v27Form button'].forEach(sel=>document.querySelectorAll(sel).forEach(n=>{n.disabled=false;n.removeAttribute('aria-disabled')}));
   document.querySelectorAll('[data-tab="analyse"],[data-tab="viral"]').forEach(n=>{n.disabled=false;n.removeAttribute('aria-disabled')});
 }
@@ -126,7 +127,7 @@ async function boot(){
       }
     }
   }catch(e){console.warn('[YTIntel auth fix]',e);restoreAnalysisAccess()}
-  window.YTINTEL_VERSION='0.28.1';const status=$('#status');if(status&&/cloud intelligence|always-on|checking intelligence|ready/i.test(status.textContent||''))status.textContent='v0.28.1 · account system live';
+  // v031-release-state-owned-by-current-loader: authentication does not set the app release.
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,700),{once:true});else setTimeout(boot,700);
 })();

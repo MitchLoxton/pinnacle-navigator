@@ -6,7 +6,7 @@
   "discord_changes": [
     "Animated progress + lead researcher, parallel specialists and independent review.",
     "Transcript-copy summaries are rejected; all 17 Monday Brief sections stay in order.",
-    "Mobile startup repaired. Live AI output quality remains unverified until API credit is restored."
+    "Mobile release checks repaired. Deep AI remains blocked until API credit is restored."
   ],
   "changes": [
     "Connected the v0.31 specialist pipeline to the actual Analyse form and ordered report.",
@@ -22,7 +22,8 @@
     "Stopped the obsolete first-visit tour from covering the mobile Analyse button.",
     "Reduced mobile navigation to Analyse, Competitors and Vault.",
     "Removed duplicate legacy model review and stale release-status overrides.",
-    "Expanded CI to every frontend JavaScript module and added deployed-site browser evidence."
+    "Expanded CI to every frontend JavaScript module and added deployed-site browser evidence.",
+    "Removed the delayed legacy account version overwrite; the current loader owns release readiness, and active analysis cannot be re-enabled by that auth UI."
   ],
   "known_limitations": [
     "Live backend retest on 8 September 2026 returned CREDIT_BALANCE_EXHAUSTED.",

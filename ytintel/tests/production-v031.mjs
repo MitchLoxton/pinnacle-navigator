@@ -12,7 +12,7 @@ page.on('response',async response=>{try{const u=new URL(response.url());if(!u.ho
 const hardStop=setTimeout(()=>{console.error('Production browser deadline exceeded');process.exit(2)},810000);
 try{
  await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
- await page.waitForFunction(()=>window.YTIntelDeepResearch&&document.documentElement.dataset.yt300CoreAnalysis==='1'&&window.YTINTEL_VERSION==='0.31.0',null,{timeout:60000});
+ await page.waitForFunction(()=>window.YTIntelDeepResearch&&document.documentElement.dataset.yt300CoreAnalysis==='1'&&window.YTINTEL_VERSION==='0.31.0'&&document.documentElement.dataset.ytintelAppReady==='0.31.0',null,{timeout:60000});
  await page.waitForTimeout(1500);
  const before=await page.evaluate(()=>({version:window.YTINTEL_VERSION,active:document.querySelector('.view.active')?.id,auth:document.documentElement.dataset.ytintelAuth,buttons:document.querySelectorAll('#analyseForm>button.primary').length,tour:document.querySelector('#v20Tour.show')!==null,dock:[...document.querySelectorAll('#mobileDock [data-dock]')].map(x=>x.dataset.dock)}));
  assert.equal(before.version,'0.31.0');assert.equal(before.active,'analyse');assert.equal(before.buttons,1);assert.equal(before.tour,false);assert.deepEqual(before.dock,['analyse','os','history']);
@@ -23,7 +23,7 @@ try{
  await page.waitForSelector('#yt300Progress[data-phase="stopped"]',{timeout:730000});
  await page.waitForSelector('#yt300Report>.yt300-section:nth-child(17)',{timeout:10000});
  const result=await page.evaluate(()=>({version:window.YTINTEL_VERSION,heads:[...document.querySelectorAll('#yt300Report>.yt300-section .yt300-stepno')].map(e=>Number(e.textContent)),deep:window.YTIntelLastReport?.deep_research,pct:document.querySelector('#yt300Pct')?.textContent,text:document.querySelector('#yt300Report')?.innerText||'',summary:document.querySelector('#yt300Report>.yt300-section:nth-child(2)')?.innerText||'',takeaways:document.querySelector('#yt300Report>.yt300-section:nth-child(3)')?.innerText||'',submit_enabled:!document.querySelector('#analyseForm>button.primary')?.disabled,source_segments:window.YTIntelLastReport?.transcript?.segments?.length||0,md:window.YTIntelDeepResearch.reportMarkdown(document.querySelector('#yt300Report')),vault_count:JSON.parse(localStorage.getItem('ytintel-v300-analysis-vault')||'[]').length}));
- assert.deepEqual(result.heads,Array.from({length:17},(_,i)=>i+1));assert(result.source_segments>0);assert(result.submit_enabled);assert(requests.some(r=>r.action==='research-begin'));assert(requests.some(r=>r.action==='research-stage'));
+ assert.equal(result.version,'0.31.0');assert.deepEqual(result.heads,Array.from({length:17},(_,i)=>i+1));assert(result.source_segments>0);assert(result.submit_enabled);assert(requests.some(r=>r.action==='research-begin'));assert(requests.some(r=>r.action==='research-stage'));
  const reviewed=result.deep?.status==='model_reviewed';
  if(!reviewed){assert.equal(result.deep?.error_code,'CREDIT_BALANCE_EXHAUSTED','Only the independently confirmed credit blocker is an expected incomplete result');assert.notEqual(result.pct,'100%');assert(result.summary.includes('Transcript excerpts are not being substituted'));assert(result.takeaways.includes('Transcript excerpts are not being substituted'));assert.equal(result.vault_count,0);assert(result.md.includes('Report incomplete'));}
  else {assert(result.deep.model_calls>=8);assert(result.summary.includes('What the video actually argues'));assert(result.vault_count>0);}

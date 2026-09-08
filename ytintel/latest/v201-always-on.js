@@ -17,7 +17,7 @@ async function loadLatest(){
     ['v260-cloud.js?v=0310','v260-cloud'],['v260-release.js?v=0310','v260-release'],
     ['v270-forensics.js?v=0310','v270-forensics'],['v270-route.js?v=0310','v270-route'],
     ['v280-production.js?v=0310','v280-production'],['v280-focus.js?v=0310','v280-focus'],
-    ['v281-ideas.js?v=0310','v281-ideas'],['v281-auth-fix.js?v=0310','v281-auth-fix'],
+    ['v281-ideas.js?v=0310','v281-ideas'],['v281-auth-fix.js?v=0310-r2','v281-auth-fix'],
     ['v282-product-fix.js?v=0310','v282-product-fix'],['v283-deep-packaging.js?v=0310','v283-deep-packaging'],
     ['v284-luxe.js?v=0310','v284-luxe'],['v290-commercial.js?v=0310','v290-commercial'],
     ['v292-owner-polish.js?v=0310','v292-owner-polish'],
@@ -28,6 +28,8 @@ async function loadLatest(){
     ['v300-focus.js?v=0310','v300-focus']
   ];
   for(const [src,key] of queue){await one(src,key);if(key==='v310-deep-research')await window.YTIntelDeepResearch.ready;}
+  window.YTINTEL_VERSION='0.31.0';
+  document.documentElement.dataset.ytintelAppReady='0.31.0';
   try{window.dispatchEvent(new CustomEvent('ytintel:late-layers-ready'))}catch{}
 }
 function setStatus(){const s=$('#status');if(!s||s.dataset.researchState)return;s.textContent='v0.31.0 - Ready';s.title='Model-backed analysis is checked per run. Ready does not imply API credit is available.'}
