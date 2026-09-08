@@ -4,6 +4,7 @@ on:
     branches: ["endgame-v0360"]
     paths:
       - "ytintel/latest/**"
+      - "ytintel/backend/**"
       - "ytintel/tests/v360-*.mjs"
       - ".github/workflows/ytintel-v360-branch.yml"
   workflow_dispatch:
