@@ -1,0 +1,63 @@
+"""Apply the reviewed v0.31 integration to the existing app. Fail on source drift."""
+from pathlib import Path
+import re, json
+root=Path('ytintel/latest')
+def change(s,a,b,count=1):
+    n=s.count(a)
+    if n!=count: raise RuntimeError(f'Expected {count} occurrences, found {n}: {a[:100]}')
+    return s.replace(a,b)
+def fn(s,name,body):
+    pattern=rf'^(?:async )?function {name}\(.*$'
+    out,n=re.subn(pattern,lambda _:body,s,flags=re.M)
+    if n!=1: raise RuntimeError(f'Function drift: {name}: {n}')
+    return out
+p=root/'v300-core-analysis.js';s=p.read_text()
+if 'v031-integration' not in s:
+    s='/* v031-integration: mandatory model synthesis; no transcript-as-analysis fallback. */\n'+s
+    s=fn(s,'runSynthesis','async function runSynthesis(r,profile){return window.YTIntelDeepResearch.synthesize(r,profile)}')
+    s=fn(s,'runRemake','async function runRemake(r,profile,thumb){return window.YTIntelDeepResearch.remake(r,profile,thumb)}')
+    s=fn(s,'summaryHtml','function summaryHtml(r,intel){return window.YTIntelDeepResearch.summaryHtml(r,intel)}')
+    s=fn(s,'takeawaysHtml','function takeawaysHtml(r,intel){return window.YTIntelDeepResearch.takeawaysHtml(r,intel)}')
+    s=fn(s,'takeaways','function takeaways(r,intel){return intel?.quality_pass?A(intel.key_takeaways).map(x=>({...x,body:x.explanation,start:parseTimestamp(x.timestamp)})):[]}')
+    s=fn(s,'hookHtml300','function hookHtml300(r,intel){return window.YTIntelDeepResearch.hooksHtml(r,intel)}')
+    s=fn(s,'payoffsHtml','function payoffsHtml(r,intel){return window.YTIntelDeepResearch.payoffsHtml(r,intel)}')
+    s=fn(s,'remakeHtml','function remakeHtml(r,profile,remake){return window.YTIntelDeepResearch.remakeHtml(r)}')
+    s=fn(s,'exportHtml','function exportHtml(checks,md,synthesis){return window.YTIntelDeepResearch.exportHtml(getReport())}')
+    s=fn(s,'updateProgress','function updateProgress(){window.YTIntelDeepResearch?.progress(taskState)}')
+    s=change(s,'function resetTasks(){taskState={};','function resetTasks(){window.YTIntelDeepResearch.reset();taskState={};')
+    s=change(s,'synthP=runSynthesis(r);','synthP=runSynthesis(r,profile);')
+    s=change(s,"task('transcript','done',", "task('transcript',synthesis.ok?'done':'warn',")
+    s=change(s,"task('vault','run','Saving report, hook and package memory');", "await window.YTIntelDeepResearch.finalReview(r,intel,visual,remake);task('vault','run','Saving only model-reviewed research');")
+    s=change(s,'async function saveBanks(r,intel,visual,profile,remake){',"async function saveBanks(r,intel,visual,profile,remake){if(!window.YTIntelDeepResearch.canBank(r))return {ok:false,mode:'not saved - model review incomplete',entry:{}};")
+    s=change(s,"wireButtons(r,profile,md,banks)}", "window.YTIntelDeepResearch.decorate(r,intel);wireButtons(r,profile,window.YTIntelDeepResearch.reportMarkdown(root),banks);window.dispatchEvent(new CustomEvent('ytintel:report-ready'))}")
+    s=change(s,"if($('#yt300Pct'))$('#yt300Pct').textContent='100%';if($('#yt300Bar'))$('#yt300Bar').style.width='100%';", 'window.YTIntelDeepResearch.finish(synthesis,remake);')
+    s=change(s,"task('review','done',`Verified + export ready", "task('review',window.YTIntelDeepResearch.canBank(r)?'done':'warn',`Review status shown in section 16; export ready")
+    s=change(s,"}catch(x){if(err){err.textContent=x?.message||String(x);", "}catch(x){window.YTIntelDeepResearch.finish();if(err){err.textContent=x?.message||String(x);")
+    s=s.replace("window.YTINTEL_VERSION='0.30.0'", "window.YTINTEL_VERSION='0.31.0'")
+    s=s.replace("'Evidence synthesis resolved; cloud enhancement limited'", "'Model analysis unavailable; transcript is not a substitute'")
+    s=s.replace("Saved to ${E(save?.mode||'local')} vault.", "${save?.ok?'Saved to '+E(save.mode)+' vault.':'Not added to the reviewed vault: '+E(save?.mode||'save failed')+'.'}")
+    s=s.replace("stat('Longest silence',", "stat('Longest caption gap (not acoustic silence)',")
+    s=s.replace('<b>${x.wpm}</b>',"<b>${x.wpm>330?'withheld':x.wpm}</b>")
+    s=s.replace('return sec(`${head(5,', "if(!intel?.quality_pass)return window.YTIntelDeepResearch.summaryHtml(r,intel).replace('THE SUMMARY','THE RE-HOOKS').replace('data-research-section=\"2\"','data-research-section=\"5\"').replace('yt300-stepno\">2','yt300-stepno\">5');return sec(`${head(5,")
+    s=s.replace("const profile=await profileP;skeleton", "const profile=await profileP;r.retrieved_at=new Date().toISOString();skeleton")
+    s=re.sub(r'(\.limit\(\d+\))(?=[,\]])',r'\1.throwOnError()',s)
+    p.write_text(s)
+p=root/'v201-always-on.js';s=p.read_text()
+if 'v310-deep-research.js' not in s:
+    s=change(s,"['v300-core-analysis.js?v=0300','v300-core-analysis']", "['v310-deep-research.js?v=0310','v310-deep-research'],['v300-core-analysis.js?v=0310','v300-core-analysis']")
+    s=re.sub(r",?\s*\['v300-contract\.js[^\n]*?'v300-contract'\]",'',s)
+    s=re.sub(r",?\s*\['v293-notes-focus\.js[^\n]*?'v293-notes-focus'\]",'',s)
+    s=s.replace("const o=new MutationObserver(refresh);o.observe(document.body,{childList:true,subtree:true,characterData:true});",'')
+    s=s.replace('v0.30.0 · Core analysis live','v0.31.0 · Model-quality gates')
+    s=s.replace('for(const [src,key] of queue)await one(src,key);',"for(const [src,key] of queue){await one(src,key);if(key==='v310-deep-research')await window.YTIntelDeepResearch.ready;}")
+    p.write_text(s)
+p=root/'v294-focus-cleanup.js';s=p.read_text().replace("const o=new MutationObserver(queue);o.observe(document.body,{childList:true,subtree:true});", "window.addEventListener('ytintel:late-layers-ready',queue);");p.write_text(s)
+p=root/'v300-vault-ui.js';s=p.read_text().replace("const o=new MutationObserver(refresh);o.observe(document.body,{childList:true,subtree:true});", "window.addEventListener('ytintel:report-ready',refresh);window.addEventListener('ytintel:late-layers-ready',refresh);");s=re.sub(r'(\.limit\(\d+\))(?=[,\]])',r'\1.throwOnError()',s);p.write_text(s)
+# Existing network guard already respects init.signal; research requests supply one.
+p=root/'sw.js';s=p.read_text();s=s.replace("const CACHE='ytintel-shell-v0300'", "const CACHE='ytintel-shell-v0310'").replace("const V='0300'", "const V='0310'")
+if 'v310-deep-research.js' not in s:s=s.replace('const CORE=[', 'const CORE=[`./v310-contract.mjs?v=${V}`,`./v310-deep-research.js?v=${V}`,')
+s=s.replace('(?:js|css|webmanifest|svg)', '(?:js|mjs|css|webmanifest|svg)');p.write_text(s)
+p=root/'index.html';s=p.read_text().replace('v=0284','v=0310').replace("window.YTINTEL_VERSION='0.28.4'","window.YTINTEL_VERSION='0.31.0'");p.write_text(s)
+p=root/'release.json';d=json.loads(p.read_text());d.update(release_id='ytintel-0.31.0-benchmark-quality-gates',version='v0.31.0',title='Analysis, Not Transcript Echoes',summary='Separate model specialists, independent review, evidence checks and an animated task-driven research bar. Provider or quality failures remain incomplete instead of printing transcript filler.',discord_changes=['Replaced transcript-copy summaries and takeaways with separate, source-checked model stages.','Added a lead researcher, independent editorial review and real animated task progress.','Blocked missing-model output from passing review or entering the reviewed vault.'],changes=['Kept the Monday Brief 17-section order.','Added a benchmark-derived synthesis, evidence-receipt and full-runtime coverage contract.','Added separate lead, summary, takeaway, mechanics, claims, remake and reviewer calls.','Added one bounded revision cycle for weak outputs.','Added a claims ledger with source-backed verification labels.','Added actual direction-specific beat sheets.','Animated the progress bar while real tasks run; no fake minimum-duration timer.','Export now reflects the displayed report, including incomplete status.','Removed legacy self-triggering display loops from the changed surfaces.'],why_it_matters='A long wait and 17 headings are not evidence of good analysis. The new contract requires distinct explanation, application and exact source receipts.');p.write_text(json.dumps(d,indent=2)+'\n')
+p=Path('.github/workflows/ytintel-v300-ci.yml');s=p.read_text().replace('ytintel-shell-v0300','ytintel-shell-v0310');p.write_text(s)
+print('v0.31 integration applied')
