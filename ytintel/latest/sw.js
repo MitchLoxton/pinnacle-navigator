@@ -1,5 +1,5 @@
-const CACHE='ytintel-shell-v0340';
-const CORE=['./index.html','./v340-zero-credit.js?v=0340','./v340-zero-credit.css?v=0340','./manifest.webmanifest?v=0340','./icon.svg?v=0340'];
+const CACHE='ytintel-shell-v0341';
+const CORE=['./index.html','./v341-quality-core.js?v=0341','./v340-zero-credit.js?v=0341','./v340-zero-credit.css?v=0341','./manifest.webmanifest?v=0341','./icon.svg?v=0341'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(CORE.map(x=>cache.add(x)))));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('ytintel-shell-')&&key!==CACHE)await caches.delete(key);await self.clients.claim()})())});
 self.addEventListener('fetch',event=>{const req=event.request,url=new URL(req.url);if(req.method!=='GET'||url.origin!==location.origin)return;if(req.mode==='navigate'){event.respondWith(fetch(req,{cache:'no-store'}).then(async r=>{if(r.ok)(await caches.open(CACHE)).put('./index.html',r.clone()).catch(()=>{});return r}).catch(()=>caches.match('./index.html')));return}if(/\.(?:js|css|webmanifest|svg)$/.test(url.pathname)){event.respondWith(fetch(req,{cache:'no-store'}).then(async r=>{if(r.ok)(await caches.open(CACHE)).put(req,r.clone()).catch(()=>{});return r}).catch(()=>caches.match(req)));}});
