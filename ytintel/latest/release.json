@@ -3,6 +3,7 @@
   "version": "v0.33.2",
   "title": "Unfrozen + phone ready",
   "summary": "P0 page-freeze fixed and the tested phone presentation is now in the actual YTIntel app.",
+  "published_at": "2026-09-08T13:06:00Z",
   "discord_changes": [
     "P0 FIX: removed the auth refresh feedback loop that could make Chrome report Page Unresponsive.",
     "Phone-first layout: readable fields, 44px touch controls, safe-area spacing and keyboard-aware navigation.",
