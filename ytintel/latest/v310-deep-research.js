@@ -4,10 +4,10 @@ if(window.YTIntelDeepResearch)return;
 const ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093';
 const contexts=new WeakMap(),modelTasks={};
 let contract,stopped=false,started=0,ticker=null,lastBase={};
-const ready=import('./v310-contract.mjs?v=0310').then(m=>contract=m);
+const ready=import('./v310-contract.mjs?v=0330').then(m=>contract=m);
 const $=s=>document.querySelector(s),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const A=x=>Array.isArray(x)?x:[];
-const WORKERS={plan:'Lead researcher',summary:'Summary specialist',takeaways:'Takeaway specialist',mechanics:'Structure specialist',claims:'Claims researcher',remake:'Remake specialist',review:'Independent editor',final_review:'Final reviewer'};
+const WORKERS={plan:'Lead researcher',summary:'Summary specialist',takeaways:'Takeaway specialist',mechanics:'Structure specialist',claims:'Claims researcher',media:'Visual + thumbnail specialist',remake:'Remake specialist',review:'Independent editor',final_review:'Final reviewer'};
 const ERRORS={CREDIT_BALANCE_EXHAUSTED:'The OpenAI API project has exhausted its credit balance. Add API credit before running deep analysis; no transcript filler has been substituted.',INSUFFICIENT_QUOTA:'The OpenAI API has no usable credit or quota. No model-backed analysis was produced.',API_KEY_MISSING:'No server-side OpenAI API key is available.',RESEARCH_DAILY_LIMIT:'The protected daily deep-research allowance has been reached.',MODEL_TIMEOUT:'The model did not finish this stage within its request budget.',MODEL_OUTPUT_INCOMPLETE:'The provider stopped before completing the required output.',SESSION_EXPIRED:'Your session expired. Sign in again for deep research.',BUDGET_EXCEEDED:'The research budget was reached before all required checks passed.'};
 function errorText(e){return ERRORS[e?.code]||e?.message||String(e||'Research unavailable');}
 function status(stage,value,note){modelTasks[stage]={status:value,note:note||''};progress(lastBase);}
@@ -22,7 +22,7 @@ function progress(base){
  const states=[...Object.values(lastBase),...Object.values(modelTasks).map(x=>x.status)],complete=states.filter(x=>x==='done').length;
  const pct=Math.round(complete/Math.max(1,states.length)*100);
  const bar=$('#yt300Bar'),label=$('#yt300Pct');if(bar)bar.style.width=`${pct}%`;if(label)label.textContent=`${pct}%`;
- root.dataset.phase=stopped?'stopped':'running';root.setAttribute('aria-busy',String(!stopped));root.setAttribute('role','progressbar');root.setAttribute('aria-valuenow',String(pct));root.setAttribute('aria-valuemin','0');root.setAttribute('aria-valuemax','100');
+ root.dataset.phase=stopped?'stopped':'running';root.setAttribute('aria-busy',String(!stopped));root.setAttribute('role','progressbar');root.setAttribute('aria-valuenow',String(pct));root.setAttribute('aria-valuemin','0');root.setAttribute('aria-valuemax','100');window.YTIntelBrief?.progress(lastBase,modelTasks);
  const p=root.querySelector('.yt300-room-head p');if(p&&!p.dataset.v310){p.dataset.v310='1';p.innerHTML='A lead researcher delegates separate model calls. Findings are checked against the source before release. <span id="yt310Elapsed">0s elapsed</span> <b>10-minute research budget; no artificial waiting.</b>';}
 }
 async function api(action,body,ctx){
@@ -62,7 +62,7 @@ async function synthesize(r,profile){
  try{
   Object.assign(ctx,await api('begin',{report:r,profile}));
   requireValid(await stage(ctx,'plan'),'Lead plan');
-  const names=['summary','takeaways','mechanics','claims'];
+  const names=['summary','takeaways','mechanics','claims'];if(ctx.evidence.media_images?.length)names.push('media');else status('media','warn','No accessible image input; no visual meaning invented');
   const settled=await Promise.allSettled(names.map(n=>stage(ctx,n)));const failed=settled.find(x=>x.status==='rejected');if(failed)throw failed.reason;
   let review=await stage(ctx,'review');
   const bad=names.filter(n=>A(ctx.results[n].checks).length);
@@ -73,13 +73,13 @@ async function synthesize(r,profile){
    review=await stage(ctx,'review',1);
   }
   names.forEach(n=>requireValid(ctx.results[n],n));requireValid(review,'Independent review');
-  const intelligence=merge(ctx,r);ctx.intelligence=intelligence;
-  r.deep_research={version:'0.31.0',status:'synthesis_reviewed',model:ctx.model,model_calls:ctx.calls,checks:review.data};
+  const intelligence=merge(ctx,r);ctx.intelligence=intelligence;r.brief_media_analysis=ctx.results.media?.data||null;
+  r.deep_research={version:'0.33.0',status:'synthesis_reviewed',model:ctx.model,model_calls:ctx.calls,checks:review.data};
   return {ok:true,intelligence,provider:'openai',fallback:false,review:review.data};
  }catch(e){
   ctx.error=errorText(e);ctx.code=e.code||'RESEARCH_UNAVAILABLE';
   for(const k of Object.keys(WORKERS))if(modelTasks[k]?.status==='wait')status(k,'warn','Blocked by an upstream research stage');
-  r.deep_research={version:'0.31.0',status:'source_only',error:ctx.error,error_code:ctx.code,model_calls:ctx.calls};
+  r.deep_research={version:'0.33.0',status:'source_only',error:ctx.error,error_code:ctx.code,model_calls:ctx.calls};
   return {ok:false,intelligence:{quality_pass:false,research_error:ctx.error},provider:'unavailable',fallback:false,error:ctx.error};
  }
 }
@@ -129,7 +129,7 @@ function reportMarkdown(root){
   if(['p','div','section','article','details','summary','tr','ul','ol'].includes(tag))return '\n'+body.trim()+'\n';return body;
  };return '# YTIntel - Monday Brief\n'+text(root).replace(/\n{3,}/g,'\n\n');
 }
-function finish(synthesis={ok:false},remakeResult={ok:false}){stopped=true;clearInterval(ticker);progress(lastBase);const root=$('#yt300Progress');if(root){const h=root.querySelector('h2');const passed=synthesis.ok&&remakeResult.ok&&modelTasks.final_review?.status==='done';if(h)h.textContent=passed?'Research finished - review and limitations below':'Research incomplete - see the blocked stages';const statusEl=$('#status');if(statusEl){statusEl.textContent=passed?'v0.31.0 - Research reviewed':'v0.31.0 - AI analysis blocked';statusEl.dataset.researchState=passed?'reviewed':'blocked';}}}
+function finish(synthesis={ok:false},remakeResult={ok:false}){stopped=true;clearInterval(ticker);progress(lastBase);const root=$('#yt300Progress');if(root){const h=root.querySelector('h2');const passed=synthesis.ok&&remakeResult.ok&&modelTasks.final_review?.status==='done';if(h)h.textContent=passed?'Text research reviewed - check media coverage below':'Research incomplete - see the blocked stages';const statusEl=$('#status');if(statusEl){statusEl.textContent=passed?'v0.33.0 - Research reviewed':'v0.33.0 - AI analysis blocked';statusEl.dataset.researchState=passed?'reviewed':'blocked';}}}
 function css(){if($('#yt310Style'))return;const s=document.createElement('style');s.id='yt310Style';s.textContent=`.yt300-progressbar{position:relative;overflow:hidden}.yt300-progressbar i{position:relative;transition:width .6s ease}.yt300-room[data-phase=running] .yt300-progressbar:after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:yt310-sweep 1.7s linear infinite;pointer-events:none}@keyframes yt310-sweep{to{transform:translateX(100%)}}.yt310-workers{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:12px}.yt310-worker{border:1px solid #303743;border-radius:10px;padding:12px}.yt310-worker b,.yt310-worker span{display:block}.yt310-worker span{font-size:12px;line-height:1.5;margin-top:5px}.yt310-worker[data-status=run]{border-color:#8da9ff}.yt310-worker[data-status=done]{border-color:#55e29d}.yt310-worker[data-status=warn]{border-color:#f5b96c}.yt310-receipt{margin-top:10px}.yt310-receipt summary{cursor:pointer;color:#9fb5d4;font-size:12px}#yt300Report p,#yt300Report li{line-height:1.65}#yt300Report .yt300-strip b{white-space:normal;overflow:visible}#yt310Elapsed{white-space:nowrap}@media(prefers-reduced-motion:reduce){.yt300-room .yt300-progressbar:after{animation:none}.yt300-progressbar i{transition:none}}`;document.head.appendChild(s);}
 window.YTIntelDeepResearch={ready,synthesize,remake,finalReview,summaryHtml,takeawaysHtml,hooksHtml,payoffsHtml,remakeHtml,exportHtml,decorate,reportMarkdown,reset,progress,finish,canBank:r=>contexts.get(r)?.final?.pass===true};
 css();

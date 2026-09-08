@@ -1,0 +1,70 @@
+name: YTIntel Monday Brief Integration
+on:
+  push:
+    branches: ['fix/ytintel-monday-brief-033']
+    paths:
+      - 'ytintel/**'
+      - '.github/workflows/ytintel-v033-integration.yml'
+      - '.github/workflows/ytintel-v300-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ytintel-monday-brief-033
+  cancel-in-progress: true
+jobs:
+  integrate-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/ytintel-monday-brief-033
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply checksum-verified guarded integration
+        run: python ytintel/engineering/install_brief033.py
+      - name: All module syntax and evidence contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
+          node --check ytintel/backend/research-v033.mjs
+          node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs
+          jq empty ytintel/latest/release.json
+      - name: Install Chromium acceptance runtime
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Synthesis and blocked-provider regression - fixture evidence only
+        run: node ytintel/tests/browser-smoke.mjs
+      - name: Existing full mobile application
+        run: node ytintel/tests/full-shell-smoke.mjs
+      - name: Creator setup, folders and group comparison on mobile
+        run: node ytintel/tests/workspace033-browser.mjs
+      - name: Commit only tested app and test sources to feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'YTIntel integration'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ytintel/latest ytintel/backend/research-v033.mjs ytintel/tests ytintel/engineering/apply_brief033.py
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integrate tested Monday Brief measurements, sampled vision, profile and comparisons'
+            git push origin HEAD:fix/ytintel-monday-brief-033
+          fi
+      - name: Preserve exact source and failed checks for inspection
+        if: always()
+        run: |
+          mkdir -p ytintel-brief-proof
+          tar -czf ytintel-brief-proof/actual-source.tgz ytintel/latest ytintel/tests ytintel/backend ytintel/engineering/apply_brief033.py 2>/dev/null || true
+          cat ytintel-brief-proof/*failure.json 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-monday-brief-proof
+          path: |
+            ytintel-brief-proof
+            ytintel-test-proof
+          retention-days: 14
