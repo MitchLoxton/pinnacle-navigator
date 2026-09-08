@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const VERSION='0.18.1';
+const VERSION='0.31.0';
 const TITLE=`YTIntel v${VERSION} — Creator Intelligence`;
 const RELEASE='ytintel-whats-new-0.18.1-premium-stability';
 const HEALTH='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v082?action=health';
@@ -28,7 +28,7 @@ let aiLive=null,explicit=false,enforcing=false;
 const modal=()=>document.querySelector('#updateModal');
 const status=()=>document.querySelector('#status');
 function lockTitle(){if(document.title!==TITLE)document.title=TITLE}
-function lockStatus(){const s=status();if(!s)return;const text=aiLive===true?`v${VERSION} · intelligence live`:aiLive===false?`v${VERSION} · research engine ready`:`v${VERSION} · checking intelligence…`;if(s.textContent!==text){enforcing=true;s.textContent=text;enforcing=false}s.classList.toggle('is-live',aiLive===true)}
+function lockStatus(){ /* Current analysis orchestrator owns status. */ }
 async function health(){try{const r=await fetch(`${HEALTH}&t=${Date.now()}`,{cache:'no-store'});const d=await r.json();aiLive=!!(r.ok&&d&&d.configured)}catch{aiLive=null}lockStatus()}
 function injectPremium(){
   if(!document.querySelector('link[data-v180-premium]')){const l=document.createElement('link');l.rel='stylesheet';l.href='v180-premium.css?v=0181';l.dataset.v180Premium='1';document.head.appendChild(l)}
@@ -55,7 +55,7 @@ function openModal(){const m=modal();if(!m)return;explicit=true;enforcing=true;m
 function protectModal(){const m=modal();if(!m||enforcing)return;const tag=m.querySelector('.update-version')?.textContent||'';if(m.classList.contains('show')&&!explicit){enforcing=true;m.classList.remove('show');enforcing=false}if(explicit&&!tag.includes(`v${VERSION}`))openModal()}
 function bindWhatsNew(){const b=document.querySelector('#whatsNewBtn');if(!b||b.dataset.v181==='1')return;b.dataset.v181='1';b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();openModal()},true)}
 function ensureRelease(){const g=document.querySelector('#updates .grid');if(!g||enforcing)return;enforcing=true;let a=g.querySelector('[data-v181-release]');if(!a){a=document.createElement('article');a.className='card c12 release current';a.dataset.v181Release='1';a.innerHTML=`<div class="eyebrow">V${VERSION} · 6 SEP 2026 · CURRENT</div><h3>Premium Interface Stability</h3><ul class="list"><li><b>Fixed:</b> removed the MutationObserver feedback loop that could make Chrome report Page Unresponsive.</li><li><b>Preserved:</b> the full v0.18 premium Smart Start, navigation hierarchy and home intelligence presentation.</li><li><b>Cache:</b> bumped production assets so the fixed shell replaces the broken build immediately.</li></ul>`;g.prepend(a)}g.querySelectorAll('.release.current').forEach(x=>{if(x!==a)x.classList.remove('current')});if(!a.classList.contains('current'))a.classList.add('current');if(g.firstElementChild!==a)g.prepend(a);enforcing=false}
-async function sw(){if(!('serviceWorker'in navigator))return;try{const reg=await navigator.serviceWorker.register('./sw.js?v=0181',{updateViaCache:'none'});await reg.update();if('caches'in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('ytintel-shell-')&&k!=='ytintel-shell-v0181').map(k=>caches.delete(k)))}}catch{}}
+async function sw(){if(!('serviceWorker'in navigator))return;try{const reg=await navigator.serviceWorker.register('./sw.js?v=0310',{updateViaCache:'none'});await reg.update();if('caches'in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('ytintel-shell-')&&k!=='ytintel-shell-v0310').map(k=>caches.delete(k)))}}catch{}}
 function stabilize(){if(enforcing)return;lockTitle();lockStatus();bindWhatsNew();protectModal();syncNav()}
 function init(){injectPremium();buildWorkspace();buildCommands();lockTitle();lockStatus();bindWhatsNew();ensureRelease();syncNav();const m=modal();if(m)m.classList.remove('show');const title=document.querySelector('title');if(title)new MutationObserver(lockTitle).observe(title,{childList:true,subtree:true,characterData:true});const top=document.querySelector('.top');if(top)new MutationObserver(stabilize).observe(top,{subtree:true,childList:true,characterData:true});if(m)new MutationObserver(stabilize).observe(m,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});const updates=document.querySelector('#updates .grid');if(updates)new MutationObserver(()=>ensureRelease()).observe(updates,{childList:true});document.querySelectorAll('.view').forEach(v=>new MutationObserver(syncNav).observe(v,{attributes:true,attributeFilter:['class']}));document.querySelectorAll('.tabs [data-tab]').forEach(b=>b.addEventListener('click',()=>setTimeout(syncNav,20)));health();setTimeout(health,2400);setInterval(health,60000);window.addEventListener('focus',health);document.addEventListener('visibilitychange',()=>{if(!document.hidden)health()});window.addEventListener('load',sw,{once:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();

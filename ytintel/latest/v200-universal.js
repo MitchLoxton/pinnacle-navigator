@@ -105,6 +105,6 @@ function bindGlobal(){
 }
 function refresh(){addSkip();topActions();universalBoard();contextualHelp();enrichErrors();accessibility();mobileStart();updates();status();renderHealth()}
 let queued=false;function queue(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;refresh()})}
-function init(){commandPalette();guide();tour();refresh();bindGlobal();const obs=new MutationObserver(queue);['#os','#analyse','#radar','#packaging','#batch','#loop','#sprint','#updates'].forEach(sel=>{const n=$(sel);if(n)obs.observe(n,{childList:true,subtree:true})});if(!read(TOUR,'')&&count('ytintel-v120-radar-history')===0&&count('ytintel-v170-sprints')===0)setTimeout(()=>openTour(0),900);setTimeout(refresh,500);setTimeout(refresh,1800)}
+function init(){commandPalette();guide();tour();refresh();bindGlobal();const obs=new MutationObserver(queue);['#os','#analyse','#radar','#packaging','#batch','#loop','#sprint','#updates'].forEach(sel=>{const n=$(sel);if(n)obs.observe(n,{childList:true,subtree:true})});setTimeout(refresh,500);setTimeout(refresh,1800)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

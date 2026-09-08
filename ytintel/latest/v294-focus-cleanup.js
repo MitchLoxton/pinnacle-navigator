@@ -109,6 +109,6 @@ function injectCss(){
 
 function refresh(){injectCss();hideTopNoise();simplifyNav();competitorPage();hideRetiredSurfaces();releaseCard()}
 function queue(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;refresh()})}
-function init(){refresh();const o=new MutationObserver(queue);o.observe(document.body,{childList:true,subtree:true});window.addEventListener('storage',queue);window.addEventListener('focus',queue);setTimeout(refresh,400);setTimeout(refresh,1400);setTimeout(refresh,3200)}
+function init(){refresh();window.addEventListener('ytintel:late-layers-ready',queue);window.addEventListener('storage',queue);window.addEventListener('focus',queue);setTimeout(refresh,400);setTimeout(refresh,1400);setTimeout(refresh,3200)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

@@ -3,7 +3,7 @@
 if(document.documentElement.dataset.yt300Focus==='1')return;
 document.documentElement.dataset.yt300Focus='1';
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
-const HIDE=['sprint','loop','radar','packaging','similar','batch','visuals','updates'];
+const HIDE=['viral','sprint','loop','radar','packaging','similar','batch','visuals','updates'];
 function apply(){
   for(const id of HIDE){const b=$(`.tabs [data-tab="${id}"]`);if(b)b.style.display='none';const v=$(`#${id}`);if(v&&!v.classList.contains('active'))v.style.display='none'}
   const os=$('.tabs [data-tab="os"]');if(os){const l=os.querySelector('.nav-label');if(l)l.textContent='Competitors';else os.childNodes.forEach(n=>{if(n.nodeType===3&&String(n.textContent).trim())n.textContent='Competitors '})}

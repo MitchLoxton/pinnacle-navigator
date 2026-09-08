@@ -1,32 +1,23 @@
 {
-  "release_id": "ytintel-0.30.0-core-analysis-brief",
-  "version": "v0.30.0",
-  "title": "The Core Analysis Brief",
-  "summary": "Analyse is now the heart of YTIntel: one YouTube link runs the ordered 17-part Monday Brief, shows real parallel task progress, banks the research into a creator-specific vault and runs a final model-backed QA pass when the provider is available.",
+  "release_id": "ytintel-0.31.0-benchmark-quality-gates",
+  "version": "v0.31.0",
+  "title": "Analysis, Not Transcript Echoes",
+  "summary": "Separate model specialists, independent review, evidence checks and an animated task-driven research bar. Provider or quality failures remain incomplete instead of printing transcript filler.",
   "discord_changes": [
-    "One video link now builds the full 17-section Monday Brief — from facts and hooks to frames, packaging, remake and transcript.",
-    "Analyse is now the default screen; redundant research tools are hidden while Competitors and Vault stay available.",
-    "A dedicated final GPT-5.6 Sol cross-check now audits the completed report and refuses to fake a pass when model access is unavailable."
+    "Replaced transcript-copy summaries and takeaways with separate, source-checked model stages.",
+    "Added a lead researcher, independent editorial review and real animated task progress.",
+    "Blocked missing-model output from passing review or entering the reviewed vault."
   ],
   "changes": [
-    "Rebuilt Analyse around the exact Monday Brief order: Strip, Summary, Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Steal/Do Not Copy, Visuals, Motion, Audio, Packaging, Channel Context, Make It Yours, Vault, Cross-check/Export and Full Transcript.",
-    "Added a visible Analysis Room whose percentage only moves as real parallel evidence tasks resolve; it shows task telemetry rather than private model reasoning.",
-    "Added de-duplicated overall and per-minute WPM, longest-silence detection, transcript-wide beat sampling and source-backed hook/re-hook/payoff receipts.",
-    "Added public storyboard keyframes sampled across the full runtime plus replay-peak frames, honest storyboard visual-change cut/motion proxies and caption-coded music/SFX evidence.",
-    "Added thumbnail pixel measurements, possible title-test detection against the channel feed, title/hook keyword extraction and promise-versus-delivery checks.",
-    "Added channel-context scanning for recent channel-relative hits and same/adjacent title angles.",
-    "Added creator profile fields for niche, subniche, target audience and brand rules so Make It Yours can stay user-specific.",
-    "Added brand-rule-aware source-specific remake directions through the existing deep Packaging path; when cloud deep reasoning is unavailable, generic filler remains refused.",
-    "Added persistent analysis vault, hook bank and package bank tables with row-level security and local signed-out fallback storage.",
-    "Added a dedicated Vault UI with recent analyses, hook-bank and package-bank views plus two-item side-by-side comparisons.",
-    "Added deterministic timestamp/quote/metric cross-checks plus a separate GPT-5.6 Sol final reviewer for the model-required Export cross-check stage.",
-    "The final reviewer checks sections 2, 3, 14 and 16 for unsupported claims, bad timestamps, suspicious quotes, private-metric claims and overly literal copying; provider failure is shown as unavailable rather than a fake pass.",
-    "Added full Markdown export, print/save-PDF support and full transcript copy/download.",
-    "Made Analyse the default route and focused the visible product on Analyse, Competitors and Vault while hiding Sprint, Radar, Packaging, Pattern Mine, Visuals and other duplicate top-level workflows now absorbed by the brief.",
-    "Expanded full-backup coverage to include the v0.30 profile, analysis vault, hook bank and package bank local stores.",
-    "Added hard network-stage timeouts and guarded the storyboard pass against repeated observer-triggered fetches.",
-    "Hardened production browser smoke diagnostics with explicit button-state checks, progress heartbeats and a 16-minute acceptance window for the 10-minute benchmark.",
-    "Bumped the PWA shell and dynamic late-layer loader to v0.30.0."
+    "Kept the Monday Brief 17-section order.",
+    "Added a benchmark-derived synthesis, evidence-receipt and full-runtime coverage contract.",
+    "Added separate lead, summary, takeaway, mechanics, claims, remake and reviewer calls.",
+    "Added one bounded revision cycle for weak outputs.",
+    "Added a claims ledger with source-backed verification labels.",
+    "Added actual direction-specific beat sheets.",
+    "Animated the progress bar while real tasks run; no fake minimum-duration timer.",
+    "Export now reflects the displayed report, including incomplete status.",
+    "Removed legacy self-triggering display loops from the changed surfaces."
   ],
-  "why_it_matters": "The core promise in the brief is now the product flow: hand YTIntel one video and get a source-grounded research artifact designed to replace manually watching and dissecting it, while missing replay/media/model evidence is labelled instead of invented."
+  "why_it_matters": "A long wait and 17 headings are not evidence of good analysis. The new contract requires distinct explanation, application and exact source receipts."
 }
