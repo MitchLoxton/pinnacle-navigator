@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ytintel/latest/index.html ytintel/latest/v201-always-on.js ytintel/latest/v300-core-analysis.js ytintel/latest/sw.js ytintel/latest/release.json ytintel/tests/production-v031.mjs ytintel/tests/phone0331-browser.mjs
+          git add ytintel/latest/index.html ytintel/latest/v201-always-on.js ytintel/latest/v300-core-analysis.js ytintel/latest/v295-core-hardening.js ytintel/latest/sw.js ytintel/latest/release.json ytintel/tests/production-v031.mjs ytintel/tests/phone0331-browser.mjs
           if ! git diff --cached --quiet; then
             git commit -m 'Integrate tested v0.33.1 phone presentation'
             git push origin HEAD:fix/ytintel-phone-0331
@@ -61,7 +61,9 @@ jobs:
           git worktree add /tmp/phone-studio-publish origin/feat/ytintel-script-studio-032
           cp .phone-studio/ytintel/latest/v331-phone.js .phone-studio/ytintel/latest/v331-phone.css .phone-studio/ytintel/latest/v320-script-studio.js /tmp/phone-studio-publish/ytintel/latest/
           cd /tmp/phone-studio-publish
-          git add ytintel/latest/v331-phone.js ytintel/latest/v331-phone.css ytintel/latest/v320-script-studio.js
+          python -c "from pathlib import Path; p=Path('ytintel/latest/v295-core-hardening.js'); p.write_text(p.read_text().replace(\"window.addEventListener('ytintel:auth',refreshAuth)\",\"window.addEventListener('ytintel:auth',repairAuthSurface)\"))"
+          node --check ytintel/latest/v295-core-hardening.js
+          git add ytintel/latest/v331-phone.js ytintel/latest/v331-phone.css ytintel/latest/v320-script-studio.js ytintel/latest/v295-core-hardening.js
           git commit -m 'Add tested phone layout to Script Studio without publishing the unfinished feature'
           git push origin HEAD:feat/ytintel-script-studio-032
       - name: Capture exact tested source and failure details
