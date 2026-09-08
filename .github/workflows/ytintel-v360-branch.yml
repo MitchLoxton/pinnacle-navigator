@@ -1,0 +1,52 @@
+name: YTIntel v036 Endgame Gate
+on:
+  push:
+    branches: ["endgame-v0360"]
+    paths:
+      - "ytintel/latest/**"
+      - "ytintel/tests/v360-*.mjs"
+      - ".github/workflows/ytintel-v360-branch.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  endgame:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and release contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module --check < ytintel/latest/v360-entry.js
+          node --input-type=module --check < ytintel/latest/v360-endgame.js
+          node --input-type=module --check < ytintel/latest/v360-local-ai.js
+          node --input-type=module --check < ytintel/latest/v360-media-intel.js
+          node --input-type=module --check < ytintel/latest/v360-cloud.js
+          jq empty ytintel/latest/manifest.webmanifest
+          grep -q 'v360-entry.js?v=0360' ytintel/latest/index.html
+          grep -q 'v360-endgame.css?v=0360' ytintel/latest/index.html
+          test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
+          ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
+          ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
+          grep -q 'GROUP VIDEO ANALYSIS' ytintel/latest/v360-endgame.js
+          grep -q 'WATCHTOWER' ytintel/latest/v360-endgame.js
+          grep -q 'ytintel_analysis_vault' ytintel/latest/v360-cloud.js
+      - name: Real zero-credit media backend contract
+        run: node ytintel/tests/v360-media-contract.mjs
+      - name: Install browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Start local YTIntel shell
+        shell: bash
+        run: |
+          python3 -m http.server 4173 > /tmp/ytintel-v360-http.log 2>&1 &
+          echo $! > /tmp/ytintel-v360-http.pid
+          sleep 2
+      - name: Full Endgame browser acceptance
+        run: node ytintel/tests/v360-branch-browser.mjs
