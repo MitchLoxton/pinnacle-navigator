@@ -14,7 +14,7 @@ async function loadLatest(){
   const queue=[
     ['v104-media.js?v=0310','v104-media'],['v104-media-proxy.js?v=0310','v104-media-proxy'],
     ['v250-radar-persistence.js?v=0310','v250-radar'],['v250-app.js?v=0310','v250-app'],
-    ['v260-cloud.js?v=0310','v260-cloud'],['v260-release.js?v=0310','v260-release'],
+    ['v260-cloud.js?v=0310','v260-cloud'],
     ['v270-forensics.js?v=0310','v270-forensics'],['v270-route.js?v=0310','v270-route'],
     ['v280-production.js?v=0310','v280-production'],['v280-focus.js?v=0310','v280-focus'],
     ['v281-ideas.js?v=0310','v281-ideas'],['v281-auth-fix.js?v=0310','v281-auth-fix'],
