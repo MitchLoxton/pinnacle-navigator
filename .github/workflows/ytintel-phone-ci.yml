@@ -21,11 +21,12 @@ jobs:
           node-version: '22'
       - name: Integrate presentation-only changes
         run: python ytintel/engineering/install_phone0331.py
-      - name: Isolate the pending Script Studio for compatibility testing only
+      - name: Isolate and prepare pending Script Studio presentation
         run: |
           git fetch --depth=1 origin 767ad14139794252dc621542faa10eb5f27e63b9
           mkdir -p .phone-studio phone-artifacts
           git archive FETCH_HEAD ytintel/latest/v320-script-studio.js ytintel/latest/v320-script-studio.css ytintel/latest/v320-script-contract.mjs | tar -x -C .phone-studio
+          python ytintel/engineering/phone_studio_presentation.py
       - name: Syntax and existing quality contracts
         run: |
           for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
@@ -44,11 +45,25 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ytintel/latest/index.html ytintel/latest/v201-always-on.js ytintel/latest/v300-core-analysis.js ytintel/latest/sw.js ytintel/latest/release.json ytintel/tests/production-v031.mjs
+          git add ytintel/latest/index.html ytintel/latest/v201-always-on.js ytintel/latest/v300-core-analysis.js ytintel/latest/sw.js ytintel/latest/release.json ytintel/tests/production-v031.mjs ytintel/tests/phone0331-browser.mjs
           if ! git diff --cached --quiet; then
             git commit -m 'Integrate tested v0.33.1 phone presentation'
             git push origin HEAD:fix/ytintel-phone-0331
           fi
+      - name: Keep tested mobile presentation on the separate Script Studio branch
+        run: |
+          git fetch origin feat/ytintel-script-studio-032
+          BEFORE="$(git rev-parse origin/feat/ytintel-script-studio-032)"
+          if [ "$BEFORE" != '767ad14139794252dc621542faa10eb5f27e63b9' ]; then
+            echo 'Script Studio changed concurrently; preserving it unchanged.'
+            exit 0
+          fi
+          git worktree add /tmp/phone-studio-publish origin/feat/ytintel-script-studio-032
+          cp .phone-studio/ytintel/latest/v331-phone.js .phone-studio/ytintel/latest/v331-phone.css .phone-studio/ytintel/latest/v320-script-studio.js /tmp/phone-studio-publish/ytintel/latest/
+          cd /tmp/phone-studio-publish
+          git add ytintel/latest/v331-phone.js ytintel/latest/v331-phone.css ytintel/latest/v320-script-studio.js
+          git commit -m 'Add tested phone layout to Script Studio without publishing the unfinished feature'
+          git push origin HEAD:feat/ytintel-script-studio-032
       - name: Capture exact tested source and failure details
         if: always()
         run: |
