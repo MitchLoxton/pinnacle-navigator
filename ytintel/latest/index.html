@@ -6,29 +6,31 @@
   <meta name="theme-color" content="#07090d">
   <meta name="color-scheme" content="dark">
   <meta name="application-name" content="YTIntel">
-  <meta name="description" content="YTIntel: source-backed winning-video analysis, creator-tailored remake intelligence and a compounding vault.">
+  <meta name="description" content="YTIntel Endgame: winning-video research, multimodal analysis, Creator DNA, Group Analysis, Vault and Watchtower — zero paid AI credits.">
   <title>YTIntel — Creator Intelligence</title>
   <link rel="canonical" href="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
-  <link rel="icon" href="icon.svg?v=0350" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=0350">
-  <link rel="manifest" href="manifest.webmanifest?v=0350">
-  <link rel="stylesheet" href="v340-zero-credit.css?v=0350">
+  <link rel="icon" href="icon.svg?v=0360" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=0360">
+  <link rel="manifest" href="manifest.webmanifest?v=0360">
+  <link rel="stylesheet" href="v340-zero-credit.css?v=0360">
+  <link rel="stylesheet" href="v360-endgame.css?v=0360">
+  <style>.v360-prehide{visibility:hidden!important}</style>
 </head>
 <body>
   <div class="boot" id="boot" aria-live="polite">
     <div class="boot-inner">
       <div class="boot-logo">YT</div>
       <strong>YTIntel</strong>
-      <p>Loading the single-video intelligence core…</p>
+      <p>Loading the Endgame intelligence core…</p>
     </div>
   </div>
 
-  <main class="app" id="app" hidden>
+  <main class="app v360-prehide" id="app" hidden>
     <header class="topbar">
       <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div>
       <div class="top-grow"></div>
-      <div class="mode"><span class="dot"></span><span class="mode-copy">Evidence first</span><strong id="localMode">Checking local intelligence…</strong></div>
-      <span class="version" id="version">v0.35.0</span>
+      <div class="mode"><span class="dot"></span><span class="mode-copy">Zero paid AI credits</span><strong id="localMode">Checking local intelligence…</strong></div>
+      <span class="version" id="version">v0.36.0</span>
     </header>
 
     <div class="shell">
@@ -41,9 +43,9 @@
       <div class="content">
         <section class="view active" id="analyse">
           <div class="hero">
-            <div class="eyebrow">YTINTEL ENDGAME · HEART LOCK</div>
+            <div class="eyebrow">YTINTEL ENDGAME · 07/09/26 MONDAY BRIEF</div>
             <h1>Find the winner. Understand it. Make yours better.</h1>
-            <p>Single-video deep analysis is the heart of YTIntel: a locked 17-section report that replaces watching the whole source, separates interpretation from receipts, and turns the useful mechanics into a creator-tailored blueprint.</p>
+            <p>One source video becomes the locked 17-section research brief: transcript-backed watch replacement, hook/rehook/payoff, replay, media evidence, packaging, channel context, Creator-DNA remake, export and a compounding vault.</p>
             <form class="formrow" id="analyseForm">
               <input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required>
               <button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button>
@@ -51,7 +53,7 @@
           </div>
 
           <section class="card" style="margin-bottom:16px">
-            <div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">saved locally for now</span></div>
+            <div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">local + account sync when signed in</span></div>
             <div class="grid" style="margin-top:12px">
               <div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div>
               <div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div>
@@ -71,22 +73,11 @@
         </section>
 
         <section class="view" id="competitors">
-          <div class="hero">
-            <div class="eyebrow">WATCHTOWER · NEXT PRODUCT SLICE</div>
-            <h1>Know who is moving.</h1>
-            <p>Watchtower is deliberately outside the active v0.35.0 flow while the single-video analysis heart is being perfected.</p>
-            <div class="formrow"><input class="input" id="competitorInput" placeholder="Paste @handle or YouTube channel URL"><button class="btn primary" id="addCompetitor" type="button">Add competitor</button></div>
-          </div>
-          <div class="comp-list" id="competitorList"></div>
+          <div class="hero"><div class="eyebrow">WATCHTOWER</div><h1>Know who is moving.</h1></div>
         </section>
 
         <section class="view" id="vault">
-          <div class="hero">
-            <div class="eyebrow">NICHE / SUBNICHE MEMORY</div>
-            <h1>Your research should compound.</h1>
-            <p>Every completed winner is banked with its report and reusable packaging/hook context so the future comparison surfaces can learn from the whole history.</p>
-          </div>
-          <div class="vault-list" id="vaultList"></div>
+          <div class="hero"><div class="eyebrow">COMPOUNDING VAULT</div><h1>Your research should compound.</h1></div>
         </section>
       </div>
     </div>
@@ -98,6 +89,6 @@
     <button data-dock="vault">Vault</button>
   </nav>
 
-  <script src="v350-heart-lock.js?v=0350" defer></script>
+  <script type="module" src="v360-endgame.js?v=0360"></script>
 </body>
 </html>
