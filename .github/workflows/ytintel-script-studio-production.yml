@@ -1,0 +1,32 @@
+name: YTIntel Script Studio Production Proof
+on:
+  workflow_run:
+    workflows: ['Deploy Pinnacle Navigator to GitHub Pages']
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  studio-live:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Verify deployed Script Studio and backend auth boundary
+        run: node ytintel/tests/script-studio-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-script-studio-live-proof
+          path: ytintel-script-live-proof
+          retention-days: 14
