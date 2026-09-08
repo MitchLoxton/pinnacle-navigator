@@ -1,127 +1,36 @@
 name: YTIntel Production Browser Smoke
-
 on:
   workflow_run:
     workflows: ["Deploy Pinnacle Navigator to GitHub Pages"]
     types: [completed]
   workflow_dispatch:
-
 permissions:
   contents: read
-
+concurrency:
+  group: ytintel-production-browser-smoke
+  cancel-in-progress: true
 jobs:
   signed-out-core:
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 16
     steps:
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
       - name: Install Playwright Chromium
-        shell: bash
         run: |
-          npm init -y >/dev/null 2>&1
-          npm install --no-save playwright@1.55.0
+          npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
-
-      - name: Run signed-out production core smoke
-        shell: bash
-        run: |
-          node <<'NODE'
-          const { chromium } = require('playwright');
-          const assert = (ok, msg) => { if (!ok) throw new Error(msg); };
-          (async () => {
-            const browser = await chromium.launch({ headless: true });
-            const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-            const page = await context.newPage();
-            page.setDefaultTimeout(30000);
-            page.on('console', m => { if (['warning','error'].includes(m.type())) console.log(`[browser:${m.type()}] ${m.text()}`); });
-            const url = 'https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v0300-signed-out';
-            try {
-              await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
-              await page.waitForFunction(() => window.YTIntelAuth && typeof window.YTIntelAuthDiagnostic === 'function', null, { timeout: 45000 });
-              await page.waitForFunction(() => document.documentElement.dataset.ytintelAuth === 'signed-out', null, { timeout: 30000 });
-              await page.waitForFunction(() => document.documentElement.dataset.yt300CoreAnalysis === '1' && document.documentElement.dataset.yt300Focus === '1', null, { timeout: 45000 });
-              await page.waitForFunction(() => document.querySelector('#analyse')?.classList.contains('active'), null, { timeout: 30000 });
-              const diag = await page.evaluate(() => window.YTIntelAuthDiagnostic());
-              assert(diag && diag.canonical_client === true, 'canonical auth client not ready');
-              assert(diag.signed_in === false, 'fresh production context should be signed out');
-              assert(diag.analyse_enabled === true, 'Analyse must remain enabled while signed out');
-              assert(diag.stale_auth_error === false, 'stale authentication-required error is visible');
-              await page.waitForSelector('#analyseForm #videoUrl', { state: 'visible', timeout: 30000 });
-              const button = page.locator('#analyseForm button');
-              assert(await button.isEnabled(), 'Analyse button is disabled before submission');
-              await page.fill('#videoUrl', 'https://www.youtube.com/watch?v=GzhT10i4vag');
-              console.log('Submitting Blake benchmark video into production v0.30…');
-              await page.evaluate(() => {
-                const form = document.querySelector('#analyseForm');
-                form.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true, submitter: form.querySelector('button') }));
-              });
-              const started = Date.now();
-              const heartbeat = setInterval(async () => {
-                try {
-                  const s = await page.evaluate(() => ({
-                    pct: document.querySelector('#yt300Pct')?.textContent || '',
-                    sections: document.querySelectorAll('#yt300Report > .yt300-section').length,
-                    error: (document.querySelector('#error')?.innerText || '').trim(),
-                    button: document.querySelector('#analyseForm button')?.textContent || ''
-                  }));
-                  console.log(`analysis heartbeat ${Math.round((Date.now()-started)/1000)}s`, JSON.stringify(s));
-                } catch {}
-              }, 30000);
-              try {
-                await page.waitForFunction(() => {
-                  const error = (document.querySelector('#error')?.innerText || '').trim();
-                  const sections = document.querySelectorAll('#yt300Report > .yt300-section').length;
-                  const pct = (document.querySelector('#yt300Pct')?.textContent || '').trim();
-                  return error.length > 0 || (sections >= 17 && pct === '100%');
-                }, null, { timeout: 720000 });
-              } finally { clearInterval(heartbeat); }
-              const result = await page.evaluate(() => {
-                const text = (document.querySelector('#yt300Report')?.innerText || '').trim();
-                const sectionHeads = [...document.querySelectorAll('#yt300Report > .yt300-section .yt300-section-head h2')].map(x => x.textContent.trim());
-                const wpmStrip = [...document.querySelectorAll('#yt300Report .yt300-strip > div')].find(x => /WPM/i.test(x.querySelector('span')?.textContent || ''))?.querySelector('b')?.textContent || '';
-                return {
-                  report_text: text,
-                  section_count: document.querySelectorAll('#yt300Report > .yt300-section').length,
-                  section_heads: sectionHeads,
-                  error_text: (document.querySelector('#error')?.innerText || '').trim(),
-                  auth_state: document.documentElement.dataset.ytintelAuth || '',
-                  status: document.querySelector('#status')?.textContent || '',
-                  progress: document.querySelector('#yt300Pct')?.textContent || '',
-                  wpm_strip: wpmStrip,
-                  retired_visible: [...document.querySelectorAll('.tabs [data-tab="sprint"],.tabs [data-tab="loop"],.tabs [data-tab="radar"],.tabs [data-tab="packaging"],.tabs [data-tab="similar"],.tabs [data-tab="batch"],.tabs [data-tab="visuals"],.tabs [data-tab="updates"]')].some(x => getComputedStyle(x).display !== 'none')
-                };
-              });
-              assert(!/sign\s*in|authentication required/i.test(result.error_text), `signed-out Analyse hit auth gate: ${result.error_text}`);
-              assert(result.error_text === '', `Analyse production error: ${result.error_text}`);
-              assert(result.section_count >= 17, `expected 17 ordered report sections, got ${result.section_count}`);
-              assert(result.progress === '100%', `analysis room did not complete: ${result.progress}`);
-              assert(result.report_text.length > 3000, 'Core Analysis Brief is not substantive enough');
-              assert(result.section_heads.length >= 17, 'section headers missing');
-              const parsedWpm = Number(String(result.wpm_strip).replace(/[^0-9.]/g,''));
-              assert(!Number.isFinite(parsedWpm) || parsedWpm <= 330, `implausible WPM leaked into UI: ${result.wpm_strip}`);
-              assert(result.auth_state === 'signed-out', 'auth state changed unexpectedly during signed-out Analyse');
-              assert(result.retired_visible === false, 'retired duplicate top-level research tools are still visible');
-              await page.screenshot({ path: 'ytintel-v0300-signed-out-smoke.png', fullPage: true });
-              console.log(JSON.stringify({ pass: true, auth: diag, seconds: Math.round((Date.now()-started)/1000), sections: result.section_count, report_chars: result.report_text.length, progress: result.progress, wpm: result.wpm_strip, status: result.status }, null, 2));
-            } catch (e) {
-              await page.screenshot({ path: 'ytintel-v0300-signed-out-smoke.png', fullPage: true }).catch(() => {});
-              throw e;
-            } finally {
-              await browser.close();
-            }
-          })().catch(e => { console.error(e); process.exit(1); });
-          NODE
-
-      - name: Upload browser proof
+      - name: Real deployed site - source retrieval and honest model status
+        run: node ytintel/tests/production-v031.mjs
+      - name: Upload real browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-v0300-signed-out-production-smoke
-          path: ytintel-v0300-signed-out-smoke.png
-          if-no-files-found: warn
+          name: ytintel-v031-live-production-proof
+          path: ytintel-live-proof
           retention-days: 14
