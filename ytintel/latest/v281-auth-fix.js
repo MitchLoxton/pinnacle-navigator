@@ -126,7 +126,6 @@ async function boot(){
       }
     }
   }catch(e){console.warn('[YTIntel auth fix]',e);restoreAnalysisAccess()}
-  window.YTINTEL_VERSION='0.28.1';const status=$('#status');if(status&&/cloud intelligence|always-on|checking intelligence|ready/i.test(status.textContent||''))status.textContent='v0.28.1 · account system live';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,700),{once:true});else setTimeout(boot,700);
 })();
