@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {buildEvidence,validateStage,copyRatio} from '../latest/v310-contract.mjs';
+import {report,outputs} from './fixture.mjs';
+const e=buildEvidence(report),copy=x=>structuredClone(x);
+for(const [stage,data] of Object.entries(outputs))test(`accept valid synthetic ${stage}`,()=>assert.deepEqual(validateStage(stage,data,e),[]));
+test('reject screenshot-style heading/body/quote duplication',()=>{const d=copy(outputs.takeaways);d.items[0].title=e.segments[0].text;d.items[0].explanation=e.segments[0].text;assert(validateStage('takeaways',d,e).some(x=>['NO_SYNTHESIS','TRANSCRIPT_ECHO'].includes(x.code)));});
+test('reject raw sentences in summary',()=>{const d=copy(outputs.summary);d.beats[0].meaning=e.segments[0].text;assert(validateStage('summary',d,e).some(x=>x.code==='TRANSCRIPT_ECHO'));});
+test('reject fabricated quote',()=>{const d=copy(outputs.takeaways);d.items[0].evidence[0].quote='This invented source guarantees one million dollars';assert(validateStage('takeaways',d,e).some(x=>x.code==='BAD_RECEIPT'));});
+test('reject valid quote attributed to wrong segment',()=>{const d=copy(outputs.takeaways);d.items[0].evidence[0].segment_id=11;assert(validateStage('takeaways',d,e).some(x=>x.code==='BAD_RECEIPT'));});
+test('reject introduction-only summary',()=>{const d=copy(outputs.summary);d.beats.forEach(b=>b.start_segment=0);assert(validateStage('summary',d,e).some(x=>x.code==='INCOMPLETE_COVERAGE'));});
+test('reject missing declared list member',()=>{const d=copy(outputs.takeaways);d.declared_count=7;assert(validateStage('takeaways',d,e).some(x=>x.code==='TAKEAWAY_COUNT'));});
+test('reject failed independent review',()=>{const d=copy(outputs.review);d.pass=false;assert(validateStage('review',d,e).length);});
+test('reject absent provider output',()=>assert(validateStage('summary',null,e).some(x=>x.code==='NO_MODEL_RESULT')));
+test('copy metric detects literal reprinting',()=>assert.equal(copyRatio(e.segments[0].text,e.segments[0].text),1));
