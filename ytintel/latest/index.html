@@ -6,142 +6,98 @@
   <meta name="theme-color" content="#07090d">
   <meta name="color-scheme" content="dark">
   <meta name="application-name" content="YTIntel">
-  <meta name="description" content="YouTube creator intelligence OS: track competitors, find channel-relative outliers, validate patterns, analyse videos, build original packaging, save opportunities and turn research into a production-ready decision.">
-  <meta name="robots" content="index,follow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="YTIntel — YouTube Creator Intelligence OS">
-  <meta property="og:description" content="Know what to make next — and why. Track competitors, find evidence-backed opportunities and turn them into production-ready YouTube packages.">
-  <meta property="og:url" content="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
-  <meta name="twitter:card" content="summary">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="YTIntel">
-  <title>YTIntel — YouTube Creator Intelligence OS</title>
+  <meta name="description" content="YTIntel zero-credit YouTube research: source-backed analysis, competitors and a compounding vault.">
+  <title>YTIntel — Creator Intelligence</title>
   <link rel="canonical" href="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
-  <link rel="preconnect" href="https://dkmacktcfhubsumwrydw.supabase.co" crossorigin>
-  <link rel="dns-prefetch" href="//dkmacktcfhubsumwrydw.supabase.co">
-  <link rel="manifest" href="manifest.webmanifest?v=0332">
-  <link rel="icon" href="icon.svg?v=0332" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=0332">
-  <link rel="stylesheet" href="../style.css?v=0332">
-  <link rel="stylesheet" href="v09.css?v=0332">
-  <link rel="stylesheet" href="v130-design.css?v=0332">
-  <link rel="stylesheet" href="v140-research-os.css?v=0332">
-  <link rel="stylesheet" href="v150-platform.css?v=0332">
-  <link rel="stylesheet" href="v160-smartstart.css?v=0332">
-  <link rel="stylesheet" href="v170-research-sprint.css?v=0332">
-  <link rel="stylesheet" href="v180-premium.css?v=0332" data-v180-premium="1">
-  <link rel="stylesheet" href="v180-workflow-fixes.css?v=0332">
-  <link rel="stylesheet" href="v190-desire.css?v=0332">
-  <link rel="stylesheet" href="v200-universal.css?v=0332">
-  <link rel="stylesheet" href="v210-public.css?v=0332">
-  <link rel="stylesheet" href="v220-pro.css?v=0332">
-  <link rel="stylesheet" href="v284-luxe.css?v=0332" data-v284="1">
-  <style>
-    .update-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,5,8,.88);backdrop-filter:blur(9px)}
-    .update-modal.show{display:flex}.update-panel{width:min(780px,100%);max-height:88vh;overflow:auto;background:#11151d;border:1px solid #343b49;border-radius:22px;padding:24px}.update-top{display:flex;gap:12px}.update-top .grow{flex:1}.update-close{width:36px;height:36px;border-radius:10px;border:1px solid #343b49;background:#191d25;color:#fff}.update-version{display:inline-flex;border:1px solid #315b49;color:#8cf0bd;border-radius:999px;padding:6px 9px}.update-items{display:grid;gap:8px;margin:16px 0}.update-item{display:grid;grid-template-columns:25px 1fr;gap:10px;padding:11px;border:1px solid #262d39;border-radius:13px}.update-item b{display:block}.update-actions{display:flex;gap:8px;margin-top:18px}.release.current{border-left:3px solid #55e29d}.radar-video input{accent-color:#8da9ff}.radar-video .actions{align-items:center}.package-option blockquote{margin:8px 0;padding:11px 13px;border-left:3px solid #8da9ff;background:#080b0f;border-radius:0 11px 11px 0}
-  </style>
-  <link id="yt331PhoneStyle" rel="stylesheet" href="v331-phone.css?v=0332">
+  <link rel="icon" href="icon.svg?v=0340" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=0340">
+  <link rel="manifest" href="manifest.webmanifest?v=0340">
+  <link rel="stylesheet" href="v340-zero-credit.css?v=0340">
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div class="brand"><span class="logo">YT</span><span>YTIntel</span></div>
-    <div class="split"><button class="btn small whats-new-btn no-print" id="whatsNewBtn">What’s New</button><span class="status" id="status">v0.28.4 · checking intelligence…</span></div>
+  <div class="boot" id="boot" aria-live="polite">
+    <div class="boot-inner">
+      <div class="boot-logo">YT</div>
+      <strong>YTIntel</strong>
+      <p>Loading one clean research core…</p>
+    </div>
   </div>
 
-  <nav class="tabs no-print">
-    <button class="on" data-tab="os">Smart Start</button>
-    <button data-tab="sprint">Research Sprint <span class="beta">CORE</span></button>
-    <button data-tab="loop">Creator Loop</button>
-    <button data-tab="analyse">Analyse</button>
-    <button data-tab="radar">Opportunity Radar</button>
-    <button data-tab="packaging">Packaging Lab</button>
-    <button data-tab="history">History</button>
-    <button data-tab="similar">Similar Videos</button>
-    <button data-tab="batch">Pattern Mine</button>
-    <button data-tab="visuals">Visuals + Audio <span class="beta">LIVE</span></button>
-    <button data-tab="updates">Updates</button>
+  <main class="app" id="app" hidden>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div>
+      <div class="top-grow"></div>
+      <div class="mode"><span class="dot"></span><span class="mode-copy">Zero API credits</span><strong id="localMode">Checking local intelligence…</strong></div>
+      <span class="version" id="version">v0.34.0</span>
+    </header>
+
+    <div class="shell">
+      <nav class="nav" aria-label="YTIntel navigation">
+        <button class="on" data-tab="analyse">◉ Analyse</button>
+        <button data-tab="competitors">◎ Competitors</button>
+        <button data-tab="vault">▱ Vault</button>
+      </nav>
+
+      <div class="content">
+        <section class="view active" id="analyse">
+          <div class="hero">
+            <div class="eyebrow">07/09/26 MONDAY BRIEF · THE HEART OF THE TOOL</div>
+            <h1>Understand the whole video without watching it.</h1>
+            <p>YTIntel pulls public evidence first, then builds the exact 17-section Monday Brief report. No paid AI credits are used. Sections that genuinely need a model use a ready on-device model when your browser has one; otherwise they say so instead of recycling the transcript and calling it intelligence.</p>
+            <form class="formrow" id="analyseForm">
+              <input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required>
+              <button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button>
+            </form>
+          </div>
+
+          <section class="card" style="margin-bottom:16px">
+            <div class="split"><div class="grow"><div class="eyebrow">TAILOR THE REMAKE</div><h2 style="margin:5px 0">Your creator context</h2></div><span class="pill">saved locally</span></div>
+            <div class="grid" style="margin-top:12px">
+              <div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div>
+              <div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + build-in-public"></div>
+              <div class="c6"><label class="eyebrow" for="creator_audience">Audience</label><input class="input" id="creator_audience" placeholder="Who is this for?"></div>
+              <div class="c6"><label class="eyebrow" for="creator_brand">Brand rules</label><textarea class="textarea" id="creator_brand" placeholder="Tone, evidence rules, what you never copy, thumbnail rules…"></textarea></div>
+            </div>
+            <div class="actions" style="margin-top:10px"><button class="btn" id="saveCreator" type="button">Save creator context</button><span class="muted" id="creatorSaved"></span></div>
+          </section>
+
+          <section class="card progress-card hidden" id="progressCard">
+            <div class="progress-top"><div class="grow"><div class="eyebrow">LIVE RESEARCH ROADMAP</div><b id="progressMsg">Starting…</b></div><span class="pill" id="progressState">RUNNING</span><strong id="progressPct">0%</strong></div>
+            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="agents" id="agents"></div>
+          </section>
+          <div class="badbox hidden" id="analyseError"></div>
+          <div id="report"></div>
+        </section>
+
+        <section class="view" id="competitors">
+          <div class="hero">
+            <div class="eyebrow">WATCHTOWER · COMPETITIVE PRESSURE</div>
+            <h1>Know who is moving.</h1>
+            <p>Add the channels you care about. Refresh them to see recent uploads, public views and channel-relative outlier movement. Subscriber-gain data is not invented when the public source does not expose it.</p>
+            <div class="formrow"><input class="input" id="competitorInput" placeholder="Paste @handle or YouTube channel URL"><button class="btn primary" id="addCompetitor" type="button">Add competitor</button></div>
+          </div>
+          <div class="comp-list" id="competitorList"></div>
+        </section>
+
+        <section class="view" id="vault">
+          <div class="hero">
+            <div class="eyebrow">NICHE / SUBNICHE MEMORY</div>
+            <h1>Your research should compound.</h1>
+            <p>Every completed report is saved locally with script style, hook keywords, title keywords and the evidence report behind it. No subscription or paid API is required.</p>
+          </div>
+          <div class="vault-list" id="vaultList"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <nav class="mobile-dock" aria-label="Mobile navigation">
+    <button class="on" data-dock="analyse">Analyse</button>
+    <button data-dock="competitors">Competitors</button>
+    <button data-dock="vault">Vault</button>
   </nav>
 
-  <section id="os" class="view active">
-    <div class="hero no-print"><div class="eyebrow">CREATOR INTELLIGENCE OS</div><h1>Know what to make next — and why.</h1><p>Track competitors, find channel-relative breakouts, validate patterns, save opportunities, build original packaging and learn what actually fits your channel.</p></div>
-    <div id="osRoot"><div class="load show">Building Research OS…</div></div>
-  </section>
-
-  <section id="sprint" class="view">
-    <div class="hero no-print"><div class="eyebrow">TOPIC → DISCOVER → VALIDATE → PACKAGE → READY</div><h1>Research Sprint.</h1><p>One guided workflow from a niche to an evidence-backed video brief you can actually produce.</p></div>
-    <div id="sprintRoot"><div class="load show">Loading Research Sprint…</div></div><div id="sprintRecent"></div>
-  </section>
-
-  <section id="loop" class="view">
-    <div class="hero no-print"><div class="eyebrow">RESEARCH → PACKAGE → PUBLISH → MEASURE → LEARN</div><h1>Creator Loop.</h1><p>Track a research-backed idea through production, attach the finished YouTube upload, capture public outcome snapshots and build evidence about what actually fits your own channel.</p></div>
-    <div id="loopRoot"><div class="load show">Building Creator Loop…</div></div>
-  </section>
-
-  <section id="analyse" class="view">
-    <div class="hero no-print"><div class="eyebrow">FACTS → EVIDENCE → ALWAYS-ON INTELLIGENCE → ACTION</div><h1>Specific evidence, then actual intelligence.</h1><p>YTIntel extracts the transcript, replay curve, outlier performance and media evidence first, then turns that evidence into creator intelligence and a practical next-video action plan. Cloud AI can deepen the result when available, but the analyser no longer depends on it.</p><form id="analyseForm" aria-label="Analyse a YouTube video" class="formrow"><input id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required><button class="btn primary" type="submit" id="ytAnalyseSubmit">Run full analysis</button></form></div>
-    <div id="loading" class="load">Reading transcript, replay curve and channel baseline…</div><div id="error" class="error"></div><div id="report"></div>
-  </section>
-
-  <section id="radar" class="view">
-    <div class="hero no-print"><div class="eyebrow">DISCOVER → VERIFY → RANK → PATTERN MINE</div><h1>Opportunity Radar.</h1><p>Give YTIntel a niche or topic. It finds candidate videos, checks channel-relative breakouts, ranks recent velocity, tests cross-channel repetition and builds the research set for you.</p><div class="formrow"><input id="radarQuery" type="search" enterkeyhint="search" placeholder="e.g. GTA 6, faceless YouTube automation, Roblox horror"><button class="btn primary" id="radarBtn">Run Radar</button><button class="btn" id="radarUseCurrent">Use current analysis</button></div></div>
-    <div id="radarLoad" class="load">Building opportunity map…</div><div id="radarError" class="error"></div><div id="radarRoot"></div><div class="card" id="radarRecent"><p class="muted">Your last radar scans will appear here.</p></div>
-  </section>
-
-  <section id="packaging" class="view">
-    <div class="hero no-print"><div class="eyebrow">CURRENT ANALYSIS → DEEP READ → ORIGINAL PACKAGES</div><h1>Packaging Lab.</h1><p>Draft up a thumbnail, title and opening-hook package based off your current analysis. YTIntel deep-reads the actual transcript, examples, replay moments and visual evidence before it writes anything — no reusable preset packages.</p><div class="formrow"><input id="packageAngle" type="text" placeholder="Optional angle or constraint — e.g. beginner version, 7-day test, no-budget"><button class="btn primary" id="packageBtn">Build packages</button><button class="btn" id="packageUseRadar">Use Radar topic</button></div></div>
-    <div id="packageLoad" class="load">Deep-reading the transcript and analysis before drafting anything…</div><div id="packageError" class="error"></div><div id="packageRoot"></div><div class="card" id="packageRecent"><p class="muted">Your saved package sessions will appear here as expandable folders.</p></div>
-  </section>
-
-  <section id="history" class="view"><div class="hero"><div class="eyebrow">NICHE LIBRARY</div><h1>Your research should compound.</h1></div><div id="historyRoot"></div></section>
-
-  <section id="similar" class="view">
-    <div class="hero"><div class="eyebrow">SIMILAR + OUTLIERS</div><h1>Find adjacent videos and channel breakouts.</h1></div>
-    <div class="grid"><div class="card c6"><h3>Similar videos</h3><div class="formrow"><input id="similarQuery" aria-label="Find similar videos"><button class="btn primary" id="similarBtn">Find similar</button></div></div><div class="card c6"><h3>Channel outliers</h3><div class="formrow"><input id="channelQuery" aria-label="Scan channel"><button class="btn primary" id="channelBtn">Scan channel</button></div></div></div><div id="similarLoad" class="load"></div><div id="similarError" class="error"></div><div id="similarRoot"></div>
-  </section>
-
-  <section id="batch" class="view"><div class="hero"><div class="eyebrow">5–10 NEAR-IDENTICAL VIDEOS</div><h1>Pattern Mine competitors.</h1></div><div class="card"><textarea id="batchUrls" spellcheck="false" aria-label="Paste 5 to 10 similar YouTube URLs" placeholder="Paste 5–10 similar YouTube URLs, one per line"></textarea><button class="btn primary" id="batchBtn">Mine all transcripts</button></div><div id="batchLoad" class="load"></div><div id="batchError" class="error"></div><div id="batchRoot"></div></section>
-
-  <section id="visuals" class="view"><div class="hero"><div class="eyebrow">VISUAL + AUDIO VAULT</div><h1>Show me the media — don’t tell me what to analyse.</h1><p>Real storyboard samples around replay hotzones plus detected public audio evidence.</p></div><div id="visualRoot"></div></section>
-
-  <section id="updates" class="view"><div class="hero"><div class="eyebrow">PRODUCT CHANGELOG</div><h1>What changed in YTIntel.</h1></div><div class="grid"><article class="card c12 release"><div class="eyebrow">V0.9.1 · 4 SEP 2026</div><h3>Specific evidence pass</h3></article><article class="card c6 release"><div class="eyebrow">V0.8.1 · 4 SEP 2026</div><h3>Visible update system</h3></article><article class="card c6 release"><div class="eyebrow">V0.8 · 4 SEP 2026</div><h3>Evidence-first UI</h3></article><article class="card c6 release"><div class="eyebrow">V0.7 · 4 SEP 2026</div><h3>Research library + outliers</h3></article></div></section>
-</div>
-
-<div class="update-modal" id="updateModal"><div class="update-panel"></div></div>
-
-<script>
-if(!Array.prototype.at)Object.defineProperty(Array.prototype,'at',{value:function(n){n=Math.trunc(n)||0;if(n<0)n+=this.length;return this[n]}});
-if(!window.CSS)window.CSS={};
-if(!CSS.escape)CSS.escape=function(s){return String(s).replace(/[^a-zA-Z0-9_-]/g,function(c){return'\\'+c})};
-window.YTINTEL_VERSION='0.33.0';
-window.YTINTEL_UPDATE_OWNER='ytintel-whats-new-0.28.4-luxe-interface';
-try{['ytintel-whats-new-0.10.1','ytintel-whats-new-0.10.2','ytintel-whats-new-0.10.4','ytintel-whats-new-0.10.5','ytintel-whats-new-0.10.7-actual','ytintel-whats-new-0.10.8','ytintel-whats-new-0.10.9','ytintel-whats-new-0.10.9-ai-live','ytintel-whats-new-0.11.0-actionboard','ytintel-whats-new-0.11.1-decision-gate','ytintel-whats-new-0.11.2-replication','ytintel-whats-new-0.12.0-opportunity-radar','ytintel-whats-new-0.12.1-packaging-lab','ytintel-whats-new-0.13.0-interface-rebuild','ytintel-whats-new-0.13.1-ui-stability','ytintel-whats-new-0.14.0-research-os','ytintel-whats-new-0.15.0-creator-loop','ytintel-whats-new-0.16.0-smart-start','ytintel-whats-new-0.17.0-research-sprint','ytintel-whats-new-0.18.0-premium-interface','ytintel-whats-new-0.18.1-premium-stability','ytintel-whats-new-0.19.0-desire-layer','ytintel-whats-new-0.20.0-universal-usefulness','ytintel-whats-new-0.20.1-always-on','ytintel-whats-new-0.21.0-public-launch'].forEach(k=>localStorage.setItem(k,'seen'));localStorage.setItem('ytintel-ai-intelligence-milestone-2026-09-05-v2','1')}catch{}
-</script>
-<script src="v09-core.js?v=0332"></script>
-<script src="v091-bridge.js?v=0332"></script>
-<script src="v09-features.js?v=0332"></script>
-<script src="v107-fixes.js?v=0332-stable"></script>
-<script src="v109-ai-live.js?v=0332"></script>
-<script src="v110-actionboard.js?v=0332"></script>
-<script src="v111-decisiongate.js?v=0332"></script>
-<script src="v112-replication.js?v=0332"></script>
-<script src="v120-radar.js?v=0332"></script>
-<script src="v121-packaging.js?v=0332"></script>
-<script src="v140-research-os.js?v=0332"></script>
-<script src="v150-platform.js?v=0332"></script>
-<script src="v150-data.js?v=0332"></script>
-<script src="v170-sprint.js?v=0332"></script>
-<script src="v170-mobile.js?v=0332"></script>
-<script src="v180-premium.js?v=0332" data-v180-premium="1"></script>
-<script src="v170-shell.js?v=0332"></script>
-<script src="v180-workflow-fixes.js?v=0332"></script>
-<script src="v190-desire.js?v=0332"></script>
-<script src="v200-universal.js?v=0332"></script>
-<script src="v201-always-on.js?v=0332"></script>
-<script src="v210-public.js?v=0332"></script>
-<script src="v220-pro.js?v=0332"></script>
-<script src="v220-sync.js?v=0332"></script>
-<script src="v331-phone.js?v=0332"></script>
+  <script src="v340-zero-credit.js?v=0340" defer></script>
 </body>
 </html>
