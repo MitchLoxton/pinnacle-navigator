@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: '22'
       - name: Apply guarded Script Studio integration
-        run: python ytintel/engineering/ship_v032.py
+        run: |
+          python ytintel/engineering/ship_v032.py
+          python ytintel/engineering/diagnose_v032.py
       - name: Syntax and source integrity contracts
         run: |
           for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
@@ -39,6 +41,9 @@ jobs:
         run: node ytintel/tests/full-shell-smoke.mjs
       - name: Script Studio complete app - fixture and credit failure cases
         run: node ytintel/tests/script-studio-browser.mjs
+      - name: Print fixture-only failure diagnostics
+        if: failure()
+        run: cat ytintel-script-proof/*failure.json 2>/dev/null || true
       - name: Commit only tested application integration to feature branch
         run: |
           git config user.name 'YTIntel integration'
