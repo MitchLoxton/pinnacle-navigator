@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 const proof='ytintel-live-proof';await mkdir(proof,{recursive:true});
-const url='https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v033-live-'+Date.now();
+const url='https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v0332-live-'+Date.now();
 const browser=await chromium.launch({headless:true});
 const context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'});
 const page=await context.newPage(),errors=[],requests=[],failures=[];
@@ -12,10 +12,10 @@ page.on('response',async response=>{try{const u=new URL(response.url());if(!u.ho
 const hardStop=setTimeout(()=>{console.error('Production browser deadline exceeded');process.exit(2)},810000);
 try{
  await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
- await page.waitForFunction(()=>window.YTIntelDeepResearch&&document.documentElement.dataset.yt300CoreAnalysis==='1'&&window.YTINTEL_VERSION==='0.33.1',null,{timeout:60000});
+ await page.waitForFunction(()=>window.YTIntelDeepResearch&&document.documentElement.dataset.yt300CoreAnalysis==='1'&&window.YTINTEL_VERSION==='0.33.2',null,{timeout:60000});
  await page.waitForTimeout(1500);
  const before=await page.evaluate(()=>({version:window.YTINTEL_VERSION,active:document.querySelector('.view.active')?.id,auth:document.documentElement.dataset.ytintelAuth,buttons:document.querySelectorAll('#analyseForm>button.primary').length,tour:document.querySelector('#v20Tour.show')!==null,dock:[...document.querySelectorAll('#mobileDock [data-dock]')].map(x=>x.dataset.dock)}));
- assert.equal(before.version,'0.33.1');assert.equal(before.active,'analyse');assert.equal(before.buttons,1);assert.equal(before.tour,false);assert.deepEqual(before.dock,['analyse','os','history']);
+ assert.equal(before.version,'0.33.2');assert.equal(before.active,'analyse');assert.equal(before.buttons,1);assert.equal(before.tour,false);assert.deepEqual(before.dock,['analyse','os','history']);
  await page.locator('#videoUrl').fill('https://www.youtube.com/watch?v=GzhT10i4vag');
  await page.locator('#analyseForm>button.primary').click({timeout:15000});
  await page.waitForSelector('#yt300Progress[data-phase="running"]',{timeout:15000});
