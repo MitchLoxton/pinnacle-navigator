@@ -1,0 +1,22 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+const proof='ytintel-script-live-proof';await mkdir(proof,{recursive:true});
+const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'}),page=await context.newPage(),errors=[],posts=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()==='POST'&&r.url().includes('/ytintel-script-studio'))posts.push(new URL(r.url()).searchParams.get('action'))});
+try{
+ await page.goto('https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?studio=script&qa=v032-'+Date.now(),{waitUntil:'domcontentloaded',timeout:45000});
+ await page.waitForFunction(()=>window.YTIntelScriptStudio?.version==='0.32.0'&&window.YTIntelDeepResearch&&document.documentElement.dataset.yt300CoreAnalysis==='1',null,{timeout:60000});await page.waitForTimeout(2000);
+ assert(await page.locator('#yt320Studio').isVisible(),'Direct Script Studio link must open its workspace');
+ await page.locator('#yt320Example').click();assert.equal(await page.locator('#yt320SourceList a').count(),2);assert.equal(await page.locator('#yt320Target').inputValue(),'100');
+ const urls=await page.locator('#yt320SourceList a').evaluateAll(xs=>xs.map(x=>x.href));assert.deepEqual(urls,['https://www.youtube.com/watch?v=1rjw7yD6H8Y','https://www.youtube.com/watch?v=REjHBGlGnek']);
+ await page.locator('#yt320Build').click();assert((await page.locator('#yt320Message').innerText()).includes('Paste your existing script'));assert.equal(posts.length,0,'No research should start without the original script');
+ const health=await context.request.get('https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-script-studio?action=health');assert.equal(health.status(),200);const hd=await health.json();assert.equal(hd.version,'0.32.0');assert.equal(hd.private_projects,true);
+ const auth=await context.request.post('https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-script-studio?action=start',{data:{}});assert.equal(auth.status(),401);assert.equal((await auth.json()).code,'SIGN_IN_REQUIRED');
+ await page.locator('#yt320Brief').fill('Merge all distinct details from these two sources into my existing tiers. Target 100; no padding.');await page.locator('#yt320Sources').fill(urls.join('\n'));await page.locator('#yt320Script').fill('Form validation example only; no model run is requested.\nTier 1 - Foundations\nKeep the original wording and source labels.\nTier 2 - Deeper details\nKeep the conclusion.');await page.locator('#yt320Detect').click();assert.equal(await page.locator('#yt320Tiers').inputValue(),'Tier 1 - Foundations\nTier 2 - Deeper details');
+ await page.locator('#yt320Modes').scrollIntoViewIfNeeded();await page.screenshot({path:proof+'/desktop-studio.png'});
+ await page.setViewportSize({width:390,height:844});await page.locator('#yt320Modes').scrollIntoViewIfNeeded();await page.screenshot({path:proof+'/mobile-studio.png'});await page.locator('#yt320Tiers').scrollIntoViewIfNeeded();await page.screenshot({path:proof+'/mobile-tiers.png'});const dimensions=await page.evaluate(()=>({viewport:innerWidth,document_width:document.documentElement.scrollWidth}));assert(dimensions.document_width<=dimensions.viewport+2,'Mobile page overflows');
+ await page.locator('#yt320Modes [data-mode="analysis"]').click();assert(await page.locator('#videoUrl').isVisible(),'Existing single-video Analyse must remain available');assert.equal(errors.length,0);
+ const receipt={pass:true,site:'real deployed website; no mocked browser requests',version:hd.version,script_studio_loaded:true,example_video_urls:urls,original_script_required:true,private_backend_rejects_anonymous:true,model_configured:hd.configured,tiers_preserved:true,existing_analyse_available:true,dimensions,errors,live_ai_rewrite_completed:false,benchmark_quality_verified:false,notes:'Checks UI and backend auth boundary, not a signed-in live AI rewrite. Real output validation remains outstanding.',finished_at:new Date().toISOString()};await writeFile(proof+'/receipt.json',JSON.stringify(receipt,null,2));console.log(JSON.stringify(receipt,null,2));
+}catch(e){await writeFile(proof+'/failure.json',JSON.stringify({pass:false,error:e.message,errors},null,2));await page.screenshot({path:proof+'/failure.png'}).catch(()=>{});throw e}
+finally{await browser.close()}
