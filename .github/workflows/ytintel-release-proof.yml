@@ -1,0 +1,78 @@
+name: YTIntel Release Readiness Proof
+on:
+  push:
+    branches: ['fix/ytintel-v031-release-proof']
+    paths:
+      - 'ytintel/engineering/finalize_release.py'
+      - '.github/workflows/ytintel-release-proof.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ytintel-v031-release-proof
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/ytintel-v031-release-proof
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Repair release ownership and add regression assertions
+        run: python ytintel/engineering/finalize_release.py
+      - name: Check every frontend module and synthesis contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in ytintel/latest/*.js ytintel/latest/*.mjs; do
+            node --check "$file"
+          done
+          node --test ytintel/tests/contract.test.mjs
+      - name: Install browser runtime
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Test model flow with fixtures - not live AI quality
+        run: node ytintel/tests/browser-smoke.mjs
+      - name: Test complete mobile app and stable release version
+        run: node ytintel/tests/full-shell-smoke.mjs
+      - name: Record accurate release scope
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('ytintel/latest/release.json')
+          d=json.loads(p.read_text())
+          note='Removed the delayed legacy account version overwrite; the current loader owns release readiness, and active analysis cannot be re-enabled by that auth UI.'
+          if note not in d['changes']:
+              d['changes'].append(note)
+          d['discord_changes']=[
+              'Animated progress + lead researcher, parallel specialists and independent review.',
+              'Transcript-copy summaries are rejected; all 17 Monday Brief sections stay in order.',
+              'Mobile release checks repaired. Deep AI remains blocked until API credit is restored.'
+          ]
+          p.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Commit tested application files on feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'YTIntel release validation'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ytintel/latest/v281-auth-fix.js ytintel/latest/v201-always-on.js ytintel/latest/sw.js ytintel/latest/release.json ytintel/tests/full-shell-smoke.mjs ytintel/tests/production-v031.mjs
+          if ! git diff --cached --quiet; then
+            git commit -m 'Fix delayed v031 release overwrite after complete mobile regression proof'
+            git push origin HEAD:fix/ytintel-v031-release-proof
+          fi
+          git rev-parse HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-release-readiness-proof
+          path: ytintel-test-proof
+          retention-days: 14
