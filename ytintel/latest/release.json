@@ -1,33 +1,32 @@
 {
-  "release_id": "ytintel-0.31.0-benchmark-quality-gates",
-  "version": "v0.31.0",
-  "title": "Analysis, Not Transcript Echoes",
-  "summary": "The app upgrade is live. Deep AI still needs API credits; failed research no longer masquerades as a completed analysis.",
+  "release_id": "ytintel-0.32.0-script-studio",
+  "version": "v0.32.0",
+  "title": "Script Studio - Sources Into Scripts",
+  "summary": "Script Studio is live: videos + your draft into one tiered script. AI drafting needs API credits; real AI rewrite quality is not yet verified.",
   "discord_changes": [
-    "Animated progress + lead researcher, parallel specialists and independent review.",
-    "Transcript-copy summaries are rejected; all 17 Monday Brief sections stay in order.",
-    "Mobile startup repaired. Live AI output quality remains unverified until API credit is restored."
+    "Your brief + up to four videos + your script, in one workspace.",
+    "Duplicate checks, source receipts and your original tiers. No filler to reach 100.",
+    "Private versions + exports. AI drafting still needs working API credits."
   ],
   "changes": [
-    "Connected the v0.31 specialist pipeline to the actual Analyse form and ordered report.",
-    "Replaced transcript-copy summaries and takeaways with mandatory model-backed synthesis and source receipts.",
-    "Added a lead researcher, parallel summary/takeaway/structure/claims specialists, editorial review, remake and final review.",
-    "Added a bounded revision cycle and tests for literal copying, missing list items, quote grounding and runtime coverage.",
-    "Animated real task progress without an artificial minimum-duration delay.",
-    "Prevented missing-model and failed-review results from receiving 100% completion or entering the reviewed vault.",
-    "Preserved the Monday Brief's 17-section order and full transcript at the bottom.",
-    "Added claims-ledger output and original direction-specific remake beat sheets.",
-    "Made report exports reflect the displayed report and its incomplete status.",
-    "Fixed two pre-existing JavaScript syntax errors and the misplaced navigation insertion.",
-    "Stopped the obsolete first-visit tour from covering the mobile Analyse button.",
-    "Reduced mobile navigation to Analyse, Competitors and Vault.",
-    "Removed duplicate legacy model review and stale release-status overrides.",
-    "Expanded CI to every frontend JavaScript module and added deployed-site browser evidence."
+    "Added Video analysis / Script Studio modes without restoring retired navigation.",
+    "Accepts one to four full YouTube videos, a pasted or TXT/Markdown script, explicit tiers and a target of up to 200 total details.",
+    "Preserves the original script and its tier order.",
+    "Runs lead editing, parallel chunk extraction and coverage audits, semantic deduplication, tier-writing batches and independent editorial review.",
+    "Keeps conflicting claims out of the script and labels rumors/inferences rather than presenting them as confirmed.",
+    "Reports actual count, shortfall, added/retained detail counts and duplicates merged; preserves extra details in an appendix.",
+    "Links each detail to source caption blocks or original-script lines.",
+    "Saves projects privately with server-validated ownership and row-level security.",
+    "Adds pause/resume, explicit bounded retries, saved versions, Markdown and fact-ledger CSV exports.",
+    "Allows exporting gathered source evidence even when AI drafting is blocked.",
+    "Fixed a pre-existing auth notification loop that recursively refreshed the session and blocked submissions."
   ],
   "known_limitations": [
-    "Live backend retest on 8 September 2026 returned CREDIT_BALANCE_EXHAUSTED.",
-    "Fixture tests verify control flow and rejection behavior, not real model output quality.",
-    "Storyboard proxies and caption cues do not establish exhaustive original-frame or acoustic analysis."
+    "Video evidence is caption-backed; not every visual-only or audio-only detail is inspected.",
+    "All caption chunks are accounted for, but automatic fact extraction is not guaranteed exhaustive.",
+    "Source-stated claims are not independently verified. No external fact checking is silently added.",
+    "The existing API account has previously returned CREDIT_BALANCE_EXHAUSTED; live AI script quality is unverified until a funded run passes.",
+    "Projects support TXT/Markdown import or pasted script text; other formats must be pasted as text."
   ],
-  "why_it_matters": "Explanation, application and source evidence must be distinct. An empty API balance or rejected output now leaves an explicit incomplete report instead of transcript filler."
+  "why_it_matters": "The requested outcome is a usable, traceable rewrite in the creator's own structure - not another transcript summary."
 }
