@@ -1,31 +1,28 @@
 {
-  "release_id": "ytintel-0.34.0-zero-credit-clean-core",
-  "version": "v0.34.0",
-  "title": "Zero-credit clean core",
-  "summary": "YTIntel now boots once into a single stable Analyse/Competitors/Vault shell and completes the 07/09 Monday Brief without paid AI credits.",
-  "published_at": "2026-09-08T13:15:00Z",
+  "release_id": "ytintel-0.34.1-zero-credit-quality",
+  "version": "v0.34.1",
+  "title": "Zero-credit quality correction",
+  "summary": "The stable zero-credit core now fixes rolling-caption inflation and separates deterministic interpretation from source receipts instead of repeating transcript blocks.",
+  "published_at": "2026-09-08T13:40:00Z",
   "discord_changes": [
-    "ONE CLEAN BOOT: removed the layered legacy-version loader that caused the app to flicker between old interfaces.",
-    "ZERO-CREDIT ANALYSE: no paid OpenAI/Claude API is used in the normal 17-section Monday Brief flow.",
-    "NO MORE 24% DEADLOCK: every source/local stage has a bounded timeout and finishes, blocks honestly, or stops cleanly."
+    "WPM FIX: rolling captions are deduplicated before pace is calculated, so impossible 692-WPM results are no longer trusted.",
+    "SUMMARY FIX: evidence mode now explains each beat and keeps the exact source sentence underneath as a receipt instead of presenting the transcript as the insight.",
+    "STILL ZERO CREDITS: one clean shell, 17-section Monday Brief, bounded progress and no paid model endpoints."
   ],
   "changes": [
-    "Replaced the legacy multi-script production shell with one v0.34 shell loading one core JavaScript file and one stylesheet.",
-    "Analyse follows the MONDAY BRIEF (07/09/26) in the exact 17-section order, ending with the full timestamped transcript.",
-    "Sections 2, 3, 14 and 16 use a ready browser on-device language model when available; otherwise they explicitly remain evidence-mode instead of recycling transcript text as AI intelligence.",
-    "Public source extraction, hook/re-hook/payoff mapping, Most Replayed, pacing, packaging signals, channel context, competitor tracking and the local vault remain zero-credit.",
-    "Progress is task-driven rather than timer-driven and cannot remain indefinitely at 24 percent.",
-    "Added source-request and local-model timeouts with explicit STOPPED/BLOCKED states.",
-    "Added local creator context for niche, subniche, audience and brand rules.",
-    "Added a zero-credit competitor Watchtower using public channel feeds and channel-relative outlier movement.",
-    "Added a local niche/subniche vault plus Markdown, transcript copy and browser-PDF export.",
-    "Removed automatic paid-model health checks and all old Smart Start, Sprint, Radar, Packaging and commercial presentation layers from the live boot path."
+    "Added cross-segment rolling-caption overlap removal plus repeated-caption block collapse before any pacing or evidence interpretation.",
+    "Recomputed WPM from the normalized caption word stream and actual video duration rather than inheriting the old backend pacing number.",
+    "Rebuilt re-hook, payoff and extraction candidates from the normalized transcript so repeated caption windows do not contaminate downstream sections.",
+    "Replaced transcript-style fallback summary cards with deterministic beat interpretation plus a separate timestamped evidence receipt.",
+    "Replaced raw takeaway repetition with distinct deterministic lessons linked back to an exact timestamped source receipt.",
+    "Preserved the exact 17-section 07/09/26 Monday Brief order and zero-credit local-model option for sections 2, 3, 14 and 16.",
+    "The live shell still loads one external entry script only; legacy interface layers remain outside the production boot path."
   ],
   "known_limitations": [
-    "A no-credit website cannot guarantee GPT-5.6/Claude-class cloud reasoning. Deep synthesis is only as strong as the on-device model available in the user's browser.",
-    "If no ready local language model exists, sections 2, 3, 14 and 16 show honest evidence-mode fallbacks rather than fabricated synthesis.",
-    "Motion-graphics and acoustic claims are withheld unless actual frame/audio evidence is available; the tool does not infer them from captions.",
+    "No-credit YTIntel cannot guarantee Claude Max/GPT-5.6-class reasoning. When a ready browser-local model is unavailable, the report uses deterministic interpretation and labels it accordingly.",
+    "The deterministic fallback is deliberately more analytical than transcript replay, but it is not equivalent to a premium cloud research agent.",
+    "Motion graphics and acoustic sound-design claims remain withheld when actual source frames/audio are unavailable.",
     "Automated browser acceptance does not replace every physical iPhone/Android configuration."
   ],
-  "why_it_matters": "The heart of YTIntel is one reliable source-backed analysis flow. Stability and honest evidence come before extra tabs or fake intelligence."
+  "why_it_matters": "A zero-credit product is only useful if the numbers are sane and the insight is visibly separate from the source evidence."
 }
