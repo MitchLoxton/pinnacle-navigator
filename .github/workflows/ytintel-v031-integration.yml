@@ -24,18 +24,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Repair stale asynchronous release owner
+      - name: Repair stale asynchronous release owners
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
           p=Path('ytintel/latest/v281-auth-fix.js')
-          s=p.read_text()
-          lines=s.splitlines(keepends=True)
-          lines=[line for line in lines if not line.lstrip().startswith("window.YTINTEL_VERSION='0.28.1';const status=")]
-          p.write_text(''.join(lines))
+          lines=p.read_text().splitlines(keepends=True)
+          p.write_text(''.join(line for line in lines if not line.lstrip().startswith("window.YTINTEL_VERSION='0.28.1';const status=")))
           assert "window.YTINTEL_VERSION='0.28.1'" not in p.read_text()
+          p=Path('ytintel/latest/v200-universal.js')
+          s,n=re.subn(r'^function status\(\).*$', 'function status(){ /* Current research orchestrator owns the status badge. */ }',p.read_text(),flags=re.M)
+          assert n==1
+          p.write_text(s)
           PY
-      - name: Syntax and regression contracts on actual committed app
+      - name: Syntax and regression contracts
         run: |
           for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
           grep -q v031-integration ytintel/latest/v300-core-analysis.js
@@ -48,13 +51,13 @@ jobs:
         run: node ytintel/tests/browser-smoke.mjs
       - name: Full application mobile shell
         run: node ytintel/tests/full-shell-smoke.mjs
-      - name: Commit tested release-owner fix only
+      - name: Commit tested release-owner fixes only
         run: |
           git config user.name 'YTIntel integration'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add ytintel/latest/v281-auth-fix.js
+          git add ytintel/latest/v281-auth-fix.js ytintel/latest/v200-universal.js
           if ! git diff --cached --quiet; then
-            git commit -m 'Keep asynchronous authentication from reverting the active app release'
+            git commit -m 'Give the active research orchestrator sole ownership of release status'
             git push origin HEAD:fix/ytintel-benchmark-031
           fi
       - uses: actions/upload-artifact@v4
