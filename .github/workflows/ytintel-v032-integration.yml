@@ -1,0 +1,62 @@
+name: YTIntel Script Studio Integration
+on:
+  push:
+    branches: ['feat/ytintel-script-studio-032']
+    paths:
+      - 'ytintel/**'
+      - '.github/workflows/ytintel-v032-integration.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ytintel-script-studio-integration
+  cancel-in-progress: true
+jobs:
+  integrate-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/ytintel-script-studio-032
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply guarded Script Studio integration
+        run: python ytintel/engineering/ship_v032.py
+      - name: Syntax and source integrity contracts
+        run: |
+          for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
+          node --check ytintel/backend/script-v032.mjs
+          node --test ytintel/tests/contract.test.mjs ytintel/tests/script-studio.test.mjs
+      - name: Install browser runtime
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Existing analysis regression - synthetic model responses
+        run: node ytintel/tests/browser-smoke.mjs
+      - name: Existing full mobile application regression
+        run: node ytintel/tests/full-shell-smoke.mjs
+      - name: Script Studio complete app - fixture and credit failure cases
+        run: node ytintel/tests/script-studio-browser.mjs
+      - name: Commit only tested application integration to feature branch
+        run: |
+          git config user.name 'YTIntel integration'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ytintel/latest ytintel/backend/script-v032.mjs ytintel/tests
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integrate tested Script Studio UI and source integrity safeguards'
+            git push origin HEAD:feat/ytintel-script-studio-032
+          fi
+      - name: Capture exact source for reproducible inspection
+        if: always()
+        run: tar -czf /tmp/ytintel-script-source.tgz ytintel/latest ytintel/backend/script-v032.mjs ytintel/tests ytintel/engineering/ship_v032.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-script-studio-proof
+          path: |
+            ytintel-script-proof
+            ytintel-test-proof
+            /tmp/ytintel-script-source.tgz
+          retention-days: 14
