@@ -4,6 +4,7 @@ on:
     branches: ["main"]
     paths:
       - "ytintel/latest/**"
+      - "ytintel/backend/**"
       - "ytintel/tests/**"
       - ".github/workflows/ytintel-v300-ci.yml"
   workflow_dispatch:
@@ -14,16 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate actual v0.31 integration
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate actual v0.32 integration
         shell: bash
         run: |
           set -euo pipefail
           for file in ytintel/latest/*.js ytintel/latest/*.mjs; do node --check "$file"; done
-          node --test ytintel/tests/contract.test.mjs
+          node --check ytintel/backend/script-v032.mjs
+          node --test ytintel/tests/contract.test.mjs ytintel/tests/script-studio.test.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0310" ytintel/latest/sw.js
+          grep -q "ytintel-shell-v0320" ytintel/latest/sw.js
           grep -q "v310-deep-research.js" ytintel/latest/v201-always-on.js
+          grep -q "v320-script-studio.js" ytintel/latest/index.html
           grep -q "v031-integration" ytintel/latest/v300-core-analysis.js
           if grep -q "v300-final-review.js" ytintel/latest/v201-always-on.js; then echo 'Duplicate legacy reviewer must not be loaded'; exit 1; fi
-          echo "YTIntel v0.31 integration and quality contracts passed."
+          echo "YTIntel v0.32 integration and quality contracts passed."
