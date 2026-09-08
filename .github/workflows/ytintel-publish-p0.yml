@@ -1,0 +1,90 @@
+name: YTIntel P0 Publish
+on:
+  push:
+    branches: ["main"]
+    paths: [".github/workflows/ytintel-publish-p0.yml"]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Pull tested phone + auth fix
+        run: |
+          git fetch origin fix/ytintel-phone-0331
+          git checkout 040badc57064b04d56fa3c01d736bb42468dd9d8 -- \
+            ytintel/latest/index.html \
+            ytintel/latest/sw.js \
+            ytintel/latest/v201-always-on.js \
+            ytintel/latest/v295-core-hardening.js \
+            ytintel/latest/v300-core-analysis.js \
+            ytintel/latest/v331-phone.css \
+            ytintel/latest/v331-phone.js \
+            ytintel/tests/phone0331-browser.mjs \
+            ytintel/tests/phone0331-live.mjs \
+            ytintel/tests/production-v031.mjs
+      - name: Bump release and assert the P0 fix
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          paths = [
+              Path('ytintel/latest/index.html'), Path('ytintel/latest/sw.js'),
+              Path('ytintel/latest/v201-always-on.js'), Path('ytintel/latest/v300-core-analysis.js')
+          ]
+          for p in paths:
+              s = p.read_text()
+              s = s.replace('0.33.1', '0.33.2').replace('0331', '0332')
+              p.write_text(s)
+          p = Path('ytintel/latest/v295-core-hardening.js')
+          s = p.read_text()
+          assert "window.addEventListener('ytintel:auth',repairAuthSurface)" in s
+          assert "window.addEventListener('ytintel:auth',refreshAuth)" not in s
+          p.write_text(s)
+          PY
+          cat > ytintel/latest/release.json <<'JSON'
+          {
+            "release_id": "ytintel-0.33.2-unfrozen-phone",
+            "version": "v0.33.2",
+            "title": "Unfrozen + phone ready",
+            "summary": "P0 page-freeze fixed and the tested phone presentation is now in the actual YTIntel app.",
+            "discord_changes": [
+              "P0 FIX: removed the auth refresh feedback loop that could make Chrome report Page Unresponsive.",
+              "Phone-first layout: readable fields, 44px touch controls, safe-area spacing and keyboard-aware navigation.",
+              "The tested mobile presentation is published to production instead of being left on a development branch."
+            ],
+            "changes": [
+              "Stopped the ytintel:auth event from calling auth.refresh(), which emitted ytintel:auth again and could create an infinite refresh loop.",
+              "Auth events now repair visible UI state only; explicit refreshes remain bounded to startup/focus diagnostics.",
+              "Published the tested v0.33.1 phone presentation as v0.33.2 with cache-busted assets.",
+              "Added a dedicated responsive layer for phones and touch tablets.",
+              "Reflowed metrics and reports for small screens while keeping wide tables locally scrollable.",
+              "Set text-entry controls to mobile-safe sizing and primary touch targets to at least 44px.",
+              "Added keyboard-aware bottom navigation and visual-viewport handling.",
+              "Preserved Analyse, Competitors and Vault access on mobile.",
+              "Kept data, account permissions and existing analysis behavior unchanged."
+            ],
+            "known_limitations": [
+              "API credit remains a separate blocker for real model-backed analysis quality; this release fixes app responsiveness and presentation.",
+              "Automated mobile checks are not a substitute for every physical iPhone/Android device configuration.",
+              "Script Studio remains a separate unfinished feature and is not claimed as live in this release."
+            ],
+            "why_it_matters": "The product must stay responsive before any intelligence feature matters, and it should be genuinely usable from the phone Mitchell actually carries."
+          }
+          JSON
+      - name: Syntax checks
+        run: |
+          node --check ytintel/latest/v295-core-hardening.js
+          node --check ytintel/latest/v331-phone.js
+          node --check ytintel/latest/v201-always-on.js
+      - name: Publish main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ytintel/latest ytintel/tests
+          git commit -m 'Ship YTIntel v0.33.2 P0 unfreeze and phone compatibility'
+          git push origin HEAD:main
