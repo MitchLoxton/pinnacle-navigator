@@ -1,0 +1,28 @@
+name: YTIntel Phone Compatibility
+on:
+  push:
+    branches: ["fix/ytintel-phone-0331"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  phone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Capture current app and unfinished Script Studio separately
+        run: |
+          mkdir -p phone-artifacts
+          tar -czf phone-artifacts/current-source.tgz ytintel/latest ytintel/tests ytintel/engineering .github/workflows
+          git fetch --depth=1 origin feat/ytintel-script-studio-032
+          git archive FETCH_HEAD ytintel/latest/v320-script-studio.js ytintel/latest/v320-script-studio.css ytintel/latest/v320-script-contract.mjs ytintel/tests/script-studio.test.mjs ytintel/tests/script-studio-browser.mjs ytintel/engineering/ship_v032.py > phone-artifacts/studio-source.tar
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-phone-proof
+          path: phone-artifacts
+          retention-days: 7
