@@ -1,32 +1,28 @@
 {
-  "release_id": "ytintel-0.33.0-monday-brief-coverage",
-  "version": "v0.33.0",
-  "title": "Monday Brief - evidence to execution",
-  "summary": "The 17-section core is hardened: better measurements, sampled-image research, creator setup and side-by-side vault comparison. Real AI quality still needs a funded provider run.",
+  "release_id": "ytintel-0.33.1-phone-compatibility",
+  "version": "v0.33.1",
+  "title": "Built for your phone",
+  "summary": "Phone-first layout, readable fields and thumb-sized controls. Script Studio mobile styling is also prepared on its development branch; its AI release remains separate.",
   "discord_changes": [
-    "17-section roadmap, corrected pacing and age-labelled channel baselines.",
-    "Image specialist + source-specific notes; no pretend audio or title-test claims.",
-    "Creator setup, niche folders and group comparisons. API credit remains a blocker."
+    "Phone-sized reports, readable input fields and bigger tap targets.",
+    "Bottom navigation clears the keyboard; safe-area spacing protects the last line.",
+    "Script Studio phone layout tested with fixtures; full AI release remains pending."
   ],
   "changes": [
-    "Passed channel context into the lead researcher before synthesis.",
-    "Added an image-input specialist for sampled frames and the thumbnail, with image-ID validation.",
-    "Fixed per-minute pacing to conserve word counts instead of recounting whole overlapping segments.",
-    "Separated caption gaps from acoustic silence and unknown metrics from measured zero.",
-    "Paired replay points with covering caption intervals and nearest sampled frames.",
-    "Stopped equating title keyword overlap with promise delivery or title differences with confirmed experiments.",
-    "Added first-minute hook coverage and chronological mechanics validation.",
-    "Added a visible 17-section roadmap and report coverage table.",
-    "Added optional creator/channel/brand setup before an analysis.",
-    "Added niche/subniche bank folders and 2-4 saved-analysis group comparisons.",
-    "Made cloud/local save errors visible and removed image payloads from permanent vault records.",
-    "Included collapsed evidence in print and current content in Markdown export."
+    "Added a dedicated responsive presentation layer for small screens and touch tablets.",
+    "Reflowed source metrics into a two-column grid, and kept wide tables within their own scroll areas.",
+    "Set text-entry controls to 16px and main touch controls to at least 44px.",
+    "Added keyboard-aware dock visibility and visual-viewport sizing for dialogs.",
+    "Kept Analyse, Competitors and Vault accessible from the bottom navigation.",
+    "Preserved zoom, data, account permissions and all existing analysis behavior.",
+    "Prepared the same layout for Script Studio forms, file import, source receipts and saved versions.",
+    "Added Chromium and WebKit phone-layout tests with explicit synthetic backend responses."
   ],
   "known_limitations": [
-    "Exhaustive motion graphics and acoustic analysis require source video/audio; this build analyses captions and available sampled stills.",
-    "API credit was exhausted at the last real provider test; fixture acceptance is not proof of model output quality.",
-    "Public title differences do not confirm a creator's active A/B test.",
-    "Script Studio development branch is preserved separately; Watchtower expansion is deferred."
+    "Automated browser checks are not physical iPhone or Android device testing.",
+    "The keyboard check simulates visual-viewport shrinkage, not a physical OS keyboard.",
+    "Script Studio remains on its separate development branch and is not enabled by this phone release.",
+    "This presentation release does not fix or change the previously reported API credit blocker."
   ],
-  "why_it_matters": "A report must distinguish what was retrieved, interpreted, verified, missing and saved, rather than reward empty headings."
+  "why_it_matters": "Research should be readable and operable on a phone without shrinking a desktop dashboard."
 }

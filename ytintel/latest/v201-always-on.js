@@ -8,29 +8,29 @@ let state={always_on:true,enhancement_configured:false};
 function one(src,key){return new Promise(resolve=>{const old=document.querySelector(`script[data-load-key="${key}"]`);if(old){if(old.dataset.loaded==='1')return resolve();old.addEventListener('load',resolve,{once:true});old.addEventListener('error',resolve,{once:true});return}const s=document.createElement('script');s.src=src;s.async=false;s.dataset.loadKey=key;s.onload=()=>{s.dataset.loaded='1';resolve()};s.onerror=()=>{console.warn('[YTIntel loader] could not load',src);resolve()};document.head.appendChild(s)})}
 async function loadLatest(){
   const css=(key,href)=>{if(document.querySelector(`link[data-${key}]`))return;const l=document.createElement('link');l.rel='stylesheet';l.href=href;l.dataset[key]='1';document.head.appendChild(l)};
-  css('v250','v250-intelligence.css?v=0330');css('v260','v260-cloud.css?v=0330');css('v270','v270-forensics.css?v=0330');css('v280','v280-production.css?v=0330');css('v281','v281-ideas.css?v=0330');css('v284','v284-luxe.css?v=0330');css('v290','v290-commercial.css?v=0330');css('v292','v292-owner-polish.css?v=0330');css('v300','v300-core-analysis.css?v=0330');
-  await one('v291-auth-core.js?v=0330','v291-auth-core');
+  css('v250','v250-intelligence.css?v=0331');css('v260','v260-cloud.css?v=0331');css('v270','v270-forensics.css?v=0331');css('v280','v280-production.css?v=0331');css('v281','v281-ideas.css?v=0331');css('v284','v284-luxe.css?v=0331');css('v290','v290-commercial.css?v=0331');css('v292','v292-owner-polish.css?v=0331');css('v300','v300-core-analysis.css?v=0331');
+  await one('v291-auth-core.js?v=0331','v291-auth-core');
   try{await window.YTIntelAuthReady}catch{}
   const queue=[
-    ['v104-media.js?v=0330','v104-media'],['v104-media-proxy.js?v=0330','v104-media-proxy'],
-    ['v250-radar-persistence.js?v=0330','v250-radar'],['v250-app.js?v=0330','v250-app'],
-    ['v260-cloud.js?v=0330','v260-cloud'],
-    ['v270-forensics.js?v=0330','v270-forensics'],['v270-route.js?v=0330','v270-route'],
-    ['v280-production.js?v=0330','v280-production'],['v280-focus.js?v=0330','v280-focus'],
-    ['v281-ideas.js?v=0330','v281-ideas'],['v281-auth-fix.js?v=0330','v281-auth-fix'],
-    ['v282-product-fix.js?v=0330','v282-product-fix'],['v283-deep-packaging.js?v=0330','v283-deep-packaging'],
-    ['v284-luxe.js?v=0330','v284-luxe'],['v290-commercial.js?v=0330','v290-commercial'],
-    ['v292-owner-polish.js?v=0330','v292-owner-polish'],
-    ['v293-release-card.js?v=0330','v293-release-card'],['v294-focus-cleanup.js?v=0330','v294-focus-cleanup'],
-    ['v295-core-hardening.js?v=0330','v295-core-hardening'],['v300-network-guard.js?v=0330','v300-network-guard'],
-    ['v330-brief.js?v=0330','v330-brief'],['v310-deep-research.js?v=0330','v310-deep-research'],['v300-core-analysis.js?v=0330','v300-core-analysis'],['v300-vault-ui.js?v=0330','v300-vault-ui'],
+    ['v104-media.js?v=0331','v104-media'],['v104-media-proxy.js?v=0331','v104-media-proxy'],
+    ['v250-radar-persistence.js?v=0331','v250-radar'],['v250-app.js?v=0331','v250-app'],
+    ['v260-cloud.js?v=0331','v260-cloud'],
+    ['v270-forensics.js?v=0331','v270-forensics'],['v270-route.js?v=0331','v270-route'],
+    ['v280-production.js?v=0331','v280-production'],['v280-focus.js?v=0331','v280-focus'],
+    ['v281-ideas.js?v=0331','v281-ideas'],['v281-auth-fix.js?v=0331','v281-auth-fix'],
+    ['v282-product-fix.js?v=0331','v282-product-fix'],['v283-deep-packaging.js?v=0331','v283-deep-packaging'],
+    ['v284-luxe.js?v=0331','v284-luxe'],['v290-commercial.js?v=0331','v290-commercial'],
+    ['v292-owner-polish.js?v=0331','v292-owner-polish'],
+    ['v293-release-card.js?v=0331','v293-release-card'],['v294-focus-cleanup.js?v=0331','v294-focus-cleanup'],
+    ['v295-core-hardening.js?v=0331','v295-core-hardening'],['v300-network-guard.js?v=0331','v300-network-guard'],
+    ['v330-brief.js?v=0331','v330-brief'],['v310-deep-research.js?v=0331','v310-deep-research'],['v300-core-analysis.js?v=0331','v300-core-analysis'],['v300-vault-ui.js?v=0331','v300-vault-ui'],
     
-    ['v300-focus.js?v=0330','v300-focus'],['v330-workspace.js?v=0330','v330-workspace']
+    ['v300-focus.js?v=0331','v300-focus'],['v330-workspace.js?v=0331','v330-workspace']
   ];
   for(const [src,key] of queue){await one(src,key);if(key==='v330-brief')await window.YTIntelBrief.ready;if(key==='v310-deep-research')await window.YTIntelDeepResearch.ready;}
   try{window.dispatchEvent(new CustomEvent('ytintel:late-layers-ready'))}catch{}
 }
-function setStatus(){const s=$('#status');if(!s||s.dataset.researchState)return;s.textContent='v0.33.0 - Ready';s.title='Model-backed analysis is checked per run. Ready does not imply API credit is available.'}
+function setStatus(){const s=$('#status');if(!s||s.dataset.researchState)return;s.textContent='v0.33.1 - Ready';s.title='Model-backed analysis is checked per run. Ready does not imply API credit is available.'}
 function relabel(){$$('.sol-badge').forEach(b=>{const card=b.closest('#solIntelligence,#solPattern,.sol-card'),text=(card?.textContent||'').toLowerCase();if(/failed|credit|quota|billing|api key|activate/.test(text))return;b.textContent=state.enhancement_configured?'YTINTEL · ALWAYS-ON + CLOUD ENHANCED':'YTINTEL · ALWAYS-ON INTELLIGENCE'});$$('.sol-title').forEach(h=>{const t=(h.textContent||'').toLowerCase();if(t.includes('max reasoning')||t.includes('activate'))h.textContent='Reading the full evidence set…'})}
 function sanitizeErrors(){$$('.error,.sol-offline').forEach(n=>{const t=(n.textContent||'').toLowerCase();if(/credit|quota|billing|insufficient|api key|spend limit|usage limit/.test(t)){if(n.classList.contains('error'))n.textContent='Cloud enhancement is unavailable right now. YTIntel will continue with evidence it can verify.';else{const p=n.querySelector('p.muted');if(p)p.textContent='Cloud enhancement is unavailable right now. YTIntel will continue with evidence it can verify.'}}})}
 async function health(){try{const r=await fetch(API+'&t='+Date.now(),{cache:'no-store'}),d=await r.json();if(r.ok&&d)state={...state,...d}}catch{}setStatus();relabel();sanitizeErrors()}
