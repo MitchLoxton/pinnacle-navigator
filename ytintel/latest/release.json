@@ -1,33 +1,32 @@
 {
-  "release_id": "ytintel-0.31.0-benchmark-quality-gates",
-  "version": "v0.31.0",
-  "title": "Analysis, Not Transcript Echoes",
-  "summary": "The app upgrade is live. Deep AI still needs API credits; failed research no longer masquerades as a completed analysis.",
+  "release_id": "ytintel-0.33.0-monday-brief-coverage",
+  "version": "v0.33.0",
+  "title": "Monday Brief - evidence to execution",
+  "summary": "The 17-section core is hardened: better measurements, sampled-image research, creator setup and side-by-side vault comparison. Real AI quality still needs a funded provider run.",
   "discord_changes": [
-    "Animated progress + lead researcher, parallel specialists and independent review.",
-    "Transcript-copy summaries are rejected; all 17 Monday Brief sections stay in order.",
-    "Mobile startup repaired. Live AI output quality remains unverified until API credit is restored."
+    "17-section roadmap, corrected pacing and age-labelled channel baselines.",
+    "Image specialist + source-specific notes; no pretend audio or title-test claims.",
+    "Creator setup, niche folders and group comparisons. API credit remains a blocker."
   ],
   "changes": [
-    "Connected the v0.31 specialist pipeline to the actual Analyse form and ordered report.",
-    "Replaced transcript-copy summaries and takeaways with mandatory model-backed synthesis and source receipts.",
-    "Added a lead researcher, parallel summary/takeaway/structure/claims specialists, editorial review, remake and final review.",
-    "Added a bounded revision cycle and tests for literal copying, missing list items, quote grounding and runtime coverage.",
-    "Animated real task progress without an artificial minimum-duration delay.",
-    "Prevented missing-model and failed-review results from receiving 100% completion or entering the reviewed vault.",
-    "Preserved the Monday Brief's 17-section order and full transcript at the bottom.",
-    "Added claims-ledger output and original direction-specific remake beat sheets.",
-    "Made report exports reflect the displayed report and its incomplete status.",
-    "Fixed two pre-existing JavaScript syntax errors and the misplaced navigation insertion.",
-    "Stopped the obsolete first-visit tour from covering the mobile Analyse button.",
-    "Reduced mobile navigation to Analyse, Competitors and Vault.",
-    "Removed duplicate legacy model review and stale release-status overrides.",
-    "Expanded CI to every frontend JavaScript module and added deployed-site browser evidence."
+    "Passed channel context into the lead researcher before synthesis.",
+    "Added an image-input specialist for sampled frames and the thumbnail, with image-ID validation.",
+    "Fixed per-minute pacing to conserve word counts instead of recounting whole overlapping segments.",
+    "Separated caption gaps from acoustic silence and unknown metrics from measured zero.",
+    "Paired replay points with covering caption intervals and nearest sampled frames.",
+    "Stopped equating title keyword overlap with promise delivery or title differences with confirmed experiments.",
+    "Added first-minute hook coverage and chronological mechanics validation.",
+    "Added a visible 17-section roadmap and report coverage table.",
+    "Added optional creator/channel/brand setup before an analysis.",
+    "Added niche/subniche bank folders and 2-4 saved-analysis group comparisons.",
+    "Made cloud/local save errors visible and removed image payloads from permanent vault records.",
+    "Included collapsed evidence in print and current content in Markdown export."
   ],
   "known_limitations": [
-    "Live backend retest on 8 September 2026 returned CREDIT_BALANCE_EXHAUSTED.",
-    "Fixture tests verify control flow and rejection behavior, not real model output quality.",
-    "Storyboard proxies and caption cues do not establish exhaustive original-frame or acoustic analysis."
+    "Exhaustive motion graphics and acoustic analysis require source video/audio; this build analyses captions and available sampled stills.",
+    "API credit was exhausted at the last real provider test; fixture acceptance is not proof of model output quality.",
+    "Public title differences do not confirm a creator's active A/B test.",
+    "Script Studio development branch is preserved separately; Watchtower expansion is deferred."
   ],
-  "why_it_matters": "Explanation, application and source evidence must be distinct. An empty API balance or rejected output now leaves an explicit incomplete report instead of transcript filler."
+  "why_it_matters": "A report must distinguish what was retrieved, interpreted, verified, missing and saved, rather than reward empty headings."
 }
