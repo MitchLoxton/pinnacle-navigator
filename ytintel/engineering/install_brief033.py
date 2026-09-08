@@ -19,3 +19,4 @@ for name, content in files.items():
     dest.write_text(content)
     print('Materialized', name)
 runpy.run_path(str(root / 'ytintel/engineering/apply_brief033.py'), run_name='__main__')
+runpy.run_path(str(root / 'ytintel/engineering/check_brief033.py'), run_name='__main__')
