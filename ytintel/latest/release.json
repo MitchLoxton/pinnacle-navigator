@@ -1,28 +1,28 @@
 {
-  "release_id": "ytintel-0.34.1-zero-credit-quality",
-  "version": "v0.34.1",
-  "title": "Zero-credit quality correction",
-  "summary": "The stable zero-credit core now fixes rolling-caption inflation and separates deterministic interpretation from source receipts instead of repeating transcript blocks.",
-  "published_at": "2026-09-08T13:40:00Z",
+  "release_id": "ytintel-0.34.2-monday-brief-intelligence",
+  "version": "v0.34.2",
+  "title": "Monday Brief intelligence refinement",
+  "summary": "The zero-credit core now produces a clearer main-message synthesis, better beat roles and takeaway receipts that actually support the lesson they sit under.",
+  "published_at": "2026-09-08T13:50:00Z",
   "discord_changes": [
-    "WPM FIX: rolling captions are deduplicated before pace is calculated, so impossible 692-WPM results are no longer trusted.",
-    "SUMMARY FIX: evidence mode now explains each beat and keeps the exact source sentence underneath as a receipt instead of presenting the transcript as the insight.",
-    "STILL ZERO CREDITS: one clean shell, 17-section Monday Brief, bounded progress and no paid model endpoints."
+    "MAIN MESSAGE FIX: the watch-replacement now states the actual thesis instead of grabbing a random transcript clause.",
+    "TAKEAWAY RECEIPTS FIX: each deterministic lesson now points to the sentence that supports that exact lesson.",
+    "WPM + STABILITY STAY FIXED: deduplicated pace, 100% bounded completion, one clean boot, zero paid API credits."
   ],
   "changes": [
-    "Added cross-segment rolling-caption overlap removal plus repeated-caption block collapse before any pacing or evidence interpretation.",
-    "Recomputed WPM from the normalized caption word stream and actual video duration rather than inheriting the old backend pacing number.",
-    "Rebuilt re-hook, payoff and extraction candidates from the normalized transcript so repeated caption windows do not contaminate downstream sections.",
-    "Replaced transcript-style fallback summary cards with deterministic beat interpretation plus a separate timestamped evidence receipt.",
-    "Replaced raw takeaway repetition with distinct deterministic lessons linked back to an exact timestamped source receipt.",
-    "Preserved the exact 17-section 07/09/26 Monday Brief order and zero-credit local-model option for sections 2, 3, 14 and 16.",
-    "The live shell still loads one external entry script only; legacy interface layers remain outside the production boot path."
+    "Added thesis-specific rules for the 07/09/26 Monday Brief watch-replacement summary.",
+    "Improved beat classification across opening, receipts, thesis, mechanism, case studies, demonstrations, objections, funnel and close.",
+    "Selected evidence sentences according to the role of the beat instead of simply preferring whichever sentence contained the largest number.",
+    "Rebuilt the eight core deterministic takeaways so each source quote matches the lesson being asserted.",
+    "Collapsed noisy repeated caption words/short phrases inside displayed evidence receipts.",
+    "Preserved the v0.34.1 rolling-caption WPM correction and normalized transcript source.",
+    "Preserved the exact 17-section 07/09/26 Monday Brief order, clean Analyse/Competitors/Vault shell and zero-credit local-model option."
   ],
   "known_limitations": [
-    "No-credit YTIntel cannot guarantee Claude Max/GPT-5.6-class reasoning. When a ready browser-local model is unavailable, the report uses deterministic interpretation and labels it accordingly.",
-    "The deterministic fallback is deliberately more analytical than transcript replay, but it is not equivalent to a premium cloud research agent.",
+    "No-credit YTIntel cannot guarantee Claude Max/GPT-5.6-class reasoning. A ready on-device model is still the only zero-credit path to genuine model synthesis.",
+    "The deterministic watch-replacement is evidence interpretation, not a substitute for a frontier cloud research model.",
     "Motion graphics and acoustic sound-design claims remain withheld when actual source frames/audio are unavailable.",
     "Automated browser acceptance does not replace every physical iPhone/Android configuration."
   ],
-  "why_it_matters": "A zero-credit product is only useful if the numbers are sane and the insight is visibly separate from the source evidence."
+  "why_it_matters": "The product should tell you what the video is actually saying, then show the source receipt underneath—not confuse the receipt for the intelligence."
 }
