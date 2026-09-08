@@ -14,81 +14,34 @@
   <link rel="manifest" href="manifest.webmanifest?v=0360">
   <link rel="stylesheet" href="v340-zero-credit.css?v=0360">
   <link rel="stylesheet" href="v360-endgame.css?v=0360">
-  <style>.v360-prehide{visibility:hidden!important}</style>
+  <style>.v360-prehide{visibility:hidden!important}.v360-loading .profile-overlay{display:none!important}</style>
 </head>
 <body>
   <div class="boot" id="boot" aria-live="polite">
-    <div class="boot-inner">
-      <div class="boot-logo">YT</div>
-      <strong>YTIntel</strong>
-      <p>Loading the Endgame intelligence core…</p>
-    </div>
+    <div class="boot-inner"><div class="boot-logo">YT</div><strong>YTIntel</strong><p>Loading the Endgame intelligence core…</p></div>
   </div>
 
   <main class="app v360-prehide" id="app" hidden>
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div>
-      <div class="top-grow"></div>
+      <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div><div class="top-grow"></div>
       <div class="mode"><span class="dot"></span><span class="mode-copy">Zero paid AI credits</span><strong id="localMode">Checking local intelligence…</strong></div>
       <span class="version" id="version">v0.36.0</span>
     </header>
-
     <div class="shell">
-      <nav class="nav" aria-label="YTIntel navigation">
-        <button class="on" data-tab="analyse">◉ Analyse</button>
-        <button data-tab="competitors">◎ Competitors</button>
-        <button data-tab="vault">▱ Vault</button>
-      </nav>
-
+      <nav class="nav" aria-label="YTIntel navigation"><button class="on" data-tab="analyse">◉ Analyse</button><button data-tab="competitors">◎ Competitors</button><button data-tab="vault">▱ Vault</button></nav>
       <div class="content">
         <section class="view active" id="analyse">
-          <div class="hero">
-            <div class="eyebrow">YTINTEL ENDGAME · 07/09/26 MONDAY BRIEF</div>
-            <h1>Find the winner. Understand it. Make yours better.</h1>
-            <p>One source video becomes the locked 17-section research brief: transcript-backed watch replacement, hook/rehook/payoff, replay, media evidence, packaging, channel context, Creator-DNA remake, export and a compounding vault.</p>
-            <form class="formrow" id="analyseForm">
-              <input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required>
-              <button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button>
-            </form>
-          </div>
-
-          <section class="card" style="margin-bottom:16px">
-            <div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">local + account sync when signed in</span></div>
-            <div class="grid" style="margin-top:12px">
-              <div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div>
-              <div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div>
-              <div class="c6"><label class="eyebrow" for="creator_audience">Audience</label><input class="input" id="creator_audience" placeholder="Who is this for?"></div>
-              <div class="c6"><label class="eyebrow" for="creator_brand">Brand rules</label><textarea class="textarea" id="creator_brand" placeholder="Tone, evidence rules, what you never copy, thumbnail rules…"></textarea></div>
-            </div>
-            <div class="actions" style="margin-top:10px"><button class="btn" id="saveCreator" type="button">Save Creator DNA</button><span class="muted" id="creatorSaved"></span></div>
-          </section>
-
-          <section class="card progress-card hidden" id="progressCard">
-            <div class="progress-top"><div class="grow"><div class="eyebrow">LIVE RESEARCH ROADMAP</div><b id="progressMsg">Starting…</b></div><span class="pill" id="progressState">RUNNING</span><strong id="progressPct">0%</strong></div>
-            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-            <div class="agents" id="agents"></div>
-          </section>
-          <div class="badbox hidden" id="analyseError"></div>
-          <div id="report"></div>
+          <div class="hero"><div class="eyebrow">YTINTEL ENDGAME · 07/09/26 MONDAY BRIEF</div><h1>Find the winner. Understand it. Make yours better.</h1><p>One source video becomes the locked 17-section research brief: transcript-backed watch replacement, hook/rehook/payoff, replay, media evidence, packaging, channel context, Creator-DNA remake, export and a compounding vault.</p><form class="formrow" id="analyseForm"><input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required><button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button></form></div>
+          <section class="card" style="margin-bottom:16px"><div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">local + account sync when signed in</span></div><div class="grid" style="margin-top:12px"><div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div><div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div><div class="c6"><label class="eyebrow" for="creator_audience">Audience</label><input class="input" id="creator_audience" placeholder="Who is this for?"></div><div class="c6"><label class="eyebrow" for="creator_brand">Brand rules</label><textarea class="textarea" id="creator_brand" placeholder="Tone, evidence rules, what you never copy, thumbnail rules…"></textarea></div></div><div class="actions" style="margin-top:10px"><button class="btn" id="saveCreator" type="button">Save Creator DNA</button><span class="muted" id="creatorSaved"></span></div></section>
+          <section class="card progress-card hidden" id="progressCard"><div class="progress-top"><div class="grow"><div class="eyebrow">LIVE RESEARCH ROADMAP</div><b id="progressMsg">Starting…</b></div><span class="pill" id="progressState">RUNNING</span><strong id="progressPct">0%</strong></div><div class="progress-track"><div class="progress-bar" id="progressBar"></div></div><div class="agents" id="agents"></div></section>
+          <div class="badbox hidden" id="analyseError"></div><div id="report"></div>
         </section>
-
-        <section class="view" id="competitors">
-          <div class="hero"><div class="eyebrow">WATCHTOWER</div><h1>Know who is moving.</h1></div>
-        </section>
-
-        <section class="view" id="vault">
-          <div class="hero"><div class="eyebrow">COMPOUNDING VAULT</div><h1>Your research should compound.</h1></div>
-        </section>
+        <section class="view" id="competitors"><div class="hero"><div class="eyebrow">WATCHTOWER</div><h1>Know who is moving.</h1></div></section>
+        <section class="view" id="vault"><div class="hero"><div class="eyebrow">COMPOUNDING VAULT</div><h1>Your research should compound.</h1></div></section>
       </div>
     </div>
   </main>
-
-  <nav class="mobile-dock" aria-label="Mobile navigation">
-    <button class="on" data-dock="analyse">Analyse</button>
-    <button data-dock="competitors">Competitors</button>
-    <button data-dock="vault">Vault</button>
-  </nav>
-
-  <script type="module" src="v360-endgame.js?v=0360"></script>
+  <nav class="mobile-dock" aria-label="Mobile navigation"><button class="on" data-dock="analyse">Analyse</button><button data-dock="competitors">Competitors</button><button data-dock="vault">Vault</button></nav>
+  <script type="module" src="v360-entry.js?v=0360"></script>
 </body>
 </html>
