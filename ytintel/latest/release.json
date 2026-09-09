@@ -3,21 +3,26 @@
   "version": "v0.36.1",
   "title": "Intelligence Review — source first, no repetition",
   "summary": "The 09/09 review is implemented: Creator DNA is asked only after sign-in, source-video taxonomy is independent of the user's profile, the Monday Brief label is removed from the product UI, and evidence-mode Summary/Takeaways/Payoffs are rebuilt around distinct interpreted evidence rather than repeated transcript windows.",
-  "published_at": null,
+  "published_at": "2026-09-09T11:29:00Z",
   "discord_changes": [
     "INTELLIGENCE FIX: Summary, Takeaways and Payoffs now de-duplicate evidence and separate interpretation from source receipts instead of printing overlapping transcript blocks.",
-    "SOURCE TAXONOMY: the strip now labels the VIDEO's niche/subniche from its own title/description/transcript evidence — Creator DNA can no longer leak into source metadata.",
-    "ACCOUNT FLOW: Creator DNA questions are hidden until the user signs in; signed-out users can still analyse source videos without being asked personalisation questions."
+    "SOURCE TAXONOMY: the strip now labels the VIDEO's niche/subniche from its own title, description and transcript evidence — Creator DNA can no longer leak into source metadata.",
+    "ACCOUNT FLOW: Creator DNA questions are hidden until the user signs in; signed-out users can still analyse source videos without being asked personalisation questions.",
+    "CLEAN CORE: stale Heart Lock/old-roadmap copy is removed; missing source stats show as unavailable instead of fake zeroes."
   ],
   "changes": [
     "Removed the user-facing 'Monday Brief' label while preserving the locked 17-section structure internally.",
-    "Added a source-video taxonomy pass for niche/subniche that is independent of the creator profile.",
+    "Added a source-video taxonomy pass for niche/subniche that is independent of the creator profile and now uses transcript context to refine the subniche.",
     "Replaced evidence-mode summary windows with 10-12 distinct chronological interpreted beats plus concise source receipts.",
     "Added a source-derived main-message card and observable-mechanics why-it-likely-worked verdict without claiming private retention causality.",
     "Rebuilt evidence-mode takeaways so each lesson is distinct and carries one exact timestamped source receipt; numbered/facts videos preserve real list items when available.",
     "Rebuilt payoff detection around strong receipt/reveal/demonstration events, with spacing and semantic de-duplication, instead of every 30-second cue window.",
     "Creator DNA onboarding is suppressed before auth and appears only after sign-in when no complete profile exists.",
+    "Account sync, browser-AI capability checks and legacy cleanup are bounded/background operations and can no longer block the app from loading.",
+    "Removed stale Heart Lock/Watchtower-next copy from the final shell and made v0.36.1 the sole visible release owner.",
+    "Missing subscriber/comment/like source values are displayed as unavailable rather than misleading zeroes.",
     "Preserved Group Video Analysis, Watchtower, Hook/Package/Style banks, account-backed Vault sync and zero-credit local multimodal paths from the v0.36 Endgame candidate.",
+    "Expected media-source limitations are handled as a limited evidence state instead of leaking an unhandled page error.",
     "Cache identity bumped so stale pre-review code is not silently reused."
   ],
   "known_limitations": [
@@ -26,5 +31,5 @@
     "Most Replayed is treated as real only when public curve data is exposed.",
     "On-device multimodal model support depends on the user's browser/device and may require a local model download."
   ],
-  "why_it_matters": "The layout was already clean; this release makes the evidence-mode core materially less repetitive and stops user profile data from contaminating source-video analysis."
+  "why_it_matters": "The layout was already clean; this release fixes the intelligence failures in the review: source metadata is source-derived, watch replacement is synthesized instead of repeated, payoff evidence is selective, and personalisation no longer contaminates the source analysis."
 }
