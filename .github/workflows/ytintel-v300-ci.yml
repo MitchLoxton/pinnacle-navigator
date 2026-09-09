@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.35.0 heart-lock Monday Brief core
+      - name: Validate v0.35.1 intelligence repair
         shell: bash
         run: |
           set -euo pipefail
@@ -27,26 +27,26 @@ jobs:
           node --check ytintel/latest/v341-quality-core.js
           node --check ytintel/latest/v342-brief-intelligence.js
           node --check ytintel/latest/v350-heart-lock.js
+          node --check ytintel/latest/v351-intelligence-repair.js
+          node --check ytintel/latest/v310-deep-research.js
+          node --check ytintel/latest/v291-auth-core.js
+          node --check ytintel/latest/v281-auth-fix.js
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0350" ytintel/latest/sw.js
-          grep -q "v350-heart-lock.js?v=0350" ytintel/latest/index.html
-          grep -q "v340-zero-credit.css?v=0350" ytintel/latest/index.html
+          grep -q "ytintel-shell-v0351" ytintel/latest/sw.js
+          grep -q "v351-intelligence-repair.js?v=0351" ytintel/latest/index.html
+          grep -q "v340-zero-credit.css?v=0351" ytintel/latest/index.html
+          grep -q 'id="creatorCard"' ytintel/latest/index.html
+          grep -q 'hidden aria-hidden="true"' ytintel/latest/index.html
           test "$(grep -o '<script src=' ytintel/latest/index.html | wc -l)" -eq 1
-          ! grep -q "v201-always-on.js" ytintel/latest/index.html
-          ! grep -q "v310-deep-research.js" ytintel/latest/index.html
-          ! grep -q "v291-auth-core.js" ytintel/latest/index.html
-          ! grep -q "Smart Start" ytintel/latest/index.html
-          ! grep -q "Research Sprint" ytintel/latest/index.html
-          grep -q "section(17,'Full transcript'" ytintel/latest/v340-zero-credit.js
-          grep -q "cross_segment_overlap_removed" ytintel/latest/v341-quality-core.js
-          grep -q "YouTube’s shift toward television viewing" ytintel/latest/v342-brief-intelligence.js
-          grep -q "ROADMAP" ytintel/latest/v350-heart-lock.js
+          ! grep -q "MONDAY BRIEF" ytintel/latest/index.html
+          grep -q "analysed video, not Creator DNA" ytintel/latest/v351-intelligence-repair.js
+          grep -q "MODEL-REVIEWED WATCH REPLACEMENT" ytintel/latest/v351-intelligence-repair.js
+          grep -q "duplicate rolling captions are ignored" ytintel/latest/v351-intelligence-repair.js
           grep -q "Creator DNA" ytintel/latest/v350-heart-lock.js
-          grep -q "No fake 10-minute wait" ytintel/latest/v350-heart-lock.js
-          grep -q "WHY IT POPPED" ytintel/latest/v350-heart-lock.js
+          grep -q "ROADMAP" ytintel/latest/v350-heart-lock.js
           grep -q "P0 — Heart of the tool" ytintel/ENDGAME_BRIEF.md
           grep -q "research-stage" ytintel/tests/production-v031.mjs
           node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs
-          echo "YTIntel v0.35.0 heart-lock contracts passed."
+          echo "YTIntel v0.35.1 intelligence repair contracts passed."
