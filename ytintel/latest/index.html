@@ -9,10 +9,10 @@
   <meta name="description" content="YTIntel: source-backed winning-video analysis, creator-tailored remake intelligence and a compounding vault.">
   <title>YTIntel — Creator Intelligence</title>
   <link rel="canonical" href="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
-  <link rel="icon" href="icon.svg?v=0350" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=0350">
-  <link rel="manifest" href="manifest.webmanifest?v=0350">
-  <link rel="stylesheet" href="v340-zero-credit.css?v=0350">
+  <link rel="icon" href="icon.svg?v=0351" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=0351">
+  <link rel="manifest" href="manifest.webmanifest?v=0351">
+  <link rel="stylesheet" href="v340-zero-credit.css?v=0351">
 </head>
 <body>
   <div class="boot" id="boot" aria-live="polite">
@@ -27,8 +27,8 @@
     <header class="topbar">
       <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div>
       <div class="top-grow"></div>
-      <div class="mode"><span class="dot"></span><span class="mode-copy">Evidence first</span><strong id="localMode">Checking local intelligence…</strong></div>
-      <span class="version" id="version">v0.35.0</span>
+      <div class="mode"><span class="dot"></span><span class="mode-copy">Evidence first</span><strong id="localMode">Checking intelligence…</strong></div>
+      <span class="version" id="version">v0.35.1</span>
     </header>
 
     <div class="shell">
@@ -43,15 +43,15 @@
           <div class="hero">
             <div class="eyebrow">YTINTEL ENDGAME · HEART LOCK</div>
             <h1>Find the winner. Understand it. Make yours better.</h1>
-            <p>Single-video deep analysis is the heart of YTIntel: a locked 17-section report that replaces watching the whole source, separates interpretation from receipts, and turns the useful mechanics into a creator-tailored blueprint.</p>
+            <p>Single-video deep analysis is the heart of YTIntel: a locked 17-section report that replaces watching the whole source, separates interpretation from receipts, and turns useful mechanics into a creator-tailored blueprint.</p>
             <form class="formrow" id="analyseForm">
               <input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required>
               <button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button>
             </form>
           </div>
 
-          <section class="card" style="margin-bottom:16px">
-            <div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">saved locally for now</span></div>
+          <section class="card" id="creatorCard" style="margin-bottom:16px" hidden aria-hidden="true">
+            <div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">signed-in tailoring context</span></div>
             <div class="grid" style="margin-top:12px">
               <div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div>
               <div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div>
@@ -74,7 +74,7 @@
           <div class="hero">
             <div class="eyebrow">WATCHTOWER · NEXT PRODUCT SLICE</div>
             <h1>Know who is moving.</h1>
-            <p>Watchtower is deliberately outside the active v0.35.0 flow while the single-video analysis heart is being perfected.</p>
+            <p>Watchtower is deliberately outside the active v0.35.1 flow while the single-video analysis heart is being perfected.</p>
             <div class="formrow"><input class="input" id="competitorInput" placeholder="Paste @handle or YouTube channel URL"><button class="btn primary" id="addCompetitor" type="button">Add competitor</button></div>
           </div>
           <div class="comp-list" id="competitorList"></div>
@@ -84,7 +84,7 @@
           <div class="hero">
             <div class="eyebrow">NICHE / SUBNICHE MEMORY</div>
             <h1>Your research should compound.</h1>
-            <p>Every completed winner is banked with its report and reusable packaging/hook context so the future comparison surfaces can learn from the whole history.</p>
+            <p>Every completed winner is banked with its report and reusable packaging/hook context so future comparison surfaces can learn from the whole history.</p>
           </div>
           <div class="vault-list" id="vaultList"></div>
         </section>
@@ -98,6 +98,6 @@
     <button data-dock="vault">Vault</button>
   </nav>
 
-  <script src="v350-heart-lock.js?v=0350" defer></script>
+  <script src="v351-intelligence-repair.js?v=0351" defer></script>
 </body>
 </html>
