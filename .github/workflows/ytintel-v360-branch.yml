@@ -24,7 +24,9 @@ jobs:
         run: |
           set -euo pipefail
           node --input-type=module --check < ytintel/latest/v360-entry.js
+          node --input-type=module --check < ytintel/latest/v361-capability-guard.js
           node --input-type=module --check < ytintel/latest/v361-review-fixes.js
+          node --input-type=module --check < ytintel/latest/v362-source-polish.js
           node --input-type=module --check < ytintel/latest/v360-endgame.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
@@ -34,6 +36,7 @@ jobs:
           grep -q 'v360-entry.js?v=0361' ytintel/latest/index.html
           grep -q 'v360-endgame.css?v=0361' ytintel/latest/index.html
           grep -q 'v361-review-fixes.js?v=0361' ytintel/latest/v360-entry.js
+          grep -q 'v362-source-polish.js?v=0361' ytintel/latest/v360-entry.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
           ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
@@ -42,6 +45,7 @@ jobs:
           grep -q 'ytintel_analysis_vault' ytintel/latest/v360-cloud.js
           grep -q 'Sign in before Creator DNA' ytintel/latest/v361-review-fixes.js
           grep -q 'SOURCE-SYNTHESIZED WATCH REPLACEMENT' ytintel/latest/v361-review-fixes.js
+          grep -q 'DEEP VIDEO ANALYSIS' ytintel/latest/v362-source-polish.js
       - name: Real zero-credit media backend contract
         run: node ytintel/tests/v360-media-contract.mjs
       - name: Install browser
