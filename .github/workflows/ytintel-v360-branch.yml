@@ -13,7 +13,7 @@ permissions:
 jobs:
   endgame:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,8 +55,13 @@ jobs:
       - name: Start local YTIntel shell
         shell: bash
         run: |
-          python3 -m http.server 4173 > /tmp/ytintel-v360-http.log 2>&1 &
-          echo $! > /tmp/ytintel-v360-http.pid
-          sleep 2
+          nohup python3 -m http.server 4173 </dev/null >/tmp/ytintel-v360-http.log 2>&1 &
+          echo $! >/tmp/ytintel-v360-http.pid
+          for i in {1..20}; do
+            if curl --silent --fail http://127.0.0.1:4173/ytintel/latest/ >/dev/null; then exit 0; fi
+            sleep 0.25
+          done
+          cat /tmp/ytintel-v360-http.log
+          exit 1
       - name: Full Endgame browser acceptance
         run: node ytintel/tests/v360-branch-browser.mjs
