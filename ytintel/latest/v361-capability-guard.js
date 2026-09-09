@@ -12,6 +12,10 @@ export function installCapabilityGuard(){
   let guarded=false;
   try{guarded=wrapMethod(window.LanguageModel,'availability','unavailable',1500)||guarded}catch{}
   try{guarded=wrapMethod(window.ai?.languageModel,'capabilities',{available:'no'},1500)||guarded}catch{}
+  try{guarded=wrapMethod(navigator.serviceWorker,'getRegistrations',[],1200)||guarded}catch{}
+  try{guarded=wrapMethod(window.ServiceWorkerRegistration?.prototype,'unregister',false,1000)||guarded}catch{}
+  try{guarded=wrapMethod(window.caches,'keys',[],1200)||guarded}catch{}
+  try{guarded=wrapMethod(window.caches,'delete',false,900)||guarded}catch{}
   document.documentElement.dataset.ytintelCapabilityGuard=guarded?'bounded':'not-needed';
   return guarded;
 }
