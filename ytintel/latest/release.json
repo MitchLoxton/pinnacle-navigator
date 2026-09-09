@@ -1,32 +1,33 @@
 {
-  "release_id": "ytintel-0.35.0-heart-lock",
-  "version": "v0.35.0",
-  "title": "Heart Lock — single-video analysis first",
-  "summary": "YTIntel is now structurally focused on the endgame heart: one winning video in, a locked 17-section report out, creator DNA applied, and reusable intelligence banked for the vault.",
-  "published_at": "2026-09-08T14:05:00Z",
+  "release_id": "ytintel-0.35.1-intelligence-repair",
+  "version": "v0.35.1",
+  "title": "Intelligence Repair — source first, no transcript spam",
+  "summary": "The clean 17-section shell now separates the analysed video's topic from Creator DNA, gates Creator DNA behind sign-in, removes the Monday Brief label and replaces repetitive transcript dumps with source-specific intelligence plus reviewed model synthesis when available.",
+  "published_at": "2026-09-09T11:45:00Z",
   "discord_changes": [
-    "HEART LOCK: Analyse + Vault are the active product. Watchtower is deliberately hidden until the 17-section single-video core is excellent.",
-    "CREATOR DNA: first-run setup now asks niche, subniche, channel, audience, brand rules and key competitors so prescriptive output has user context.",
-    "RESEARCH CONSOLE: analysis now exposes real task/workstream status, the 17-section roadmap and an activity feed — without fake waiting or hidden chain-of-thought."
+    "SOURCE DNA FIX: niche + subniche now describe the analysed video, never the creator profile.",
+    "INTELLIGENCE FIX: hooks, re-hooks, payoffs and stealable mechanics are deduplicated and interpreted instead of repeating transcript blocks.",
+    "AUTH + UX FIX: Creator DNA is only shown after sign-in and the old Monday Brief label is gone."
   ],
   "changes": [
-    "Added a canonical ENDGAME_BRIEF.md so the product scope and exact 17-section Monday Brief order stop drifting.",
-    "Added a first-run Creator DNA profile with niche, subniche, user channel, audience, brand rules and key competitors.",
-    "Composed user channel and key-competitor context into the existing creator-tailoring context used by local remake synthesis.",
-    "Added a live research workstream console with source, structure, retention, replay/visual, audio, packaging/channel, blueprint and cross-check lanes.",
-    "Added a visible 17-section analysis roadmap driven by actual pipeline progress rather than an artificial ten-minute timer.",
-    "Added an activity feed that shows concise task/evidence outcomes instead of hidden model reasoning.",
-    "Added a source-backed why-it-popped mechanics hypothesis to the summary section.",
-    "Added an intelligence bank that stores completed winner packages, opening hooks and creator context for later vault comparison surfaces.",
-    "Hidden the Watchtower/Competitors surface from the active v0.35.0 navigation while preserving its underlying code for the next product slice.",
-    "Preserved the deduplicated transcript/WPM correction and the exact 17-section report contract from v0.34.2."
+    "Added v351-intelligence-repair.js as the new single browser entry point while preserving the v0.35 Heart Lock layout.",
+    "Restored the canonical YTIntel authentication layer before Creator DNA is exposed; the Creator DNA card is hidden by default until an authenticated session is established.",
+    "Separated creator-tailoring metadata from source-video classification so the strip and vault store the analysed video's niche/subniche, not the user's own niche/subniche.",
+    "Added source classification for mixed topics such as AI + e-commerce and explicit source-specific subniches such as Claude workflows for organic dropshipping.",
+    "Removed the visible Monday Brief branding from analysis sections; the report now identifies itself as YTIntel Analysis.",
+    "Rebuilt hook analysis around distinct opening-line functions with concise receipts instead of overlapping transcript windows.",
+    "Rebuilt re-hooks around distinct attention resets and suppressed duplicate rolling-caption blocks.",
+    "Rebuilt payoffs around distinct evidence/result moments, preventing the same source paragraph from being printed every 30 seconds.",
+    "Rebuilt Things to Steal around transferable mechanisms and explicit do-not-copy constraints.",
+    "Reconnected the reviewed deep-research model pipeline so summary, takeaways, mechanics and creator-tailored remake can replace deterministic output after passing source/evidence quality gates.",
+    "Kept the strong Packaging section and the clean 17-section visual structure intact while repairing the intelligence underneath it.",
+    "Updated the PWA shell/cache so v0.35.1 and its auth/intelligence dependencies refresh cleanly on installed devices."
   ],
   "known_limitations": [
-    "Full frame-by-frame video inspection is not yet available when the source engine does not provide actual frames/video.",
+    "Full frame-by-frame inspection still requires actual frame/video evidence; YTIntel will not invent motion graphics, transitions or B-roll when the source does not expose usable media.",
     "Acoustic music/SFX analysis is not claimed when raw audio is unavailable.",
-    "Most Replayed is only treated as real when a public replay curve is actually exposed; otherwise hypotheses remain labelled hypotheses.",
-    "Zero-credit mode cannot guarantee frontier cloud-model reasoning. Sections 2, 3, 14 and 16 use genuine on-device model synthesis only when a ready local model exists.",
-    "Creator DNA is local-first in this release; account-backed profile persistence can be wired when the login/account layer is reintroduced."
+    "Most Replayed is only treated as measured when a public replay curve is exposed; otherwise replay-related interpretation remains explicitly limited.",
+    "Reviewed frontier synthesis depends on the configured server-side model provider having usable quota/credits. If it is unavailable, the deduplicated deterministic evidence pass remains active rather than fabricating model output."
   ],
-  "why_it_matters": "The product now has one explicit center of gravity: save creators from watching and manually dissecting a winning video, then turn the evidence into something useful for their own channel."
+  "why_it_matters": "The previous build looked sophisticated but too often behaved like a transcript viewer. This release keeps the premium structure and makes the core analysis materially more source-specific, non-repetitive and useful."
 }
