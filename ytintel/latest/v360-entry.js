@@ -1,4 +1,5 @@
 document.documentElement.classList.add('v360-loading');
+await import('./v361-capability-guard.js?v=0361');
 await import('./v361-review-fixes.js?v=0361');
 await import('./v360-endgame.js?v=0361');
 window.YTINTEL_VERSION='0.36.1';
