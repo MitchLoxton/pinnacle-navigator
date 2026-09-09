@@ -24,19 +24,24 @@ jobs:
         run: |
           set -euo pipefail
           node --input-type=module --check < ytintel/latest/v360-entry.js
+          node --input-type=module --check < ytintel/latest/v361-review-fixes.js
           node --input-type=module --check < ytintel/latest/v360-endgame.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q 'v360-entry.js?v=0360' ytintel/latest/index.html
-          grep -q 'v360-endgame.css?v=0360' ytintel/latest/index.html
+          jq empty ytintel/latest/release.json
+          grep -q 'v360-entry.js?v=0361' ytintel/latest/index.html
+          grep -q 'v360-endgame.css?v=0361' ytintel/latest/index.html
+          grep -q 'v361-review-fixes.js?v=0361' ytintel/latest/v360-entry.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
           ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
           grep -q 'GROUP VIDEO ANALYSIS' ytintel/latest/v360-endgame.js
           grep -q 'WATCHTOWER' ytintel/latest/v360-endgame.js
           grep -q 'ytintel_analysis_vault' ytintel/latest/v360-cloud.js
+          grep -q 'Sign in before Creator DNA' ytintel/latest/v361-review-fixes.js
+          grep -q 'SOURCE-SYNTHESIZED WATCH REPLACEMENT' ytintel/latest/v361-review-fixes.js
       - name: Real zero-credit media backend contract
         run: node ytintel/tests/v360-media-contract.mjs
       - name: Install browser
