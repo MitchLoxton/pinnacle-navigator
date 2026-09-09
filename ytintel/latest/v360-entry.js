@@ -2,10 +2,15 @@ document.documentElement.classList.add('v360-loading');
 await import('./v361-capability-guard.js?v=0361');
 await import('./v361-review-fixes.js?v=0361');
 await import('./v360-endgame.js?v=0361');
-window.YTINTEL_VERSION='0.36.1';
-document.documentElement.dataset.ytintelVersion='0.36.1';
-const version=document.querySelector('#version');if(version)version.textContent='v0.36.1';
+const RELEASE='0.36.1';
+let releaseValue=RELEASE;
+try{Object.defineProperty(window,'YTINTEL_VERSION',{configurable:true,enumerable:true,get:()=>releaseValue,set:v=>{if(String(v)===RELEASE)releaseValue=RELEASE}})}catch{window.YTINTEL_VERSION=RELEASE}
+document.documentElement.dataset.ytintelVersion=RELEASE;
+const version=document.querySelector('#version');
+const ownVisibleVersion=()=>{if(version&&version.textContent!==`v${RELEASE}`)version.textContent=`v${RELEASE}`};
+ownVisibleVersion();
+if(version)new MutationObserver(ownVisibleVersion).observe(version,{childList:true,subtree:true,characterData:true});
 const p=document.querySelector('#progressPct');
 if(p){new MutationObserver(()=>{if(/^NaN%$/i.test((p.textContent||'').trim())){p.textContent='98%';const b=document.querySelector('#progressBar');if(b)b.style.width='98%';const m=document.querySelector('#progressMsg');if(m)m.textContent='On-device specialists are completing their cross-checks…'}}).observe(p,{childList:true,subtree:true,characterData:true})}
-if('serviceWorker'in navigator){try{await navigator.serviceWorker.register('./sw.js?v=0361',{scope:'./'}).catch(()=>null)}catch{}}
+if('serviceWorker'in navigator){try{navigator.serviceWorker.register('./sw.js?v=0361',{scope:'./'}).catch(()=>null)}catch{}}
 document.documentElement.classList.remove('v360-loading');
