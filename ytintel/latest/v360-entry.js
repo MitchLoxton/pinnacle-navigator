@@ -2,6 +2,7 @@ document.documentElement.classList.add('v360-loading');
 await import('./v361-capability-guard.js?v=0361');
 await import('./v361-review-fixes.js?v=0361');
 await import('./v360-endgame.js?v=0361');
+await import('./v362-source-polish.js?v=0361');
 const RELEASE='0.36.1';
 let releaseValue=RELEASE;
 try{Object.defineProperty(window,'YTINTEL_VERSION',{configurable:true,enumerable:true,get:()=>releaseValue,set:v=>{if(String(v)===RELEASE)releaseValue=RELEASE}})}catch{window.YTINTEL_VERSION=RELEASE}
