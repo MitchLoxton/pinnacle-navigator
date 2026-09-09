@@ -8,6 +8,14 @@ function wrapMethod(owner,name,fallback,ms=1500){
   try{Object.defineProperty(owner,name,{value:bounded,writable:true,configurable:true});return owner[name]===bounded}catch{}
   return false;
 }
+function installExpectedMediaLimitGuard(){
+  window.addEventListener('unhandledrejection',event=>{
+    const message=String(event.reason?.message||event.reason||'');
+    if(!/No reliable media metadata source|YTIntel media service 502|Piped media fallback unavailable|Invidious media fallback unavailable/i.test(message))return;
+    event.preventDefault();
+    document.documentElement.dataset.ytintelMediaLimited='1';
+  });
+}
 export function installCapabilityGuard(){
   let guarded=false;
   try{guarded=wrapMethod(window.LanguageModel,'availability','unavailable',1500)||guarded}catch{}
@@ -19,4 +27,5 @@ export function installCapabilityGuard(){
   document.documentElement.dataset.ytintelCapabilityGuard=guarded?'bounded':'not-needed';
   return guarded;
 }
+installExpectedMediaLimitGuard();
 installCapabilityGuard();
