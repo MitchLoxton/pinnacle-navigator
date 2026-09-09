@@ -1,32 +1,30 @@
 {
-  "release_id": "ytintel-0.35.0-heart-lock",
-  "version": "v0.35.0",
-  "title": "Heart Lock — single-video analysis first",
-  "summary": "YTIntel is now structurally focused on the endgame heart: one winning video in, a locked 17-section report out, creator DNA applied, and reusable intelligence banked for the vault.",
-  "published_at": "2026-09-08T14:05:00Z",
+  "release_id": "ytintel-0.36.1-intelligence-review",
+  "version": "v0.36.1",
+  "title": "Intelligence Review — source first, no repetition",
+  "summary": "The 09/09 review is implemented: Creator DNA is asked only after sign-in, source-video taxonomy is independent of the user's profile, the Monday Brief label is removed from the product UI, and evidence-mode Summary/Takeaways/Payoffs are rebuilt around distinct interpreted evidence rather than repeated transcript windows.",
+  "published_at": null,
   "discord_changes": [
-    "HEART LOCK: Analyse + Vault are the active product. Watchtower is deliberately hidden until the 17-section single-video core is excellent.",
-    "CREATOR DNA: first-run setup now asks niche, subniche, channel, audience, brand rules and key competitors so prescriptive output has user context.",
-    "RESEARCH CONSOLE: analysis now exposes real task/workstream status, the 17-section roadmap and an activity feed — without fake waiting or hidden chain-of-thought."
+    "INTELLIGENCE FIX: Summary, Takeaways and Payoffs now de-duplicate evidence and separate interpretation from source receipts instead of printing overlapping transcript blocks.",
+    "SOURCE TAXONOMY: the strip now labels the VIDEO's niche/subniche from its own title/description/transcript evidence — Creator DNA can no longer leak into source metadata.",
+    "ACCOUNT FLOW: Creator DNA questions are hidden until the user signs in; signed-out users can still analyse source videos without being asked personalisation questions."
   ],
   "changes": [
-    "Added a canonical ENDGAME_BRIEF.md so the product scope and exact 17-section Monday Brief order stop drifting.",
-    "Added a first-run Creator DNA profile with niche, subniche, user channel, audience, brand rules and key competitors.",
-    "Composed user channel and key-competitor context into the existing creator-tailoring context used by local remake synthesis.",
-    "Added a live research workstream console with source, structure, retention, replay/visual, audio, packaging/channel, blueprint and cross-check lanes.",
-    "Added a visible 17-section analysis roadmap driven by actual pipeline progress rather than an artificial ten-minute timer.",
-    "Added an activity feed that shows concise task/evidence outcomes instead of hidden model reasoning.",
-    "Added a source-backed why-it-popped mechanics hypothesis to the summary section.",
-    "Added an intelligence bank that stores completed winner packages, opening hooks and creator context for later vault comparison surfaces.",
-    "Hidden the Watchtower/Competitors surface from the active v0.35.0 navigation while preserving its underlying code for the next product slice.",
-    "Preserved the deduplicated transcript/WPM correction and the exact 17-section report contract from v0.34.2."
+    "Removed the user-facing 'Monday Brief' label while preserving the locked 17-section structure internally.",
+    "Added a source-video taxonomy pass for niche/subniche that is independent of the creator profile.",
+    "Replaced evidence-mode summary windows with 10-12 distinct chronological interpreted beats plus concise source receipts.",
+    "Added a source-derived main-message card and observable-mechanics why-it-likely-worked verdict without claiming private retention causality.",
+    "Rebuilt evidence-mode takeaways so each lesson is distinct and carries one exact timestamped source receipt; numbered/facts videos preserve real list items when available.",
+    "Rebuilt payoff detection around strong receipt/reveal/demonstration events, with spacing and semantic de-duplication, instead of every 30-second cue window.",
+    "Creator DNA onboarding is suppressed before auth and appears only after sign-in when no complete profile exists.",
+    "Preserved Group Video Analysis, Watchtower, Hook/Package/Style banks, account-backed Vault sync and zero-credit local multimodal paths from the v0.36 Endgame candidate.",
+    "Cache identity bumped so stale pre-review code is not silently reused."
   ],
   "known_limitations": [
-    "Full frame-by-frame video inspection is not yet available when the source engine does not provide actual frames/video.",
-    "Acoustic music/SFX analysis is not claimed when raw audio is unavailable.",
-    "Most Replayed is only treated as real when a public replay curve is actually exposed; otherwise hypotheses remain labelled hypotheses.",
-    "Zero-credit mode cannot guarantee frontier cloud-model reasoning. Sections 2, 3, 14 and 16 use genuine on-device model synthesis only when a ready local model exists.",
-    "Creator DNA is local-first in this release; account-backed profile persistence can be wired when the login/account layer is reintroduced."
+    "Frontier cloud-model quality cannot be provided without a separately billed model API; zero-credit mode uses the strongest available on-device model plus deterministic source synthesis.",
+    "YouTube may not expose storyboard/direct-media sources on every request. Missing visual/audio sources stay explicitly unavailable rather than being fabricated.",
+    "Most Replayed is treated as real only when public curve data is exposed.",
+    "On-device multimodal model support depends on the user's browser/device and may require a local model download."
   ],
-  "why_it_matters": "The product now has one explicit center of gravity: save creators from watching and manually dissecting a winning video, then turn the evidence into something useful for their own channel."
+  "why_it_matters": "The layout was already clean; this release makes the evidence-mode core materially less repetitive and stops user profile data from contaminating source-video analysis."
 }
