@@ -1,24 +1,24 @@
 {
-  "schemaVersion": 7,
-  "appVersion": "1.8.1",
-  "updatedAt": "2026-09-04T22:08:00+08:00",
+  "schemaVersion": 8,
+  "appVersion": "1.9.0",
+  "updatedAt": "2026-09-10T19:50:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
-    "date": "2026-09-06",
+    "date": "2026-09-13",
     "venue": "Sha Tin",
     "country": "Hong Kong",
     "track": "Turf",
-    "course": "A",
-    "meetingNo": 1,
-    "status": "FIELDS CONFIRMED",
-    "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?racedate=2026%2F09%2F06"
+    "course": "B",
+    "meetingNo": 3,
+    "status": "FIELDS CONFIRMED · SHADOW SCORING ONLY",
+    "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F13"
   },
-  "systemStatus": "HK OPTIMAL V4 LOADED · DAILY RISK GUARD · LIVE MODEL/QUOTE/RISK FEED REQUIRED",
-  "systemMessage": "Hong Kong keeps the OPTIMAL V3 horse-selection model and stake schedule, but V4 adds a strict race-day risk guard: maximum two confirmed Hong Kong bets per race day and no new bet after realised Hong Kong P/L for that day reaches -A$10,000 or worse. Maximum one horse per race and 100 bets per calendar year remain hard rules.",
+  "systemStatus": "HK OPTIMAL V4 FROZEN · SHADOW FORWARD VALIDATION · PRODUCTION EXECUTION BLOCKED",
+  "systemMessage": "Hong Kong OPTIMAL V4 remains frozen for forward validation. V4 keeps the V3 horse-selection model and stake schedule and adds a strict race-day risk guard: maximum two confirmed Hong Kong bets per race day, no new bet after realised Hong Kong P/L for that day reaches -A$10,000 or worse, maximum one horse per race and 100 bets per calendar year. Real-money BET NOW remains disabled until production approval and every live model/quote/capacity/risk gate are independently verified.",
   "strategy": {
     "name": "HK OPTIMAL V4 · DAILY RISK GUARD",
-    "mode": "ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR",
-    "status": "NEW RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED LIVE EXECUTION",
+    "mode": "SHADOW · ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR",
+    "status": "FROZEN RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED",
     "historicalCadence": {
       "completedBets": 393,
       "completedYears": 11,
@@ -57,30 +57,10 @@
     },
     "market": "WIN",
     "rules": {
-      "coreLow": {
-        "requiresR2Core": true,
-        "minOddsInclusive": 4.0,
-        "maxOddsExclusive": 7.0,
-        "stakeAud": 3000
-      },
-      "coreLong": {
-        "requiresR2Core": true,
-        "minOddsInclusive": 18.0,
-        "maxOddsExclusive": 30.0,
-        "stakeAud": 5000
-      },
-      "mainSatellite": {
-        "requiresSatelliteOnly": true,
-        "minOddsInclusive": 3.0,
-        "maxOddsExclusive": 7.0,
-        "maxMarketRank": 2,
-        "stakeAud": 7000
-      },
-      "extraSatellite": {
-        "requiresSatelliteOnly": true,
-        "minimumOriginalRawModelEv": 0.18,
-        "stakeAud": 10000
-      }
+      "coreLow": {"requiresR2Core":true,"minOddsInclusive":4.0,"maxOddsExclusive":7.0,"stakeAud":3000},
+      "coreLong": {"requiresR2Core":true,"minOddsInclusive":18.0,"maxOddsExclusive":30.0,"stakeAud":5000},
+      "mainSatellite": {"requiresSatelliteOnly":true,"minOddsInclusive":3.0,"maxOddsExclusive":7.0,"maxMarketRank":2,"stakeAud":7000},
+      "extraSatellite": {"requiresSatelliteOnly":true,"minimumOriginalRawModelEv":0.18,"stakeAud":10000}
     },
     "dailyRiskGuard": {
       "maxConfirmedBetsPerRaceDay": 2,
@@ -112,6 +92,7 @@
       "maxBetsPerCalendarYear": 100
     },
     "requiredPreBetGates": [
+      "PRODUCTION_APPROVAL_TRUE",
       "HORSE_IDENTITY_VERIFIED",
       "R2_OR_RVENUE_MODEL_CLASSIFICATION_VERIFIED",
       "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
@@ -129,10 +110,10 @@
     "postExecutionAccounting": {
       "acceptedBetConfirmationRequired": true,
       "settlementRequiredForDailyPl": true,
-      "rule": "BET NOW is a pre-bet instruction. After placement, only the actually accepted stake and price count in cash P/L. Settled accepted bets update today's HK realised P/L before the next race is evaluated."
+      "rule": "BET NOW is a pre-bet instruction only after production approval. After placement, only the actually accepted stake and price count in cash P/L."
     },
     "liveFeed": {
-      "status": "NOT VERIFIED",
+      "status": "SHADOW · NOT PRODUCTION VERIFIED",
       "modelClassificationVerified": false,
       "calibratedModelEvVerified": false,
       "executableQuotesVerified": false,
@@ -142,7 +123,8 @@
       "todayRiskVerified": false,
       "confirmedBetsToday": null,
       "realizedPlTodayAud": null,
-      "message": "WAIT — HK OPTIMAL V4 is loaded, but no horse may become BET NOW until model classification, calibrated model EV, within-race ranking, executable WIN price, capacity, yearly bet count and today's daily-risk state are all verified."
+      "lastVerifiedAt": null,
+      "message": "WAIT — SHADOW ONLY. Sha Tin 13 Sep fields are loaded, but no real-money Hong Kong action may unlock until production approval plus model classification, calibrated model EV, within-race ranking, executable WIN price, capacity, yearly bet count and today's daily-risk state are all verified."
     },
     "archivedResearch": {
       "optimalV3": "Same selections/stakes without daily guard: 405 completed bets, A$106.1k historical average/year, A$78.9k stored historical DD, 50.4% historical ROI.",
@@ -152,15 +134,15 @@
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"GLENEALY HANDICAP","timeHkt":"12:30","distanceM":1200,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":2,"name":"DUDDELL HANDICAP","timeHkt":"13:00","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":3,"name":"THE HKSAR CHIEF EXECUTIVE'S CUP (HANDICAP)","timeHkt":"13:30","distanceM":1200,"class":"Group 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":4,"name":"HARCOURT HANDICAP","timeHkt":"14:05","distanceM":1600,"class":"Class 5","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":5,"name":"EDINBURGH HANDICAP","timeHkt":"14:55","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":6,"name":"EDINBURGH HANDICAP","timeHkt":"15:45","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":7,"name":"ALBERT HANDICAP","timeHkt":"16:15","distanceM":1400,"class":"Class 2","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":8,"name":"FENWICK HANDICAP","timeHkt":"16:45","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":9,"name":"COTTON TREE HANDICAP","timeHkt":"17:20","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]},
-    {"race":10,"name":"BATTERY HANDICAP","timeHkt":"17:55","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — OPTIMAL V4 NOT SCORED","signals":[]}
+    {"race":1,"name":"SHA TIN RACE 1","timeHkt":"TBC","distanceM":1000,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":2,"name":"SHA TIN RACE 2","timeHkt":"TBC","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":3,"name":"SHA TIN RACE 3","timeHkt":"TBC","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":4,"name":"SHA TIN RACE 4","timeHkt":"TBC","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":5,"name":"SHA TIN RACE 5","timeHkt":"TBC","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":6,"name":"SHA TIN RACE 6","timeHkt":"TBC","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":7,"name":"SHA TIN RACE 7","timeHkt":"TBC","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":8,"name":"SHA TIN RACE 8","timeHkt":"TBC","distanceM":1600,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":9,"name":"SHA TIN RACE 9","timeHkt":"TBC","distanceM":1400,"class":"Class 5","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
+    {"race":10,"name":"SHA TIN RACE 10","timeHkt":"TBC","distanceM":1400,"class":"Class 5","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]}
   ]
 }
