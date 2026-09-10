@@ -1,0 +1,75 @@
+name: YTIntel v038 Owner Analyse Gate
+on:
+  push:
+    branches: ["ytintel-v038-analysis-redesign"]
+    paths:
+      - "ytintel/latest/**"
+      - "ytintel/tests/v380-owner-browser.mjs"
+      - ".github/workflows/ytintel-v380-branch.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ytintel-v038-owner-gate
+  cancel-in-progress: true
+jobs:
+  owner-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static v038 contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module --check < ytintel/latest/v360-entry.js
+          node --check ytintel/latest/v371-media-rescue.js
+          node --check ytintel/latest/v372-analysis-redesign.js
+          node --check ytintel/latest/v373-owner-polish.js
+          node --check ytintel/tests/v380-owner-browser.mjs
+          jq empty ytintel/latest/release.json
+          grep -q 'v360-entry.js?v=0380' ytintel/latest/index.html
+          grep -q "const RELEASE='0.38.0'" ytintel/latest/v360-entry.js
+          grep -q 'v371-media-rescue.js?v=0380' ytintel/latest/v360-entry.js
+          grep -q 'v372-analysis-redesign.js?v=0380' ytintel/latest/v360-entry.js
+          grep -q 'v373-owner-polish.js?v=0380' ytintel/latest/v360-entry.js
+          grep -q 'ytintel-shell-v0380-r1' ytintel/latest/sw.js
+          grep -q 'VAULTED TO PACKAGE BANK' ytintel/latest/v372-analysis-redesign.js
+          grep -q 'Copy full Markdown for AI' ytintel/latest/v372-analysis-redesign.js
+          grep -q 'context-specific blueprint' ytintel/latest/v372-analysis-redesign.js
+          grep -q 'What appears to matter' ytintel/latest/v373-owner-polish.js
+          test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
+      - name: Verify v093 media rescue health
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --silent --show-error --fail 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/ytintel-v093?action=channel-public' -X OPTIONS >/dev/null
+      - name: Install browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Start local YTIntel shell
+        shell: bash
+        run: |
+          nohup python3 -m http.server 4173 </dev/null >/tmp/ytintel-v038-http.log 2>&1 &
+          for i in {1..20}; do
+            if curl --silent --fail http://127.0.0.1:4173/ytintel/latest/ >/dev/null; then exit 0; fi
+            sleep 0.25
+          done
+          cat /tmp/ytintel-v038-http.log
+          exit 1
+      - name: Owner browser acceptance
+        run: node ytintel/tests/v380-owner-browser.mjs
+      - name: Capture v038 proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ytintel-v038-owner-proof
+          path: |
+            ytintel/latest
+            ytintel/tests/v380-owner-browser.mjs
+            ytintel-v038-owner-mobile.png
+          retention-days: 7
