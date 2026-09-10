@@ -1,19 +1,20 @@
 {
   "schemaVersion": 6,
-  "updatedAt": "2026-09-05T00:23:00+08:00",
+  "updatedAt": "2026-09-10T21:35:00+08:00",
   "masterMode": "SCHEDULED_SHADOW_PLUS_LOCKED_AUTOBET",
   "liveExecutionUnlocked": false,
   "liveExecutionReason": "A server-side Betfair Exchange auto-bet placer is now installed and wired to AU V11 locked signals, but it is deliberately locked because Betfair live credentials are not configured, server enable is OFF and the kill switch is ON.",
   "architecture": {
     "browserRole": "STATUS_CONTROL_ALERTING_AND_MANUAL_EXECUTION_AUDIT",
     "unattendedExecutionRequiresServer": true,
-    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server integrity checks, shadow evaluation, optional auto-placement and post-race state tracking run independently.",
+    "serverReason": "A phone/browser can sleep, close, lose connectivity or suspend background JavaScript. Server integrity checks, shadow evaluation, background push alerts, optional auto-placement and post-race state tracking run independently.",
     "hardFailClosed": true,
     "masterKillSwitchRequired": true,
     "acceptedFillIsTruth": true,
     "databaseTriggerSearchPathHardened": true,
     "raceDayWakeLockAssist": true,
     "optInBetAlerts": true,
+    "serverPushAlerts": true,
     "automaticAll21StateTracking": true,
     "v11StateEvidencePreflight": true,
     "serverAutobetAdapter": true,
@@ -39,12 +40,12 @@
       "Target race date is not stale"
     ],
     "failureRule": "If preflight is missing, stale, blocked or errors, a green AU BET NOW instruction is invalid and auto-placement is blocked.",
-    "lastVerifiedExample": "2026-09-05 target: PASS · 21/21 states matched · MR1|4 and SR6|6 CORE evidence matched"
+    "lastVerifiedExample": "2026-09-12 target: PASS · 21/21 states matched · PR2|6 CORE evidence matched"
   },
   "shadowBackend": {
     "status": "ACTIVE_SCHEDULED",
     "function": "racing-v11-auto",
-    "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR_AND_OPTIONAL_AUTOBET_TRIGGER",
+    "role": "SERVER_SIDE_V11_SHADOW_EVALUATOR_PUSH_ALERTER_AND_OPTIONAL_AUTOBET_TRIGGER",
     "scheduled": true,
     "schedule": "Every minute Saturday 00:00-13:59 UTC (08:00-21:59 Perth)",
     "heartbeatPersisted": true,
@@ -52,11 +53,11 @@
       "enabled": true,
       "windowSeconds": 180,
       "intervalSeconds": 4,
-      "maxBurstDurationSeconds": 48,
-      "purpose": "Once a watched race is within three minutes, the server performs short high-frequency checks so the 20s→10s V11 window is not dependent on a one-minute cron tick."
+      "maxBurstDurationSeconds": 56,
+      "purpose": "Once a watched race is within three minutes, the server performs near-continuous four-second checks through almost the entire minute so the 20s→10s V11 window is not dependent on a one-minute cron tick."
     },
     "placesWagers": "ONLY_IF_AUTOBET_ARMED_AND_CONFIGURED",
-    "note": "The worker now calls the server-side placer when a genuine BET_LOCKED signal exists. The placer itself remains locked unless its independent controls and credentials pass."
+    "note": "The worker sends deduplicated race-day push alerts and calls the server-side placer when a genuine BET_LOCKED signal exists. The placer itself remains locked unless its independent controls and credentials pass."
   },
   "autoBetPlacer": {
     "status": "INSTALLED_LOCKED",
@@ -124,6 +125,8 @@
     "autoExecuteCapability": "INSTALLED_LOCKED",
     "browserPollingSeconds": {"far":15,"near":5,"hot":2.5},
     "serverShadowBurstSeconds": 4,
+    "serverBurstDurationSeconds": 56,
+    "serverPushAlerts": true,
     "minimumAcceptedPrice": 3.0,
     "signalWindowSeconds": {"open":20,"cutoff":10},
     "hardMaxStakeAud": 10000,
@@ -205,6 +208,7 @@
     {"id":"preflight","label":"All-21 prior-state + frozen CORE evidence integrity preflight","status":"READY"},
     {"id":"shadow-worker","label":"Server-side V11 evaluator + optional auto-bet trigger","status":"READY"},
     {"id":"scheduler","label":"Saturday recurring scheduler + near-jump burst loop","status":"READY"},
+    {"id":"push-alerts","label":"Background phone push alerts + dedupe + setup test","status":"READY"},
     {"id":"state-tracker","label":"Automated all-21 post-race state tracker + cross-source conflict guard","status":"READY"},
     {"id":"autobet-engine","label":"Server-side Betfair placer + fill-or-kill + atomic duplicate/exposure guard","status":"READY"},
     {"id":"client-assist","label":"Adaptive live polling + source-age health + wake-lock/alert assist","status":"READY"},
