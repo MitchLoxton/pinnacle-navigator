@@ -1,4 +1,4 @@
-name: YTIntel v036 Endgame Gate
+name: YTIntel v037 Premium Endgame Gate
 on:
   push:
     branches: ["endgame-v0360"]
@@ -7,23 +7,24 @@ on:
       - "ytintel/backend/**"
       - "ytintel/tests/v360-*.mjs"
       - "ytintel/tests/v361-review-browser.mjs"
+      - "ytintel/tests/v363-premium-browser.mjs"
       - ".github/workflows/ytintel-v360-branch.yml"
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: ytintel-v036-endgame-gate
+  group: ytintel-v037-premium-endgame-gate
   cancel-in-progress: true
 jobs:
-  endgame:
+  premium-endgame:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Syntax and release contracts
+      - name: Syntax and v037 release contracts
         shell: bash
         run: |
           set -euo pipefail
@@ -31,25 +32,27 @@ jobs:
           node --input-type=module --check < ytintel/latest/v361-capability-guard.js
           node --input-type=module --check < ytintel/latest/v361-review-fixes.js
           node --input-type=module --check < ytintel/latest/v362-source-polish.js
+          node --input-type=module --check < ytintel/latest/v363-premium-brief.js
           node --input-type=module --check < ytintel/latest/v360-endgame.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
           jq empty ytintel/latest/manifest.webmanifest
           jq empty ytintel/latest/release.json
-          grep -q 'v360-entry.js?v=0361' ytintel/latest/index.html
-          grep -q 'v360-endgame.css?v=0361' ytintel/latest/index.html
-          grep -q 'v361-review-fixes.js?v=0361' ytintel/latest/v360-entry.js
-          grep -q 'v362-source-polish.js?v=0361' ytintel/latest/v360-entry.js
+          grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
+          grep -q 'v360-endgame.css?v=0370' ytintel/latest/index.html
+          grep -q 'v363-premium-brief.js?v=0370' ytintel/latest/v360-entry.js
+          grep -q "const RELEASE='0.37.0'" ytintel/latest/v360-entry.js
+          grep -q 'ytintel-shell-v0370' ytintel/latest/sw.js
+          grep -q 'The claims ledger' ytintel/latest/v363-premium-brief.js
+          grep -q 'Cross-channel validation sample' ytintel/latest/v363-premium-brief.js
+          grep -q 'Download Markdown' ytintel/latest/v363-premium-brief.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
           ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
           grep -q 'GROUP VIDEO ANALYSIS' ytintel/latest/v360-endgame.js
           grep -q 'WATCHTOWER' ytintel/latest/v360-endgame.js
           grep -q 'ytintel_analysis_vault' ytintel/latest/v360-cloud.js
-          grep -q 'Sign in before Creator DNA' ytintel/latest/v361-review-fixes.js
-          grep -q 'SOURCE-SYNTHESIZED WATCH REPLACEMENT' ytintel/latest/v361-review-fixes.js
-          grep -q 'DEEP VIDEO ANALYSIS' ytintel/latest/v362-source-polish.js
       - name: Real zero-credit media backend contract
         run: node ytintel/tests/v360-media-contract.mjs
       - name: Install browser
@@ -59,22 +62,23 @@ jobs:
       - name: Start local YTIntel shell
         shell: bash
         run: |
-          nohup python3 -m http.server 4173 </dev/null >/tmp/ytintel-v360-http.log 2>&1 &
+          nohup python3 -m http.server 4173 </dev/null >/tmp/ytintel-v037-http.log 2>&1 &
           for i in {1..20}; do
             if curl --silent --fail http://127.0.0.1:4173/ytintel/latest/ >/dev/null; then exit 0; fi
             sleep 0.25
           done
-          cat /tmp/ytintel-v360-http.log
+          cat /tmp/ytintel-v037-http.log
           exit 1
-      - name: Bounded 09-09 intelligence-review browser acceptance
-        run: node ytintel/tests/v361-review-browser.mjs
-      - name: Capture branch source
+      - name: Premium 09-09 benchmark-depth browser acceptance
+        run: node ytintel/tests/v363-premium-browser.mjs
+      - name: Capture tested v037 source
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-v036-source
+          name: ytintel-v037-source-and-proof
           path: |
             ytintel/latest
             ytintel/tests/v360-*.mjs
-            ytintel/tests/v361-review-browser.mjs
-          retention-days: 3
+            ytintel/tests/v363-premium-browser.mjs
+            ytintel-v037-premium-mobile.png
+          retention-days: 7
