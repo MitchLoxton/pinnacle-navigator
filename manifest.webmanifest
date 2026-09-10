@@ -2,12 +2,12 @@
   "id": "./",
   "name": "Pinnacle Navigator",
   "short_name": "Navigator",
-  "description": "Pinnacle Builders live workshop task navigator",
-  "start_url": "./?pn-refresh=5346",
+  "description": "Pinnacle Builders workshop control, live crew tasks, plans and project work",
+  "start_url": "./?pn-refresh=5356",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f4f1",
-  "theme_color": "#111111",
+  "background_color": "#efeee8",
+  "theme_color": "#171c20",
   "icons": [
     {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ]
