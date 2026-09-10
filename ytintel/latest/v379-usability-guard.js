@@ -4,10 +4,7 @@ const $=s=>document.querySelector(s);
 
 function removeBlockingOnboarding(){
   const overlay=$('#v350-profile-overlay');
-  if(overlay) overlay.remove();
-  for(const el of document.querySelectorAll('.profile-overlay')){
-    if(el.id==='v350-profile-overlay') el.remove();
-  }
+  if(overlay)overlay.remove();
 }
 
 function ensureShellInteractive(){
@@ -16,7 +13,7 @@ function ensureShellInteractive(){
     app.hidden=false;
     app.removeAttribute('hidden');
     app.classList.remove('v360-prehide');
-    app.style.pointerEvents='auto';
+    if(app.style.pointerEvents==='none')app.style.pointerEvents='auto';
   }
   document.body?.classList.remove('v360-prehide');
   root.classList.remove('v360-loading');
@@ -25,7 +22,7 @@ function ensureShellInteractive(){
 
 function addCreatorDnaHint(){
   const card=$('#creatorCard');
-  if(!card||$('#v379-creator-dna-hint')) return;
+  if(!card||$('#v379-creator-dna-hint'))return;
   const hint=document.createElement('div');
   hint.id='v379-creator-dna-hint';
   hint.className='goodbox';
@@ -35,13 +32,12 @@ function addCreatorDnaHint(){
 }
 
 function installHealth(){
-  const started=performance.now();
   const navSamples=[];
   document.addEventListener('click',e=>{
     const b=e.target?.closest?.('[data-tab],[data-dock]');
-    if(!b) return;
+    if(!b)return;
     const t0=performance.now();
-    requestAnimationFrame(()=>navSamples.push(performance.now()-t0));
+    requestAnimationFrame(()=>navSamples.push(Math.round((performance.now()-t0)*10)/10));
   },true);
   requestAnimationFrame(()=>{
     window.__YTINTEL_USABILITY={
@@ -57,11 +53,14 @@ ensureShellInteractive();
 addCreatorDnaHint();
 installHealth();
 
-const observer=new MutationObserver(()=>{
-  ensureShellInteractive();
-  addCreatorDnaHint();
+// Only watch for newly inserted nodes so this guard cannot create an attribute-mutation loop.
+const observer=new MutationObserver(records=>{
+  if(records.some(r=>r.addedNodes?.length)){
+    removeBlockingOnboarding();
+    addCreatorDnaHint();
+  }
 });
-observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','class','style']});
+observer.observe(document.body||document.documentElement,{subtree:true,childList:true});
 
 window.addEventListener('pageshow',ensureShellInteractive);
 window.addEventListener('focus',ensureShellInteractive);
