@@ -1,18 +1,13 @@
-const BUILD='5364';
-const VERSION='v53.57';
-const SHELL='pn-shell-stable-v5364';
-const REMOTE='pn-remote-modules-stable-v5364';
-const SUPABASE_ORIGIN='https://dkmacktcfhubsumwrydw.supabase.co';
-const LOCAL=['./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability.js','./workshop-ui-v2.js','./morning-pack.js','./miter-48-template.html','./repair.html'];
-const REMOTE_SLUGS=['navigator-v536-mobile-stable','navigator-v5335-today','navigator-v5338-colin-method','navigator-v5345-work-register','navigator-v5349-anyone-done'];
-const REMOTE_URLS=REMOTE_SLUGS.map(s=>SUPABASE_ORIGIN+'/functions/v1/'+s+'?b='+BUILD);
+const BUILD='5365';
+const VERSION='v53.58';
+const SHELL='pn-shell-stable-v5365';
+const LOCAL=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability.js','./runtime-late.js','./workshop-ui-v2.js','./morning-pack.js','./miter-48-template.html','./repair.html'];
 const SCOPE_PATH=new URL(self.registration.scope).pathname.replace(/\/?$/,'/');
-function shellKey(){return new Request(new URL('./index.html',self.registration.scope).href);}
-async function cacheLocal(path){try{const req=new Request(new URL(path,self.registration.scope).href,{cache:'no-store'}),res=await fetch(req);if(res&&res.ok){const c=await caches.open(SHELL);await c.put(req,res.clone());}}catch(e){}}
-async function cacheRemote(url){try{const req=new Request(url,{cache:'no-store'}),res=await fetch(req);if(res&&res.ok){const c=await caches.open(REMOTE);await c.put(req,res.clone());}}catch(e){}}
-async function shellNetworkFirst(req){const key=shellKey();try{const live=await fetch(new Request(key.url,{cache:'no-store',headers:req.headers}));if(live&&live.ok){const c=await caches.open(SHELL);await c.put(key,live.clone());return live;}}catch(e){}const current=await caches.open(SHELL),hit=await current.match(key);if(hit)return hit;const names=(await caches.keys()).filter(n=>n.startsWith('pn-shell-stable-')).sort().reverse();for(const name of names){const c=await caches.open(name),r=await c.match(key);if(r)return r;}return Response.error();}
-async function localCachedFirst(req){const c=await caches.open(SHELL),hit=await c.match(req,{ignoreSearch:true});if(hit){fetch(req,{cache:'no-store'}).then(async r=>{if(r&&r.ok)await c.put(req,r.clone());}).catch(()=>{});return hit;}try{const r=await fetch(req,{cache:'no-store'});if(r&&r.ok)await c.put(req,r.clone());return r;}catch(e){return Response.error();}}
-async function remoteCachedFirst(req){const c=await caches.open(REMOTE),hit=await c.match(req,{ignoreSearch:true});if(hit){fetch(req,{cache:'no-store'}).then(async r=>{if(r&&r.ok)await c.put(req,r.clone());}).catch(()=>{});return hit;}try{const r=await fetch(req,{cache:'no-store'});if(r&&r.ok)await c.put(req,r.clone());return r;}catch(e){return Response.error();}}
-self.addEventListener('install',event=>{event.waitUntil((async()=>{await Promise.allSettled(LOCAL.map(cacheLocal));await Promise.allSettled(REMOTE_URLS.map(cacheRemote));await self.skipWaiting();})());});
-self.addEventListener('activate',event=>{event.waitUntil((async()=>{const names=await caches.keys();await Promise.all(names.filter(n=>(n.startsWith('pn-shell-stable-')&&n!==SHELL)||(n.startsWith('pn-remote-modules-stable-')&&n!==REMOTE)).map(n=>caches.delete(n)));await self.clients.claim();})());});
-self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin===SUPABASE_ORIGIN&&REMOTE_SLUGS.some(s=>url.pathname.endsWith('/'+s))){event.respondWith(remoteCachedFirst(req));return;}if(url.origin!==self.location.origin)return;const isShell=url.pathname===SCOPE_PATH||url.pathname===SCOPE_PATH+'index.html';if(req.mode==='navigate'||isShell){if(isShell)event.respondWith(shellNetworkFirst(req));return;}if(LOCAL.some(p=>url.pathname===SCOPE_PATH+p.replace('./',''))){event.respondWith(localCachedFirst(req));return;}event.respondWith(caches.match(req,{ignoreSearch:true}).then(r=>r||fetch(req)));});
+function canonical(url){return new Request(new URL(url.pathname,self.location.origin).href);}
+function isShell(path){return path===SCOPE_PATH||path===SCOPE_PATH+'index.html';}
+async function seed(cache,path){try{const u=new URL(path,self.registration.scope),r=await fetch(u,{cache:'no-store'});if(r&&r.ok)await cache.put(canonical(u),r.clone());}catch(e){}}
+async function networkFirst(req){const key=canonical(new URL('./index.html',self.registration.scope));try{const r=await fetch(new Request(key.url,{headers:req.headers,cache:'no-store'}));if(r&&r.ok){const c=await caches.open(SHELL);await c.put(key,r.clone());return r;}}catch(e){}const c=await caches.open(SHELL),hit=await c.match(key);if(hit)return hit;return Response.error();}
+async function asset(req){const c=await caches.open(SHELL),key=canonical(new URL(req.url)),hit=await c.match(key);if(hit){fetch(req,{cache:'no-store'}).then(async r=>{if(r&&r.ok)await c.put(key,r.clone());}).catch(()=>{});return hit;}try{const r=await fetch(req,{cache:'no-store'});if(r&&r.ok)await c.put(key,r.clone());return r;}catch(e){return Response.error();}}
+self.addEventListener('install',event=>{event.waitUntil((async()=>{const c=await caches.open(SHELL);await Promise.allSettled(LOCAL.map(p=>seed(c,p)));await self.skipWaiting();})());});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const names=await caches.keys();await Promise.all(names.filter(n=>n.startsWith('pn-shell-stable-')&&n!==SHELL).map(n=>caches.delete(n)));await self.clients.claim();})());});
+self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin!==self.location.origin)return;if(req.mode==='navigate'&&isShell(url.pathname)){event.respondWith(networkFirst(req));return;}if(isShell(url.pathname)){event.respondWith(networkFirst(req));return;}if(LOCAL.some(p=>p!=='./'&&url.pathname===SCOPE_PATH+p.replace('./',''))){event.respondWith(asset(req));return;}event.respondWith(caches.match(req,{ignoreSearch:true}).then(hit=>hit||fetch(req)));});
