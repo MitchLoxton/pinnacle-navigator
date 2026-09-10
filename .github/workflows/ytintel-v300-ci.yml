@@ -48,9 +48,10 @@ jobs:
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0370-r5" ytintel/latest/sw.js
+          grep -q "ytintel-shell-v0370-r6" ytintel/latest/sw.js
           grep -q "v360-entry.js?v=0370" ytintel/latest/index.html
           grep -q "v360-endgame.css?v=0370" ytintel/latest/index.html
+          grep -q "v371-mobile-containment.css?v=0370" ytintel/latest/index.html
           grep -q "v366-local-ai-shield.js?v=0370" ytintel/latest/v360-entry.js
           grep -q "v366-local-ai-optin.js?v=0370" ytintel/latest/v360-entry.js
           grep -q "v363-premium-brief.js?v=0370" ytintel/latest/v360-entry.js
