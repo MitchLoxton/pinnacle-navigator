@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.37.2 premium Endgame core
+      - name: Validate v0.37.3 single Analyse Endgame core
         shell: bash
         run: |
           set -euo pipefail
@@ -43,6 +43,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
           node --input-type=module --check < ytintel/latest/v371-feedback-overhaul.js
           node --input-type=module --check < ytintel/latest/v372-endgame-closer.js
+          node --input-type=module --check < ytintel/latest/v373-analyse-focus.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
@@ -51,39 +52,42 @@ jobs:
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0372-r1" ytintel/latest/sw.js
-          grep -q "v360-entry.js?v=0372" ytintel/latest/index.html
-          grep -q "v360-endgame.css?v=0372" ytintel/latest/index.html
-          grep -q "v371-mobile-containment.css?v=0372" ytintel/latest/index.html
-          grep -q "v366-local-ai-shield.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v366-local-ai-optin.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v363-premium-brief.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v364-fact-surfaces.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v369-packaging-depth.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v365-canonical-shell.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v367-premium-lock.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v370-transcript-receipt.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v371-feedback-overhaul.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "v372-endgame-closer.js?v=0372" ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.2'" ytintel/latest/v360-entry.js
-          grep -q '"version": "v0.37.2"' ytintel/latest/release.json
+          grep -q "ytintel-shell-v0373-r1" ytintel/latest/sw.js
+          grep -q "v360-entry.js?v=0373" ytintel/latest/index.html
+          grep -q "v360-endgame.css?v=0373" ytintel/latest/index.html
+          grep -q "v371-mobile-containment.css?v=0373" ytintel/latest/index.html
+          grep -q "v366-local-ai-shield.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v366-local-ai-optin.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v363-premium-brief.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v364-fact-surfaces.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v369-packaging-depth.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v365-canonical-shell.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v367-premium-lock.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v370-transcript-receipt.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v371-feedback-overhaul.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v372-endgame-closer.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "v373-analyse-focus.js?v=0373" ytintel/latest/v360-entry.js
+          grep -q "const RELEASE='0.37.3'" ytintel/latest/v360-entry.js
+          grep -q '"version": "v0.37.3"' ytintel/latest/release.json
+          ! grep -q 'data-tab="compare"' ytintel/latest/index.html
+          ! grep -q 'data-dock="compare"' ytintel/latest/index.html
           grep -q "The claims ledger" ytintel/latest/v363-premium-brief.js
           grep -q "Cross-channel validation sample" ytintel/latest/v363-premium-brief.js
           grep -q "TITLE SURFACE CHECK" ytintel/latest/v364-fact-surfaces.js
           grep -q "PACKAGE MECHANICS" ytintel/latest/v369-packaging-depth.js
           grep -q "full timestamped transcript" ytintel/latest/v370-transcript-receipt.js
-          grep -q "Copy full analysis Markdown" ytintel/latest/v371-feedback-overhaul.js
-          grep -q "No public Most Replayed curve" ytintel/latest/v371-feedback-overhaul.js
+          grep -q "Copy full analysis Markdown" ytintel/latest/v373-analyse-focus.js
+          grep -q "UNIFIED MEDIA TIMELINE" ytintel/latest/v373-analyse-focus.js
+          grep -q "PACKAGE BANK" ytintel/latest/v373-analyse-focus.js
           grep -q "PRESCRIPTIVE OUTPUT · THE VIDEO TO MAKE" ytintel/latest/v372-endgame-closer.js
           grep -q "ENDGAME VAULT INDEX" ytintel/latest/v372-endgame-closer.js
           grep -q "WATCHTOWER BRIEF" ytintel/latest/v372-endgame-closer.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q "research-stage" ytintel/latest/v360-endgame.js
           ! grep -q "ytintel-v093" ytintel/latest/v360-endgame.js
-          grep -q "GROUP VIDEO ANALYSIS" ytintel/latest/v360-endgame.js
           grep -q "WATCHTOWER" ytintel/latest/v360-endgame.js
           grep -q "ytintel_analysis_vault" ytintel/latest/v360-cloud.js
           grep -q "P0 — Heart of the tool" ytintel/ENDGAME_BRIEF.md
           grep -q "The 18 screens, in order" ytintel/benchmarks/PREMIUM_SINGLE_LINK_STANDARD.md
           node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs
-          echo "YTIntel v0.37.2 premium Endgame contracts passed."
+          echo "YTIntel v0.37.3 single Analyse Endgame contracts passed."
