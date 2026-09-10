@@ -12,23 +12,24 @@
 <body>
 <main class="card">
   <section class="top">
-    <div class="eyebrow">PINNACLE NAVIGATOR · SAFE REPAIR</div>
+    <div class="eyebrow">PINNACLE NAVIGATOR · v53.57 REPAIR</div>
     <h1>Fixing this device.</h1>
-    <p>This clears only stale app-shell caches and the old service worker. Your saved crew PIN, job progress and private offline job copy are not deleted.</p>
+    <p>This removes only stale Navigator shell/module caches and the old service worker. Shared work progress and saved device identity stay intact.</p>
   </section>
   <section class="body">
     <div class="status"><span class="dot" id="dot"></span><span id="status">Preparing repair…</span></div>
     <div class="bar"><div id="bar"></div></div>
-    <div class="note">Keep this tab open. It should return to Navigator automatically in a few seconds.</div>
-    <div class="safe">PROTECTED: shared Supabase job state, DONE history, assignments, holds, localStorage and the private Navigator bundle are left alone.</div>
+    <div class="note">Keep this tab open. It will reopen the current Navigator build automatically.</div>
+    <div class="safe">PROTECTED: shared Supabase job state, DONE history, assignments, holds, morning-pack localStorage and saved device access are not deleted.</div>
     <button class="btn" id="retry" type="button">RETURN TO NAVIGATOR</button>
   </section>
 </main>
 <script>
 (async function(){
   const status=document.getElementById('status'),bar=document.getElementById('bar'),dot=document.getElementById('dot'),retry=document.getElementById('retry');
+  const target='./?pn-refresh=5364&repaired='+Date.now();
   const set=(t,p)=>{status.textContent=t;bar.style.width=p+'%'};
-  retry.onclick=()=>location.replace('./?repaired='+Date.now());
+  retry.onclick=()=>location.replace(target);
   try{
     const stage=new URL(location.href).searchParams.get('stage')||'1';
     if(stage==='1'){
@@ -38,19 +39,19 @@
         await Promise.all(regs.filter(r=>{try{return new URL(r.scope).pathname.startsWith('/pinnacle-navigator/')}catch(e){return false}}).map(r=>r.unregister()));
       }
       set('Restarting outside the old worker…',55);
-      setTimeout(()=>location.replace('./repair.html?stage=2&t='+Date.now()),350);
+      setTimeout(()=>location.replace('./repair.html?stage=2&b=5364&t='+Date.now()),350);
       return;
     }
-    set('Clearing stale shell files…',70);
+    set('Clearing stale shell files…',75);
     if('caches' in window){
       const names=await caches.keys();
       await Promise.all(names.filter(n=>n.startsWith('pn-shell-')||n.startsWith('pn-remote-modules-')).map(n=>caches.delete(n)));
     }
-    set('Opening the newest Navigator…',100);
+    set('Opening Navigator v53.57…',100);
     dot.style.background='#23764a';dot.style.boxShadow='0 0 0 5px rgba(35,118,74,.16)';
-    setTimeout(()=>location.replace('./?repaired='+Date.now()),600);
+    setTimeout(()=>location.replace(target),650);
   }catch(e){
-    status.textContent='Repair finished as far as this browser allowed. Tap below to reopen Navigator.';
+    status.textContent='Repair completed as far as this browser allowed. Tap below to reopen Navigator.';
     bar.style.width='100%';retry.style.display='block';
   }
 })();
