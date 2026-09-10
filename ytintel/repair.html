@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07090d">
+  <title>Repairing YTIntel…</title>
+  <style>
+    :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#07090d;color:#f6f8fb;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px}.card{width:min(560px,100%);border:1px solid #26303d;border-radius:24px;background:linear-gradient(180deg,#0e131a,#0a0e14);padding:28px}.mark{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:#170b10;border:1px solid #5b2936;color:#ff6b88;font-weight:900;margin-bottom:18px}h1{margin:0 0 10px;font-size:32px}p{color:#98a5b7;line-height:1.6}.bar{height:8px;border-radius:999px;background:#111823;overflow:hidden;margin:18px 0}.bar i{display:block;height:100%;width:15%;background:linear-gradient(90deg,#ff5f7f,#e92855);animation:go 1.2s ease-in-out infinite alternate}@keyframes go{to{width:100%}}.status{font-size:13px;color:#b6c1d1}.btn{display:none;width:100%;margin-top:14px;border:1px solid #ff6b88;border-radius:13px;padding:13px 16px;background:#e92855;color:white;font-weight:850;cursor:pointer}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="mark">YT</div>
+    <h1>Repairing YTIntel</h1>
+    <p>This clears only YTIntel's old shell cache and YTIntel service worker, then opens a fresh copy of the latest build. Your browser data and other Pinnacle Navigator apps are left alone.</p>
+    <div class="bar"><i></i></div>
+    <div class="status" id="status">Removing stale YTIntel client…</div>
+    <button class="btn" id="retry" type="button">Open fresh YTIntel</button>
+  </main>
+  <script>
+    const status=document.getElementById('status');
+    const retry=document.getElementById('retry');
+    const destination=()=>`./latest/?repair=1&fresh=${Date.now()}`;
+    async function repair(){
+      try{
+        status.textContent='Removing stale YTIntel service worker…';
+        if('serviceWorker'in navigator){
+          const regs=await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.filter(r=>String(r.scope||'').includes('/pinnacle-navigator/ytintel/latest/')).map(r=>r.unregister()));
+        }
+        status.textContent='Clearing old YTIntel shell caches…';
+        if('caches'in window){
+          const keys=await caches.keys();
+          await Promise.all(keys.filter(k=>k.startsWith('ytintel-shell-')).map(k=>caches.delete(k)));
+        }
+        status.textContent='Opening a clean YTIntel v0.37.9 session…';
+        location.replace(destination());
+      }catch(error){
+        console.error(error);
+        status.textContent='Automatic repair hit a browser restriction. Open a fresh YTIntel session below.';
+        retry.style.display='block';
+      }
+    }
+    retry.addEventListener('click',()=>location.replace(destination()));
+    repair();
+  </script>
+</body>
+</html>
