@@ -20,8 +20,9 @@ async function createOne(kind){
   if(kind==='audio')return await window.LanguageModel.create({...common,expectedInputs:[{type:'text',languages:['en']},{type:'audio'}]});
   throw Error('Unknown local AI mode');
 }
-export async function initLocalAI(){await availability();return getState()}
+export async function initLocalAI(){if(window.__YTINTEL_ALLOW_LOCAL_AI_CREATE!==true)return getState();await availability();return getState()}
 export function startFromGesture(){
+  if(window.__YTINTEL_ALLOW_LOCAL_AI_CREATE!==true){state.label=state.text?'Local AI ready':'Source mode — tap Local AI to enable optional on-device intelligence';emit();return Promise.resolve(getState())}
   if(state.creating||!window.LanguageModel?.create)return Promise.resolve(getState());
   if(state.text){emit();return Promise.resolve(getState())}
   state.creating=true;state.label='Starting local AI in the background…';emit();
@@ -66,7 +67,7 @@ export async function synthesizeReport(report,media,creator,onStage=()=>{}){
   const pack=evidencePack(report,media,creator),base=state.text;
   const [s1,s2,s3,s4]=await Promise.all([clone(base),clone(base),clone(base),clone(base)]);
   const jobs=[
-    ['summary',s1,`You are YTIntel's watch-replacement specialist. Using ONLY the evidence below, produce the internal 17-section brief's watch-replacement summary. Give the actual main message, 10-15 chronological beats that let the user skip watching the video, and one evidence-grounded mechanics verdict on why it likely popped. Synthesize; do not recycle transcript sentences. Never claim causality from replay data. EVIDENCE:\n${pack}`,summarySchema],
+    ['summary',s1,`You are YTIntel's watch-replacement specialist. Using ONLY the evidence below, produce the premium watch-replacement summary. Give the actual main message, 10-15 chronological beats that let the user skip watching the video, and one evidence-grounded mechanics verdict on why it likely popped. Synthesize; do not recycle transcript sentences. Never claim causality from replay data. EVIDENCE:\n${pack}`,summarySchema],
     ['takeaways',s2,`You are YTIntel's takeaway specialist. Using ONLY the evidence below, produce 5-8 actionable takeaways. Each must be an instruction or key fact and must include an exact transcript quote and timestamp that genuinely supports it. If the source is a numbered/facts video, preserve the real declared items rather than generic creator advice. EVIDENCE:\n${pack}`,takeSchema],
     ['remake',s3,`You are YTIntel's prescriptive remake specialist. The output is the video the USER should make, not a critique of the source. Using ONLY source mechanics plus Creator DNA, create 2-3 distinct directions tailored to the user's niche, subniche, audience, channel and brand rules. Each direction needs title variants, one hook, beat sheet, thumbnail composition, what to steal mechanically, what not to copy, and what to measure after publishing. Never copy source wording. EVIDENCE:\n${pack}`,remakeSchema],
     ['review',s4,`You are YTIntel's skeptical final cross-check agent. Audit the source-backed analysis for unsupported claims, transcript-copy masquerading as analysis, impossible metrics, wrong timestamps, fake replay/visual/audio claims, generic remake advice, and promise-vs-delivery errors. Use ONLY the evidence below. EVIDENCE:\n${pack}`,reviewSchema]
