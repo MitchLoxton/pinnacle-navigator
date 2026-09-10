@@ -1,36 +1,37 @@
 {
-  "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
-  "version": "v0.37.0",
-  "title": "Benchmark-depth premium analysis — owner-verified facts",
-  "summary": "The 09/09 premium benchmark brief is the canonical one-link output: 18 ordered sections, benchmark-scale depth, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Subscriber enrichment is now tied to the exact analyzed video's YouTube owner block, and the Blake production gate only passes within 10% of the ~6.19K benchmark count.",
-  "published_at": "2026-09-10T05:14:00Z",
+  "release_id": "ytintel-0.38.0-owner-analyse-rebuild",
+  "version": "v0.38.0",
+  "title": "Owner Analyse rebuild — Monday brief restored",
+  "summary": "YTIntel Analyse is rebuilt around the creator's actual workflow: Creator DNA is outside Analyse, research progress is one compact cycling bar, Activity is collapsed, source analytics no longer use fake zeroes, the Blake-style watch-replacement summary is restored, takeaways/rehooks/payoffs/replay are rebuilt from timed evidence, packaging is explicitly banked, channel context uses positive source data, Make It Yours is a context-specific blueprint, Vault Entry is hidden, and Export is a clean AI-ready Markdown handoff.",
+  "published_at": "2026-09-10T07:50:00Z",
   "discord_changes": [
-    "18-SCREEN PREMIUM: Strip → Export follows the 09/09 benchmark order at Blake-analysis depth.",
-    "OWNER-VERIFIED SUBS: subscriber facts are bound to the exact analyzed video; Blake must land within ±10% of ~6.19K.",
-    "ENDGAME OUTPUT: claims + channel context + Creator DNA finish in 2–3 executable remake directions with measurement plans."
+    "CLEAN ANALYSE: Creator DNA moved to its own view; the huge research roadmap is replaced by one cycling progress bar and Activity stays collapsed.",
+    "MONDAY BRIEF FIX: source-only strip + Blake-style summary + evidence-backed takeaways, re-hooks, payoffs and honest Most Replayed hypotheses when YouTube exposes no curve.",
+    "PACKAGE → BLUEPRINT → EXPORT: thumbnails/titles are visibly vaulted to Package Bank, channel context ignores fake zeroes, Make It Yours is Creator-DNA-specific, and the full report copies as clean Markdown for Claude/ChatGPT."
   ],
   "changes": [
-    "Locked the 18-section order from the Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry and Export.",
-    "Kept the Endgame promise intact: replace watching the source, expose the evidence under each conclusion, and finish with the user's own video blueprint rather than a generic analytics dump.",
-    "Matched the Blake Ryan benchmark's useful depth with per-section QA targets instead of padding every section to arbitrary length.",
-    "Added the benchmark-style short version: what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
-    "Expanded the first 60 seconds into line-by-line hook analysis and retained chronological re-hook/payoff receipts across the full runtime.",
-    "Added the dedicated Structure Map, Numbers Table, Claims Ledger and Channel Context surfaces required by the 09/09 brief.",
-    "Kept Most Replayed, storyboard/frame, motion and audio claims evidence-bounded; unavailable public evidence stays unavailable instead of being fabricated.",
-    "Added current title-surface evidence without falsely asserting an A/B test when only public discrepancies are visible.",
-    "Fixed the Title Surface Check race so Packaging is complete immediately and slower channel enrichment no longer blocks it.",
-    "Replaced loose subscriber scraping with an exact analyzed-video owner-renderer lookup, matched to the source channel ID before accepting subscriberCountText.",
-    "Kept channel-page and operational About data only as secondary fallbacks; unknown subscriber evidence remains unknown rather than zero.",
-    "Strengthened the deployed Blake browser proof from merely nonzero to ±10% of the 6,190 benchmark subscriber count, so unrelated shelf/card counts cannot pass.",
-    "The production proof still requires all 18 sections, premium depth floors, claims/context/remake/export coverage, transcript evidence, title-surface evidence, mobile containment and zero page errors.",
-    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA and the compounding Vault."
+    "Reduced the owner-facing Analyse report to 17 useful steps by hiding the standalone Vault Entry card while preserving automatic banking.",
+    "Moved Creator DNA completely out of Analyse into its own Creator DNA view so source analysis and creator context are visually and logically separated.",
+    "Collapsed the old research-agent lanes and roadmap into one floating progress bar that cycles through the 17 analysis steps. Activity remains available only inside a closed disclosure control.",
+    "Rebuilt The Strip from source-only title, description, tags and transcript evidence. Creator DNA cannot classify the source video, and missing numeric facts render as an em dash rather than zero.",
+    "Rebuilt the summary around the Blake benchmark structure: What the video is, How it is built, How it is doing, What appears to matter, and What is worth taking. The generic Main Message card and transcript-bucket summary are removed from the owner layout.",
+    "Key Takeaways now derive timestamped source-backed actions whenever a transcript exists instead of failing with a generic 'could not be separated' message.",
+    "Rebuilt Re-hooks, Payoffs and Most Replayed around timed evidence. When YouTube does not expose Most Replayed, only clearly labelled transcript-based hypotheses are shown.",
+    "Replaced the broken Things to Steal layout with Source Mechanics Worth Stealing: a readable source-only mechanics list plus structure map. This deliberately stays separate from Make It Yours.",
+    "Added a media-rescue route to the existing v093 Edge Function. The browser now retries missing storyboard/audio/video assets through public fallback providers and sends recoverable assets through a CORS-safe YTIntel proxy before visual/audio analysis.",
+    "Packaging now displays the source thumbnail and title mechanics, records title-surface evidence, and writes a visible VAULTED TO PACKAGE BANK receipt. Raw package assets and any successful thumbnail vision read are banked for at-scale pattern analysis.",
+    "Channel Context now ignores zero/invalid rows when computing recent-hit and median views, shows same-angle evidence when available, and keeps the numbers/claims ledger folded beneath the useful context.",
+    "Make It Yours now explains the difference between source mechanics and creator directions, then creates three Creator-DNA-specific directions with titles, hook direction, thumbnail composition, beat sheet, proof requirements, do-not-copy rules and post-publish measurements.",
+    "The standalone Vault Entry card is hidden from Analyse. Banking still happens automatically and is visible where it matters, especially in Packaging.",
+    "Export is now one clean Markdown handoff containing the complete owner analysis plus timestamped source transcript, with Copy for AI, Download .md and Print/PDF actions.",
+    "Preserved evidence honesty: unavailable media is not hallucinated, replay hypotheses are never presented as replay data, and caption gaps are never presented as measured acoustic silence."
   ],
   "known_limitations": [
-    "External factual verification across the open web is not fabricated in zero-credit mode. Claims that only exist in the source remain THEIR CLAIM unless public evidence or arithmetic can verify or contradict them.",
-    "Public search validation is a sample, not a census, and YouTube can expose different or incomplete surfaces over time.",
-    "YouTube may not expose storyboards, direct media, comments, subscribers or Most Replayed on every request. Missing evidence stays explicitly unavailable.",
-    "Storyboard frames are seek-bar samples rather than every encoded video frame; exact cut/zoom/audio claims require reliable media access or a supported on-device multimodal model.",
-    "On-device multimodal model support depends on browser/device availability and is explicit opt-in. The 18-section source-evidence report still runs without it."
+    "YouTube and public fallback providers can change or temporarily block storyboard/audio/video access. The new media-rescue path improves recoverability but cannot guarantee every source exposes decodable media.",
+    "Storyboard frames remain sampled seek-bar stills rather than every encoded frame. Exact visual-transition claims require recoverable frame pairs or an enabled compatible on-device vision model.",
+    "Acoustic labels such as music or specific sound effects require decodable audio plus public metadata or a compatible on-device audio model. Caption gaps are only speech/caption-gap proxies.",
+    "Most Replayed is shown as real data only when YouTube exposes the public curve. Otherwise the report displays explicitly labelled hypotheses.",
+    "Public subscriber counts can be rounded or hidden. The analyzed-video owner lookup remains the preferred subscriber fact source and unknown values stay unknown rather than zero."
   ],
-  "why_it_matters": "The product is now judged against the hand-built premium benchmark, not against whether a dashboard rendered. It has to save the watch/research time, survive factual cross-checks, and leave the creator with a better original video to make."
+  "why_it_matters": "Analyse should feel like a finished creator tool, not a debugging console. The rebuild keeps internal machinery out of the way and puts the useful chain in order: understand the source, identify what worked mechanically, bank the package, understand the channel context, turn it into your own blueprint, then hand the full research to an AI or editor in one clean export."
 }
