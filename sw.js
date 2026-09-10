@@ -1,10 +1,10 @@
-const SHELL='pn-shell-stable-v5356';
+const SHELL='pn-shell-stable-v5357';
 const REMOTE='pn-remote-modules-stable-v5356';
 const PRIVATE='pn-private-bundle-stable-v1';
 const PRIVATE_URL=new URL('./.private-navigator-stable',self.registration.scope).href;
 const BUNDLE_ENDPOINT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/navigator-bundle-v52?shell=5356';
 const SUPABASE_ORIGIN='https://dkmacktcfhubsumwrydw.supabase.co';
-const LOCAL=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability.js','./workshop-ui.js','./miter-48-template.html'];
+const LOCAL=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability.js','./workshop-ui.js','./morning-pack.js','./miter-48-template.html'];
 const REMOTE_SLUGS=['navigator-v536-mobile-stable','navigator-v5335-today','navigator-v5338-colin-method','navigator-v5345-work-register','navigator-v5349-anyone-done'];
 const REMOTE_URLS=REMOTE_SLUGS.map(s=>SUPABASE_ORIGIN+'/functions/v1/'+s+'?b=5356');
 const SCOPE_PATH=new URL(self.registration.scope).pathname.replace(/\/?$/,'/');
@@ -15,6 +15,18 @@ async function putLocal(cache,path){try{const u=new URL(path,self.registration.s
 async function updateLocal(req){try{const res=await fetch(req,{cache:'no-store'});if(res&&res.ok){const c=await caches.open(SHELL);await c.put(canonicalLocal(new URL(req.url)),res.clone());}return res;}catch(e){return null;}}
 async function localCachedFirst(req){const c=await caches.open(SHELL),key=canonicalLocal(new URL(req.url)),cached=await c.match(key);if(cached){updateLocal(req);return cached;}return (await updateLocal(req))||Response.error();}
 async function remoteCachedFirst(req){const c=await caches.open(REMOTE),cached=await c.match(req,{ignoreSearch:true});if(cached){fetch(req,{cache:'no-store'}).then(async res=>{if(res&&res.ok)await c.put(req,res.clone());}).catch(()=>{});return cached;}try{const res=await fetch(req,{cache:'no-store'});if(res&&res.ok)await c.put(req,res.clone());return res;}catch(e){return Response.error();}}
+async function localFabricationWithMorning(req){
+  const base=await localCachedFirst(req);
+  if(!base||!base.ok)return base;
+  try{
+    const shell=await caches.open(SHELL),morningReq=new Request(new URL('./morning-pack.js',self.registration.scope).href);
+    let morning=await shell.match(canonicalLocal(new URL(morningReq.url)));
+    if(!morning)morning=await updateLocal(morningReq);
+    if(!morning||!morning.ok)return base;
+    const baseText=await base.clone().text(),morningText=await morning.text();
+    return new Response(baseText+'\n\n/* Pinnacle multi-job morning pack */\n'+morningText,{status:200,headers:{'Content-Type':'application/javascript; charset=utf-8','Cache-Control':'no-store'}});
+  }catch(e){return base;}
+}
 async function refreshPrivateBundle(pin){
   if(!/^\d{6}$/.test(String(pin||'')))return false;
   try{
@@ -64,6 +76,7 @@ self.addEventListener('fetch',event=>{
     return;
   }
   if(url.pathname.endsWith('/version.json')){event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.open(SHELL).then(c=>c.match(canonicalLocal(url)))));return;}
+  if(url.pathname===SCOPE_PATH+'fabrication.js'){event.respondWith(localFabricationWithMorning(req));return;}
   if(LOCAL.some(p=>p!=='./'&&url.pathname===SCOPE_PATH+p.replace('./',''))){event.respondWith(localCachedFirst(req));return;}
   event.respondWith(caches.match(req,{ignoreSearch:true}).then(cached=>cached||fetch(req)));
 });
