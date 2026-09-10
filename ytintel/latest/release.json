@@ -2,35 +2,36 @@
   "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
   "version": "v0.37.0",
   "title": "Benchmark-depth premium analysis",
-  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, a claims ledger, channel/validation context, Creator-DNA remake directions, Vault entry and Markdown/PDF export.",
-  "published_at": "2026-09-10T03:20:00Z",
+  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export.",
+  "published_at": "2026-09-10T04:42:00Z",
   "discord_changes": [
-    "PREMIUM STRUCTURE: one link now resolves into 18 ordered sections from Strip through Export, plus a full timestamped transcript appendix.",
-    "BENCHMARK DEPTH: each section carries an internal word-depth target modelled on the Blake Ryan premium example; YTIntel aims for that depth but never pads a thin source with filler.",
-    "CLAIMS + CONTEXT: numeric claims are ledgered as VERIFIED / THEIR CLAIM / WRONG only when the source engine can support the verdict, and channel hits, same-angle rows, cross-channel validation samples and funnel context are surfaced separately.",
-    "MAKE IT YOURS: the remake section keeps Creator DNA, 2–3 package directions, title variants, a hook, beat sheet, thumbnail composition, steal / do-not-copy rules and a measurement plan.",
-    "EXPORT: the completed analysis can be downloaded as Markdown or printed/saved as PDF; the full transcript remains attached as the final source appendix."
+    "PREMIUM STRUCTURE: one link now resolves into 18 ordered sections from Strip through Export, plus the timestamped transcript appendix.",
+    "BENCHMARK DEPTH: source-rich sections target the Blake Ryan example's useful depth; thin media sources are never padded with made-up analysis.",
+    "CLAIMS + CONTEXT: numeric claims are ledgered as VERIFIED / THEIR CLAIM / WRONG only when the source supports the verdict, with channel hits, same-angle and validation context kept separate.",
+    "MAKE IT YOURS: Creator DNA drives 2–3 package directions with titles, hook, beat sheet, thumbnail composition, steal/do-not-copy rules and a post-publish measurement plan.",
+    "MOBILE + EXPORT: wide evidence tables stay contained on phone widths; Markdown download and print/save-as-PDF preserve the premium brief."
   ],
   "changes": [
-    "Replaced the 17-section presentation layer with the 18-section order in the 09/09 Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry, Export.",
-    "Added a premium short-version summary that explicitly separates what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
+    "Replaced the old presentation layer with the 18-section order in the 09/09 Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry, Export.",
+    "Added a premium short-version summary that separates what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
     "Expanded the first 60 seconds into line-by-line source quotes plus the job each line is doing.",
     "Added benchmark-depth structure mapping with beat time, length, job, exact receipt and explicit screen-evidence limits.",
     "Added a numeric claims ledger that refuses to call a spoken number verified unless a public value in the same pull supports it.",
     "Added recent-channel hits, same-angle matching, a public cross-channel validation sample and a business/funnel read inside Channel Context.",
     "Added a dedicated Numbers Table for WPM, pace by minute, caption gaps, beats, first receipt, first payoff, first sell, selling share and media-derived cut rate when available.",
-    "Preserved the existing source-backed visual, motion and audio passes; missing media evidence stays unavailable instead of being inferred from captions.",
-    "Expanded Make It Yours to benchmark-style package directions and measurement signals while retaining existing on-device model output when available.",
+    "Preserved source-backed visual, motion and audio passes; missing media stays unavailable instead of being inferred from captions.",
+    "Expanded Make It Yours to benchmark-style package directions and measurement signals while retaining optional on-device model deepening when available.",
     "Added per-section benchmark word targets as QA metadata. Targets are goals, never filler quotas.",
-    "Added Markdown download, print/save-as-PDF export and a full timestamped transcript appendix.",
-    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture from the Endgame candidate."
+    "Added title-surface/subscriber verification, deeper package mechanics, Markdown/PDF export and a full timestamped transcript appendix.",
+    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture.",
+    "Added mobile containment so wide claims/channel/evidence tables scroll inside their cards instead of widening the page."
   ],
   "known_limitations": [
     "External factual verification across the open web is not fabricated in zero-credit mode. Claims that only exist in the source remain THEIR CLAIM unless the public YouTube pull or arithmetic/source consistency can verify or contradict them.",
     "Public search validation is a sample, not a census, and YouTube may return different or incomplete surfaces over time.",
     "YouTube may not expose storyboards, direct media, comments, subscribers or Most Replayed on every request. Missing evidence stays explicitly unavailable.",
     "Storyboard frames are seek-bar samples rather than every encoded video frame; exact cut/zoom/audio claims require reliable media access or a supported on-device multimodal model.",
-    "On-device multimodal model support depends on browser/device availability. Source analysis and the 18-section evidence report still run without it."
+    "On-device multimodal model support depends on browser/device availability and is explicit opt-in. Source analysis and the 18-section evidence report still run without it."
   ],
   "why_it_matters": "The target is no longer a short dashboard summary. The product now mirrors the premium Blake Ryan benchmark in depth and evidence discipline while preserving the Endgame rule: save the creator the watch/research time, show the line each conclusion came from, and finish with the video they should make."
 }
