@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 
 const read=path=>readFile(path,'utf8');
 
-test('v0.37.7 Scene Index remains wired through the current v0.37.8 shell',async()=>{
+test('v0.37.7 Scene Index remains wired through the current v0.37.9 shell',async()=>{
   const [entry,index,sw,manifest,scene]=await Promise.all([
     read('ytintel/latest/v360-entry.js'),
     read('ytintel/latest/index.html'),
@@ -13,12 +13,12 @@ test('v0.37.7 Scene Index remains wired through the current v0.37.8 shell',async
     read('ytintel/latest/v377-scene-indexer.js')
   ]);
   assert.match(entry,/v377-scene-indexer\.js\?v=0377/);
-  assert.match(entry,/const RELEASE='0\.37\.8'/);
-  assert.match(index,/v0\.37\.8/);
-  assert.match(index,/v360-entry\.js\?v=0378/);
-  assert.match(sw,/ytintel-shell-v0378-r1/);
+  assert.match(entry,/const RELEASE='0\.37\.9'/);
+  assert.match(index,/v0\.37\.9/);
+  assert.match(index,/v360-entry\.js\?v=0379/);
+  assert.match(sw,/ytintel-shell-v0379-r1/);
   assert.match(sw,/v377-scene-indexer\.js\?v=0377/);
-  assert.match(manifest,/\?source=pwa&v=0378/);
+  assert.match(manifest,/\?source=pwa&v=0379/);
   assert.doesNotMatch(manifest,/Compare Winners/i);
   assert.match(scene,/const VERSION='0\.37\.7'/);
 });
