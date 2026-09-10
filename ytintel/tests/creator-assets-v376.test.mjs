@@ -10,11 +10,11 @@ const uploader=read('latest/v376-resumable-creator-assets.js');
 const sw=read('latest/sw.js');
 
 
-test('v0.37.6 loads the resumable Creator Assets layer',()=>{
+test('v0.37.6 resumable Creator Assets layer remains loaded in the current shell',()=>{
   assert.match(entry,/v376-resumable-creator-assets\.js\?v=0376/);
-  assert.match(entry,/const RELEASE='0\.37\.6'/);
-  assert.match(index,/v360-entry\.js\?v=0376/);
-  assert.match(sw,/ytintel-shell-v0376-r1/);
+  assert.match(entry,/const RELEASE='0\.37\.7'/);
+  assert.match(index,/v360-entry\.js\?v=0377/);
+  assert.match(sw,/ytintel-shell-v0377-r1/);
   assert.match(sw,/v376-resumable-creator-assets\.js\?v=0376/);
 });
 
@@ -50,5 +50,5 @@ test('Creator DNA is physically outside Analyse and Compare is absent from insta
   assert.equal(index.includes('data-dock="compare"'),false);
   const shortcutText=JSON.stringify(manifest.shortcuts||[]).toLowerCase();
   assert.equal(shortcutText.includes('compare'),false);
-  assert.equal(manifest.start_url.includes('v=0376'),true);
+  assert.equal(manifest.start_url.includes('v=0377'),true);
 });
