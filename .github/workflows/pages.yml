@@ -45,6 +45,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v367-premium-lock.js
           node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
           node --check ytintel/latest/v372-analysis-redesign.js
+          node --check ytintel/latest/v374-progressive-analysis.js
           node --check ytintel/latest/v373-owner-polish.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
@@ -56,9 +57,10 @@ jobs:
           grep -q 'v360-entry.js?v=0380' ytintel/latest/index.html
           grep -q 'v371-media-rescue.js?v=0380' ytintel/latest/v360-entry.js
           grep -q 'v372-analysis-redesign.js?v=0380' ytintel/latest/v360-entry.js
+          grep -q 'v374-progressive-analysis.js?v=0380' ytintel/latest/v360-entry.js
           grep -q 'v373-owner-polish.js?v=0380' ytintel/latest/v360-entry.js
           grep -q 'v371-mobile-containment.css?v=0380' ytintel/latest/index.html
-          grep -q 'ytintel-shell-v0380-r1' ytintel/latest/sw.js
+          grep -q 'ytintel-shell-v0380-r2' ytintel/latest/sw.js
           grep -q 'VAULTED TO PACKAGE BANK' ytintel/latest/v372-analysis-redesign.js
           grep -q 'Copy full Markdown for AI' ytintel/latest/v372-analysis-redesign.js
           echo "YTIntel v0.38 owner release validation passed."
