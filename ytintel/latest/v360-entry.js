@@ -7,6 +7,7 @@ await import('./v366-local-ai-optin.js?v=0370');
 await import('./v362-source-polish.js?v=0370');
 await import('./v363-premium-brief.js?v=0370');
 await import('./v364-fact-surfaces.js?v=0370');
+await import('./v369-packaging-depth.js?v=0370');
 await import('./v365-canonical-shell.js?v=0370');
 await import('./v367-premium-lock.js?v=0370');
 const RELEASE='0.37.0';
