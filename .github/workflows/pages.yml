@@ -47,25 +47,32 @@ jobs:
           node --check ytintel/latest/v295-core-hardening.js
           node --check ytintel/latest/v300-core-analysis.js
           node --input-type=module --check < ytintel/latest/v360-entry.js
+          node --input-type=module --check < ytintel/latest/v366-local-ai-shield.js
           node --input-type=module --check < ytintel/latest/v361-capability-guard.js
           node --input-type=module --check < ytintel/latest/v361-review-fixes.js
+          node --input-type=module --check < ytintel/latest/v360-endgame.js
+          node --input-type=module --check < ytintel/latest/v366-local-ai-optin.js
           node --input-type=module --check < ytintel/latest/v362-source-polish.js
           node --input-type=module --check < ytintel/latest/v363-premium-brief.js
           node --input-type=module --check < ytintel/latest/v364-fact-surfaces.js
           node --input-type=module --check < ytintel/latest/v365-canonical-shell.js
-          node --input-type=module --check < ytintel/latest/v360-endgame.js
+          node --input-type=module --check < ytintel/latest/v367-premium-lock.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
+          node --check ytintel/tests/production-v370.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           jq empty ytintel/benchmarks/blake-ryan-expected.json
           grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
+          grep -q 'v366-local-ai-shield.js?v=0370' ytintel/latest/v360-entry.js
+          grep -q 'v366-local-ai-optin.js?v=0370' ytintel/latest/v360-entry.js
           grep -q 'v363-premium-brief.js?v=0370' ytintel/latest/v360-entry.js
           grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/v360-entry.js
           grep -q 'v365-canonical-shell.js?v=0370' ytintel/latest/v360-entry.js
+          grep -q 'v367-premium-lock.js?v=0370' ytintel/latest/v360-entry.js
           grep -q '"version": "v0.37.0"' ytintel/latest/release.json
-          grep -q 'ytintel-shell-v0370' ytintel/latest/sw.js
+          grep -q 'ytintel-shell-v0370-r3' ytintel/latest/sw.js
           echo "YTIntel v0.37 premium release validation passed."
 
       - name: Configure Pages
