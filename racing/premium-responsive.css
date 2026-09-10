@@ -1,0 +1,187 @@
+/* MITCHELL Racing responsive layout patch · desktop + tablet + phone
+   Loaded after premium.css so the production UI can reflow without touching V11 logic. */
+
+/* Fluid foundation */
+body.premium-racing-ui .app-shell{
+  width:min(100%,920px);
+  margin:0 auto;
+  padding:calc(16px + env(safe-area-inset-top)) clamp(10px,2.2vw,24px) calc(98px + env(safe-area-inset-bottom));
+}
+#premiumApp{
+  width:100%;
+  max-width:100%;
+  margin:0 auto;
+}
+.premium-nav{
+  width:min(calc(100% - 20px),880px);
+  border:1px solid #1d2630;
+  border-bottom:0;
+  border-radius:18px 18px 0 0;
+  box-shadow:0 -14px 44px rgba(0,0,0,.28);
+}
+
+/* Tablet: use the available width but keep the same calm single-column hierarchy. */
+@media (min-width:700px) and (max-width:1099px){
+  body.premium-racing-ui .app-shell{width:min(100%,900px);padding-left:22px;padding-right:22px}
+  #premiumApp{max-width:840px}
+  .premium-top{min-height:200px;padding:22px 16px 26px}
+  .premium-brand-main{font-size:42px}
+  .premium-brand-script{font-size:47px}
+  .premium-date{font-size:16px}
+  .premium-hero-mark{width:205px;height:184px;right:20px;top:7px}
+  .premium-decision{padding:30px 28px 24px}
+  .premium-decision-icon{width:72px;height:72px;flex-basis:72px}
+  .premium-decision-icon svg{width:40px;height:40px}
+  .premium-decision h1{font-size:58px}
+  .premium-decision-sub{font-size:17px}
+  .premium-decision-rule{font-size:13px}
+  .premium-core{padding:21px}
+  .premium-core h2{font-size:25px}
+  .premium-alert{padding:18px 20px}
+  .premium-alert strong{font-size:17px}
+  .premium-alert p{font-size:12px}
+  .premium-stat{padding:17px 12px}
+  .premium-stat strong{font-size:24px}
+  .premium-stat span{font-size:10px}
+}
+
+/* Desktop: purpose-built two-column command centre instead of a stretched phone screen. */
+@media (min-width:1100px){
+  body.premium-racing-ui{
+    background:
+      radial-gradient(800px 500px at 23% 0%,rgba(232,180,77,.045),transparent 72%),
+      radial-gradient(900px 560px at 78% -80px,rgba(98,243,155,.055),transparent 72%),
+      linear-gradient(180deg,#05080c 0%,#080d12 48%,#05080c 100%);
+  }
+  body.premium-racing-ui .app-shell{
+    width:min(100%,1380px);
+    padding:30px 34px 96px;
+  }
+  #premiumApp{max-width:1240px}
+
+  .premium-top{
+    min-height:224px;
+    margin-bottom:4px;
+    padding:24px 26px 30px;
+    border:1px solid rgba(255,255,255,.045);
+    border-radius:28px;
+    background:linear-gradient(110deg,rgba(12,18,24,.74),rgba(7,12,17,.30));
+  }
+  .premium-top:before{width:430px;height:300px;right:35px;top:-70px}
+  .premium-brand{max-width:58%}
+  .premium-brand-main{font-size:52px;letter-spacing:.015em}
+  .premium-brand-script{font-size:57px}
+  .premium-date{margin-top:21px;font-size:17px}
+  .premium-motto{margin-top:17px;font-size:9px;letter-spacing:.32em}
+  .premium-hero-mark{width:300px;height:220px;right:64px;top:0;opacity:.70}
+  .premium-live-pill{right:28px;bottom:26px;padding:9px 13px;font-size:9px}
+  .premium-refresh{right:20px;top:20px;width:42px;height:42px}
+
+  /* Home only: dominant decision on the left, supporting cards on the right. */
+  #premiumPage:has(.premium-decision){
+    grid-template-columns:minmax(0,1.55fr) minmax(340px,.85fr);
+    grid-template-areas:
+      "decision core"
+      "decision alert"
+      "stats stats"
+      "note note";
+    gap:18px;
+    align-items:stretch;
+  }
+  #premiumPage:has(.premium-decision) .premium-decision{grid-area:decision;min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:42px 42px 34px}
+  #premiumPage:has(.premium-decision) .premium-core{grid-area:core}
+  #premiumPage:has(.premium-decision) .premium-alert{grid-area:alert}
+  #premiumPage:has(.premium-decision) .premium-stats{grid-area:stats}
+  #premiumPage:has(.premium-decision)>.premium-foot-note{grid-area:note}
+
+  .premium-decision-icon{width:84px;height:84px;flex-basis:84px}
+  .premium-decision-icon svg{width:46px;height:46px}
+  .premium-decision-top{gap:22px}
+  .premium-decision-kicker{font-size:10px}
+  .premium-decision h1{font-size:76px}
+  .premium-decision-sub{font-size:20px}
+  .premium-decision-rule{margin-top:28px;padding-top:20px;font-size:14px;line-height:1.55}
+  .premium-bet-horse{font-size:34px}
+  .premium-bet-race{font-size:13px}
+  .premium-bet-data{gap:12px;margin-top:22px}
+  .premium-bet-data>div{padding:17px}
+  .premium-bet-data span{font-size:9px}
+  .premium-bet-data strong{font-size:28px}
+  .premium-market-line{font-size:11px}
+
+  .premium-card{border-radius:24px}
+  .premium-core{padding:24px}
+  .premium-section-title span{font-size:9px}
+  .premium-core h2{font-size:28px}
+  .premium-core-state{font-size:15px}
+  .premium-core-meta{margin-top:18px}
+  .premium-potential{font-size:10px;padding:7px 10px}
+  .premium-ref{font-size:11px}
+  .premium-ref b{font-size:17px}
+  .premium-core-icon{width:72px;height:72px;border-radius:20px}
+  .premium-core-icon svg{width:38px;height:38px}
+
+  .premium-alert{padding:22px 24px;grid-template-columns:58px 1fr auto;gap:16px}
+  .premium-alert-icon{width:58px;height:58px}
+  .premium-alert-icon svg{width:29px;height:29px}
+  .premium-alert strong{font-size:18px}
+  .premium-alert p{font-size:12px;line-height:1.5}
+  .premium-alert button{min-height:42px;padding:0 14px;font-size:10px}
+
+  .premium-stats{gap:14px}
+  .premium-stat{padding:18px 14px;border-radius:20px}
+  .premium-stat svg{width:23px;height:23px}
+  .premium-stat strong{font-size:28px}
+  .premium-stat .money-value{font-size:24px}
+  .premium-stat span{font-size:10px}
+  .premium-foot-note{font-size:10px;padding:13px 16px}
+
+  /* Watchlist: three regional panels side-by-side on wide screens. */
+  #premiumPage:has(.premium-region){
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    align-items:start;
+  }
+  #premiumPage:has(.premium-region)>.premium-section-title,
+  #premiumPage:has(.premium-region)>.premium-foot-note{grid-column:1/-1}
+  .premium-region{padding:18px}
+  .premium-region-head h3{font-size:18px}
+  .premium-region-head span{font-size:10px}
+  .premium-state-grid{gap:6px}
+  .premium-state{padding:10px 3px}
+  .premium-state span{font-size:8px}
+  .premium-state strong{font-size:17px}
+
+  /* History / settings should be readable, not stretched edge-to-edge. */
+  #premiumPage:has(.premium-history-card),
+  #premiumPage:has(.premium-settings-card){max-width:920px;margin:0 auto;width:100%}
+  .premium-history-card,.premium-settings-card{padding:26px}
+  .premium-history-card h2,.premium-settings-card h2{font-size:31px}
+  .premium-history-card p,.premium-settings-card p{font-size:13px}
+  .premium-history-grid{grid-template-columns:repeat(4,1fr);gap:11px}
+  .premium-history-grid div{padding:16px}
+  .premium-history-grid strong{font-size:21px}
+
+  /* Desktop navigation uses the screen width instead of remaining a phone-width strip. */
+  .premium-nav{
+    width:min(calc(100% - 68px),1180px);
+    padding:9px 18px 10px;
+    border-radius:20px 20px 0 0;
+  }
+  .premium-nav button{min-height:54px;font-size:10px;gap:5px}
+  .premium-nav button svg{width:23px;height:23px}
+}
+
+/* Very wide monitors: prevent giant empty margins while preserving comfortable line lengths. */
+@media (min-width:1600px){
+  body.premium-racing-ui .app-shell{width:min(100%,1500px)}
+  #premiumApp{max-width:1340px}
+  #premiumPage:has(.premium-decision){grid-template-columns:minmax(0,1.6fr) minmax(380px,.8fr)}
+}
+
+/* Phone stays intentionally compact and touch-first. */
+@media (max-width:699px){
+  body.premium-racing-ui .app-shell{width:100%;padding-left:10px;padding-right:10px}
+  #premiumApp{max-width:560px;margin:0 auto}
+  .premium-nav{width:min(100%,560px);border-left:0;border-right:0;border-radius:0}
+}
