@@ -26,7 +26,14 @@ jobs:
           npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
       - name: Real deployed v0.37.0 benchmark-depth premium proof
-        run: node ytintel/tests/production-v370.mjs
+        shell: bash
+        run: |
+          mkdir -p ytintel-live-proof
+          set +e
+          node ytintel/tests/production-v370.mjs > ytintel-live-proof/run.log 2>&1
+          code=$?
+          cat ytintel-live-proof/run.log
+          exit $code
       - name: Upload real browser evidence
         if: always()
         uses: actions/upload-artifact@v4
