@@ -16,7 +16,8 @@ await import('./v372-endgame-closer.js?v=0375');
 await import('./v373-analyse-focus.js?v=0375');
 await import('./v374-creator-assets.js?v=0375');
 await import('./v375-creator-assets-cloud.js?v=0375');
-const RELEASE='0.37.5';
+await import('./v376-resumable-creator-assets.js?v=0376');
+const RELEASE='0.37.6';
 let releaseValue=RELEASE;
 try{Object.defineProperty(window,'YTINTEL_VERSION',{configurable:true,enumerable:true,get:()=>releaseValue,set:v=>{if(String(v)===RELEASE)releaseValue=RELEASE}})}catch{window.YTINTEL_VERSION=RELEASE}
 document.documentElement.dataset.ytintelVersion=RELEASE;
@@ -26,5 +27,5 @@ ownVisibleVersion();
 if(version)new MutationObserver(ownVisibleVersion).observe(version,{childList:true,subtree:true,characterData:true});
 const p=document.querySelector('#progressPct');
 if(p){new MutationObserver(()=>{if(/^NaN%$/i.test((p.textContent||'').trim())){p.textContent='98%';const b=document.querySelector('#progressBar');if(b)b.style.width='98%';const m=document.querySelector('#progressMsg');if(m)m.textContent='Source and benchmark-depth specialists are completing their cross-checks…'}}).observe(p,{childList:true,subtree:true,characterData:true})}
-if('serviceWorker'in navigator){try{navigator.serviceWorker.register('./sw.js?v=0375',{scope:'./'}).catch(()=>null)}catch{}}
+if('serviceWorker'in navigator){try{navigator.serviceWorker.register('./sw.js?v=0376',{scope:'./'}).catch(()=>null)}catch{}}
 document.documentElement.classList.remove('v360-loading');
