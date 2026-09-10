@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Validate YTIntel v0.37.2 premium release
+      - name: Validate YTIntel v0.37.3 single Analyse release
         shell: bash
         run: |
           set -euo pipefail
@@ -45,6 +45,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
           node --input-type=module --check < ytintel/latest/v371-feedback-overhaul.js
           node --input-type=module --check < ytintel/latest/v372-endgame-closer.js
+          node --input-type=module --check < ytintel/latest/v373-analyse-focus.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
@@ -52,12 +53,14 @@ jobs:
           node --check ytintel/tests/production-v372.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q '"version": "v0.37.2"' ytintel/latest/release.json
-          grep -q 'v360-entry.js?v=0372' ytintel/latest/index.html
-          grep -q 'v371-mobile-containment.css?v=0372' ytintel/latest/index.html
-          grep -q 'ytintel-shell-v0372-r1' ytintel/latest/sw.js
-          grep -q 'v372-endgame-closer.js?v=0372' ytintel/latest/v360-entry.js
-          echo "YTIntel v0.37.2 premium release validation passed."
+          grep -q '"version": "v0.37.3"' ytintel/latest/release.json
+          grep -q 'v360-entry.js?v=0373' ytintel/latest/index.html
+          grep -q 'v371-mobile-containment.css?v=0373' ytintel/latest/index.html
+          grep -q 'ytintel-shell-v0373-r1' ytintel/latest/sw.js
+          grep -q 'v373-analyse-focus.js?v=0373' ytintel/latest/v360-entry.js
+          if grep -q 'data-tab="compare"' ytintel/latest/index.html; then echo "Compare is still present in the shipped shell"; exit 1; fi
+          if grep -q 'data-dock="compare"' ytintel/latest/index.html; then echo "Compare is still present in the shipped mobile dock"; exit 1; fi
+          echo "YTIntel v0.37.3 single Analyse release validation passed."
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -94,8 +97,8 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
-          VERSION="$(jq -r '.version // "v0.37.2"' ytintel/latest/release.json)"
-          TITLE="$(jq -r '.title // "Endgame intelligence live"' ytintel/latest/release.json)"
+          VERSION="$(jq -r '.version // "v0.37.3"' ytintel/latest/release.json)"
+          TITLE="$(jq -r '.title // "Single Analyse focus"' ytintel/latest/release.json)"
           SUMMARY="$(jq -r '.summary // "The next YTIntel Endgame milestone is live."' ytintel/latest/release.json)"
           BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
           PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" '{username:"YTIntel",avatar_url:$icon,content:"🏆 **SHIP COMPLETE — YTINTEL ENDGAME**",allowed_mentions:{parse:[]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
