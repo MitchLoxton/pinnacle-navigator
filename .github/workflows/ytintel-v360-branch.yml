@@ -33,6 +33,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v361-review-fixes.js
           node --input-type=module --check < ytintel/latest/v362-source-polish.js
           node --input-type=module --check < ytintel/latest/v363-premium-brief.js
+          node --input-type=module --check < ytintel/latest/v364-fact-surfaces.js
           node --input-type=module --check < ytintel/latest/v360-endgame.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
@@ -42,11 +43,14 @@ jobs:
           grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
           grep -q 'v360-endgame.css?v=0370' ytintel/latest/index.html
           grep -q 'v363-premium-brief.js?v=0370' ytintel/latest/v360-entry.js
+          grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/v360-entry.js
           grep -q "const RELEASE='0.37.0'" ytintel/latest/v360-entry.js
           grep -q 'ytintel-shell-v0370' ytintel/latest/sw.js
+          grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/sw.js
           grep -q 'The claims ledger' ytintel/latest/v363-premium-brief.js
           grep -q 'Cross-channel validation sample' ytintel/latest/v363-premium-brief.js
           grep -q 'Download Markdown' ytintel/latest/v363-premium-brief.js
+          grep -q 'TITLE SURFACE CHECK' ytintel/latest/v364-fact-surfaces.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
           ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
