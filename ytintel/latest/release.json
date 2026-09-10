@@ -1,40 +1,37 @@
 {
-  "release_id": "ytintel-0.37.1-analyse-overhaul",
-  "version": "v0.37.1",
-  "title": "Analyse cleanup + Monday-brief repair",
-  "summary": "Analyse is now focused on the report itself: Creator DNA moved out of Analyse, the giant roadmap is collapsed into one cycling progress bar with folded activity, Strip source labels are isolated from Creator DNA, Summary/Takeaways/Re-hooks/Payoffs/Most Replayed are rebuilt around source evidence, Packaging gets an explicit vault receipt, Channel Context stops presenting unknown zeroes, Make It Yours contains context-specific directions and blueprints, Vault Entry is hidden, and Export produces clean full-analysis Markdown for Claude or any other AI.",
-  "published_at": "2026-09-10T10:23:00Z",
-  "notification_reissued_at": "2026-09-10T10:25:00Z",
+  "release_id": "ytintel-0.37.2-endgame-group-intelligence",
+  "version": "v0.37.2",
+  "title": "Endgame Group Intelligence + compounding Vault index",
+  "summary": "YTIntel now moves materially closer to the Endgame brief beyond the one-video report. Group Video Analysis has been rebuilt around exact side-by-side thumbnails, titles, hooks, views, outliers, WPM, first-payoff timing and Most Replayed timing; shared-pattern claims require support from at least two source videos; the output always ends with a Creator-DNA video-to-make blueprint. The Vault now exposes an Endgame index of accumulated niches, packages, title keywords, hook types and motion/change classes, while Watchtower adds a competitive brief for the hottest outlier and fastest measured view velocity.",
+  "published_at": "2026-09-10T10:38:00Z",
   "discord_changes": [
-    "ANALYSE CLEANUP: Creator DNA moved out of Analyse; giant research roadmap replaced by one compact cycling progress bar and folded Activity.",
-    "MONDAY BRIEF REPAIR: Summary, Key Takeaways, Re-hooks, Payoffs and Most Replayed now use source-backed receipts instead of generic filler or broken empty states.",
-    "CREATOR OUTPUT: Packaging is explicitly vaulted, Make It Yours contains context-specific directions + beat sheets + thumbnail blueprints, Vault Entry is hidden, and Export is clean Markdown for Claude/AI handoff."
+    "GROUP VIDEO ANALYSIS 2.0: exact thumbnails + titles + hooks + stats + payoff/replay timing are compared side by side, with repeated mechanics separated from one-off quirks.",
+    "PRESCRIPTIVE ENDGAME: every successful group pull now finishes with a Creator-DNA title/hook/thumbnail/beat-sheet blueprint even when the optional local model is unavailable.",
+    "COMPOUNDING VAULT: the Vault now indexes accumulated niches, package keywords, hook types and motion/change classes; Watchtower surfaces the hottest current outlier and fastest saved velocity."
   ],
   "changes": [
-    "Moved Creator DNA out of the Analyse view into the Vault area so the source report is not cluttered by persistent creator settings.",
-    "Collapsed the large research-agent/17-section roadmap into a single sticky progress card that cycles through the current analysis section; detailed Activity remains available in a closed disclosure panel.",
-    "Stopped Creator DNA niche/subniche from being used as source-video taxonomy. Strip now derives source topic labels from the video's own title/transcript and replaces unresolved zero metrics with unknown markers.",
-    "Rebuilt Summary around five useful answers: what the video is, how it is built, how it is doing, what appears to matter, and what is worth taking. Removed the generic 'video develops the promise...' filler.",
-    "Rebuilt Key Takeaways so the section cannot silently print 'no strong deterministic takeaways' when transcript evidence exists; it now selects source-backed lessons across the runtime with timestamp + quote receipts.",
-    "Rebuilt Re-hooks around attention-reset candidates, exact timestamps, source lines, why each reset matters, and median spacing.",
-    "Rebuilt Payoffs around the first payoff, payoff rate, title-promise term coverage, and chronological proof/demonstration receipts.",
-    "Rebuilt Most Replayed to use real heatmap peaks when available; when YouTube withholds the curve it explicitly shows transcript-only hypotheses labelled as hypotheses.",
-    "Reformatted the Things to Steal area into two readable columns: transferable mechanics and do-not-copy constraints.",
-    "Expanded the real visual pass to show public storyboard samples directly in Analyse and use the optional on-device vision model for composition / consecutive-frame change classification when supported.",
-    "Kept audio evidence honest: WPM, attributed tracks and caption-coded sound/music cues are shown when available; waveform-level claims are withheld unless accessible audio + local audio intelligence exist.",
-    "Added a Packaging Vault Receipt that preserves title architecture, title terms, hook/title overlap, exact thumbnail source and packaging tags for later Pattern Mine work.",
-    "Hardened Channel Context against fake zero values and keeps enriched public subscriber facts separate from unresolved values.",
-    "Separated transferable mechanics from Make It Yours. Make It Yours now uses Creator DNA to generate distinct video directions with title variants, exact hook direction, beat sheet, thumbnail composition, steal/do-not-copy rules and post-publish measurement.",
-    "Hid the raw Vault Entry section from Analyse while preserving the underlying vault record.",
-    "Replaced Export with a clean full-analysis Markdown handoff that can be copied or downloaded for Claude, ChatGPT or another AI, plus print/save-PDF.",
-    "Added a v0.37.1 production regression test covering the requested UX and report changes."
+    "Rebuilt the Compare tab as Endgame Group Video Analysis for 2–10 source videos.",
+    "Added exact thumbnail cards beside each source title and channel so packaging can be inspected visually rather than reduced to metadata.",
+    "Added one cross-video numbers table containing views, channel-relative outlier, WPM, hook type, exact opening/hook line, first payoff, top replay, title overlap and hook overlap.",
+    "Added deterministic shared-title and shared-hook pattern mining where a pattern must appear in at least two source videos before it is called shared.",
+    "Added title-architecture comparison and per-video title/hook overlap percentages against the group-level repeated signals.",
+    "Added optional on-device thumbnail vision reads when local vision is already enabled; exact thumbnails remain visible even when semantic vision is unavailable.",
+    "Added a strongest-source difference card ranked by channel-relative outlier when available, while explicitly avoiding causal claims from performance alone.",
+    "Added an always-available Creator-DNA prescription with title directions, hook direction, thumbnail direction, beat sheet, transferable mechanics, do-not-copy constraints and post-publish measurements.",
+    "Kept the existing optional local-model group synthesis as a second-pass refinement instead of making prescriptive output depend on model availability.",
+    "Expanded saved comparison records with repeated title/hook signals, group stats, winner evidence, the creator blueprint and available thumbnail reads.",
+    "Added an Endgame Vault Index showing winner analyses, packages, comparisons and style records plus repeating niche, title-keyword, hook-type and motion/change patterns.",
+    "Added a Watchtower Brief summarising tracked competitors, hottest current channel-relative outlier, fastest measured view velocity and snapshot history.",
+    "Carried forward the v0.37.1 Analyse cleanup: Creator DNA outside Analyse, compact progress, folded Activity, rebuilt summary/takeaways/rehooks/payoffs/replay, packaging vault receipt, hidden raw Vault entry and clean Markdown export.",
+    "Added deployed-browser regression coverage for the v0.37.2 Compare, Vault and Watchtower Endgame surfaces while retaining the full one-video Analyse regression proof."
   ],
   "known_limitations": [
-    "YouTube does not expose a reliable Most Replayed curve for every video. When unavailable, YTIntel shows clearly labelled transcript hypotheses rather than fabricating peaks.",
-    "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Automatic composition/cut/zoom interpretation is strongest when the optional on-device vision model is available.",
+    "True automatic thumbnail composition comparison is strongest when the optional on-device vision model is available. Without it, YTIntel shows the exact thumbnails and performs title/hook/package evidence comparisons without inventing visual attributes.",
+    "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than being fabricated.",
+    "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Exact frame-by-frame visual semantics remain an active Endgame workstream.",
     "True waveform-level music/SFX/silence classification still requires an accessible audio stream plus supported local audio intelligence. Caption-coded cues and attributed tracks remain the zero-credit fallback.",
-    "Source niche/subniche inference is deterministic topic extraction, not a universal taxonomy classifier; it is intentionally kept separate from Creator DNA.",
-    "Channel-level medians and outlier context depend on the public channel surfaces returned on that run. Unknown values are shown as unknown rather than zero."
+    "Group pattern mining currently treats repeated source-supported terms and measured timing as evidence of recurrence, not proof that those patterns caused performance.",
+    "Watchtower velocity depends on repeated snapshots; a brand-new competitor has no historical velocity until it has been observed more than once."
   ],
-  "why_it_matters": "The Analyse page should behave like a premium research deliverable, not an engineering dashboard. This release removes the visible plumbing, restores the Monday brief's core evidence sections, and ends with a creator-specific blueprint plus a portable report that can continue inside another AI."
+  "why_it_matters": "The Endgame brief is not just a long single-video analysis. The durable product is a compounding creator intelligence system: compare winners together, learn only from patterns that repeat, convert them into a video the user should make, bank those lessons, and watch competitors for the next move. v0.37.2 makes those system-level loops materially more useful while keeping evidence limits explicit."
 }
