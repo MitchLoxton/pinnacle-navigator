@@ -1,36 +1,36 @@
 {
-  "release_id": "ytintel-0.37.5-cloud-creator-assets",
-  "version": "v0.37.5",
-  "title": "Creator Assets becomes a real private cloud footage library",
-  "summary": "YTIntel now moves the GTA 6 creator-footage idea beyond a browser prototype. Signed-in Creator Assets has a private Supabase-backed footage library with real file uploads, per-user row-level security, private storage paths, short-lived signed file links, cloud footage metadata/search, persistent capture-board infrastructure, creator referral records and asset-event tracking. The v0.37.3 single-video Analyse focus remains intact and Compare stays parked.",
-  "published_at": "2026-09-10T11:42:00Z",
+  "release_id": "ytintel-0.37.6-resumable-creator-assets",
+  "version": "v0.37.6",
+  "title": "Large GTA 6 footage uploads are now resumable",
+  "summary": "YTIntel hardens the Creator Assets foundation for the kind of files it is actually meant to hold. Gameplay files above 6 MB now use resumable TUS uploads through Supabase's direct Storage hostname with chunk progress, retry/resume support, pause/resume controls and automatic media metadata capture. Creator DNA is physically outside Analyse in Vault, and the installed PWA no longer exposes a stale Compare shortcut.",
+  "published_at": "2026-09-10T12:19:00Z",
   "discord_changes": [
-    "☁️ CREATOR ASSETS CLOUD: signed-in YTIntel now has a real cross-device private footage library instead of browser-only metadata.",
-    "🎥 PRIVATE FILE UPLOADS: MP4/WebM/MOV footage and image assets can be uploaded into a private per-user bucket and opened through expiring signed links.",
-    "🎮 GTA 6 SUPPLY SYSTEM: the launch capture board, source-aware footage matching and Make It Yours → Creator Assets bridge remain in place, now backed by cloud infrastructure.",
-    "🔒 RIGHTS + ATTRIBUTION DATA: every cloud asset carries rights status and attribution rules; creator referrals and usage-event tables are ready for the distribution funnel."
+    "🎥 LARGE GAMEPLAY UPLOADS: Creator Assets now switches files over 6 MB to resumable TUS uploads instead of relying on one fragile request.",
+    "⏯️ RESUME + PROGRESS: 6 MB chunks, automatic retry, interrupted-upload resume, live percentage, pause/resume controls and a leave-page warning protect long GTA 6 captures.",
+    "🧾 BETTER FOOTAGE RECEIPTS: uploaded videos now bank detected duration, dimensions, resolution and upload protocol alongside rights + attribution metadata.",
+    "🧹 PRODUCT CLEANUP: Creator DNA now physically lives in Vault, and the installed PWA's obsolete Compare shortcut / Group Analysis copy is removed."
   ],
   "changes": [
-    "Created isolated Supabase tables for ytintel_creator_assets, ytintel_creator_capture_items, ytintel_creator_referrals and ytintel_creator_asset_events without changing existing YTIntel analysis tables.",
-    "Enabled authenticated per-user RLS on every Creator Assets table so each account can only read and mutate its own footage metadata, capture tasks, referrals and usage events.",
-    "Created a private ytintel-creator-assets storage bucket for MP4, WebM, QuickTime, JPEG, PNG and WebP assets, with storage policies scoped to the signed-in user's folder.",
-    "Added cloud APIs to v360-cloud for loading/saving/archiving footage, private file upload, signed links, capture-board sync, referral storage, usage-event logging and Creator Assets stats.",
-    "Added a Cloud library tab inside Creator Assets. Signed-in users can upload the actual source file plus title, game, scene, tags, rights status, attribution mode, resolution and licensing notes.",
-    "Private files are never exposed with permanent public URLs. YTIntel creates a short-lived signed URL only when the user explicitly opens a cloud asset.",
-    "Cloud footage remains searchable against the currently analysed video's context so the eventual workflow is Analyse winner → Make It Yours → find matching B-roll.",
-    "The local Creator Assets foundation remains available for unsigned/local use, including the 22-item GTA 6 launch capture board, local footage manifest, distribution concepts, referral-link builder and export tools.",
-    "Preserved the single Analyse UX contract: Creator DNA outside Analyse, one compact research progress popup, folded Activity, source-only Strip, useful short summary, source-backed takeaways, Monday-brief re-hooks/payoffs/replay behavior, package banking, channel zero suppression, context-specific Make It Yours and clean Markdown export.",
-    "Compare remains removed from desktop navigation, mobile navigation and the active Vault UI."
+    "Added v376-resumable-creator-assets.js as a focused large-file upload layer on top of the existing private Creator Assets cloud library.",
+    "Files above 6 MB are routed through Supabase Storage's resumable TUS endpoint using the direct project Storage hostname and fixed 6 MB chunks.",
+    "Interrupted uploads can reuse the previous TUS upload URL; a stable per-file pending path is retained until successful completion so retries resume the correct object rather than creating mismatched metadata.",
+    "Added live byte/percentage progress, pause/resume controls, retry delays and a before-unload guard while an upload is active.",
+    "Added local media probing before banking: duration, width, height and inferred resolution are saved with the Creator Assets record when the browser can read them.",
+    "Extended Creator Assets event semantics in Supabase so resumable uploads can be logged as uploaded instead of being mislabeled as shared.",
+    "Moved the Creator DNA card out of Analyse in the static document and into Vault, removing reliance on post-boot DOM relocation for the intended information architecture.",
+    "Removed the stale Compare Winners PWA shortcut and Group Analysis wording from the installed app manifest; the PWA now exposes Analyse, Creator Assets + Vault and Watchtower.",
+    "Advanced the app shell/service-worker cache to v0.37.6 and added a dedicated regression test for resumable uploads, Creator DNA placement and Compare absence.",
+    "Preserved the v0.37.5 private per-user storage/RLS foundation and the v0.37.3 single-video Analyse focus."
   ],
   "known_limitations": [
-    "The cloud file pipeline currently uploads original files. Automatic transcoding, proxy generation, thumbnails, scene splitting, embeddings and CDN delivery are the next footage-infrastructure milestones.",
-    "Creator referral records and asset event logging now exist, but anonymous click attribution, creator dashboards, affiliate payouts and fraud-resistant conversion accounting are not complete yet.",
+    "The upload pipeline stores original files; automatic transcoding, proxy generation, thumbnail extraction, scene splitting, embeddings and creator-facing CDN delivery are still future milestones.",
+    "Actual maximum file size is still governed by the Supabase project's global and bucket Storage limits; YTIntel does not attempt to bypass those limits.",
+    "TUS resume metadata is browser-local, so resuming an interrupted upload is strongest when retried from the same browser/device.",
+    "Creator referral records and asset event logging exist, but anonymous click attribution, creator dashboards, affiliate payouts and fraud-resistant conversion accounting are not complete yet.",
     "Publisher/platform rights still govern gameplay redistribution. YTIntel does not treat self-recording as automatic permission to sublicense footage; public commercial licence copy must be verified game-by-game before rollout.",
-    "Signed-out users keep local Creator Assets data only; cross-device cloud sync requires YTIntel sign-in.",
     "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than fabricated.",
     "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Exact encoded-frame-by-frame semantic analysis remains an active Endgame workstream.",
-    "Automatic visual composition and edit-type classification remain strongest when the optional on-device vision model is ready.",
     "Waveform-level silence/transient analysis requires a directly decodable public audio stream; semantic music/SFX labels additionally require supported source metadata or local audio intelligence."
   ],
-  "why_it_matters": "YTIntel can now own both sides of the workflow: intelligence about what a creator should make and a real private asset library that can eventually supply the exact gameplay needed to make it. The next major Endgame work remains deep video/audio intelligence plus automatic footage ingestion, scene-level tagging and measurable creator distribution."
+  "why_it_matters": "The footage product only works if creators can bank hours of high-resolution gameplay without a single network wobble wasting the whole upload. v0.37.6 makes that foundation materially more credible while also cleaning up two product-regression issues: Creator DNA being structurally inside Analyse and Compare still surviving in the installed PWA."
 }
