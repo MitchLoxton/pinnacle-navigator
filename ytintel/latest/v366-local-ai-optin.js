@@ -1,4 +1,4 @@
-import * as localAI from './v360-local-ai.js?v=0370';
+import * as localAI from './v360-local-ai.js?v=0360';
 const $=s=>document.querySelector(s);
 let lastState=localAI.getState();
 function render(st=localAI.getState()){
@@ -45,6 +45,6 @@ function start(){
   const timer=setInterval(()=>{tries++;blockAutoCreate();if(install()||tries>30)clearInterval(timer)},100);
   window.addEventListener('ytintel:v360-local-ai',e=>render(e.detail));
   render();
-  window.YTIntelLocalAiOptIn={version:'0.37.0',install};
+  window.YTIntelLocalAiOptIn={version:'0.37.0',install,getState:()=>localAI.getState()};
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
