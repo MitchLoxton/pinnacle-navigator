@@ -4,6 +4,7 @@
   "title": "Analyse cleanup + Monday-brief repair",
   "summary": "Analyse is now focused on the report itself: Creator DNA moved out of Analyse, the giant roadmap is collapsed into one cycling progress bar with folded activity, Strip source labels are isolated from Creator DNA, Summary/Takeaways/Re-hooks/Payoffs/Most Replayed are rebuilt around source evidence, Packaging gets an explicit vault receipt, Channel Context stops presenting unknown zeroes, Make It Yours contains context-specific directions and blueprints, Vault Entry is hidden, and Export produces clean full-analysis Markdown for Claude or any other AI.",
   "published_at": "2026-09-10T10:23:00Z",
+  "notification_reissued_at": "2026-09-10T10:25:00Z",
   "discord_changes": [
     "ANALYSE CLEANUP: Creator DNA moved out of Analyse; giant research roadmap replaced by one compact cycling progress bar and folded Activity.",
     "MONDAY BRIEF REPAIR: Summary, Key Takeaways, Re-hooks, Payoffs and Most Replayed now use source-backed receipts instead of generic filler or broken empty states.",
