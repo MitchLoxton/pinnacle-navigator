@@ -1,38 +1,34 @@
 {
   "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
   "version": "v0.37.0",
-  "title": "Benchmark-depth premium analysis — production verified",
-  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging evidence renders immediately, and public subscriber enrichment now falls back to the channel About data instead of printing a fake zero.",
-  "published_at": "2026-09-10T04:55:00Z",
+  "title": "Benchmark-depth premium analysis — final production gate",
+  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging evidence renders immediately, and subscriber enrichment now resolves both @handles and channel-ID URLs through public About-page evidence instead of printing a fake zero.",
+  "published_at": "2026-09-10T05:02:00Z",
   "discord_changes": [
-    "18-SCREEN PREMIUM: one link resolves from Strip through Export at Blake-benchmark depth, with the transcript retained as evidence.",
-    "FACT FIXES: Title Surface Check renders immediately and subscriber counts now use public About-page fallback instead of false zero.",
-    "ENDGAME OUTPUT: claims, channel context and Creator DNA feed 2–3 executable remake directions instead of stopping at analytics."
+    "18-SCREEN PREMIUM: Strip → Export now follows the 09/09 benchmark order at Blake-analysis depth.",
+    "SUBSCRIBER BUG KILLED: channel-ID URLs now resolve public About-page subscribers; zero can no longer pass the Blake production test.",
+    "ENDGAME OUTPUT: claims + channel context + Creator DNA finish in 2–3 executable remake directions with measurement plans."
   ],
   "changes": [
-    "Replaced the old presentation layer with the 18-section order in the 09/09 Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry, Export.",
-    "Added a premium short-version summary that separates what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
-    "Expanded the first 60 seconds into line-by-line source quotes plus the job each line is doing.",
-    "Added benchmark-depth structure mapping with beat time, length, job, exact receipt and explicit screen-evidence limits.",
-    "Added a numeric claims ledger that refuses to call a spoken number verified unless a public value in the same pull supports the verdict.",
-    "Added recent-channel hits, same-angle matching, a public cross-channel validation sample and a business/funnel read inside Channel Context.",
-    "Added a dedicated Numbers Table for WPM, pace by minute, caption gaps, beats, first receipt, first payoff, first sell, selling share and media-derived cut rate when available.",
-    "Preserved source-backed visual, motion and audio passes; missing media stays unavailable instead of being inferred from captions.",
-    "Expanded Make It Yours to benchmark-style package directions and measurement signals while retaining optional on-device model deepening when available.",
-    "Added per-section benchmark word targets as QA metadata. Targets are goals, never filler quotas.",
-    "Added title-surface/subscriber verification, deeper package mechanics, Markdown/PDF export and a full timestamped transcript appendix.",
-    "Fixed a packaging race so the Title Surface Check is part of the completed premium brief immediately and does not wait on secondary channel statistics.",
-    "Fixed the old subscriber-zero failure by reading the public channel About-page subscriber count when the secondary statistics object is empty, and showing unknown rather than a fabricated zero when no count is established.",
-    "Strengthened the deployed Blake benchmark test so a literal or unresolved zero subscriber count can no longer pass the production proof.",
-    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture.",
-    "Added mobile containment so wide claims/channel/evidence tables scroll inside their cards instead of widening the page."
+    "Locked the 18-section order from the Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry and Export.",
+    "Kept the Endgame promise intact: replace watching the source, expose the evidence under each conclusion, and finish with the user's own video blueprint rather than a generic analytics dump.",
+    "Matched the Blake Ryan benchmark's useful depth with per-section QA targets instead of padding every section to arbitrary length.",
+    "Added the benchmark-style short version: what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
+    "Expanded the first 60 seconds into line-by-line hook analysis and retained chronological re-hook/payoff receipts across the full runtime.",
+    "Added the dedicated Structure Map, Numbers Table, Claims Ledger and Channel Context surfaces required by the 09/09 brief.",
+    "Kept Most Replayed, storyboard/frame, motion and audio claims evidence-bounded; unavailable public evidence stays unavailable instead of being fabricated.",
+    "Added current title-surface evidence without falsely asserting an A/B test when only public discrepancies are visible.",
+    "Fixed the Title Surface Check race so Packaging is complete immediately and slower channel enrichment no longer blocks it.",
+    "Fixed the benchmark subscriber-zero bug for both @handle and /channel/ID inputs using a dedicated public About-page fallback. Unknown subscriber evidence remains null/unknown, never a fake zero.",
+    "Strengthened the deployed Blake production smoke so it requires a nonzero public subscriber count, a rendered subscriber evidence card, all 18 sections, premium depth floors, claims/context/remake/export coverage, transcript evidence, mobile containment and zero page errors.",
+    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA and the compounding Vault."
   ],
   "known_limitations": [
-    "External factual verification across the open web is not fabricated in zero-credit mode. Claims that only exist in the source remain THEIR CLAIM unless the public YouTube pull or arithmetic/source consistency can verify or contradict them.",
-    "Public search validation is a sample, not a census, and YouTube may return different or incomplete surfaces over time.",
+    "External factual verification across the open web is not fabricated in zero-credit mode. Claims that only exist in the source remain THEIR CLAIM unless public evidence or arithmetic can verify or contradict them.",
+    "Public search validation is a sample, not a census, and YouTube can expose different or incomplete surfaces over time.",
     "YouTube may not expose storyboards, direct media, comments, subscribers or Most Replayed on every request. Missing evidence stays explicitly unavailable.",
     "Storyboard frames are seek-bar samples rather than every encoded video frame; exact cut/zoom/audio claims require reliable media access or a supported on-device multimodal model.",
-    "On-device multimodal model support depends on browser/device availability and is explicit opt-in. Source analysis and the 18-section evidence report still run without it."
+    "On-device multimodal model support depends on browser/device availability and is explicit opt-in. The 18-section source-evidence report still runs without it."
   ],
-  "why_it_matters": "The target is no longer a short dashboard summary. The product now mirrors the premium Blake Ryan benchmark in depth and evidence discipline while preserving the Endgame rule: save the creator the watch/research time, show the line each conclusion came from, and finish with the video they should make."
+  "why_it_matters": "The product is now judged against the hand-built premium benchmark, not against whether a dashboard rendered. It has to save the watch/research time, survive factual cross-checks, and leave the creator with a better original video to make."
 }
