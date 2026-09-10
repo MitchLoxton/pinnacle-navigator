@@ -29,8 +29,6 @@ function revealShell(reason='bootstrap'){
   root.dataset.ytintelShellReady=reason;
 }
 
-// Emergency routing lives in the entry file so a downstream module can fail
-// without leaving the user with a visible-but-unclickable shell.
 document.addEventListener('click',e=>{
   const b=e.target?.closest?.('[data-tab],[data-dock]');
   if(!b)return;
@@ -40,10 +38,7 @@ document.addEventListener('click',e=>{
   ensureActiveView(tab);
 },{capture:true});
 
-// Never let an unhydrated form submit replace the app document.
 document.querySelector('#analyseForm')?.addEventListener('submit',e=>e.preventDefault(),{capture:true});
-
-// Reveal first, hydrate second. A failed optional module can no longer brick the UI.
 revealShell('entry-start');
 
 const modules=[
@@ -66,7 +61,8 @@ const modules=[
   './v374-creator-assets.js?v=0375',
   './v375-creator-assets-cloud.js?v=0375',
   './v376-resumable-creator-assets.js?v=0376',
-  './v377-scene-indexer.js?v=0377'
+  './v377-scene-indexer.js?v=0377',
+  './v379-usability-guard.js?v=0379u1'
 ];
 const failures=[];
 for(const src of modules){
@@ -87,9 +83,9 @@ if(version)new MutationObserver(ownVisibleVersion).observe(version,{childList:tr
 const p=document.querySelector('#progressPct');
 if(p){new MutationObserver(()=>{if(/^NaN%$/i.test((p.textContent||'').trim())){p.textContent='98%';const b=document.querySelector('#progressBar');if(b)b.style.width='98%';const m=document.querySelector('#progressMsg');if(m)m.textContent='Source and benchmark-depth specialists are completing their cross-checks…'}}).observe(p,{childList:true,subtree:true,characterData:true})}
 
-// Re-run shell recovery after every module has had a chance to mutate the DOM.
 revealShell(failures.length?'entry-recovered-with-module-failures':'entry-complete');
 window.YTIntelNavigationResilience?.restore?.('entry-complete');
+window.YTIntelUsabilityGuard?.repair?.();
 
 if('serviceWorker'in navigator){try{navigator.serviceWorker.register('./sw.js?v=0379',{scope:'./'}).catch(()=>null)}catch{}}
 window.dispatchEvent(new CustomEvent('ytintel:v379-ready',{detail:{version:RELEASE,failures:failures.length}}));
