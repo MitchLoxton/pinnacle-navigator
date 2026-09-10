@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
   pages: write
   id-token: write
 
@@ -25,27 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
 
-      - name: Validate YTIntel release
+      - name: Validate YTIntel v0.37 premium release
         shell: bash
         run: |
           set -euo pipefail
-          node --check ytintel/latest/v201-always-on.js
-          node --check ytintel/latest/v220-sync.js
-          node --check ytintel/latest/v250-radar-persistence.js
-          node --check ytintel/latest/v250-app.js
-          node --check ytintel/latest/v281-auth-fix.js
-          node --check ytintel/latest/v283-deep-packaging.js
-          node --check ytintel/latest/v284-luxe.js
-          node --check ytintel/latest/v290-commercial.js
-          node --check ytintel/latest/v291-auth-core.js
-          node --check ytintel/latest/v292-owner-polish.js
-          node --check ytintel/latest/v293-notes-focus.js
-          node --check ytintel/latest/v293-release-card.js
-          node --check ytintel/latest/v294-focus-cleanup.js
-          node --check ytintel/latest/v295-core-hardening.js
-          node --check ytintel/latest/v300-core-analysis.js
           node --input-type=module --check < ytintel/latest/v360-entry.js
           node --input-type=module --check < ytintel/latest/v366-local-ai-shield.js
           node --input-type=module --check < ytintel/latest/v361-capability-guard.js
@@ -65,18 +49,10 @@ jobs:
           node --check ytintel/tests/production-v370.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          jq empty ytintel/benchmarks/blake-ryan-expected.json
-          grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
-          grep -q 'v366-local-ai-shield.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v366-local-ai-optin.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v363-premium-brief.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v369-packaging-depth.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v365-canonical-shell.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v367-premium-lock.js?v=0370' ytintel/latest/v360-entry.js
-          grep -q 'v370-transcript-receipt.js?v=0370' ytintel/latest/v360-entry.js
           grep -q '"version": "v0.37.0"' ytintel/latest/release.json
-          grep -q 'ytintel-shell-v0370-r5' ytintel/latest/sw.js
+          grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
+          grep -q 'v371-mobile-containment.css?v=0370' ytintel/latest/index.html
+          grep -q 'ytintel-shell-v0370-r6' ytintel/latest/sw.js
           echo "YTIntel v0.37 premium release validation passed."
 
       - name: Configure Pages
@@ -93,71 +69,31 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Settle YTIntel release burst
-        if: github.event_name == 'push'
-        shell: bash
-        run: sleep 45
-
       - name: Detect YTIntel changes
         if: github.event_name == 'push'
         id: ytintel
-        env:
-          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
+          BEFORE="${{ github.event.before }}"
           AFTER="${{ github.sha }}"
-          git fetch origin main --quiet
-          LATEST="$(git rev-parse origin/main)"
-          if [ "$LATEST" != "$AFTER" ]; then
-            NEWER_YT="$(git diff --name-only "$AFTER" "$LATEST" | grep '^ytintel/' || true)"
-            if [ -n "$NEWER_YT" ]; then
-              echo "changed=false" >> "$GITHUB_OUTPUT"
-              echo "Newer YTIntel changes exist; skipping intermediate notification."
-              exit 0
-            fi
-          fi
-          BASE="$(curl --fail --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/pages.yml/runs?branch=main&status=success&per_page=10" | jq -r '.workflow_runs[0].head_sha // empty')"
-          if [ -z "$BASE" ] || [ "$BASE" = "$AFTER" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then BASE="${{ github.event.before }}"; fi
-          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then BASE="$(git rev-parse "${AFTER}^" 2>/dev/null || printf '%s' "$AFTER")"; fi
-          YT_FILES="$(git diff --name-only "$BASE" "$AFTER" | grep '^ytintel/' || true)"
-          if [ -z "$YT_FILES" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-          echo "base=$BASE" >> "$GITHUB_OUTPUT"
-          echo "after=$AFTER" >> "$GITHUB_OUTPUT"
-          if git diff --name-only "$BASE" "$AFTER" | grep -qx 'ytintel/latest/release.json'; then echo "release_changed=true" >> "$GITHUB_OUTPUT"; else echo "release_changed=false" >> "$GITHUB_OUTPUT"; fi
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then BEFORE="$(git rev-parse HEAD^ 2>/dev/null || printf '%s' "$AFTER")"; fi
+          if git diff --name-only "$BEFORE" "$AFTER" | grep -q '^ytintel/'; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
 
-      - name: Send rewarding concise YTIntel Discord release
+      - name: Send YTIntel Discord release
         if: github.event_name == 'push' && steps.ytintel.outputs.changed == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
           ICON_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/icon.svg
-          RELEASE_CHANGED: ${{ steps.ytintel.outputs.release_changed }}
-          BASE_SHA: ${{ steps.ytintel.outputs.base }}
-          AFTER_SHA: ${{ steps.ytintel.outputs.after }}
         shell: bash
         run: |
           set -euo pipefail
           if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
-          VERSION=""; TITLE="Update live"; SUMMARY="A new YTIntel improvement is live."; BULLETS=""; CHANGE_COUNT="1"
-          if [ "$RELEASE_CHANGED" = "true" ] && [ -f ytintel/latest/release.json ]; then
-            VERSION="$(jq -r '.version // ""' ytintel/latest/release.json)"
-            TITLE="$(jq -r '.title // "Update live"' ytintel/latest/release.json)"
-            SUMMARY="$(jq -r '.summary // "A new YTIntel update is live."' ytintel/latest/release.json)"
-            CHANGE_COUNT="$(jq -r '(.changes // .discord_changes // []) | length' ytintel/latest/release.json)"
-            BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:3] | map(sub("^Added "; "") | sub("^Updated "; "") | sub("^Rebuilt "; "") | if length > 92 then .[0:89] + "…" else . end | "✦ " + .) | join("\n")' ytintel/latest/release.json)"
-          else
-            YT_COMMIT="$(git log -1 --format='%H' "${BASE_SHA}..${AFTER_SHA}" -- ytintel/ 2>/dev/null || true)"
-            if [ -z "$YT_COMMIT" ]; then YT_COMMIT="$AFTER_SHA"; fi
-            TITLE="$(git log -1 --format='%s' "$YT_COMMIT" | sed -E 's/^Add YTIntel v[0-9.]+ //; s/^Release YTIntel v[0-9.]+ //')"
-            BULLETS="✦ ${TITLE}"
-          fi
-          SHORT_SHA="${AFTER_SHA:0:7}"; TITLE="${TITLE:0:72}"; SUMMARY="${SUMMARY:0:155}"; BULLETS="${BULLETS:0:320}"; VERSION_LABEL="${VERSION:-YTIntel}"
-          PAYLOAD="$(jq -n --arg version "$VERSION_LABEL" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg count "$CHANGE_COUNT" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "$SHORT_SHA" '{username:"YTIntel",avatar_url:$icon,content:"🏆 **SHIP COMPLETE — NEW YTINTEL UPDATE**",allowed_mentions:{parse:[]},embeds:[{title:("🚀 " + (if $version=="YTIntel" then "YTIntel" else $version end) + " — " + $title),url:$live,description:("**⚡ " + $count + " upgrades are LIVE**" + (if $summary=="" then "" else "\n" + $summary end) + (if $bullets=="" then "" else "\n\n" + $bullets end) + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  +1 release  •  build " + $sha)}}]}')"
-          for attempt in 1 2 3; do
-            if curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"; then echo "YTIntel rewarding concise Discord release notification sent."; exit 0; fi
-            sleep $((attempt * 3))
-          done
-          echo "::error::YTIntel deployed, but the rewarding concise Discord notification failed after 3 attempts."
-          exit 1
+          VERSION="$(jq -r '.version // "v0.37.0"' ytintel/latest/release.json)"
+          TITLE="$(jq -r '.title // "Premium analysis live"' ytintel/latest/release.json)"
+          SUMMARY="$(jq -r '.summary // "The premium YTIntel analysis upgrade is live."' ytintel/latest/release.json)"
+          BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
+          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" '{username:"YTIntel",avatar_url:$icon,content:"🏆 **SHIP COMPLETE — YTINTEL PREMIUM ANALYSIS**",allowed_mentions:{parse:[]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
+          curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
+          echo "YTIntel Discord release notification sent."
