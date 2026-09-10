@@ -1,5 +1,5 @@
 {
-  "release": "v0.37.7",
-  "reason": "ship automatic Creator Assets Scene Index and script-to-B-roll search",
-  "requested_at": "2026-09-10T12:50:00Z"
+  "release": "v0.37.8",
+  "reason": "@aaron — fixed the YTIntel blank-screen crash when leaving for YouTube and returning with browser Back/Forward; added return-navigation regression proof",
+  "requested_at": "2026-09-10T13:52:00Z"
 }
