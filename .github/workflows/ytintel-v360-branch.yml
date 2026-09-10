@@ -68,3 +68,13 @@ jobs:
           exit 1
       - name: Bounded 09-09 intelligence-review browser acceptance
         run: node ytintel/tests/v361-review-browser.mjs
+      - name: Capture branch source
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ytintel-v036-source
+          path: |
+            ytintel/latest
+            ytintel/tests/v360-*.mjs
+            ytintel/tests/v361-review-browser.mjs
+          retention-days: 3
