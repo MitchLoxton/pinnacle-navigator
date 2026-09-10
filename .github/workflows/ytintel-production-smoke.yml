@@ -36,6 +36,42 @@ jobs:
             echo "ytintel=false" >> "$GITHUB_OUTPUT"
           fi
 
+  navigation-return:
+    needs: scope
+    if: needs.scope.outputs.ytintel == 'true'
+    concurrency:
+      group: ytintel-navigation-return-smoke
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Real deployed v0.37.8 leave + return resilience proof
+        shell: bash
+        run: |
+          mkdir -p ytintel-live-proof
+          set +e
+          node ytintel/tests/production-v378-navigation.mjs > ytintel-live-proof/navigation.log 2>&1
+          code=$?
+          cat ytintel-live-proof/navigation.log
+          exit $code
+      - name: Upload navigation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ytintel-v0378-navigation-proof-${{ github.run_id }}
+          path: ytintel-live-proof
+          retention-days: 14
+
   signed-out-core:
     needs: scope
     if: needs.scope.outputs.ytintel == 'true'
@@ -55,7 +91,7 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
-      - name: Real deployed v0.37.7 Analyse regression proof
+      - name: Real deployed v0.37.8 Analyse regression proof
         shell: bash
         run: |
           mkdir -p ytintel-live-proof
@@ -64,7 +100,7 @@ jobs:
           code=$?
           cat ytintel-live-proof/analyse.log
           exit $code
-      - name: Real deployed v0.37.7 shell + Scene Index Creator Assets proof
+      - name: Real deployed v0.37.8 shell + Scene Index Creator Assets proof
         shell: bash
         run: |
           set +e
@@ -76,6 +112,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-v0377-live-production-proof-${{ github.run_id }}
+          name: ytintel-v0378-live-production-proof-${{ github.run_id }}
           path: ytintel-live-proof
           retention-days: 14
