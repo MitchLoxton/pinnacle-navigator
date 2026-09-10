@@ -5,6 +5,7 @@ await import('./v360-endgame.js?v=0370');
 await import('./v362-source-polish.js?v=0370');
 await import('./v363-premium-brief.js?v=0370');
 await import('./v364-fact-surfaces.js?v=0370');
+await import('./v365-canonical-shell.js?v=0370');
 const RELEASE='0.37.0';
 let releaseValue=RELEASE;
 try{Object.defineProperty(window,'YTINTEL_VERSION',{configurable:true,enumerable:true,get:()=>releaseValue,set:v=>{if(String(v)===RELEASE)releaseValue=RELEASE}})}catch{window.YTINTEL_VERSION=RELEASE}
