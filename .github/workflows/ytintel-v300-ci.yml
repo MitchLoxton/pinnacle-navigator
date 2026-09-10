@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.37.9 fail-open clickable Creator Assets Endgame core
+      - name: Validate v0.37.9 usability-first production core
         shell: bash
         run: |
           set -euo pipefail
@@ -49,6 +49,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v376-resumable-creator-assets.js
           node --input-type=module --check < ytintel/latest/v377-scene-indexer.js
           node --input-type=module --check < ytintel/latest/v378-navigation-resilience.js
+          node --input-type=module --check < ytintel/latest/v379-usability-guard.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
@@ -58,21 +59,31 @@ jobs:
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0379-r1" ytintel/latest/sw.js
+          grep -q "ytintel-shell-v0379-r2" ytintel/latest/sw.js
           grep -q "v360-entry.js?v=0379" ytintel/latest/index.html
           grep -q "manifest.webmanifest?v=0379" ytintel/latest/index.html
           grep -q "v360-endgame.css?v=0375" ytintel/latest/index.html
           grep -q "v371-mobile-containment.css?v=0375" ytintel/latest/index.html
           grep -q "v378-navigation-resilience.js?v=0379" ytintel/latest/v360-entry.js
+          grep -q "v379-usability-guard.js?v=0379u1" ytintel/latest/v360-entry.js
           grep -q "const RELEASE='0.37.9'" ytintel/latest/v360-entry.js
           grep -q "revealShell" ytintel/latest/v360-entry.js
+          grep -q "__YTINTEL_SHELL_VISIBLE_MS" ytintel/latest/v360-entry.js
           grep -q "const failures=\[\]" ytintel/latest/v360-entry.js
           grep -q "entry-recovered-with-module-failures" ytintel/latest/v360-entry.js
           grep -q "document.addEventListener('click'" ytintel/latest/v360-entry.js
           grep -q "analyseForm.*submit" ytintel/latest/v360-entry.js
+          grep -q "removeBlockingOnboarding" ytintel/latest/v379-usability-guard.js
+          grep -q "blocking_onboarding:false" ytintel/latest/v379-usability-guard.js
+          grep -q "shellVisibleMs" ytintel/tests/production-v378-navigation.mjs
+          grep -q "navLatency" ytintel/tests/production-v378-navigation.mjs
+          grep -q "shell-visible budget exceeded" ytintel/tests/production-v378-navigation.mjs
+          grep -q "navigation latency budget exceeded" ytintel/tests/production-v378-navigation.mjs
           if grep -q '<div class="boot" id="boot"' ytintel/latest/index.html; then echo "Blocking boot overlay returned"; exit 1; fi
           if grep -q '<main class="app v360-prehide"' ytintel/latest/index.html; then echo "App shell is pre-hidden again"; exit 1; fi
           if grep -q '<main class="app" id="app" hidden' ytintel/latest/index.html; then echo "App shell is hidden again"; exit 1; fi
+          grep -q '#v350-profile-overlay{display:none!important}' ytintel/latest/index.html
+          grep -q '<span class="pill">optional</span>' ytintel/latest/index.html
           ! grep -q 'data-tab="compare"' ytintel/latest/index.html
           ! grep -q 'data-dock="compare"' ytintel/latest/index.html
           ! grep -qi 'Compare Winners' ytintel/latest/manifest.webmanifest
@@ -115,4 +126,4 @@ jobs:
           grep -q "The 18 screens, in order" ytintel/benchmarks/PREMIUM_SINGLE_LINK_STANDARD.md
           grep -q "enable row level security" ytintel/backend/migrations/20260910_creator_scene_index.sql
           node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs ytintel/tests/creator-assets-v376.test.mjs ytintel/tests/creator-assets-v377.test.mjs
-          echo "YTIntel v0.37.9 fail-open clickable Creator Assets Endgame contracts passed."
+          echo "YTIntel v0.37.9 usability-first production contracts passed."
