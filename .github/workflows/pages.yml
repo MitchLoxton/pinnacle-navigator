@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Validate YTIntel v0.37 premium release
+      - name: Validate YTIntel v0.37.1 premium release
         shell: bash
         run: |
           set -euo pipefail
@@ -43,17 +43,19 @@ jobs:
           node --input-type=module --check < ytintel/latest/v365-canonical-shell.js
           node --input-type=module --check < ytintel/latest/v367-premium-lock.js
           node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
+          node --input-type=module --check < ytintel/latest/v371-feedback-overhaul.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
-          node --check ytintel/tests/production-v370.mjs
+          node --check ytintel/tests/production-v371.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q '"version": "v0.37.0"' ytintel/latest/release.json
-          grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
-          grep -q 'v371-mobile-containment.css?v=0370' ytintel/latest/index.html
-          grep -q 'ytintel-shell-v0370-r6' ytintel/latest/sw.js
-          echo "YTIntel v0.37 premium release validation passed."
+          grep -q '"version": "v0.37.1"' ytintel/latest/release.json
+          grep -q 'v360-entry.js?v=0371' ytintel/latest/index.html
+          grep -q 'v371-mobile-containment.css?v=0371' ytintel/latest/index.html
+          grep -q 'ytintel-shell-v0371-r1' ytintel/latest/sw.js
+          grep -q 'v371-feedback-overhaul.js?v=0371' ytintel/latest/v360-entry.js
+          echo "YTIntel v0.37.1 premium release validation passed."
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -90,7 +92,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
-          VERSION="$(jq -r '.version // "v0.37.0"' ytintel/latest/release.json)"
+          VERSION="$(jq -r '.version // "v0.37.1"' ytintel/latest/release.json)"
           TITLE="$(jq -r '.title // "Premium analysis live"' ytintel/latest/release.json)"
           SUMMARY="$(jq -r '.summary // "The premium YTIntel analysis upgrade is live."' ytintel/latest/release.json)"
           BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
