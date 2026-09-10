@@ -2,13 +2,13 @@
   "id": "./",
   "name": "Pinnacle Navigator",
   "short_name": "Navigator",
-  "description": "Pinnacle Builders workshop control, live crew tasks, plans, multi-job morning pack and project work",
-  "start_url": "./?pn-refresh=5357",
+  "description": "Pinnacle Builders workshop control, multi-job morning pack, live crew tasks, plans and project work",
+  "start_url": "./?pn-refresh=5358",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#efeee8",
-  "theme_color": "#171c20",
+  "background_color": "#eeede8",
+  "theme_color": "#181d21",
   "icons": [
-    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=5358","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ]
 }
