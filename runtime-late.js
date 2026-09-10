@@ -1,14 +1,26 @@
 (function(){
 'use strict';
-if(window.__PN_RUNTIME_LATE_5368__)return;
-window.__PN_RUNTIME_LATE_5368__=true;
-var started=false;
+if(window.__PN_RUNTIME_LATE_5370__)return;
+window.__PN_RUNTIME_LATE_5370__=true;
+var coreStarted=false,extrasStarted=false;
 var ROOT='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/';
-var BUILD='5368';
-function norm(v){return String(v||'').replace(/\s+/g,' ').trim().toUpperCase();}
-function chooserVisible(){try{return norm(document.body&&document.body.innerText).indexOf('WHO IS USING THIS PHONE')!==-1;}catch(e){return false;}}
+var BUILD='5370';
 function hasSrc(fragment){try{var ss=document.scripts;for(var i=0;i<ss.length;i++)if(String(ss[i].src||'').indexOf(fragment)!==-1)return true;}catch(e){}return false;}
-function load(src,key){return new Promise(function(resolve){try{if((key&&window[key])||hasSrc(src.split('?')[0]))return resolve();var s=document.createElement('script');s.src=src;s.async=false;s.crossOrigin='anonymous';s.onload=resolve;s.onerror=resolve;document.body.appendChild(s);}catch(e){resolve();}});}
-async function start(){if(started||chooserVisible())return;started=true;await load('./fabrication.js?v='+BUILD,'__PN_FABRICATION_STABLE_5352__');await load(ROOT+'navigator-v5349-anyone-done?b='+BUILD,'__PN_ANYONE_DONE_5349__');await load('./morning-pack.js?v='+BUILD,'__PN_MORNING_PACK_5357__');await load('./stability-core.js?v='+BUILD,'__PN_STABILITY_CORE_5366__');}
-setTimeout(start,0);setTimeout(start,900);window.addEventListener('pageshow',function(){setTimeout(start,40);});document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(start,40);});
+function load(src,key){return new Promise(function(resolve){try{if((key&&window[key])||hasSrc(src.split('?')[0]))return resolve();var s=document.createElement('script');s.src=src;s.async=true;s.crossOrigin='anonymous';s.onload=resolve;s.onerror=resolve;(document.body||document.documentElement).appendChild(s);}catch(e){resolve();}});}
+function idle(fn){try{if('requestIdleCallback'in window)return requestIdleCallback(fn,{timeout:900});}catch(e){}return setTimeout(fn,280);}
+async function startExtras(){if(extrasStarted)return;extrasStarted=true;await Promise.all([
+  load(ROOT+'navigator-v5349-anyone-done?b='+BUILD,'__PN_ANYONE_DONE_5349__'),
+  load('./morning-pack.js?v='+BUILD,'__PN_MORNING_PACK_5357__')
+]);}
+async function startCore(){
+  if(coreStarted)return;
+  coreStarted=true;
+  await Promise.all([
+    load('./stability-core.js?v='+BUILD,'__PN_STABILITY_CORE_5366__'),
+    load('./fabrication.js?v='+BUILD,'__PN_FABRICATION_STABLE_5352__')
+  ]);
+  idle(startExtras);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startCore,{once:true});else startCore();
+window.addEventListener('pageshow',function(){if(!coreStarted)startCore();});
 })();
