@@ -1,32 +1,30 @@
 {
-  "release_id": "ytintel-0.37.8-return-navigation-hotfix",
-  "version": "v0.37.8",
-  "title": "Return-to-YTIntel crash fixed",
-  "summary": "YTIntel now survives leaving the site and returning through browser Back/Forward without collapsing into the blank black shell shown in the reported screenshot. YouTube links are hardened to open in a separate tab, and a lifecycle recovery guard restores the app shell, active view and visibility state on BFCache/history returns, focus and visibility restoration.",
-  "published_at": "2026-09-10T13:36:00Z",
+  "release_id": "ytintel-0.37.9-clickable-shell-hotfix",
+  "version": "v0.37.9",
+  "title": "Clickable shell + fail-open bootstrap",
+  "summary": "YTIntel no longer hides the whole app behind a blocking boot state. The shell is visible immediately, navigation is wired at the entry layer, and every downstream module import is isolated so one failed optional module cannot make the entire site blank or unclickable.",
+  "published_at": "2026-09-10T14:00:00Z",
   "discord_mention": "@aaron",
   "discord_changes": [
-    "🐛 RETURN CRASH FIXED: leaving YTIntel for YouTube and coming back can no longer leave the app as a blank black page.",
-    "↩️ BFCache / HISTORY RECOVERY: pageshow, popstate, focus and visibility-return guards restore the shell, remove stale loading/prehide state and ensure an active view exists.",
-    "🔗 YOUTUBE LINKS STAY SAFE: YouTube links generated inside YTIntel are forced into a separate tab with noopener/noreferrer so research does not replace the working YTIntel tab.",
-    "🧪 NEW PRODUCTION PROOF: a dedicated live browser test now deliberately hides the shell, fires a BFCache-style return, navigates away and comes back, then verifies YTIntel is still visible and usable."
+    "🖱️ CLICK LOCK FIXED: the YTIntel shell now renders visible and clickable immediately instead of waiting behind a full-screen boot overlay.",
+    "🛡️ FAIL-OPEN BOOTSTRAP: every feature module now loads inside its own guarded import, so one bad module cannot brick the entire app.",
+    "↔️ NAV FALLBACK: Analyse / Watchtower / Vault routing now has an entry-level click handler that still works even if a downstream UI module fails.",
+    "↩️ RETURN SAFE: the previous YouTube/back-navigation recovery remains active, with YouTube links hardened into a separate tab."
   ],
   "changes": [
-    "Added v378-navigation-resilience.js as a final lifecycle guard after the existing Analyse, Creator Assets, resumable upload and Scene Index modules load.",
-    "The navigation guard hardens existing and dynamically-created YouTube anchors to target a new tab and applies rel=noopener noreferrer.",
-    "Added shell restoration on pageshow (including persisted BFCache returns), popstate, window focus and visibilitychange back to visible.",
-    "Shell restoration removes stale hidden/v360-prehide/v360-loading state, removes a stale boot overlay and restores an active Analyse/Vault/Watchtower view if history restoration lost it.",
-    "Added production-v378-navigation.mjs to reproduce the reported failure class and prove recovery against the real GitHub Pages deployment.",
-    "Added a dedicated parallel navigation-return smoke job so this regression is checked quickly instead of waiting for the full video analysis smoke.",
-    "Updated the main Analyse and shell production tests to require the v0.37.8 release and the navigation resilience module.",
-    "Updated service-worker shell versioning and query cache-busters so browsers do not keep the pre-hotfix entry shell.",
-    "Updated Core CI and Pages release validation to enforce the new lifecycle guard and navigation test."
+    "Removed the blocking boot overlay from index.html.",
+    "Removed initial hidden and v360-prehide state from the app shell.",
+    "Moved release ownership to the top of v360-entry.js before feature modules hydrate.",
+    "Changed sequential top-level awaits into guarded imports that collect failures instead of aborting the whole entry script.",
+    "Added entry-level navigation routing so core tabs remain clickable regardless of optional module failures.",
+    "Prevented an unhydrated Analyse form from replacing/reloading the app document.",
+    "Reveals and repairs the shell both before and after module hydration.",
+    "Bumped service-worker, manifest and browser cache keys to v0.37.9 so stale black-screen code is replaced."
   ],
   "known_limitations": [
-    "A literal @aaron is included in the Discord message. Discord webhooks require Aaron's numeric Discord user ID in <@USER_ID> form for a guaranteed push mention; that ID is not currently stored in YTIntel.",
-    "The lifecycle guard protects the YTIntel shell and YouTube navigation path. Browser extensions or a full renderer/browser process crash remain outside the app's control.",
-    "Automatic Scene Index remains sampled rather than frame-by-frame and virtual timestamp ranges are not yet physically transcoded standalone clips.",
-    "Actual Creator Assets upload capacity remains governed by the Supabase project's Storage limits and publisher/platform rights still govern footage redistribution."
+    "The Discord message contains the literal text @aaron. A guaranteed Discord push mention requires Aaron's numeric Discord user ID formatted as <@USER_ID>, which is not stored in the repository.",
+    "If the browser itself or an extension crashes the renderer process, the web app cannot recover until the page process restarts.",
+    "Individual advanced modules may still fail independently, but v0.37.9 is specifically designed to keep the core shell visible and clickable when that happens."
   ],
-  "why_it_matters": "Research software cannot be trusted if clicking into a source video destroys the workspace on return. This hotfix turns that exact reported failure into a permanent regression test and makes the normal research loop — YTIntel → YouTube source → Back to YTIntel — resilient by design."
+  "why_it_matters": "A research app must never become unusable because one optional feature fails. v0.37.9 changes the failure mode from 'entire site is dead' to 'the shell stays usable while the failed feature is isolated'."
 }
