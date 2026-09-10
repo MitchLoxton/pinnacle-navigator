@@ -13,6 +13,7 @@ await import('./v365-canonical-shell.js?v=0370');
 await import('./v367-premium-lock.js?v=0370');
 await import('./v370-transcript-receipt.js?v=0370');
 await import('./v372-analysis-redesign.js?v=0380');
+await import('./v374-progressive-analysis.js?v=0380');
 await import('./v373-owner-polish.js?v=0380');
 const RELEASE='0.38.0';
 let releaseValue=RELEASE;
