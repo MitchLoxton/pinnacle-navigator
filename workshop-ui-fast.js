@@ -5,6 +5,7 @@ window.__PN_WORKSHOP_UI_FAST_5370__=true;
 
 var STYLE_ID='pnWorkshopFastStyle5370';
 var currentKey='my';
+var explicitNav=false;
 var cachedNav=null;
 var settleTimer=0;
 var rafId=0;
@@ -139,7 +140,7 @@ function polish(){
     appRoot();
     getNav();
     var nk=nativeKey();
-    if(nk&&currentKey==='my')currentKey=nk;
+    if(!explicitNav&&nk)currentKey=nk;
     setActive(currentKey||nk||'my');
     document.body.classList.toggle('pnFastDetail',!!document.getElementById('pn5323OneStep'));
     polishActions();
@@ -192,6 +193,7 @@ document.addEventListener('click',function(e){
     if(!n||!n.contains(b))return;
     var k=keyFor(b);
     if(!k)return;
+    explicitNav=true;
     setActive(k);
     schedulePolish(110);
   }catch(x){}
