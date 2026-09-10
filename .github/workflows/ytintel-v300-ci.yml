@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.37.6 single Analyse + resumable Creator Assets Endgame core
+      - name: Validate v0.37.7 single Analyse + scene-indexed Creator Assets Endgame core
         shell: bash
         run: |
           set -euo pipefail
@@ -47,6 +47,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v374-creator-assets.js
           node --input-type=module --check < ytintel/latest/v375-creator-assets-cloud.js
           node --input-type=module --check < ytintel/latest/v376-resumable-creator-assets.js
+          node --input-type=module --check < ytintel/latest/v377-scene-indexer.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
@@ -55,16 +56,17 @@ jobs:
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0376-r1" ytintel/latest/sw.js
-          grep -q "v360-entry.js?v=0376" ytintel/latest/index.html
-          grep -q "manifest.webmanifest?v=0376" ytintel/latest/index.html
+          grep -q "ytintel-shell-v0377-r1" ytintel/latest/sw.js
+          grep -q "v360-entry.js?v=0377" ytintel/latest/index.html
+          grep -q "manifest.webmanifest?v=0377" ytintel/latest/index.html
           grep -q "v360-endgame.css?v=0375" ytintel/latest/index.html
           grep -q "v371-mobile-containment.css?v=0375" ytintel/latest/index.html
           grep -q "v373-analyse-focus.js?v=0375" ytintel/latest/v360-entry.js
           grep -q "v374-creator-assets.js?v=0375" ytintel/latest/v360-entry.js
           grep -q "v375-creator-assets-cloud.js?v=0375" ytintel/latest/v360-entry.js
           grep -q "v376-resumable-creator-assets.js?v=0376" ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.6'" ytintel/latest/v360-entry.js
+          grep -q "v377-scene-indexer.js?v=0377" ytintel/latest/v360-entry.js
+          grep -q "const RELEASE='0.37.7'" ytintel/latest/v360-entry.js
           ! grep -q 'data-tab="compare"' ytintel/latest/index.html
           ! grep -q 'data-dock="compare"' ytintel/latest/index.html
           ! grep -qi 'Compare Winners' ytintel/latest/manifest.webmanifest
@@ -87,6 +89,11 @@ jobs:
           grep -q "storage.supabase.co/storage/v1/upload/resumable" ytintel/latest/v376-resumable-creator-assets.js
           grep -q "findPreviousUploads" ytintel/latest/v376-resumable-creator-assets.js
           grep -q "CHUNK_SIZE=6\*1024\*1024" ytintel/latest/v376-resumable-creator-assets.js
+          grep -q "Automatic Scene Index" ytintel/latest/v377-scene-indexer.js
+          grep -q "ytintel_creator_scenes" ytintel/latest/v377-scene-indexer.js
+          grep -q "rgb-histogram-adaptive-v1" ytintel/latest/v377-scene-indexer.js
+          grep -q "Find footage from a commentary script" ytintel/latest/v377-scene-indexer.js
+          grep -q "localAI.analyzeFrame" ytintel/latest/v377-scene-indexer.js
           grep -q "loadCreatorAssets" ytintel/latest/v360-cloud.js
           grep -q "uploadCreatorAssetFile" ytintel/latest/v360-cloud.js
           grep -q "signedCreatorAssetUrl" ytintel/latest/v360-cloud.js
@@ -97,5 +104,6 @@ jobs:
           grep -q "ytintel_analysis_vault" ytintel/latest/v360-cloud.js
           grep -q "P0 — Heart of the tool" ytintel/ENDGAME_BRIEF.md
           grep -q "The 18 screens, in order" ytintel/benchmarks/PREMIUM_SINGLE_LINK_STANDARD.md
-          node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs ytintel/tests/creator-assets-v376.test.mjs
-          echo "YTIntel v0.37.6 resumable Creator Assets Endgame contracts passed."
+          grep -q "enable row level security" ytintel/backend/migrations/20260910_creator_scene_index.sql
+          node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs ytintel/tests/creator-assets-v376.test.mjs ytintel/tests/creator-assets-v377.test.mjs
+          echo "YTIntel v0.37.7 scene-indexed Creator Assets Endgame contracts passed."
