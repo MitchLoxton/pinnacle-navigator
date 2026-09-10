@@ -1,5 +1,5 @@
 {
-  "release": "v0.37.5",
-  "reason": "manual resend requested by user",
-  "requested_at": "2026-09-10T12:05:00Z"
+  "release": "v0.37.6",
+  "reason": "ship resumable Creator Assets hardening and product cleanup",
+  "requested_at": "2026-09-10T12:25:00Z"
 }
