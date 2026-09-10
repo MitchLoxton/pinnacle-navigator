@@ -9,17 +9,17 @@ await context.addInitScript(()=>{try{localStorage.setItem('ytintel-v350-profile'
 const page=await context.newPage();
 page.setDefaultTimeout(60000);
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
-const url='https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v0371-'+Date.now();
+const url='https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/?qa=v0372-analyse-'+Date.now();
 try{
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
-  await page.waitForFunction(()=>window.YTINTEL_VERSION==='0.37.1'&&!document.querySelector('#boot')&&!document.querySelector('#app')?.hidden,null,{timeout:120000});
+  await page.waitForFunction(()=>window.YTINTEL_VERSION==='0.37.2'&&!document.querySelector('#boot')&&!document.querySelector('#app')?.hidden,null,{timeout:120000});
   const shell=await page.evaluate(()=>({
     version:window.YTINTEL_VERSION,
     creatorInAnalyse:!!document.querySelector('#analyse #creatorCard'),
     creatorInVault:!!document.querySelector('#vault #creatorCard'),
     progressClass:document.querySelector('#progressCard')?.className||''
   }));
-  assert.equal(shell.version,'0.37.1');
+  assert.equal(shell.version,'0.37.2');
   assert.equal(shell.creatorInAnalyse,false,'Creator DNA must not live in Analyse');
   assert.equal(shell.creatorInVault,true,'Creator DNA should live outside Analyse');
   assert.match(shell.progressClass,/v371-compact-progress/);
@@ -68,10 +68,10 @@ try{
   assert(!/\bSubscribers\s+0\b/i.test(result.channel),'channel context still displays subscriber zero');
   assert(!/\bNiche\s+GTA 6\b/i.test(result.strip),'Creator DNA leaked into source niche');
   assert.equal(errors.length,0,errors.join('\n'));
-  await page.screenshot({path:'ytintel-live-proof/v371-desktop.png',fullPage:true});
+  await page.screenshot({path:'ytintel-live-proof/v372-analyse-desktop.png',fullPage:true});
   await page.setViewportSize({width:390,height:844});await page.waitForTimeout(300);
   const mobile=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth}));
   assert(mobile.width<=mobile.viewport+2,`mobile overflow ${mobile.width}`);
-  await writeFile('ytintel-live-proof/v371-receipt.json',JSON.stringify({pass:true,url,result,mobile,errors},null,2));
-  console.log('V371_LIVE_PASS',JSON.stringify({pass:true,count:result.count,pct:result.pct,takeawayRows:result.takeawayRows,vaultHidden:result.vaultHidden,packageVault:result.packageVault,exportButtons:result.exportButtons,mobile,errors},null,2));
+  await writeFile('ytintel-live-proof/v372-analyse-receipt.json',JSON.stringify({pass:true,url,result,mobile,errors},null,2));
+  console.log('V372_ANALYSE_PASS',JSON.stringify({pass:true,count:result.count,pct:result.pct,takeawayRows:result.takeawayRows,vaultHidden:result.vaultHidden,packageVault:result.packageVault,exportButtons:result.exportButtons,mobile,errors},null,2));
 }finally{await browser.close()}
