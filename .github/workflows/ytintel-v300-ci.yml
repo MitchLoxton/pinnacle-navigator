@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.37.4 single Analyse + Creator Assets Endgame core
+      - name: Validate v0.37.5 single Analyse + cloud Creator Assets Endgame core
         shell: bash
         run: |
           set -euo pipefail
@@ -45,6 +45,7 @@ jobs:
           node --input-type=module --check < ytintel/latest/v372-endgame-closer.js
           node --input-type=module --check < ytintel/latest/v373-analyse-focus.js
           node --input-type=module --check < ytintel/latest/v374-creator-assets.js
+          node --input-type=module --check < ytintel/latest/v375-creator-assets-cloud.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
@@ -53,24 +54,14 @@ jobs:
           node --check ytintel/latest/sw.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0374-r1" ytintel/latest/sw.js
-          grep -q "v360-entry.js?v=0374" ytintel/latest/index.html
-          grep -q "v360-endgame.css?v=0374" ytintel/latest/index.html
-          grep -q "v371-mobile-containment.css?v=0374" ytintel/latest/index.html
-          grep -q "v366-local-ai-shield.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v366-local-ai-optin.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v363-premium-brief.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v364-fact-surfaces.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v369-packaging-depth.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v365-canonical-shell.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v367-premium-lock.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v370-transcript-receipt.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v371-feedback-overhaul.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v372-endgame-closer.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v373-analyse-focus.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "v374-creator-assets.js?v=0374" ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.4'" ytintel/latest/v360-entry.js
-          grep -q '"version": "v0.37.4"' ytintel/latest/release.json
+          grep -q "ytintel-shell-v0375-r1" ytintel/latest/sw.js
+          grep -q "v360-entry.js?v=0375" ytintel/latest/index.html
+          grep -q "v360-endgame.css?v=0375" ytintel/latest/index.html
+          grep -q "v371-mobile-containment.css?v=0375" ytintel/latest/index.html
+          grep -q "v373-analyse-focus.js?v=0375" ytintel/latest/v360-entry.js
+          grep -q "v374-creator-assets.js?v=0375" ytintel/latest/v360-entry.js
+          grep -q "v375-creator-assets-cloud.js?v=0375" ytintel/latest/v360-entry.js
+          grep -q "const RELEASE='0.37.5'" ytintel/latest/v360-entry.js
           ! grep -q 'data-tab="compare"' ytintel/latest/index.html
           ! grep -q 'data-dock="compare"' ytintel/latest/index.html
           grep -q "The claims ledger" ytintel/latest/v363-premium-brief.js
@@ -86,8 +77,11 @@ jobs:
           grep -q "WATCHTOWER BRIEF" ytintel/latest/v372-endgame-closer.js
           grep -q "CREATOR FOOTAGE SUPPLY" ytintel/latest/v374-creator-assets.js
           grep -q "GTA 6 launch capture board" ytintel/latest/v374-creator-assets.js
-          grep -q "Rights gate" ytintel/latest/v374-creator-assets.js
-          grep -q "Creator footage supply" ytintel/latest/v374-creator-assets.js
+          grep -q "Cloud Creator Assets" ytintel/latest/v375-creator-assets-cloud.js
+          grep -q "Upload privately + bank" ytintel/latest/v375-creator-assets-cloud.js
+          grep -q "loadCreatorAssets" ytintel/latest/v360-cloud.js
+          grep -q "uploadCreatorAssetFile" ytintel/latest/v360-cloud.js
+          grep -q "signedCreatorAssetUrl" ytintel/latest/v360-cloud.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q "research-stage" ytintel/latest/v360-endgame.js
           ! grep -q "ytintel-v093" ytintel/latest/v360-endgame.js
@@ -96,4 +90,4 @@ jobs:
           grep -q "P0 — Heart of the tool" ytintel/ENDGAME_BRIEF.md
           grep -q "The 18 screens, in order" ytintel/benchmarks/PREMIUM_SINGLE_LINK_STANDARD.md
           node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs
-          echo "YTIntel v0.37.4 single Analyse + Creator Assets Endgame contracts passed."
+          echo "YTIntel v0.37.5 cloud Creator Assets Endgame contracts passed."
