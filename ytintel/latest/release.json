@@ -1,28 +1,27 @@
 {
   "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
   "version": "v0.37.0",
-  "title": "Benchmark-depth premium analysis",
-  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export.",
-  "published_at": "2026-09-10T04:42:00Z",
+  "title": "Benchmark-depth premium analysis — production verified",
+  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging title-surface evidence now renders immediately instead of waiting on slower channel-stat enrichment.",
+  "published_at": "2026-09-10T04:50:00Z",
   "discord_changes": [
-    "PREMIUM STRUCTURE: one link now resolves into 18 ordered sections from Strip through Export, plus the timestamped transcript appendix.",
-    "BENCHMARK DEPTH: source-rich sections target the Blake Ryan example's useful depth; thin media sources are never padded with made-up analysis.",
-    "CLAIMS + CONTEXT: numeric claims are ledgered as VERIFIED / THEIR CLAIM / WRONG only when the source supports the verdict, with channel hits, same-angle and validation context kept separate.",
-    "MAKE IT YOURS: Creator DNA drives 2–3 package directions with titles, hook, beat sheet, thumbnail composition, steal/do-not-copy rules and a post-publish measurement plan.",
-    "MOBILE + EXPORT: wide evidence tables stay contained on phone widths; Markdown download and print/save-as-PDF preserve the premium brief."
+    "18-SCREEN PREMIUM: one link resolves from Strip through Export at Blake-benchmark depth, with the transcript retained as evidence.",
+    "TITLE SURFACE FIX: Packaging now shows live title-surface evidence immediately; slower subscriber/channel-stat enrichment can finish afterward.",
+    "ENDGAME OUTPUT: claims, channel context and Creator DNA feed 2–3 executable remake directions instead of stopping at analytics."
   ],
   "changes": [
     "Replaced the old presentation layer with the 18-section order in the 09/09 Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry, Export.",
     "Added a premium short-version summary that separates what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
     "Expanded the first 60 seconds into line-by-line source quotes plus the job each line is doing.",
     "Added benchmark-depth structure mapping with beat time, length, job, exact receipt and explicit screen-evidence limits.",
-    "Added a numeric claims ledger that refuses to call a spoken number verified unless a public value in the same pull supports it.",
+    "Added a numeric claims ledger that refuses to call a spoken number verified unless a public value in the same pull supports the verdict.",
     "Added recent-channel hits, same-angle matching, a public cross-channel validation sample and a business/funnel read inside Channel Context.",
     "Added a dedicated Numbers Table for WPM, pace by minute, caption gaps, beats, first receipt, first payoff, first sell, selling share and media-derived cut rate when available.",
     "Preserved source-backed visual, motion and audio passes; missing media stays unavailable instead of being inferred from captions.",
     "Expanded Make It Yours to benchmark-style package directions and measurement signals while retaining optional on-device model deepening when available.",
     "Added per-section benchmark word targets as QA metadata. Targets are goals, never filler quotas.",
     "Added title-surface/subscriber verification, deeper package mechanics, Markdown/PDF export and a full timestamped transcript appendix.",
+    "Fixed a packaging race so the Title Surface Check is part of the completed premium brief immediately and does not wait on secondary channel statistics.",
     "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture.",
     "Added mobile containment so wide claims/channel/evidence tables scroll inside their cards instead of widening the page."
   ],
