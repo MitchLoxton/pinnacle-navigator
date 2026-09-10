@@ -2,20 +2,20 @@
   "id": "./?app=ytintel",
   "name": "YTIntel — YouTube Creator Intelligence",
   "short_name": "YTIntel",
-  "description": "Winning-video analysis, Creator DNA, Group Analysis, Watchtower and a compounding research Vault with zero paid AI credits.",
-  "start_url": "./?source=pwa&v=0361",
+  "description": "Benchmark-depth winning-video analysis, Creator DNA, Group Analysis, Watchtower and a compounding research Vault with zero paid AI credits.",
+  "start_url": "./?source=pwa&v=0370",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
   "theme_color": "#07090d",
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
-  "icons": [{"src":"./icon.svg?v=0361","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
+  "icons": [{"src":"./icon.svg?v=0370","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
   "shortcuts": [
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0361","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Compare Winners","short_name":"Compare","url":"./?tab=compare&source=shortcut","icons":[{"src":"./icon.svg?v=0361","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Research Vault","short_name":"Vault","url":"./?tab=vault&source=shortcut","icons":[{"src":"./icon.svg?v=0361","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Competitor Watchtower","short_name":"Watchtower","url":"./?tab=competitors&source=shortcut","icons":[{"src":"./icon.svg?v=0361","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0370","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Compare Winners","short_name":"Compare","url":"./?tab=compare&source=shortcut","icons":[{"src":"./icon.svg?v=0370","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Research Vault","short_name":"Vault","url":"./?tab=vault&source=shortcut","icons":[{"src":"./icon.svg?v=0370","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Competitor Watchtower","short_name":"Watchtower","url":"./?tab=competitors&source=shortcut","icons":[{"src":"./icon.svg?v=0370","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {"action":"./?source=share","method":"GET","enctype":"application/x-www-form-urlencoded","params":{"title":"title","text":"text","url":"share"}}
 }
