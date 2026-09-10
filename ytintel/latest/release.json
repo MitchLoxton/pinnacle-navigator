@@ -1,35 +1,36 @@
 {
-  "release_id": "ytintel-0.37.4-creator-footage-foundation",
-  "version": "v0.37.4",
-  "title": "Creator footage supply foundation + single Analyse Endgame",
-  "summary": "YTIntel keeps the v0.37.3 single-video Analyse focus and adds the first working foundation for the GTA 6 creator-footage supply network inside Vault rather than cluttering Analyse. Creator Assets can index self-recorded or permission-cleared clips, search and rank footage against the currently analysed video, maintain a GTA 6 launch capture board, generate creator-specific attribution/referral links, export the footage manifest, and bridge Make It Yours directly into the footage workspace. Compare remains parked. The rights gate is fail-closed: unknown or restricted footage is never presented as cleared for redistribution.",
-  "published_at": "2026-09-10T11:32:00Z",
+  "release_id": "ytintel-0.37.5-cloud-creator-assets",
+  "version": "v0.37.5",
+  "title": "Creator Assets becomes a real private cloud footage library",
+  "summary": "YTIntel now moves the GTA 6 creator-footage idea beyond a browser prototype. Signed-in Creator Assets has a private Supabase-backed footage library with real file uploads, per-user row-level security, private storage paths, short-lived signed file links, cloud footage metadata/search, persistent capture-board infrastructure, creator referral records and asset-event tracking. The v0.37.3 single-video Analyse focus remains intact and Compare stays parked.",
+  "published_at": "2026-09-10T11:42:00Z",
   "discord_changes": [
-    "CREATOR ASSETS FOUNDATION: Vault now contains the first working creator-footage supply workspace for clean gameplay/B-roll instead of adding more clutter to Analyse.",
-    "GTA 6 LAUNCH BOARD: a persistent capture checklist covers walkthroughs, missions, driving, police chases, locations, vehicles, businesses, scenic B-roll, long background sessions, online content and update footage.",
-    "DISTRIBUTION LOOP: footage records carry a rights status, attribution requirement and creator referral link so free footage can become measurable funnel traffic back into YTIntel."
+    "☁️ CREATOR ASSETS CLOUD: signed-in YTIntel now has a real cross-device private footage library instead of browser-only metadata.",
+    "🎥 PRIVATE FILE UPLOADS: MP4/WebM/MOV footage and image assets can be uploaded into a private per-user bucket and opened through expiring signed links.",
+    "🎮 GTA 6 SUPPLY SYSTEM: the launch capture board, source-aware footage matching and Make It Yours → Creator Assets bridge remain in place, now backed by cloud infrastructure.",
+    "🔒 RIGHTS + ATTRIBUTION DATA: every cloud asset carries rights status and attribution rules; creator referrals and usage-event tables are ready for the distribution funnel."
   ],
   "changes": [
-    "Added Creator Assets inside the Compounding Vault, keeping the top-level product focused on Analyse, Vault and Watchtower while Compare remains removed.",
-    "Added a searchable footage manifest with clip title, game/source, scene/use case, tags, duration, resolution, hosted URL, rights status, attribution rule and notes.",
-    "Added source-aware footage matching: the currently analysed video's title and transcript generate search intents, and indexed clips receive a match score against those terms.",
-    "Added a strict rights gate: only self-recorded or permission-cleared clips are counted as distributable; unknown and restricted clips remain reference-only.",
-    "Added a persistent GTA 6 launch capture board covering full no-commentary walkthroughs, individual missions, city driving, night/rain footage, walking, police chases, aerial footage, vehicles, weapons, interiors, NPC moments, landmarks, cinematic B-roll, fails, long background sessions, online activities, update footage and rare events.",
-    "Added creator attribution/referral generation using per-creator links so footage-driven traffic can later be measured and rewarded.",
-    "Added JSON manifest export and Markdown capture-board export for moving the footage dataset into storage, automation or another production tool later.",
-    "Added a Make It Yours bridge that sends the current analysis into Creator Assets with source-specific footage searches ready.",
-    "Preserved the v0.37.3 Analyse repairs: one compact progress popup, folded Activity, source-only Strip, Blake-style short summary, receipt-backed takeaways, Monday-brief re-hooks/payoffs/replay handling, package banking, channel zero suppression, Creator-DNA build sheet, hidden raw Vault entry and AI-ready Markdown export.",
-    "Preserved Compare removal on desktop/mobile and from the active Vault UI."
+    "Created isolated Supabase tables for ytintel_creator_assets, ytintel_creator_capture_items, ytintel_creator_referrals and ytintel_creator_asset_events without changing existing YTIntel analysis tables.",
+    "Enabled authenticated per-user RLS on every Creator Assets table so each account can only read and mutate its own footage metadata, capture tasks, referrals and usage events.",
+    "Created a private ytintel-creator-assets storage bucket for MP4, WebM, QuickTime, JPEG, PNG and WebP assets, with storage policies scoped to the signed-in user's folder.",
+    "Added cloud APIs to v360-cloud for loading/saving/archiving footage, private file upload, signed links, capture-board sync, referral storage, usage-event logging and Creator Assets stats.",
+    "Added a Cloud library tab inside Creator Assets. Signed-in users can upload the actual source file plus title, game, scene, tags, rights status, attribution mode, resolution and licensing notes.",
+    "Private files are never exposed with permanent public URLs. YTIntel creates a short-lived signed URL only when the user explicitly opens a cloud asset.",
+    "Cloud footage remains searchable against the currently analysed video's context so the eventual workflow is Analyse winner → Make It Yours → find matching B-roll.",
+    "The local Creator Assets foundation remains available for unsigned/local use, including the 22-item GTA 6 launch capture board, local footage manifest, distribution concepts, referral-link builder and export tools.",
+    "Preserved the single Analyse UX contract: Creator DNA outside Analyse, one compact research progress popup, folded Activity, source-only Strip, useful short summary, source-backed takeaways, Monday-brief re-hooks/payoffs/replay behavior, package banking, channel zero suppression, context-specific Make It Yours and clean Markdown export.",
+    "Compare remains removed from desktop navigation, mobile navigation and the active Vault UI."
   ],
   "known_limitations": [
-    "Creator Assets v0.37.4 indexes metadata plus hosted-file URLs in local browser storage. Large video-file upload, object storage, transcoding, CDN delivery and cross-device cloud sync for footage are not implemented yet.",
-    "The referral builder creates trackable URL structure, but server-side attribution analytics, creator dashboards, payouts and affiliate accounting are not implemented yet.",
-    "Game-publisher/platform rights still govern redistribution. YTIntel deliberately does not treat a gameplay recording as automatically sublicensable; commercial licensing language must be verified before public rollout.",
+    "The cloud file pipeline currently uploads original files. Automatic transcoding, proxy generation, thumbnails, scene splitting, embeddings and CDN delivery are the next footage-infrastructure milestones.",
+    "Creator referral records and asset event logging now exist, but anonymous click attribution, creator dashboards, affiliate payouts and fraud-resistant conversion accounting are not complete yet.",
+    "Publisher/platform rights still govern gameplay redistribution. YTIntel does not treat self-recording as automatic permission to sublicense footage; public commercial licence copy must be verified game-by-game before rollout.",
+    "Signed-out users keep local Creator Assets data only; cross-device cloud sync requires YTIntel sign-in.",
     "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than fabricated.",
     "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Exact encoded-frame-by-frame semantic analysis remains an active Endgame workstream.",
     "Automatic visual composition and edit-type classification remain strongest when the optional on-device vision model is ready.",
-    "Waveform-level silence/transient analysis requires a directly decodable public audio stream; semantic music/SFX labels additionally require supported source metadata or local audio intelligence.",
-    "Watchtower velocity still depends on repeated snapshots; a newly added competitor has no historical velocity until it has been observed more than once."
+    "Waveform-level silence/transient analysis requires a directly decodable public audio stream; semantic music/SFX labels additionally require supported source metadata or local audio intelligence."
   ],
-  "why_it_matters": "The creator-footage idea becomes useful when it is not a random download folder. v0.37.4 starts the compounding loop: YTIntel understands the video to make, turns that into footage demand, matches the demand against a rights-aware gameplay library, and creates attribution that can send creators back into YTIntel. The next infrastructure milestone is moving this local manifest into real object storage, automatic clip ingestion/tagging and measurable creator attribution."
+  "why_it_matters": "YTIntel can now own both sides of the workflow: intelligence about what a creator should make and a real private asset library that can eventually supply the exact gameplay needed to make it. The next major Endgame work remains deep video/audio intelligence plus automatic footage ingestion, scene-level tagging and measurable creator distribution."
 }
