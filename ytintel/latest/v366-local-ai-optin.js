@@ -5,7 +5,8 @@ function render(st=localAI.getState()){
   lastState=st;
   const label=$('#v360-ai-label');
   if(label&&!st.text&&!st.creating){
-    if(st.availability==='downloadable'||st.availability==='after-download')label.textContent='optional — tap to download';
+    if(window.YTIntelLocalAIShield?.hasNativeLocalAI?.())label.textContent='optional — tap to enable';
+    else if(st.availability==='downloadable'||st.availability==='after-download')label.textContent='optional — tap to download';
     else if(st.availability==='available'||st.availability==='readily')label.textContent='ready — tap to enable';
     else label.textContent='source mode';
   }
@@ -20,7 +21,9 @@ function install(){
     const label=$('#v360-ai-label');
     if(label)label.textContent='starting on-device AI…';
     try{
+      window.YTIntelLocalAIShield?.enableLocalAI?.();
       window.__YTINTEL_ALLOW_LOCAL_AI_CREATE=true;
+      await localAI.initLocalAI().catch(()=>null);
       await localAI.startFromGesture();
       render(localAI.getState());
     }finally{
