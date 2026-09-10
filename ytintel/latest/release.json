@@ -1,36 +1,37 @@
 {
-  "release_id": "ytintel-0.37.6-resumable-creator-assets",
-  "version": "v0.37.6",
-  "title": "Large GTA 6 footage uploads are now resumable",
-  "summary": "YTIntel hardens the Creator Assets foundation for the kind of files it is actually meant to hold. Gameplay files above 6 MB now use resumable TUS uploads through Supabase's direct Storage hostname with chunk progress, retry/resume support, pause/resume controls and automatic media metadata capture. Creator DNA is physically outside Analyse in Vault, and the installed PWA no longer exposes a stale Compare shortcut.",
-  "published_at": "2026-09-10T12:19:00Z",
+  "release_id": "ytintel-0.37.7-automatic-scene-index",
+  "version": "v0.37.7",
+  "title": "Long gameplay recordings become searchable scene blocks",
+  "summary": "YTIntel now turns long private gameplay uploads into a searchable Scene Index. After an uploaded video is banked, the browser can automatically sample it, detect strong visual boundaries, build practical 10–75 second virtual clips, create private scene thumbnails, optionally enrich representative frames with on-device vision, and rank the resulting scenes against a commentary script or the current Analyse. The original source recording stays untouched, avoiding hours of wasteful browser re-encoding.",
+  "published_at": "2026-09-10T12:32:00Z",
   "discord_changes": [
-    "🎥 LARGE GAMEPLAY UPLOADS: Creator Assets now switches files over 6 MB to resumable TUS uploads instead of relying on one fragile request.",
-    "⏯️ RESUME + PROGRESS: 6 MB chunks, automatic retry, interrupted-upload resume, live percentage, pause/resume controls and a leave-page warning protect long GTA 6 captures.",
-    "🧾 BETTER FOOTAGE RECEIPTS: uploaded videos now bank detected duration, dimensions, resolution and upload protocol alongside rights + attribution metadata.",
-    "🧹 PRODUCT CLEANUP: Creator DNA now physically lives in Vault, and the installed PWA's obsolete Compare shortcut / Group Analysis copy is removed."
+    "🎬 AUTOMATIC SCENE INDEX: long Creator Assets recordings can now become practical 10–75 second searchable virtual clips after upload.",
+    "🖼️ PRIVATE THUMBNAILS + TAGS: YTIntel samples the recording, detects strong visual changes, banks private scene thumbnails and adds deterministic visual/search tags.",
+    "🧠 OPTIONAL LOCAL VISION: when YTIntel's on-device vision model is already available, representative scenes are enriched with production mode, composition, visible text, narrative role and attention-device labels.",
+    "🔎 SCRIPT → B-ROLL SEARCH: paste a commentary script or use the current Analyse and YTIntel ranks the most relevant indexed gameplay scenes with exact start/end timestamps and copyable clip recipes."
   ],
   "changes": [
-    "Added v376-resumable-creator-assets.js as a focused large-file upload layer on top of the existing private Creator Assets cloud library.",
-    "Files above 6 MB are routed through Supabase Storage's resumable TUS endpoint using the direct project Storage hostname and fixed 6 MB chunks.",
-    "Interrupted uploads can reuse the previous TUS upload URL; a stable per-file pending path is retained until successful completion so retries resume the correct object rather than creating mismatched metadata.",
-    "Added live byte/percentage progress, pause/resume controls, retry delays and a before-unload guard while an upload is active.",
-    "Added local media probing before banking: duration, width, height and inferred resolution are saved with the Creator Assets record when the browser can read them.",
-    "Extended Creator Assets event semantics in Supabase so resumable uploads can be logged as uploaded instead of being mislabeled as shared.",
-    "Moved the Creator DNA card out of Analyse in the static document and into Vault, removing reliance on post-boot DOM relocation for the intended information architecture.",
-    "Removed the stale Compare Winners PWA shortcut and Group Analysis wording from the installed app manifest; the PWA now exposes Analyse, Creator Assets + Vault and Watchtower.",
-    "Advanced the app shell/service-worker cache to v0.37.6 and added a dedicated regression test for resumable uploads, Creator DNA placement and Compare absence.",
-    "Preserved the v0.37.5 private per-user storage/RLS foundation and the v0.37.3 single-video Analyse focus."
+    "Added v377-scene-indexer.js and a new Scene index workspace inside Creator Assets in Vault.",
+    "Added a private ytintel_creator_scenes Supabase table with authenticated per-user RLS, asset foreign keys, exact timestamps, visual metadata, search text, tags and private thumbnail paths.",
+    "Applied an adaptive RGB-histogram scene-boundary detector in the browser with up to 480 samples per source recording, 10-second minimum scene blocks and 75-second maximum practical background blocks.",
+    "Scene indexing creates virtual clips instead of immediately transcoding the original recording. This preserves the full-quality source and stores exact start/end recipes for later trimming only when a clip is actually needed.",
+    "Added private scene-thumbnail capture and upload. Each scene row can store representative time, change score, brightness, motion hint, thumbnail path and search metadata.",
+    "When local multimodal AI is already enabled, YTIntel can enrich a spread of representative scenes with production mode, composition, visible text, narrative role, attention devices and confidence without paid API credits.",
+    "Added commentary-script footage search with query-term extraction, concept expansion and ranking across source metadata, scene tags and local-vision labels.",
+    "Added a Use current Analyse action that turns the current winner analysis context into a Creator Assets scene search, closing the loop from research → remake → matching B-roll.",
+    "Added Preview source and Copy clip recipe actions so every search result carries an exact source title, start, end, duration and scene tags.",
+    "Added automatic post-upload handoff for newly banked video files plus manual Index scenes / Re-index scenes controls for existing cloud recordings.",
+    "Added a dedicated v0.37.7 schema/contract test and upgraded CI, Pages validation, PWA cache/versioning and production browser expectations."
   ],
   "known_limitations": [
-    "The upload pipeline stores original files; automatic transcoding, proxy generation, thumbnail extraction, scene splitting, embeddings and creator-facing CDN delivery are still future milestones.",
-    "Actual maximum file size is still governed by the Supabase project's global and bucket Storage limits; YTIntel does not attempt to bypass those limits.",
-    "TUS resume metadata is browser-local, so resuming an interrupted upload is strongest when retried from the same browser/device.",
-    "Creator referral records and asset event logging exist, but anonymous click attribution, creator dashboards, affiliate payouts and fraud-resistant conversion accounting are not complete yet.",
-    "Publisher/platform rights still govern gameplay redistribution. YTIntel does not treat self-recording as automatic permission to sublicense footage; public commercial licence copy must be verified game-by-game before rollout.",
-    "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than fabricated.",
-    "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Exact encoded-frame-by-frame semantic analysis remains an active Endgame workstream.",
-    "Waveform-level silence/transient analysis requires a directly decodable public audio stream; semantic music/SFX labels additionally require supported source metadata or local audio intelligence."
+    "Scene blocks are virtual timestamp ranges, not physically transcoded standalone video files yet. This is intentional for speed and source-quality preservation; a later trim/export stage can materialise only selected clips.",
+    "Scene detection is sampled rather than frame-by-frame. Long recordings are capped at 480 sample points, so extremely brief cuts between samples may not become separate scene blocks.",
+    "Deterministic tags are intentionally conservative. Rich semantic scene labels are strongest when the optional on-device vision model is already available in a compatible browser.",
+    "The first automatic indexing pass runs in the browser. Closing the tab or putting a mobile browser to sleep can interrupt indexing; the original uploaded recording remains safely banked and can be re-indexed later.",
+    "Private thumbnails are stored separately from the original recording. Re-indexing removes known prior scene rows and attempts to clean their known thumbnail files, but an interrupted cleanup can leave harmless orphaned thumbnail objects.",
+    "Actual upload capacity remains governed by the Supabase project's global and bucket Storage limits.",
+    "Creator-facing physical clip delivery, transcoding/proxy generation, waveform-derived audio tagging, embeddings/vector search and CDN distribution remain future Endgame milestones.",
+    "Publisher/platform rights still govern gameplay redistribution. YTIntel does not treat self-recording as automatic permission to sublicense gameplay footage."
   ],
-  "why_it_matters": "The footage product only works if creators can bank hours of high-resolution gameplay without a single network wobble wasting the whole upload. v0.37.6 makes that foundation materially more credible while also cleaning up two product-regression issues: Creator DNA being structurally inside Analyse and Compare still surviving in the installed PWA."
+  "why_it_matters": "The Creator Assets moat becomes useful only when hours of raw gameplay can turn into the exact B-roll a creator needs without manually scrubbing every recording. v0.37.7 establishes that retrieval layer: upload once, index into timestamped visual scene blocks, then search those blocks from the script or video plan you are actually making."
 }
