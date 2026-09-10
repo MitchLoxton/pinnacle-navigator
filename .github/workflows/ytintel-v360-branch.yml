@@ -8,7 +8,9 @@ on:
       - "ytintel/tests/v360-*.mjs"
       - "ytintel/tests/v361-review-browser.mjs"
       - "ytintel/tests/v363-premium-browser.mjs"
+      - "ytintel/tests/production-v370.mjs"
       - ".github/workflows/ytintel-v360-branch.yml"
+      - ".github/workflows/ytintel-production-smoke.yml"
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,23 +36,28 @@ jobs:
           node --input-type=module --check < ytintel/latest/v362-source-polish.js
           node --input-type=module --check < ytintel/latest/v363-premium-brief.js
           node --input-type=module --check < ytintel/latest/v364-fact-surfaces.js
+          node --input-type=module --check < ytintel/latest/v365-canonical-shell.js
           node --input-type=module --check < ytintel/latest/v360-endgame.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
+          node --check ytintel/tests/production-v370.mjs
           jq empty ytintel/latest/manifest.webmanifest
           jq empty ytintel/latest/release.json
           grep -q 'v360-entry.js?v=0370' ytintel/latest/index.html
           grep -q 'v360-endgame.css?v=0370' ytintel/latest/index.html
           grep -q 'v363-premium-brief.js?v=0370' ytintel/latest/v360-entry.js
           grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/v360-entry.js
+          grep -q 'v365-canonical-shell.js?v=0370' ytintel/latest/v360-entry.js
           grep -q "const RELEASE='0.37.0'" ytintel/latest/v360-entry.js
           grep -q 'ytintel-shell-v0370' ytintel/latest/sw.js
-          grep -q 'v364-fact-surfaces.js?v=0370' ytintel/latest/sw.js
+          grep -q 'v365-canonical-shell.js?v=0370' ytintel/latest/sw.js
           grep -q 'The claims ledger' ytintel/latest/v363-premium-brief.js
           grep -q 'Cross-channel validation sample' ytintel/latest/v363-premium-brief.js
           grep -q 'Download Markdown' ytintel/latest/v363-premium-brief.js
           grep -q 'TITLE SURFACE CHECK' ytintel/latest/v364-fact-surfaces.js
+          grep -q '18-section premium source-backed analysis' ytintel/latest/v365-canonical-shell.js
+          grep -q 'production-v370.mjs' .github/workflows/ytintel-production-smoke.yml
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'research-stage' ytintel/latest/v360-endgame.js
           ! grep -q 'ytintel-v093' ytintel/latest/v360-endgame.js
@@ -84,5 +91,6 @@ jobs:
             ytintel/latest
             ytintel/tests/v360-*.mjs
             ytintel/tests/v363-premium-browser.mjs
+            ytintel/tests/production-v370.mjs
             ytintel-v037-premium-mobile.png
           retention-days: 7
