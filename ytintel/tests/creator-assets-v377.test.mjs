@@ -16,7 +16,7 @@ test('v0.37.7 Scene Index remains wired through the current v0.37.9 shell',async
   assert.match(entry,/const RELEASE='0\.37\.9'/);
   assert.match(index,/v0\.37\.9/);
   assert.match(index,/v360-entry\.js\?v=0379/);
-  assert.match(sw,/ytintel-shell-v0379-r1/);
+  assert.match(sw,/ytintel-shell-v0379-r2/);
   assert.match(sw,/v377-scene-indexer\.js\?v=0377/);
   assert.match(manifest,/\?source=pwa&v=0379/);
   assert.doesNotMatch(manifest,/Compare Winners/i);
