@@ -3,18 +3,18 @@
   "name": "YTIntel — YouTube Creator Intelligence",
   "short_name": "YTIntel",
   "description": "Benchmark-depth single-video analysis, Watchtower, a compounding Vault and private Creator Assets with automatic scene indexing and zero paid AI credits.",
-  "start_url": "./?source=pwa&v=0378",
+  "start_url": "./?source=pwa&v=0379",
   "scope": "./",
   "display": "standalone",
   "background_color": "#07090d",
   "theme_color": "#07090d",
   "orientation": "any",
   "categories": ["productivity", "business", "education"],
-  "icons": [{"src":"./icon.svg?v=0378","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
+  "icons": [{"src":"./icon.svg?v=0379","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
   "shortcuts": [
-    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0378","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Creator Assets + Vault","short_name":"Vault","url":"./?tab=vault&source=shortcut","icons":[{"src":"./icon.svg?v=0378","sizes":"any","type":"image/svg+xml"}]},
-    {"name":"Competitor Watchtower","short_name":"Watchtower","url":"./?tab=competitors&source=shortcut","icons":[{"src":"./icon.svg?v=0378","sizes":"any","type":"image/svg+xml"}]}
+    {"name":"Analyse a Video","short_name":"Analyse","url":"./?tab=analyse&source=shortcut","icons":[{"src":"./icon.svg?v=0379","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Creator Assets + Vault","short_name":"Vault","url":"./?tab=vault&source=shortcut","icons":[{"src":"./icon.svg?v=0379","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Competitor Watchtower","short_name":"Watchtower","url":"./?tab=competitors&source=shortcut","icons":[{"src":"./icon.svg?v=0379","sizes":"any","type":"image/svg+xml"}]}
   ],
   "share_target": {"action":"./?source=share","method":"GET","enctype":"application/x-www-form-urlencoded","params":{"title":"title","text":"text","url":"share"}}
 }
