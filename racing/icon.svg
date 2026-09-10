@@ -1,6 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MITCHELL Racing icon">
-  <rect width="512" height="512" rx="112" fill="#08111f"/>
-  <circle cx="256" cy="256" r="184" fill="#12233a" stroke="#6eb4ff" stroke-width="18"/>
-  <path d="M150 322V178h46l60 78 60-78h46v144h-48v-74l-58 72-58-72v74z" fill="#f5f7fb"/>
-  <path d="M151 352h210" stroke="#2bd886" stroke-width="22" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#14231b"/>
+      <stop offset="1" stop-color="#06090d"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="118" fill="#06090d"/>
+  <circle cx="256" cy="256" r="188" fill="url(#g)" stroke="#2a3b31" stroke-width="8"/>
+  <circle cx="256" cy="256" r="166" fill="none" stroke="#d6a84f" stroke-width="5" opacity=".82"/>
+  <g transform="translate(64 64) scale(16)" fill="none" stroke="#62f39b" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.3 19c.5-5.2 2.2-8.8 5.2-10.9L10.8 4l3.4 2.2 2.9-.8-.8 3.2 2.4 2.4c1.5 1.5.6 4-1.5 4h-3.1l-2.2 4"/>
+    <path d="M8.7 12.4c1.1.7 2.4.9 3.8.6"/>
+  </g>
+  <path d="M154 410h204" stroke="#d6a84f" stroke-width="10" stroke-linecap="round"/>
 </svg>
