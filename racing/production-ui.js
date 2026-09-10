@@ -145,6 +145,10 @@
     };
   }
 
+  function hkApproved() {
+    return state.data.hkStats?.decision?.productionApproved === true;
+  }
+
   function hkStatus() {
     const data = state.data.hk;
     const stats = state.data.hkStats;
@@ -195,7 +199,8 @@
         </div>
         <div class="prod-command ${status.tone}"><span>RIGHT NOW</span><strong>${esc(status.status)}</strong><p>${esc(status.reason)}</p></div>
         <div class="prod-stats">
-          ${stat('HISTORICAL BETS / YEAR', one(h.betsPerYear))}
+          ${stat('HISTORICAL BETS / YEAR
+, one(h.betsPerYear))}
           ${stat('HISTORICAL ROI', pct(h.roiPct, true), `${Number(h.completedFys || 0)} completed FYs`)}
           ${stat('HIST AVG / FY', money(h.avgCompletedFyAud), 'model-equivalent history')}
           ${stat('RECORDED HIST DD', money(h.recordedMaxDrawdownAud), `reorder stress ${money(h.reorderStressMaxDrawdownAud)}`)}
@@ -215,7 +220,8 @@
       </div>
       <div class="prod-command ${status.tone}"><span>RIGHT NOW</span><strong>${esc(status.status)}</strong><p>${esc(status.reason)}</p></div>
       <div class="prod-stats">
-        ${stat('HISTORICAL BETS / YEAR', one(f.betsPerYear))}
+        ${stat('HISTORICAL BETS / YEAR
+, one(f.betsPerYear))}
         ${stat('HISTORICAL ROI', pct(h.historicalRoi), `${Number(f.completedYears || 0)} completed years`)}
         ${stat('HIST AVG / YEAR', money(h.annualHistoricalProfitAud), 'optimised historical path')}
         ${stat('STORED HIST DD', money(h.raceLevelMaxDrawdownAud), `P95 sequence stress ${money(stress.p95MaxDrawdownAud)}`)}
@@ -260,12 +266,15 @@
     if (!shouldGuard || state.internalAu) return;
     const card = $('decisionCard');
     if (!card) return;
+    const title = status.mode === 'future' ? 'WAIT' : 'NO BET';
+    const expectedClass = `decision-card ${status.mode === 'future' ? 'waiting' : 'blocked'}`;
+    const expectedKicker = status.mode === 'future' ? 'AUSTRALIA Â· NEXT CARD' : 'AUSTRALIA Â· CARD NOT CURRENT';
+    if (card.dataset.productionDateGuard === status.mode && card.className === expectedClass && $('decisionTitle')?.textContent === title && $('decisionMessage')?.textContent === status.reason && $('decisionKicker')?.textContent === expectedKicker) return;
     state.internalAu = true;
     try {
-      const title = status.mode === 'future' ? 'WAIT' : 'NO BET';
-      card.className = `decision-card ${status.mode === 'future' ? 'waiting' : 'blocked'}`;
+      card.className = expectedClass;
       card.dataset.productionDateGuard = status.mode;
-      if ($('decisionKicker')) $('decisionKicker').textContent = status.mode === 'future' ? 'AUSTRALIA Â· NEXT CARD' : 'AUSTRALIA Â· CARD NOT CURRENT';
+      if ($('decisionKicker')) $('decisionKicker').textContent = expectedKicker;
       if ($('decisionTitle')) $('decisionTitle').textContent = title;
       if ($('decisionMessage')) $('decisionMessage').textContent = status.reason;
       if ($('lockedBets')) $('lockedBets').innerHTML = '';
@@ -287,85 +296,95 @@
     if (!blocked || state.internalHk) return;
     const root = $('hkRacingContent');
     if (!root) return;
-    state.internalHk = true;
-    try {
-      const action = root.querySelector('.hk-action');
-      const actionTitle = root.querySelector('.hk-action-title');
-      const actionText = root.querySelector('.hk-action-text');
-      if (action) action.className = 'hk-action';
-      if (actionTitle) actionTitle.textContent = 'WAIT Â· SHADOW ONLY';
-      if (actionText) actionText.textContent = 'HK OPTIMAL V4 is not production-approved. Any qualifying model output is research only and must not become a real-money instruction.';
-      root.querySelectorAll('.hk-card.bet').forEach(node => node.classList.remove('bet'));
-      root.querySelectorAll('.hk-signal.bet').forEach(node => {
-        node.classList.remove('bet');
-        const b = node.querySelector('b');
-        if (b) b.textContent = 'SHADOW SIGNAL';
-      });
-      root.querySelectorAll('.hk-status.bet').forEach(node => {
-        node.classList.remove('bet');
-        node.textContent = 'SHADOW SIGNAL Â· DO NOT BET';
-      });
-    } finally {
-      state.internalHk = false;
-    }
-  }
+    const shadowText = 'HK OPTIMAL V4 is not production-approved. Any qualifying model output is research only and must not become a real-money instruction.';
+    const action = root.querySelector('.hk-action');
+    const actionTitle = root.querySelector('.hk-action-title');
+    const actionText = root.querySelector('.hk-action-text');
+    const hasBetClass = Boolean(root.querySelector('.hk-action.bet,.hk-card.bet,.hk-signal.bet,.hk-status.bet'));
+    if (!hasBetClass && actionTitle?.textContent === 'WAIT Â· SHADOW ONLYIÈ	‰ˆXİ[Û•^Ë^ÛÛ[OOHÚYİÕ^
+H™]\›Âˆİ]Kš[\›˜[2ÈHYNÂˆHÂˆYˆ
+Xİ[ÛŠHXİ[Û‹˜Û\ÜÓ˜[YHH	ÚËXXİ[Û‰ÎÂˆYˆ
+Xİ[Û•]JHXİ[Û•]K^ÛÛ[H	ÕĞRU0­ÈÒQÕÈÓ“IÎÂˆYˆ
+Xİ[Û•^
+HXİ[Û•^^ÛÛ[HÚYİÕ^Âˆ›Ûİœ]Y\TÙ[XİÜ[
+	ËšËXØ\™˜™]	ÊK™›Ü‘XXÚ
+›ÙHOˆ›ÙK˜Û\ÜÓ\İœ™[[İ™J	Ø™]	ÊJNÂˆ›Ûİœ]Y\TÙ[XİÜ[
+	ËšË\ÚYÛ˜[˜™]	ÊK™›Ü‘XXÚ
+›ÙHOˆÂˆ›ÙK˜Û\ÜÓ\İœ™[[İ™J	Ø™]	ÊNÂˆÛÛœİˆH›ÙKœ]Y\TÙ[XİÜŠ	Ø‰ÊNÂˆYˆ
+ŠH‹^ÛÛ[H	ÔÒQÕÈÒQÓS	ÎÂˆJNÂˆ›Ûİœ]Y\TÙ[XİÜ[
+	ËšË\İ]\Ë˜™]	ÊK™›Ü‘XXÚ
+›ÙHOˆÂˆ›ÙK˜Û\ÜÓ\İœ™[[İ™J	Ø™]	ÊNÂˆ›ÙK^ÛÛ[H	ÔÒQÕÈÒQÓS0­ÈÈ“Õ‘U	ÎÂˆJNÂˆHš[˜[HÂˆİ]Kš[\›˜[šÈH˜[ÙNÂˆBˆB‚ˆ\Ş[˜È[˜İ[Ûˆ™Yœ™\Ú[
 
-  async function refreshAll() {
-    if (state.busy) return;
-    state.busy = true;
-    state.error = null;
-    render();
-    try {
-      const [au, auStats, hk, hkStats] = await Promise.all([
-        getJson(FILES.au), getJson(FILES.auStats), getJson(FILES.hk), getJson(FILES.hkStats)
-      ]);
-      state.data = { au, auStats, hk, hkStats };
-      state.loadedAt = Date.now();
-      window.__MITCHELL_PRODUCTION_STATUS = { auDate:cardDate(au), hkDate:hk?.meeting?.date || null, hkProductionApproved:hkStats?.decision?.productionApproved === true, checkedAt:new Date().toISOString() };
-      window.dispatchEvent(new CustomEvent('mitchell-production-status', { detail:window.__MITCHELL_PRODUCTION_STATUS }));
-    } catch (error) {
-      state.error = error instanceof Error ? error.message : 'Production status check failed';
-    } finally {
-      state.busy = false;
-      render();
-      window.MITCHELL_HK_OPTIMAL_V4_REFRESH?.();
-      window.dispatchEvent(new CustomEvent('mitchell-refresh-live', { detail:{ forceBase:true, source:'production-centre' } }));
-    }
-  }
+HÂˆYˆ
+İ]K˜\ŞJH™]\›Âˆİ]K˜\ŞHHYNÂˆİ]K™\œ›ÜˆH[Âˆ™[™\Š
+NÂˆHÂˆÛÛœİØ]K]Tİ]ËËÔİ]×HH]ØZ]›ÛZ\ÙK˜[
+ÂˆÙ]œÛÛŠ’STË˜]JKÙ]œÛÛŠ’STË˜]Tİ]ÊKÙ]œÛÛŠ’STËšÊKÙ]œÛÛŠ’STËšÔİ]ÊBˆJNÂˆİ]K™]HHÈ]K]Tİ]ËËÔİ]ÈNÂˆİ]K›ØYY]H]K››İÊ
+NÂˆÚ[™İË—×ÓRUÒSÔ“ÑPÕSÓ—ÔÕUTÈHÈ]Q]N˜Ø\™]J]JKÑ]NšÏË›YY][™ÏË™]H[Ô›ÙXİ[Û\›İ™YšÔİ]ÏË™XÚ\Ú[ÛËœ›ÙXİ[Û\›İ™YOOHYKÚXÚÙY]›™]È]J
+KÒTÓÔİš[™Ê
+HNÂˆÚ[™İË™\Ü]Ú]™[
+™]Èİ\İÛQ]™[
+	ÛZ]Ú[\›ÙXİ[Û‹\İ]\ÉËÈ]Z[Ú[™İË—×ÓRUÒSÔ“ÑPÕSÓ—ÔÕUTÈJJNÂˆHØ]Ú
+\œ›ÜŠHÂˆİ]K™\œ›ÜˆH\œ›Üˆ[œİ[˜Ù[Ùˆ\œ›ÜˆÈ\œ›Ü‹›Y\ÜØYÙHˆ	Ô›ÙXİ[Ûˆİ]\ÈÚXÚÈ˜Z[Y	ÎÂˆHš[˜[HÂˆİ]K˜\ŞHH˜[ÙNÂˆ™[™\Š
+NÂˆÚ[™İË“RUÒSÒ×ÓÔSPSÕÔ‘Q”‘TÒËŠ
+NÂˆÚ[™İË™\Ü]Ú]™[
+™]Èİ\İÛQ]™[
+	ÛZ]Ú[\™Yœ™\Ú[]™IËÈ]Z[È›Ü˜ÙP˜\ÙNYKÛİ\˜ÙN‰Ü›ÙXİ[Û‹XÙ[™IÈHJJNÂˆBˆB‚ˆ[˜İ[Ûˆ[œİ[İX\™Ê
+HÂˆÛÛœİXÚ\Ú[ÛˆH	
+	ÙXÚ\Ú[ÛØ\™	ÊNÂˆYˆ
+XÚ\Ú[ÛŠH™]È]]][Û“ØœÙ\™\Š
 
-  function installGuards() {
-    const decision = $('decisionCard');
-    if (decision) new MutationObserver(() => {
-      if (state.internalAu) return;
-      const status = auStatus();
-      if (status.mode !== 'today') queueMicrotask(() => applyAuGuard(status));
-    }).observe(decision, { attributes:true, childList:true, subtree:true, characterData:true });
+HOˆÂˆYˆ
+İ]Kš[\›˜[]JH™]\›ÂˆÛÛœİİ]\ÈH]Tİ]\Ê
+NÂˆYˆ
+İ]\Ë›[ÙHOOH	İÙ^IÊH]Y]YSZXÜ›İ\ÚÊ
 
-    const hkRoot = $('hkRacingContent');
-    if (hkRoot) new MutationObserver(() => {
-      if (state.internalHk) return;
-      const status = hkStatus();
-      if (status.approved !== true) queueMicrotask(() => applyHkGuard(status));
-    }).observe(hkRoot, { attributes:true, childList:true, subtree:true, characterData:true });
-  }
+HOˆ\P]QİX\™
+İ]\ÊJNÂˆJK›ØœÙ\™JXÚ\Ú[Û‹È]šX]\ÎYKÚ[\İYKİX™YNYKÚ\˜Xİ\‘]NYHJNÂ‚ˆÛÛœİÔ›ÛİH	
+	ÚÔ˜XÚ[™ĞÛÛ[	ÊNÂˆYˆ
+Ô›Ûİ
+H™]È]]][Û“ØœÙ\™\Š
 
-  function boot() {
-    const waitForShell = () => {
-      if (!ensureShell()) return setTimeout(waitForShell, 50);
-      installGuards();
-      refreshAll();
-    };
-    waitForShell();
-  }
+HOˆÂˆYˆ
+İ]Kš[\›˜[ÊH™]\›ÂˆÛÛœİİ]\ÈHÔİ]\Ê
+NÂˆYˆ
+İ]\Ë˜\›İ™YOOHYJH]Y]YSZXÜ›İ\ÚÊ
 
-  window.addEventListener('mitchell-live-health', event => { state.health.au = event.detail || null; render(); });
-  window.addEventListener('mitchell-preflight-health', event => { state.health.preflight = event.detail || null; render(); });
-  window.addEventListener('mitchell-hk-health', event => { state.health.hk = event.detail || null; render(); });
-  window.addEventListener('online', () => refreshAll());
-  window.addEventListener('offline', render);
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshAll(); });
+HOˆ\RÑİX\™
+İ]\ÊJNÂˆJK›ØœÙ\™JÔ›ÛİÈ]šX]\ÎYKÚ[\İYKİX™YNYKÚ\˜Xİ\‘]NYHJNÂˆB‚ˆ[˜İ[Ûˆ›Ûİ
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
-  else boot();
-  setInterval(() => { render(); if (document.visibilityState === 'visible') refreshAll(); }, REFRESH_MS);
-})();
+HÂˆÛÛœİØZ]›Ü”Ú[H
+
+HOˆÂˆYˆ
+Y[œİ\™TÚ[
+
+JH™]\›ˆÙ][Y[İ]
+ØZ]›Ü”Ú[L
+NÂˆ[œİ[İX\™Ê
+NÂˆ™Yœ™\Ú[
+
+NÂˆNÂˆØZ]›Ü”Ú[
+
+NÂˆB‚ˆÚ[™İË˜Y]™[\İ[™\Š	ÛZ]Ú[[]™KZX[	Ë]™[OˆÈİ]KšX[˜]HH]™[™]Z[[È™[™\Š
+NÈJNÂˆÚ[™İË˜Y]™[\İ[™\Š	ÛZ]Ú[\™Y›YÚZX[	Ë]™[OˆÈİ]KšX[œ™Y›YÚH]™[™]Z[[È™[™\Š
+NÈJNÂˆÚ[™İË˜Y]™[\İ[™\Š	ÛZ]Ú[ZËZX[	Ë]™[OˆÈİ]KšX[šÈH]™[™]Z[[È™[™\Š
+NÈJNÂˆÚ[™İË˜Y]™[\İ[™\Š	ÛÛ›[™IË
+
+HOˆ™Yœ™\Ú[
+
+JNÂˆÚ[™İË˜Y]™[\İ[™\Š	ÛÙ™›[™IË™[™\ŠNÂˆØİ[Y[˜Y]™[\İ[™\Š	İš\ÚXš[]XÚ[™ÙIË
+
+HOˆÈYˆ
+Øİ[Y[š\ÚXš[]Tİ]HOOH	İš\ÚX›IÊH™Yœ™\Ú[
+
+NÈJNÂ‚ˆYˆ
+Øİ[Y[œ™XYTİ]HOOH	ÛØY[™ÉÊHØİ[Y[˜Y]™[\İ[™\Š	ÑÓPÛÛ[ØYY	Ë›ÛİÈÛ˜ÙNYHJNÂˆ[ÙH›Ûİ
+
+NÂˆÙ][\˜[
+
+
+HOˆÈ™[™\Š
+NÈYˆ
+Øİ[Y[š\ÚXš[]Tİ]HOOH	İš\ÚX›IÊH™Yœ™\Ú[
+
+NÈK‘Q”‘TÒÓTÊNÂŸJJ
+NÂ
