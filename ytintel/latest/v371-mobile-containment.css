@@ -1,0 +1,44 @@
+/* v0.37 mobile containment: wide evidence stays scrollable inside its card, never widens the document. */
+html,body,#app,.shell,.content,.view,#report,
+.card,.section,.v363-section,.v363-columns,.v363-panel,.v360-direction,
+.v360-shell-card,.v360-compare-results,.v360-watch-list,.v360-bank-grid,
+.v363-table-wrap,.v360-compare-table,.v363-transcript,.v363-transcript-lines{
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+html,body{width:100%;overflow-x:clip}
+.content,.view,#report{width:100%}
+.v363-table-wrap,.v360-compare-table,.v363-transcript-lines{
+  width:100%;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.v363-table,.v360-compare-table table{max-width:none}
+.v363-section img,.v363-section video,.v363-section canvas,.v363-section svg,
+.v360-shell-card img,.v360-shell-card video,.v360-shell-card canvas,.v360-shell-card svg{
+  max-width:100%;
+  height:auto;
+}
+.v363-section p,.v363-section li,.v363-section td,.v363-section th,
+.v360-shell-card p,.v360-shell-card li,.v360-bank-card,.v360-watch-card{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.mobile-dock{
+  left:0!important;
+  right:0!important;
+  width:auto!important;
+  max-width:100vw!important;
+  box-sizing:border-box!important;
+}
+.topbar{max-width:100vw;box-sizing:border-box}
+@media(max-width:560px){
+  .shell,.content,.view,#report{min-width:0!important;max-width:100%!important}
+  .v363-section{overflow:visible}
+  .v363-table-wrap{display:block;max-width:100%}
+  .v363-table{min-width:560px!important;width:max-content}
+  .v360-compare-table table{min-width:720px}
+  .v360-media-banner,.v360-watch-head,.research-console-head{min-width:0;max-width:100%}
+}
