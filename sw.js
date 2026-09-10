@@ -1,6 +1,6 @@
-const BUILD='5366';
-const VERSION='v53.59';
-const SHELL='pn-shell-stable-v5366';
+const BUILD='5367';
+const VERSION='v53.60';
+const SHELL='pn-shell-stable-v5367';
 const LOCAL=['./','./index.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability-core.js','./runtime-late.js','./workshop-ui-v2.js','./morning-pack.js','./miter-48-template.html','./repair.html'];
 const SCOPE_PATH=new URL(self.registration.scope).pathname.replace(/\/?$/,'/');
 function canonical(url){return new Request(new URL(url.pathname,self.location.origin).href);}
