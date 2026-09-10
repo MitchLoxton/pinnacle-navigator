@@ -1,12 +1,12 @@
 {
   "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
   "version": "v0.37.0",
-  "title": "Benchmark-depth premium analysis — final production gate",
-  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging evidence renders immediately, and subscriber enrichment now resolves both @handles and channel-ID URLs through public About-page evidence instead of printing a fake zero.",
-  "published_at": "2026-09-10T05:02:00Z",
+  "title": "Benchmark-depth premium analysis — owner-verified facts",
+  "summary": "The 09/09 premium benchmark brief is the canonical one-link output: 18 ordered sections, benchmark-scale depth, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Subscriber enrichment is now tied to the exact analyzed video's YouTube owner block, and the Blake production gate only passes within 10% of the ~6.19K benchmark count.",
+  "published_at": "2026-09-10T05:14:00Z",
   "discord_changes": [
-    "18-SCREEN PREMIUM: Strip → Export now follows the 09/09 benchmark order at Blake-analysis depth.",
-    "SUBSCRIBER BUG KILLED: channel-ID URLs now resolve public About-page subscribers; zero can no longer pass the Blake production test.",
+    "18-SCREEN PREMIUM: Strip → Export follows the 09/09 benchmark order at Blake-analysis depth.",
+    "OWNER-VERIFIED SUBS: subscriber facts are bound to the exact analyzed video; Blake must land within ±10% of ~6.19K.",
     "ENDGAME OUTPUT: claims + channel context + Creator DNA finish in 2–3 executable remake directions with measurement plans."
   ],
   "changes": [
@@ -19,8 +19,10 @@
     "Kept Most Replayed, storyboard/frame, motion and audio claims evidence-bounded; unavailable public evidence stays unavailable instead of being fabricated.",
     "Added current title-surface evidence without falsely asserting an A/B test when only public discrepancies are visible.",
     "Fixed the Title Surface Check race so Packaging is complete immediately and slower channel enrichment no longer blocks it.",
-    "Fixed the benchmark subscriber-zero bug for both @handle and /channel/ID inputs using a dedicated public About-page fallback. Unknown subscriber evidence remains null/unknown, never a fake zero.",
-    "Strengthened the deployed Blake production smoke so it requires a nonzero public subscriber count, a rendered subscriber evidence card, all 18 sections, premium depth floors, claims/context/remake/export coverage, transcript evidence, mobile containment and zero page errors.",
+    "Replaced loose subscriber scraping with an exact analyzed-video owner-renderer lookup, matched to the source channel ID before accepting subscriberCountText.",
+    "Kept channel-page and operational About data only as secondary fallbacks; unknown subscriber evidence remains unknown rather than zero.",
+    "Strengthened the deployed Blake browser proof from merely nonzero to ±10% of the 6,190 benchmark subscriber count, so unrelated shelf/card counts cannot pass.",
+    "The production proof still requires all 18 sections, premium depth floors, claims/context/remake/export coverage, transcript evidence, title-surface evidence, mobile containment and zero page errors.",
     "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA and the compounding Vault."
   ],
   "known_limitations": [
