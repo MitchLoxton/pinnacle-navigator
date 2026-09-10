@@ -1,35 +1,36 @@
 {
-  "release_id": "ytintel-0.36.1-intelligence-review",
-  "version": "v0.36.1",
-  "title": "Intelligence Review — source first, no repetition",
-  "summary": "The 09/09 review is implemented: Creator DNA is asked only after sign-in, source-video taxonomy is independent of the user's profile, the Monday Brief label is removed from the product UI, and evidence-mode Summary/Takeaways/Payoffs are rebuilt around distinct interpreted evidence rather than repeated transcript windows.",
-  "published_at": "2026-09-09T11:29:00Z",
+  "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
+  "version": "v0.37.0",
+  "title": "Benchmark-depth premium analysis",
+  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, a claims ledger, channel/validation context, Creator-DNA remake directions, Vault entry and Markdown/PDF export.",
+  "published_at": "2026-09-10T03:20:00Z",
   "discord_changes": [
-    "INTELLIGENCE FIX: Summary, Takeaways and Payoffs now de-duplicate evidence and separate interpretation from source receipts instead of printing overlapping transcript blocks.",
-    "SOURCE TAXONOMY: the strip now labels the VIDEO's niche/subniche from its own title, description and transcript evidence — Creator DNA can no longer leak into source metadata.",
-    "ACCOUNT FLOW: Creator DNA questions are hidden until the user signs in; signed-out users can still analyse source videos without being asked personalisation questions.",
-    "CLEAN CORE: stale Heart Lock/old-roadmap copy is removed; missing source stats show as unavailable instead of fake zeroes."
+    "PREMIUM STRUCTURE: one link now resolves into 18 ordered sections from Strip through Export, plus a full timestamped transcript appendix.",
+    "BENCHMARK DEPTH: each section carries an internal word-depth target modelled on the Blake Ryan premium example; YTIntel aims for that depth but never pads a thin source with filler.",
+    "CLAIMS + CONTEXT: numeric claims are ledgered as VERIFIED / THEIR CLAIM / WRONG only when the source engine can support the verdict, and channel hits, same-angle rows, cross-channel validation samples and funnel context are surfaced separately.",
+    "MAKE IT YOURS: the remake section keeps Creator DNA, 2–3 package directions, title variants, a hook, beat sheet, thumbnail composition, steal / do-not-copy rules and a measurement plan.",
+    "EXPORT: the completed analysis can be downloaded as Markdown or printed/saved as PDF; the full transcript remains attached as the final source appendix."
   ],
   "changes": [
-    "Removed the user-facing 'Monday Brief' label while preserving the locked 17-section structure internally.",
-    "Added a source-video taxonomy pass for niche/subniche that is independent of the creator profile and now uses transcript context to refine the subniche.",
-    "Replaced evidence-mode summary windows with 10-12 distinct chronological interpreted beats plus concise source receipts.",
-    "Added a source-derived main-message card and observable-mechanics why-it-likely-worked verdict without claiming private retention causality.",
-    "Rebuilt evidence-mode takeaways so each lesson is distinct and carries one exact timestamped source receipt; numbered/facts videos preserve real list items when available.",
-    "Rebuilt payoff detection around strong receipt/reveal/demonstration events, with spacing and semantic de-duplication, instead of every 30-second cue window.",
-    "Creator DNA onboarding is suppressed before auth and appears only after sign-in when no complete profile exists.",
-    "Account sync, browser-AI capability checks and legacy cleanup are bounded/background operations and can no longer block the app from loading.",
-    "Removed stale Heart Lock/Watchtower-next copy from the final shell and made v0.36.1 the sole visible release owner.",
-    "Missing subscriber/comment/like source values are displayed as unavailable rather than misleading zeroes.",
-    "Preserved Group Video Analysis, Watchtower, Hook/Package/Style banks, account-backed Vault sync and zero-credit local multimodal paths from the v0.36 Endgame candidate.",
-    "Expected media-source limitations are handled as a limited evidence state instead of leaking an unhandled page error.",
-    "Cache identity bumped so stale pre-review code is not silently reused."
+    "Replaced the 17-section presentation layer with the 18-section order in the 09/09 Analyse One Link brief: Strip, Summary, Key Takeaways, Hook, Re-hooks, Payoffs, Most Replayed, Structure Map, Visuals, Motion Graphics, Audio, Packaging, Numbers Table, Claims Ledger, Channel Context, Make It Yours, Vault Entry, Export.",
+    "Added a premium short-version summary that explicitly separates what the video is, how it is built, how it is doing, what appears to matter and what is worth taking.",
+    "Expanded the first 60 seconds into line-by-line source quotes plus the job each line is doing.",
+    "Added benchmark-depth structure mapping with beat time, length, job, exact receipt and explicit screen-evidence limits.",
+    "Added a numeric claims ledger that refuses to call a spoken number verified unless a public value in the same pull supports it.",
+    "Added recent-channel hits, same-angle matching, a public cross-channel validation sample and a business/funnel read inside Channel Context.",
+    "Added a dedicated Numbers Table for WPM, pace by minute, caption gaps, beats, first receipt, first payoff, first sell, selling share and media-derived cut rate when available.",
+    "Preserved the existing source-backed visual, motion and audio passes; missing media evidence stays unavailable instead of being inferred from captions.",
+    "Expanded Make It Yours to benchmark-style package directions and measurement signals while retaining existing on-device model output when available.",
+    "Added per-section benchmark word targets as QA metadata. Targets are goals, never filler quotas.",
+    "Added Markdown download, print/save-as-PDF export and a full timestamped transcript appendix.",
+    "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture from the Endgame candidate."
   ],
   "known_limitations": [
-    "Frontier cloud-model quality cannot be provided without a separately billed model API; zero-credit mode uses the strongest available on-device model plus deterministic source synthesis.",
-    "YouTube may not expose storyboard/direct-media sources on every request. Missing visual/audio sources stay explicitly unavailable rather than being fabricated.",
-    "Most Replayed is treated as real only when public curve data is exposed.",
-    "On-device multimodal model support depends on the user's browser/device and may require a local model download."
+    "External factual verification across the open web is not fabricated in zero-credit mode. Claims that only exist in the source remain THEIR CLAIM unless the public YouTube pull or arithmetic/source consistency can verify or contradict them.",
+    "Public search validation is a sample, not a census, and YouTube may return different or incomplete surfaces over time.",
+    "YouTube may not expose storyboards, direct media, comments, subscribers or Most Replayed on every request. Missing evidence stays explicitly unavailable.",
+    "Storyboard frames are seek-bar samples rather than every encoded video frame; exact cut/zoom/audio claims require reliable media access or a supported on-device multimodal model.",
+    "On-device multimodal model support depends on browser/device availability. Source analysis and the 18-section evidence report still run without it."
   ],
-  "why_it_matters": "The layout was already clean; this release fixes the intelligence failures in the review: source metadata is source-derived, watch replacement is synthesized instead of repeated, payoff evidence is selective, and personalisation no longer contaminates the source analysis."
+  "why_it_matters": "The target is no longer a short dashboard summary. The product now mirrors the premium Blake Ryan benchmark in depth and evidence discipline while preserving the Endgame rule: save the creator the watch/research time, show the line each conclusion came from, and finish with the video they should make."
 }
