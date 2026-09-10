@@ -1,5 +1,5 @@
-const BUILD = '1.9.0';
-const CACHE = 'mitchell-racing-v40-production-centre';
+const BUILD = '1.10.0';
+const CACHE = 'mitchell-racing-v110-phone-alerts';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
@@ -27,16 +27,41 @@ self.addEventListener('activate', event => {
   })());
 });
 
+self.addEventListener('push', event => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch {
+    try { data = { body:event.data ? event.data.text() : '' }; } catch { data = {}; }
+  }
+  const title = data.title || 'MITCHELL Racing';
+  const urgent = data.alertType === 'BET_NOW' || data.alertType === 'STAND_BY';
+  const options = {
+    body: data.body || 'Open MITCHELL Racing for the current race-day instruction.',
+    tag: data.tag || `mitchell-racing-${Date.now()}`,
+    renotify: true,
+    requireInteraction: data.requireInteraction === true || urgent,
+    icon: './icon.svg',
+    badge: './icon.svg',
+    data: { url:data.url || './', alertType:data.alertType || null, raceCode:data.raceCode || null },
+    timestamp: Number(data.timestamp) || Date.now()
+  };
+  if (urgent) options.vibrate = [300,120,300,120,650];
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil((async () => {
+    const target = event.notification?.data?.url || './';
     const clientsList = await self.clients.matchAll({ type:'window', includeUncontrolled:true });
     const existing = clientsList.find(client => client.url.includes('/racing/'));
     if (existing) {
       await existing.focus();
+      if ('navigate' in existing) {
+        try { await existing.navigate(target); } catch {}
+      }
       return;
     }
-    if (self.clients.openWindow) await self.clients.openWindow('./');
+    if (self.clients.openWindow) await self.clients.openWindow(target);
   })());
 });
 
