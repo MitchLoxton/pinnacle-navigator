@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-09-05",
+  "timezone": "Australia/Perth",
+  "status": "COMPLETE",
+  "source": "TABtouch archived result pages",
+  "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
+  "verification": "For every race, the archived Double Subs/Quaddie Subs favourite row and its Won/Lost flag were cross-checked against the displayed RESULTS winner number. All 21 checks were internally consistent.",
+  "summary": {
+    "streamsLogged": 21,
+    "favouriteWins": 5,
+    "favouriteLosses": 16,
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "pending": 0,
+    "ambiguous": 0,
+    "errors": 0
+  },
+  "races": [
+    {"race":"PR1","venue":"Belmont Park","stateBefore":5,"favouriteNumber":2,"favourite":"GAINTREE","outcome":"LOSS","winnerNumber":5,"stateAfter":6,"systemBet":false,"cashPlAud":0},
+    {"race":"PR2","venue":"Belmont Park","stateBefore":5,"favouriteNumber":6,"favourite":"SO SI GOD","outcome":"LOSS","winnerNumber":5,"stateAfter":6,"systemBet":false,"cashPlAud":0},
+    {"race":"PR3","venue":"Belmont Park","stateBefore":1,"favouriteNumber":7,"favourite":"TRULY LOYAL","outcome":"WIN","winnerNumber":7,"stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"PR4","venue":"Belmont Park","stateBefore":1,"favouriteNumber":5,"favourite":"NICCIMOTA","outcome":"LOSS","winnerNumber":6,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"PR5","venue":"Belmont Park","stateBefore":1,"favouriteNumber":1,"favourite":"YES I KNOW","outcome":"WIN","winnerNumber":1,"stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"PR6","venue":"Belmont Park","stateBefore":1,"favouriteNumber":5,"favourite":"SILENT DIVA","outcome":"LOSS","winnerNumber":7,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"PR7","venue":"Belmont Park","stateBefore":0,"favouriteNumber":9,"favourite":"ROYAL TORONADO","outcome":"LOSS","winnerNumber":3,"stateAfter":1,"systemBet":false,"cashPlAud":0},
+    {"race":"SR1","venue":"Royal Randwick","stateBefore":1,"favouriteNumber":3,"favourite":"DUSTY BAY","outcome":"LOSS","winnerNumber":5,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"SR2","venue":"Royal Randwick","stateBefore":0,"favouriteNumber":4,"favourite":"MRS GOLDBERG","outcome":"LOSS","winnerNumber":11,"stateAfter":1,"systemBet":false,"cashPlAud":0},
+    {"race":"SR3","venue":"Royal Randwick","stateBefore":0,"favouriteNumber":3,"favourite":"ERNAUX","outcome":"WIN","winnerNumber":3,"stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"SR4","venue":"Royal Randwick","stateBefore":0,"favouriteNumber":1,"favourite":"THEBUDGIESMUGLA","outcome":"LOSS","winnerNumber":2,"stateAfter":1,"systemBet":false,"cashPlAud":0},
+    {"race":"SR5","venue":"Royal Randwick","stateBefore":0,"favouriteNumber":17,"favourite":"NIGHT AGENT","outcome":"LOSS","winnerNumber":4,"stateAfter":1,"systemBet":false,"cashPlAud":0},
+    {"race":"SR6","venue":"Royal Randwick","stateBefore":6,"favouriteNumber":2,"favourite":"PEMBREY","outcome":"LOSS","winnerNumber":6,"stateAfter":7,"systemBet":false,"cashPlAud":0},
+    {"race":"SR7","venue":"Royal Randwick","stateBefore":2,"favouriteNumber":7,"favourite":"IDLE FLYER","outcome":"LOSS","winnerNumber":1,"stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"MR1","venue":"Sportsbet Sandown Hillside","stateBefore":4,"favouriteNumber":3,"favourite":"CIGNETTI","outcome":"LOSS","winnerNumber":4,"stateAfter":5,"systemBet":false,"cashPlAud":0},
+    {"race":"MR2","venue":"Sportsbet Sandown Hillside","stateBefore":1,"favouriteNumber":6,"favourite":"BLUE WILLOW","outcome":"LOSS","winnerNumber":5,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"MR3","venue":"Sportsbet Sandown Hillside","stateBefore":1,"favouriteNumber":8,"favourite":"TRES MAGNIFIQUE","outcome":"LOSS","winnerNumber":4,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"MR4","venue":"Sportsbet Sandown Hillside","stateBefore":2,"favouriteNumber":3,"favourite":"CRUISERWEIGHT","outcome":"LOSS","winnerNumber":12,"stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"MR5","venue":"Sportsbet Sandown Hillside","stateBefore":1,"favouriteNumber":6,"favourite":"GHANA'S AKAN","outcome":"LOSS","winnerNumber":4,"stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"MR6","venue":"Sportsbet Sandown Hillside","stateBefore":0,"favouriteNumber":3,"favourite":"BLIND RAISE","outcome":"WIN","winnerNumber":3,"stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"MR7","venue":"Sportsbet Sandown Hillside","stateBefore":0,"favouriteNumber":2,"favourite":"EVAPORATE","outcome":"WIN","winnerNumber":2,"stateAfter":0,"systemBet":false,"cashPlAud":0}
+  ]
+}
