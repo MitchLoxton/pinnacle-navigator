@@ -27,6 +27,7 @@ function revealShell(reason='bootstrap'){
   ensureActiveView();
   boot?.remove();
   root.dataset.ytintelShellReady=reason;
+  if(window.__YTINTEL_SHELL_VISIBLE_MS==null)window.__YTINTEL_SHELL_VISIBLE_MS=Math.round(performance.now());
 }
 
 document.addEventListener('click',e=>{
