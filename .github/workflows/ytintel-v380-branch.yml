@@ -4,7 +4,7 @@ on:
     branches: ["ytintel-v038-analysis-redesign"]
     paths:
       - "ytintel/latest/**"
-      - "ytintel/tests/v380-owner-browser.mjs"
+      - "ytintel/tests/v380-owner-browser-fast.mjs"
       - ".github/workflows/ytintel-v380-branch.yml"
   workflow_dispatch:
 permissions:
@@ -29,20 +29,22 @@ jobs:
           node --check ytintel/latest/v371-media-rescue.js
           node --check ytintel/latest/v372-analysis-redesign.js
           node --check ytintel/latest/v373-owner-polish.js
-          node --check ytintel/tests/v380-owner-browser.mjs
+          node --check ytintel/latest/v374-progressive-analysis.js
+          node --check ytintel/tests/v380-owner-browser-fast.mjs
           jq empty ytintel/latest/release.json
           grep -q 'v360-entry.js?v=0380' ytintel/latest/index.html
           grep -q "const RELEASE='0.38.0'" ytintel/latest/v360-entry.js
           grep -q 'v371-media-rescue.js?v=0380' ytintel/latest/v360-entry.js
           grep -q 'v372-analysis-redesign.js?v=0380' ytintel/latest/v360-entry.js
+          grep -q 'v374-progressive-analysis.js?v=0380' ytintel/latest/v360-entry.js
           grep -q 'v373-owner-polish.js?v=0380' ytintel/latest/v360-entry.js
-          grep -q 'ytintel-shell-v0380-r1' ytintel/latest/sw.js
+          grep -q 'ytintel-shell-v0380-r2' ytintel/latest/sw.js
           grep -q 'VAULTED TO PACKAGE BANK' ytintel/latest/v372-analysis-redesign.js
           grep -q 'Copy full Markdown for AI' ytintel/latest/v372-analysis-redesign.js
           grep -q 'context-specific blueprint' ytintel/latest/v372-analysis-redesign.js
           grep -q 'What appears to matter' ytintel/latest/v373-owner-polish.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
-      - name: Verify v093 media rescue health
+      - name: Verify v093 media rescue route
         shell: bash
         run: |
           set -euo pipefail
@@ -62,7 +64,7 @@ jobs:
           cat /tmp/ytintel-v038-http.log
           exit 1
       - name: Owner browser acceptance
-        run: node ytintel/tests/v380-owner-browser.mjs
+        run: node ytintel/tests/v380-owner-browser-fast.mjs
       - name: Capture v038 proof
         if: always()
         uses: actions/upload-artifact@v4
@@ -70,6 +72,9 @@ jobs:
           name: ytintel-v038-owner-proof
           path: |
             ytintel/latest
-            ytintel/tests/v380-owner-browser.mjs
+            ytintel/tests/v380-owner-browser-fast.mjs
             ytintel-v038-owner-mobile.png
+            ytintel-v038-owner-failure.png
+            ytintel-v038-diagnostic.json
+          if-no-files-found: ignore
           retention-days: 7
