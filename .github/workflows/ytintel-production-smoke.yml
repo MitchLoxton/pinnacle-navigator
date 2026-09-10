@@ -25,7 +25,7 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
-      - name: Real deployed v0.37.4 Analyse regression proof
+      - name: Real deployed v0.37.5 Analyse regression proof
         shell: bash
         run: |
           mkdir -p ytintel-live-proof
@@ -34,7 +34,7 @@ jobs:
           code=$?
           cat ytintel-live-proof/analyse.log
           exit $code
-      - name: Real deployed v0.37.4 shell + Creator Assets proof
+      - name: Real deployed v0.37.5 shell + cloud Creator Assets proof
         shell: bash
         run: |
           set +e
@@ -46,6 +46,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-v0374-live-production-proof
+          name: ytintel-v0375-live-production-proof
           path: ytintel-live-proof
           retention-days: 14
