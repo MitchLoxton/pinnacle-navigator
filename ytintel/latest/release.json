@@ -2,11 +2,11 @@
   "release_id": "ytintel-0.37.0-benchmark-depth-premium-brief",
   "version": "v0.37.0",
   "title": "Benchmark-depth premium analysis — production verified",
-  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging title-surface evidence now renders immediately instead of waiting on slower channel-stat enrichment.",
-  "published_at": "2026-09-10T04:50:00Z",
+  "summary": "The 09/09 premium benchmark brief is now the canonical one-link output: 18 ordered sections, benchmark-scale depth targets, exact source receipts, claims/context, Creator-DNA remake directions, Vault entry and Markdown/PDF export. Packaging evidence renders immediately, and public subscriber enrichment now falls back to the channel About data instead of printing a fake zero.",
+  "published_at": "2026-09-10T04:55:00Z",
   "discord_changes": [
     "18-SCREEN PREMIUM: one link resolves from Strip through Export at Blake-benchmark depth, with the transcript retained as evidence.",
-    "TITLE SURFACE FIX: Packaging now shows live title-surface evidence immediately; slower subscriber/channel-stat enrichment can finish afterward.",
+    "FACT FIXES: Title Surface Check renders immediately and subscriber counts now use public About-page fallback instead of false zero.",
     "ENDGAME OUTPUT: claims, channel context and Creator DNA feed 2–3 executable remake directions instead of stopping at analytics."
   ],
   "changes": [
@@ -22,6 +22,8 @@
     "Added per-section benchmark word targets as QA metadata. Targets are goals, never filler quotas.",
     "Added title-surface/subscriber verification, deeper package mechanics, Markdown/PDF export and a full timestamped transcript appendix.",
     "Fixed a packaging race so the Title Surface Check is part of the completed premium brief immediately and does not wait on secondary channel statistics.",
+    "Fixed the old subscriber-zero failure by reading the public channel About-page subscriber count when the secondary statistics object is empty, and showing unknown rather than a fabricated zero when no count is established.",
+    "Strengthened the deployed Blake benchmark test so a literal or unresolved zero subscriber count can no longer pass the production proof.",
     "Preserved Group Analysis, Watchtower, source taxonomy, account-backed Creator DNA, Vault sync and the zero-paid-API-credit architecture.",
     "Added mobile containment so wide claims/channel/evidence tables scroll inside their cards instead of widening the page."
   ],
