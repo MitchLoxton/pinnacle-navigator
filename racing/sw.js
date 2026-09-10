@@ -6,7 +6,7 @@ const STATIC_SHELL = [
   './production.css?v=190',
   './premium.css?v=111',
   './premium-ui.js?v=111',
-  './bet-history.js?v=1',
+  './bet-history.js?v=2',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
