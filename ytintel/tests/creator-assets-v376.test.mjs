@@ -13,7 +13,7 @@ test('v0.37.6 resumable Creator Assets layer remains loaded in the current shell
   assert.match(entry,/v376-resumable-creator-assets\.js\?v=0376/);
   assert.match(entry,/const RELEASE='0\.37\.9'/);
   assert.match(index,/v360-entry\.js\?v=0379/);
-  assert.match(sw,/ytintel-shell-v0379-r1/);
+  assert.match(sw,/ytintel-shell-v0379-r2/);
   assert.match(sw,/v376-resumable-creator-assets\.js\?v=0376/);
 });
 
