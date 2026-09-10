@@ -1,0 +1,33 @@
+name: YTIntel Discord Notify
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "ytintel/latest/discord-notify.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send YTIntel Discord notification
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
+          LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
+          ICON_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/icon.svg
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
+          VERSION="$(jq -r '.version // "YTIntel"' ytintel/latest/release.json)"
+          TITLE="$(jq -r '.title // "YTIntel update"' ytintel/latest/release.json)"
+          SUMMARY="$(jq -r '.summary // "A new YTIntel build is live."' ytintel/latest/release.json)"
+          BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
+          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" '{username:"YTIntel",avatar_url:$icon,content:"🏆 **YTINTEL SHIP UPDATE**",allowed_mentions:{parse:[]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
+          curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
+          echo "YTIntel Discord notification sent."
