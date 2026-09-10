@@ -1,8 +1,8 @@
 (()=>{'use strict';
 const $=s=>document.querySelector(s),clean=s=>String(s??'').replace(/\s+/g,' ').trim();
 let queued=false;
-const HERO_EYE='YTINTEL ENDGAME · DEEP VIDEO ANALYSIS';
-const HERO_COPY='One winning video in. A 17-section source-backed analysis out: watch-replacement summary, hooks, re-hooks, payoffs, replay evidence, media analysis, packaging, channel context, Creator-DNA remake and a compounding Vault.';
+const HERO_EYE='YTINTEL ENDGAME · PREMIUM VIDEO ANALYSIS';
+const HERO_COPY='One winning video in. An 18-section premium source-backed analysis out: watch-replacement summary, exact receipts, hooks, re-hooks, payoffs, Most Replayed, structure, visual/audio evidence, packaging, numbers, claims ledger, channel context, Creator-DNA remake, Vault entry and export.';
 function metric(label,value){const s=$('#report [data-section="1"]');if(!s)return;for(const m of s.querySelectorAll('.metric')){if(clean(m.querySelector('span')?.textContent).toLowerCase()===label.toLowerCase()){const b=m.querySelector('b');if(b&&b.textContent!==value)b.textContent=value}}}
 function sourceText(r){const transcript=(r?.transcript?.segments||[]).slice(0,140).map(x=>clean(x.text)).join(' ');const recurring=(r?.research_intelligence?.recurring_terms||[]).slice(0,15).map(x=>x.term||x).join(' ');return `${clean(r?.video?.title)} ${clean(r?.video?.description).slice(0,2200)} ${recurring} ${transcript.slice(0,18000)}`.toLowerCase()}
 function refineTaxonomy(r){const s=sourceText(r),current=window.__YTINTEL_VIDEO_TAXONOMY||{};let niche=current.niche||'Source-defined topic',sub=current.subniche||'Source-defined subtopic';
@@ -13,6 +13,6 @@ function refineTaxonomy(r){const s=sourceText(r),current=window.__YTINTEL_VIDEO_
 function polishHero(){const hero=$('#analyse .hero');if(!hero)return;const eye=hero.querySelector('.eyebrow'),p=hero.querySelector('p');if(eye&&eye.textContent!==HERO_EYE)eye.textContent=HERO_EYE;if(p&&p.textContent!==HERO_COPY)p.textContent=HERO_COPY;hero.querySelector('.heart-lock')?.remove()}
 function patch(){queued=false;polishHero();const r=window.__YTINTEL_NORMALIZED_REPORT;if(!r||!$('#report [data-section="1"]'))return;const t=refineTaxonomy(r);metric('Niche',t.niche);metric('Subniche',t.subniche);if(r.video?.channel_follower_count==null)metric('Subs','—');if(r.video?.comment_count==null)metric('Comments','—');if(r.video?.like_count==null)metric('Likes','—');window.__YTINTEL_VIDEO_TAXONOMY=t}
 function queue(){if(queued)return;queued=true;queueMicrotask(patch)}
-function start(){polishHero();new MutationObserver(queue).observe(document.body,{childList:true,subtree:true,characterData:true});queue();window.YTIntelSourcePolish={version:'0.36.1',refineTaxonomy,patch:queue}}
+function start(){polishHero();new MutationObserver(queue).observe(document.body,{childList:true,subtree:true,characterData:true});queue();window.YTIntelSourcePolish={version:'0.37.0',refineTaxonomy,patch:queue}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
