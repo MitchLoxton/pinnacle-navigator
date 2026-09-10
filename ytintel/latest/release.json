@@ -1,37 +1,32 @@
 {
-  "release_id": "ytintel-0.37.7-automatic-scene-index",
-  "version": "v0.37.7",
-  "title": "Long gameplay recordings become searchable scene blocks",
-  "summary": "YTIntel now turns long private gameplay uploads into a searchable Scene Index. After an uploaded video is banked, the browser can automatically sample it, detect strong visual boundaries, build practical 10–75 second virtual clips, create private scene thumbnails, optionally enrich representative frames with on-device vision, and rank the resulting scenes against a commentary script or the current Analyse. The original source recording stays untouched, avoiding hours of wasteful browser re-encoding.",
-  "published_at": "2026-09-10T12:32:00Z",
+  "release_id": "ytintel-0.37.8-return-navigation-hotfix",
+  "version": "v0.37.8",
+  "title": "Return-to-YTIntel crash fixed",
+  "summary": "YTIntel now survives leaving the site and returning through browser Back/Forward without collapsing into the blank black shell shown in the reported screenshot. YouTube links are hardened to open in a separate tab, and a lifecycle recovery guard restores the app shell, active view and visibility state on BFCache/history returns, focus and visibility restoration.",
+  "published_at": "2026-09-10T13:36:00Z",
+  "discord_mention": "@aaron",
   "discord_changes": [
-    "🎬 AUTOMATIC SCENE INDEX: long Creator Assets recordings can now become practical 10–75 second searchable virtual clips after upload.",
-    "🖼️ PRIVATE THUMBNAILS + TAGS: YTIntel samples the recording, detects strong visual changes, banks private scene thumbnails and adds deterministic visual/search tags.",
-    "🧠 OPTIONAL LOCAL VISION: when YTIntel's on-device vision model is already available, representative scenes are enriched with production mode, composition, visible text, narrative role and attention-device labels.",
-    "🔎 SCRIPT → B-ROLL SEARCH: paste a commentary script or use the current Analyse and YTIntel ranks the most relevant indexed gameplay scenes with exact start/end timestamps and copyable clip recipes."
+    "🐛 RETURN CRASH FIXED: leaving YTIntel for YouTube and coming back can no longer leave the app as a blank black page.",
+    "↩️ BFCache / HISTORY RECOVERY: pageshow, popstate, focus and visibility-return guards restore the shell, remove stale loading/prehide state and ensure an active view exists.",
+    "🔗 YOUTUBE LINKS STAY SAFE: YouTube links generated inside YTIntel are forced into a separate tab with noopener/noreferrer so research does not replace the working YTIntel tab.",
+    "🧪 NEW PRODUCTION PROOF: a dedicated live browser test now deliberately hides the shell, fires a BFCache-style return, navigates away and comes back, then verifies YTIntel is still visible and usable."
   ],
   "changes": [
-    "Added v377-scene-indexer.js and a new Scene index workspace inside Creator Assets in Vault.",
-    "Added a private ytintel_creator_scenes Supabase table with authenticated per-user RLS, asset foreign keys, exact timestamps, visual metadata, search text, tags and private thumbnail paths.",
-    "Applied an adaptive RGB-histogram scene-boundary detector in the browser with up to 480 samples per source recording, 10-second minimum scene blocks and 75-second maximum practical background blocks.",
-    "Scene indexing creates virtual clips instead of immediately transcoding the original recording. This preserves the full-quality source and stores exact start/end recipes for later trimming only when a clip is actually needed.",
-    "Added private scene-thumbnail capture and upload. Each scene row can store representative time, change score, brightness, motion hint, thumbnail path and search metadata.",
-    "When local multimodal AI is already enabled, YTIntel can enrich a spread of representative scenes with production mode, composition, visible text, narrative role, attention devices and confidence without paid API credits.",
-    "Added commentary-script footage search with query-term extraction, concept expansion and ranking across source metadata, scene tags and local-vision labels.",
-    "Added a Use current Analyse action that turns the current winner analysis context into a Creator Assets scene search, closing the loop from research → remake → matching B-roll.",
-    "Added Preview source and Copy clip recipe actions so every search result carries an exact source title, start, end, duration and scene tags.",
-    "Added automatic post-upload handoff for newly banked video files plus manual Index scenes / Re-index scenes controls for existing cloud recordings.",
-    "Added a dedicated v0.37.7 schema/contract test and upgraded CI, Pages validation, PWA cache/versioning and production browser expectations."
+    "Added v378-navigation-resilience.js as a final lifecycle guard after the existing Analyse, Creator Assets, resumable upload and Scene Index modules load.",
+    "The navigation guard hardens existing and dynamically-created YouTube anchors to target a new tab and applies rel=noopener noreferrer.",
+    "Added shell restoration on pageshow (including persisted BFCache returns), popstate, window focus and visibilitychange back to visible.",
+    "Shell restoration removes stale hidden/v360-prehide/v360-loading state, removes a stale boot overlay and restores an active Analyse/Vault/Watchtower view if history restoration lost it.",
+    "Added production-v378-navigation.mjs to reproduce the reported failure class and prove recovery against the real GitHub Pages deployment.",
+    "Added a dedicated parallel navigation-return smoke job so this regression is checked quickly instead of waiting for the full video analysis smoke.",
+    "Updated the main Analyse and shell production tests to require the v0.37.8 release and the navigation resilience module.",
+    "Updated service-worker shell versioning and query cache-busters so browsers do not keep the pre-hotfix entry shell.",
+    "Updated Core CI and Pages release validation to enforce the new lifecycle guard and navigation test."
   ],
   "known_limitations": [
-    "Scene blocks are virtual timestamp ranges, not physically transcoded standalone video files yet. This is intentional for speed and source-quality preservation; a later trim/export stage can materialise only selected clips.",
-    "Scene detection is sampled rather than frame-by-frame. Long recordings are capped at 480 sample points, so extremely brief cuts between samples may not become separate scene blocks.",
-    "Deterministic tags are intentionally conservative. Rich semantic scene labels are strongest when the optional on-device vision model is already available in a compatible browser.",
-    "The first automatic indexing pass runs in the browser. Closing the tab or putting a mobile browser to sleep can interrupt indexing; the original uploaded recording remains safely banked and can be re-indexed later.",
-    "Private thumbnails are stored separately from the original recording. Re-indexing removes known prior scene rows and attempts to clean their known thumbnail files, but an interrupted cleanup can leave harmless orphaned thumbnail objects.",
-    "Actual upload capacity remains governed by the Supabase project's global and bucket Storage limits.",
-    "Creator-facing physical clip delivery, transcoding/proxy generation, waveform-derived audio tagging, embeddings/vector search and CDN distribution remain future Endgame milestones.",
-    "Publisher/platform rights still govern gameplay redistribution. YTIntel does not treat self-recording as automatic permission to sublicense gameplay footage."
+    "A literal @aaron is included in the Discord message. Discord webhooks require Aaron's numeric Discord user ID in <@USER_ID> form for a guaranteed push mention; that ID is not currently stored in YTIntel.",
+    "The lifecycle guard protects the YTIntel shell and YouTube navigation path. Browser extensions or a full renderer/browser process crash remain outside the app's control.",
+    "Automatic Scene Index remains sampled rather than frame-by-frame and virtual timestamp ranges are not yet physically transcoded standalone clips.",
+    "Actual Creator Assets upload capacity remains governed by the Supabase project's Storage limits and publisher/platform rights still govern footage redistribution."
   ],
-  "why_it_matters": "The Creator Assets moat becomes useful only when hours of raw gameplay can turn into the exact B-roll a creator needs without manually scrubbing every recording. v0.37.7 establishes that retrieval layer: upload once, index into timestamped visual scene blocks, then search those blocks from the script or video plan you are actually making."
+  "why_it_matters": "Research software cannot be trusted if clicking into a source video destroys the workspace on return. This hotfix turns that exact reported failure into a permanent regression test and makes the normal research loop — YTIntel → YouTube source → Back to YTIntel — resilient by design."
 }
