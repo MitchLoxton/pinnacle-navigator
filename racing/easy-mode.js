@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = 'easy-2';
+  const BUILD = 'easy-3';
   const DATA = {
     au: './current.json',
     hk: './hong-kong.json',
@@ -60,7 +60,7 @@
     if (date > today) return {
       tone:'warn', action:'WAIT', eyebrow:'AUSTRALIA · V11 CORE',
       title:`Next race day: ${prettyDate(date)}`,
-      message:'You do not need to pick a horse or place anything now. Open the app on race day and let it do the live checks.',
+      message:'Nothing to do yet. Open the app on race day and let it do the live checks.',
       focus:races.length === 1 ? `Only CORE possibility: ${raceText}` : `CORE possibilities: ${raceText}`,
       dateText:meetingText || prettyDate(date)
     };
@@ -76,8 +76,8 @@
     const card = $('decisionCard');
     if (title === 'BET NOW' && card?.classList.contains('bet-now')) return {
       tone:'good', action:'BET NOW', eyebrow:'AUSTRALIA · V11 CORE',
-      title:'Follow the green bet box below',
-      message:'Place only the exact horse, stake and accepted price shown by the live V11 action box.',
+      title:'Follow the green live bet box below',
+      message:'Place only the exact horse, stake and accepted price shown. Do not change the selection.',
       focus:races.length ? `CORE race: ${raceText}` : 'Live V11 instruction active', dateText:meetingText || prettyDate(date)
     };
     if (title.includes('NO BET') || card?.classList.contains('blocked')) return {
@@ -88,7 +88,7 @@
     return {
       tone:'warn', action:'WAIT', eyebrow:'AUSTRALIA · V11 CORE',
       title:'Race day — keep the app open',
-      message:'The live engine is checking. Do nothing unless the large action box below turns green and literally says BET NOW.',
+      message:'The live engine is checking. Do nothing unless the live bet box turns green and literally says BET NOW.',
       focus:races.length === 1 ? `Only CORE possibility: ${raceText}` : `CORE possibilities: ${raceText}`,
       dateText:meetingText || prettyDate(date)
     };
@@ -111,7 +111,7 @@
       tone:date && date > today ? 'warn' : 'bad',
       action:date && date > today ? 'WAIT' : 'NO BET', eyebrow:'HONG KONG · OPTIMAL V4',
       title:date ? `${prettyDate(date)} · ${venue}` : 'Meeting unavailable',
-      message:date && date > today ? 'Open the app on meeting day. No action is required now.' : 'Current HK meeting cannot be verified.',
+      message:date && date > today ? 'Nothing to do yet. Open the app on meeting day.' : 'Current HK meeting cannot be verified.',
       focus:'No live bet now', dateText:approved ? 'Production approved' : 'Shadow only'
     };
 
@@ -137,9 +137,9 @@
   }
 
   function addStyles() {
-    if ($('mitchell-easy-styles-v2')) return;
+    if ($('mitchell-easy-styles-v3')) return;
     const style = document.createElement('style');
-    style.id = 'mitchell-easy-styles-v2';
+    style.id = 'mitchell-easy-styles-v3';
     style.textContent = `
       body.easy-simple-mode .prod-centre,
       body.easy-simple-mode .system-health,
@@ -168,9 +168,10 @@
       body.easy-simple-mode.easy-details-open #hkRacingPanel .easy-advanced,
       body.easy-simple-mode.easy-details-open #hkRacingPanel .hk-card,
       body.easy-simple-mode.easy-details-open footer{display:revert!important}
-      body.easy-simple-mode.easy-details-open #bottomCommand{display:flex!important}
+      body.easy-simple-mode:not(.easy-details-open).easy-au-offday #auRacingPanel #decisionCard{display:none!important}
+      body.easy-simple-mode:not(.easy-details-open).easy-hk-shadow #hkRacingPanel .hk-action{display:none!important}
       body.easy-simple-mode #auRacingPanel{padding-top:0}
-      .easy-home{margin:0 0 10px;padding:16px;border:1px solid #314962;border-radius:20px;background:linear-gradient(180deg,#0e1e30,#091522);box-shadow:0 14px 38px rgba(0,0,0,.18)}
+      .easy-home{margin:10px 0 0;padding:16px;border:1px solid #314962;border-radius:20px;background:linear-gradient(180deg,#0e1e30,#091522);box-shadow:0 14px 38px rgba(0,0,0,.18)}
       .easy-home.warn{border-color:#80652a}.easy-home.bad{border-color:#793742}.easy-home.good{border-color:#27855a;background:linear-gradient(180deg,#0d2d21,#091b15)}
       .easy-home-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
       .easy-home-brand{font-size:9px;font-weight:1000;letter-spacing:.16em;color:#75b9ff}.easy-home-sub{margin-top:4px;color:#8399b1;font-size:9px;font-weight:850}
@@ -183,8 +184,8 @@
       .easy-rule{margin-top:10px;padding:11px 12px;border-radius:12px;border:1px solid #2d6f51;background:#0c281d}.easy-rule strong{display:block;color:#78f2b5;font-size:12px}.easy-rule span{display:block;margin-top:4px;color:#a9c4b7;font-size:9px;line-height:1.35}
       .easy-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}.easy-steps{color:#8196ad;font-size:8px;font-weight:850;line-height:1.35}.easy-details-toggle{border:0;background:transparent;color:#8fc7ff;font-size:9px;font-weight:1000;cursor:pointer;padding:8px 0}
       body.easy-simple-mode .hk-switcher{margin-top:0!important}.hk-switcher{border-radius:12px}.hk-tab-btn{flex:1!important;justify-content:center!important;min-width:0!important}.hk-tab-btn.active{box-shadow:inset 0 0 0 1px rgba(130,190,255,.18)}
-      body.easy-simple-mode:not(.easy-details-open) #auRacingPanel .decision-card{margin-top:0!important;border-radius:18px!important}
-      body.easy-simple-mode:not(.easy-details-open) #hkRacingPanel>section{margin:5px 0 9px!important}body.easy-simple-mode:not(.easy-details-open) #hkRacingPanel .hk-action{border-radius:18px!important;margin-bottom:0!important}
+      body.easy-simple-mode:not(.easy-details-open) #auRacingPanel .decision-card{margin-top:10px!important;border-radius:18px!important}
+      body.easy-simple-mode:not(.easy-details-open) #hkRacingPanel>section{margin:10px 0 9px!important}body.easy-simple-mode:not(.easy-details-open) #hkRacingPanel .hk-action{border-radius:18px!important;margin-bottom:0!important}
       @media(max-width:620px){.easy-home{padding:13px;border-radius:17px}.easy-action-word{font-size:31px}.easy-focus{grid-template-columns:1fr}.easy-bottom{align-items:flex-end}.easy-steps{max-width:62%}.easy-refresh{min-width:74px}.hk-switcher{position:sticky!important;top:0!important;z-index:50!important}}
     `;
     document.head.appendChild(style);
@@ -199,7 +200,7 @@
     home.id = 'easyHome';
     home.className = 'easy-home warn';
     home.setAttribute('aria-live','polite');
-    switcher.insertAdjacentElement('beforebegin', home);
+    switcher.insertAdjacentElement('afterend', home);
     return home;
   }
 
@@ -207,6 +208,11 @@
     const home = ensureHome();
     if (!home) return;
     const tab = activeTab();
+    const today = perthToday();
+    const approvedHk = state.hkStats?.decision?.productionApproved === true;
+    document.body.classList.toggle('easy-au-offday', tab === 'au' && auDate() !== today);
+    document.body.classList.toggle('easy-hk-shadow', tab === 'hk' && !approvedHk);
+
     const decision = tab === 'hk' ? getHkDecision() : getAuDecision();
     home.className = `easy-home ${decision.tone}`;
     home.innerHTML = `
@@ -225,7 +231,7 @@
         <div><span>MEETING / STATUS</span><strong>${esc(decision.dateText)}</strong></div>
       </div>
       <div class="easy-rule"><strong>Only GREEN + BET NOW means place a bet.</strong><span>Yellow = wait. Red = no bet. Never choose another horse yourself.</span></div>
-      <div class="easy-bottom"><div class="easy-steps">1. Choose Australia or Hong Kong below<br>2. Read the big action box<br>3. Green BET NOW only</div><button id="easyDetailsToggle" class="easy-details-toggle" type="button">${document.body.classList.contains('easy-details-open') ? 'HIDE DETAILS' : 'SHOW STATS & DETAILS'}</button></div>`;
+      <div class="easy-bottom"><div class="easy-steps">1. Choose Australia or Hong Kong above<br>2. Read the big action box<br>3. Green BET NOW only</div><button id="easyDetailsToggle" class="easy-details-toggle" type="button">${document.body.classList.contains('easy-details-open') ? 'HIDE DETAILS' : 'SHOW STATS & DETAILS'}</button></div>`;
 
     $('easyRefresh')?.addEventListener('click', refreshAll, { once:true });
     $('easyDetailsToggle')?.addEventListener('click', () => {
