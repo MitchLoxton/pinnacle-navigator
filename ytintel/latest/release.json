@@ -1,41 +1,35 @@
 {
-  "release_id": "ytintel-0.37.3-single-analyse-focus",
-  "version": "v0.37.3",
-  "title": "Single Analyse focus + source/media hardening",
-  "summary": "YTIntel is temporarily focused back onto one excellent Analyse workflow. Compare is removed from desktop/mobile navigation and its Vault UI is hidden. The research roadmap is reduced to a compact floating progress bar, Activity lives in a closed technical drawer, the Strip is rebuilt from source-only facts, the short summary is grounded in actual timed transcript moments, takeaways require source receipts, package records are explicitly vaulted for large-scale thumbnail/title pattern mining, channel zero placeholders are suppressed, Make It Yours is clearly separated from transferable-mechanics extraction, the raw Vault entry is hidden, and Export is an AI-ready Markdown copy/download surface. Media-heavy sections now surface real storyboard/audio evidence already collected by the Endgame engine and add a unified timestamped media timeline when measured visual, motion, audio or replay events exist.",
-  "published_at": "2026-09-10T11:12:00Z",
+  "release_id": "ytintel-0.37.4-creator-footage-foundation",
+  "version": "v0.37.4",
+  "title": "Creator footage supply foundation + single Analyse Endgame",
+  "summary": "YTIntel keeps the v0.37.3 single-video Analyse focus and adds the first working foundation for the GTA 6 creator-footage supply network inside Vault rather than cluttering Analyse. Creator Assets can index self-recorded or permission-cleared clips, search and rank footage against the currently analysed video, maintain a GTA 6 launch capture board, generate creator-specific attribution/referral links, export the footage manifest, and bridge Make It Yours directly into the footage workspace. Compare remains parked. The rights gate is fail-closed: unknown or restricted footage is never presented as cleared for redistribution.",
+  "published_at": "2026-09-10T11:32:00Z",
   "discord_changes": [
-    "SINGLE-VIDEO FOCUS: Compare is removed for now so development stays concentrated on making Analyse genuinely excellent.",
-    "ANALYSE CLEANUP: one compact progress popup, folded Activity, rebuilt source-only Strip, grounded short summary, receipt-backed takeaways, hidden raw Vault entry and clean AI-ready Markdown export.",
-    "MEDIA + PACKAGE FOUNDATION: package records are explicitly vaulted for thumbnail/title pattern mining, while measured storyboard, motion, audio and replay evidence can now converge into one timestamped media timeline."
+    "CREATOR ASSETS FOUNDATION: Vault now contains the first working creator-footage supply workspace for clean gameplay/B-roll instead of adding more clutter to Analyse.",
+    "GTA 6 LAUNCH BOARD: a persistent capture checklist covers walkthroughs, missions, driving, police chases, locations, vehicles, businesses, scenic B-roll, long background sessions, online content and update footage.",
+    "DISTRIBUTION LOOP: footage records carry a rights status, attribution requirement and creator referral link so free footage can become measurable funnel traffic back into YTIntel."
   ],
   "changes": [
-    "Removed Compare from desktop navigation, mobile navigation and the active product surface while preserving historical comparison data internally.",
-    "Removed the visible Comparisons bank control from the Vault while Compare is parked.",
-    "Converted the research roadmap into a compact floating progress popup that cycles through the current analysis stage and fades after completion.",
-    "Moved Activity/technical receipts outside the progress popup into a closed details drawer.",
-    "Rebuilt the Strip as a source-only fact surface: title, channel, inferred source niche/subniche, views, subscribers, likes, comments, duration, WPM, channel median and outlier; missing public values render as a dash rather than zero.",
-    "Separated source classification from Creator DNA so a GTA 6 creator profile can no longer relabel a YouTube-business source video as GTA 6.",
-    "Rebuilt the Summary around the Blake-style short-version structure using actual timed transcript evidence rather than a generic main-message sentence or opening/development labels.",
-    "Rebuilt Key Takeaways to require a timestamp and exact supporting source receipt for each lesson.",
-    "Kept Hook Breakdown intact and retained the Monday-brief re-hook/payoff/Most-Replayed logic from the v0.37.1 repair layer.",
-    "Reformatted Things to Steal when that legacy section is present into transferable mechanics versus do-not-copy guidance.",
-    "Clarified Make It Yours as the Creator-DNA-specific build sheet rather than another extraction section.",
-    "Hardened Packaging as a first-class Package Bank asset containing the exact thumbnail, title fingerprint, available composition/text/attention-device reads, and source niche/subniche for future pattern mining.",
-    "Added a unified timestamped media timeline when measured visual, motion, audio or Most-Replayed evidence is available, tied back to nearby transcript text.",
-    "Added explicit media receipts for semantic frame-pair classifications, sampled visual-change density, decoded waveform state, measured silence/transients and semantic audio windows when available.",
-    "Suppressed missing channel analytics that previously appeared as zero and added an explicit channel-fact receipt.",
-    "Hidden the raw Vault Entry from Analyse while continuing to bank the analysis underneath.",
-    "Rebuilt Export as Copy full analysis Markdown, Download Markdown and Print / Save PDF, excluding the hidden raw Vault entry and including the transcript appendix when available.",
-    "Updated production browser tests so Compare being absent is now a regression requirement on desktop and mobile."
+    "Added Creator Assets inside the Compounding Vault, keeping the top-level product focused on Analyse, Vault and Watchtower while Compare remains removed.",
+    "Added a searchable footage manifest with clip title, game/source, scene/use case, tags, duration, resolution, hosted URL, rights status, attribution rule and notes.",
+    "Added source-aware footage matching: the currently analysed video's title and transcript generate search intents, and indexed clips receive a match score against those terms.",
+    "Added a strict rights gate: only self-recorded or permission-cleared clips are counted as distributable; unknown and restricted clips remain reference-only.",
+    "Added a persistent GTA 6 launch capture board covering full no-commentary walkthroughs, individual missions, city driving, night/rain footage, walking, police chases, aerial footage, vehicles, weapons, interiors, NPC moments, landmarks, cinematic B-roll, fails, long background sessions, online activities, update footage and rare events.",
+    "Added creator attribution/referral generation using per-creator links so footage-driven traffic can later be measured and rewarded.",
+    "Added JSON manifest export and Markdown capture-board export for moving the footage dataset into storage, automation or another production tool later.",
+    "Added a Make It Yours bridge that sends the current analysis into Creator Assets with source-specific footage searches ready.",
+    "Preserved the v0.37.3 Analyse repairs: one compact progress popup, folded Activity, source-only Strip, Blake-style short summary, receipt-backed takeaways, Monday-brief re-hooks/payoffs/replay handling, package banking, channel zero suppression, Creator-DNA build sheet, hidden raw Vault entry and AI-ready Markdown export.",
+    "Preserved Compare removal on desktop/mobile and from the active Vault UI."
   ],
   "known_limitations": [
-    "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than being fabricated.",
+    "Creator Assets v0.37.4 indexes metadata plus hosted-file URLs in local browser storage. Large video-file upload, object storage, transcoding, CDN delivery and cross-device cloud sync for footage are not implemented yet.",
+    "The referral builder creates trackable URL structure, but server-side attribution analytics, creator dashboards, payouts and affiliate accounting are not implemented yet.",
+    "Game-publisher/platform rights still govern redistribution. YTIntel deliberately does not treat a gameplay recording as automatically sublicensable; commercial licensing language must be verified before public rollout.",
+    "YouTube does not expose a reliable Most Replayed curve for every video. Missing replay evidence remains missing rather than fabricated.",
     "Public storyboard sprites are sampled seek-bar evidence rather than every encoded frame. Exact encoded-frame-by-frame semantic analysis remains an active Endgame workstream.",
-    "Automatic visual composition and exact edit-type classification are strongest when the optional on-device vision model is ready. Without it, YTIntel keeps actual source frames and measured pixel-change evidence separate from semantic claims.",
-    "Waveform-level silence/transient analysis requires a directly decodable public audio stream. Music/SFX semantic labels additionally require accessible metadata or the supported on-device audio model.",
-    "Deterministic source niche/subniche inference is materially safer than using Creator DNA but is still classification, not a YouTube-provided field; it should be treated as YTIntel inference.",
+    "Automatic visual composition and edit-type classification remain strongest when the optional on-device vision model is ready.",
+    "Waveform-level silence/transient analysis requires a directly decodable public audio stream; semantic music/SFX labels additionally require supported source metadata or local audio intelligence.",
     "Watchtower velocity still depends on repeated snapshots; a newly added competitor has no historical velocity until it has been observed more than once."
   ],
-  "why_it_matters": "The current bottleneck is not another tab. It is making one-link analysis so useful that the creator can understand the winning video without watching it and leave with a source-grounded blueprint for what to make. v0.37.3 deliberately narrows the product around that job while strengthening the media and packaging evidence that will later power the compounding Vault."
+  "why_it_matters": "The creator-footage idea becomes useful when it is not a random download folder. v0.37.4 starts the compounding loop: YTIntel understands the video to make, turns that into footage demand, matches the demand against a rights-aware gameplay library, and creates attribution that can send creators back into YTIntel. The next infrastructure milestone is moving this local manifest into real object storage, automatic clip ingestion/tagging and measurable creator attribution."
 }
