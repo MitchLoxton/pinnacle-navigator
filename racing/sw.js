@@ -1,12 +1,12 @@
-const BUILD = '1.11.1';
-const CACHE = 'mitchell-racing-v1111-bet-history';
+const BUILD = '1.11.2';
+const CACHE = 'mitchell-racing-v1112-system-history';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
   './premium-ui.js?v=111',
-  './bet-history.js?v=2',
+  './bet-history.js?v=3',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
