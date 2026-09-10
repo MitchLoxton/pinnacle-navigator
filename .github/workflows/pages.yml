@@ -46,7 +46,7 @@ jobs:
             echo "ytintel=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Validate YTIntel v0.37.7 automatic Scene Index release
+      - name: Validate YTIntel v0.37.8 navigation resilience release
         if: github.event_name != 'push' || steps.changes.outputs.ytintel == 'true'
         shell: bash
         run: |
@@ -71,23 +71,28 @@ jobs:
           node --input-type=module --check < ytintel/latest/v375-creator-assets-cloud.js
           node --input-type=module --check < ytintel/latest/v376-resumable-creator-assets.js
           node --input-type=module --check < ytintel/latest/v377-scene-indexer.js
+          node --input-type=module --check < ytintel/latest/v378-navigation-resilience.js
           node --input-type=module --check < ytintel/latest/v360-local-ai.js
           node --input-type=module --check < ytintel/latest/v360-media-intel.js
           node --input-type=module --check < ytintel/latest/v360-cloud.js
           node --check ytintel/tests/production-v371.mjs
           node --check ytintel/tests/production-v372.mjs
+          node --check ytintel/tests/production-v378-navigation.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q 'v360-entry.js?v=0377' ytintel/latest/index.html
-          grep -q 'manifest.webmanifest?v=0377' ytintel/latest/index.html
+          grep -q 'v360-entry.js?v=0378' ytintel/latest/index.html
+          grep -q 'manifest.webmanifest?v=0378' ytintel/latest/index.html
           grep -q 'v371-mobile-containment.css?v=0375' ytintel/latest/index.html
-          grep -q 'ytintel-shell-v0377-r1' ytintel/latest/sw.js
+          grep -q 'ytintel-shell-v0378-r1' ytintel/latest/sw.js
           grep -q 'v373-analyse-focus.js?v=0375' ytintel/latest/v360-entry.js
           grep -q 'v374-creator-assets.js?v=0375' ytintel/latest/v360-entry.js
           grep -q 'v375-creator-assets-cloud.js?v=0375' ytintel/latest/v360-entry.js
           grep -q 'v376-resumable-creator-assets.js?v=0376' ytintel/latest/v360-entry.js
           grep -q 'v377-scene-indexer.js?v=0377' ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.7'" ytintel/latest/v360-entry.js
+          grep -q 'v378-navigation-resilience.js?v=0378' ytintel/latest/v360-entry.js
+          grep -q "const RELEASE='0.37.8'" ytintel/latest/v360-entry.js
+          grep -q 'pageshow' ytintel/latest/v378-navigation-resilience.js
+          grep -q 'youtube-new-tab' ytintel/latest/v378-navigation-resilience.js
           grep -q 'Cloud Creator Assets' ytintel/latest/v375-creator-assets-cloud.js
           grep -q 'storage.supabase.co/storage/v1/upload/resumable' ytintel/latest/v376-resumable-creator-assets.js
           grep -q 'findPreviousUploads' ytintel/latest/v376-resumable-creator-assets.js
@@ -99,7 +104,7 @@ jobs:
           if grep -q 'data-dock="compare"' ytintel/latest/index.html; then echo "Compare is still present in the shipped mobile dock"; exit 1; fi
           if grep -qi 'Compare Winners' ytintel/latest/manifest.webmanifest; then echo "Compare is still present in the installed PWA shortcuts"; exit 1; fi
           node --test ytintel/tests/creator-assets-v376.test.mjs ytintel/tests/creator-assets-v377.test.mjs
-          echo "YTIntel v0.37.7 automatic Scene Index release validation passed."
+          echo "YTIntel v0.37.8 navigation resilience release validation passed."
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -136,10 +141,11 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
-          VERSION="$(jq -r '.version // "v0.37.7"' ytintel/latest/release.json)"
-          TITLE="$(jq -r '.title // "Automatic Scene Index"' ytintel/latest/release.json)"
-          SUMMARY="$(jq -r '.summary // "The next YTIntel Endgame milestone is live."' ytintel/latest/release.json)"
+          VERSION="$(jq -r '.version // "v0.37.8"' ytintel/latest/release.json)"
+          TITLE="$(jq -r '.title // "Navigation resilience hotfix"' ytintel/latest/release.json)"
+          SUMMARY="$(jq -r '.summary // "YTIntel now survives leaving the tab and returning without a blank shell."' ytintel/latest/release.json)"
+          MENTION="$(jq -r '.discord_mention // ""' ytintel/latest/release.json)"
           BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
-          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" '{username:"YTIntel",avatar_url:$icon,content:"🏆 **SHIP COMPLETE — YTINTEL ENDGAME**",allowed_mentions:{parse:[]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
+          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" --arg mention "$MENTION" '{username:"YTIntel",avatar_url:$icon,content:((if $mention=="" then "" else ($mention + " ") end) + "🏆 **SHIP COMPLETE — YTINTEL ENDGAME**"),allowed_mentions:{parse:["users","roles"]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
           curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
           echo "YTIntel Discord release notification sent."
