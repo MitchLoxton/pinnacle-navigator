@@ -1,7 +1,9 @@
 document.documentElement.classList.add('v360-loading');
+await import('./v366-local-ai-shield.js?v=0370');
 await import('./v361-capability-guard.js?v=0370');
 await import('./v361-review-fixes.js?v=0370');
 await import('./v360-endgame.js?v=0370');
+await import('./v366-local-ai-optin.js?v=0370');
 await import('./v362-source-polish.js?v=0370');
 await import('./v363-premium-brief.js?v=0370');
 await import('./v364-fact-surfaces.js?v=0370');
