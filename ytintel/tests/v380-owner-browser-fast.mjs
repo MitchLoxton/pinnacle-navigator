@@ -1,0 +1,43 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {writeFile} from 'node:fs/promises';
+
+const browser=await chromium.launch({headless:true});
+const context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'});
+await context.addInitScript(()=>localStorage.setItem('ytintel-v350-profile',JSON.stringify({niche:'gta6',subniche:'how to make money with gta6',channel:'nogkytga',audience:'15-40 year olds',competitors:'brenny moon evan shawn deven seenath alex hormozi',brand:'Non-guru. Proof over hype. Never copy source wording. No unsupported money claims.',complete:true})));
+const page=await context.newPage();
+page.setDefaultTimeout(45000);
+const errors=[],requests=[];
+page.on('pageerror',e=>errors.push(e.message));
+page.on('request',r=>{try{const u=new URL(r.url());if(u.hostname.endsWith('supabase.co'))requests.push({kind:'request',action:u.searchParams.get('action'),url:u.pathname})}catch{}});
+page.on('response',r=>{try{const u=new URL(r.url());if(u.hostname.endsWith('supabase.co'))requests.push({kind:'response',action:u.searchParams.get('action'),status:r.status(),url:u.pathname})}catch{}});
+const titles=['The strip','Summary — so you never watch it','Key takeaways','Hook breakdown','Re-hooks','Payoffs','Most Replayed','Source mechanics worth stealing','Visual key frames','Motion graphics','Audio + WPM','Packaging','Channel context','Make it yours','Vault entry','Export — clean Markdown','Full transcript'];
+let failure=null;
+try{
+  await page.goto('http://127.0.0.1:4173/ytintel/latest/?qa=v038-owner-fast-'+Date.now(),{waitUntil:'domcontentloaded',timeout:45000});
+  await page.waitForFunction(()=>window.YTINTEL_VERSION==='0.38.0'&&!document.querySelector('#app')?.hidden,null,{timeout:45000});
+  const boot=await page.evaluate(()=>({version:window.YTINTEL_VERSION,visible:document.querySelector('#version')?.textContent,scripts:[...document.scripts].filter(x=>x.src).map(x=>new URL(x.src).pathname.split('/').pop()),creatorParent:document.querySelector('#creatorCard')?.closest('.view')?.id,creatorInAnalyse:!!document.querySelector('#analyse #creatorCard'),mediaRescue:document.documentElement.dataset.ytintelMediaRescue}));
+  assert.equal(boot.version,'0.38.0');assert.equal(boot.visible,'v0.38.0');assert.deepEqual(boot.scripts,['v360-entry.js']);assert.equal(boot.creatorParent,'creator');assert.equal(boot.creatorInAnalyse,false);assert.equal(boot.mediaRescue,'v038');
+  await page.locator('#videoUrl').fill('https://www.youtube.com/watch?v=GzhT10i4vag');
+  await page.locator('#analyseBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#report')?.dataset.v372Canonical==='1',null,{timeout:190000});
+  await page.waitForFunction(()=>document.querySelectorAll('#report [data-section="17"] .v363-transcript-line').length>0,null,{timeout:30000});
+  await page.waitForTimeout(900);
+  const state=await page.evaluate(()=>{const sec=n=>document.querySelector(`#report [data-section="${n}"]`),secs=[...document.querySelectorAll('#report [data-section]')],txt=n=>sec(n)?.innerText||'';return{numbers:secs.map(x=>Number(x.dataset.section)),titles:secs.map(x=>x.querySelector('h2')?.textContent.trim()),summary:txt(2),take:txt(3),takeCards:sec(3)?.querySelectorAll('.v372-evidence-card').length||0,hook:txt(4),rehooks:sec(5)?.querySelectorAll('.v372-evidence-card').length||0,payoffs:sec(6)?.querySelectorAll('.v372-evidence-card').length||0,replay:txt(7),mechanics:txt(8),mechanicCards:sec(8)?.querySelectorAll('.v372-mechanic').length||0,visual:txt(9),motion:txt(10),audio:txt(11),packaging:txt(12),packageImg:!!sec(12)?.querySelector('img.v372-thumb'),channel:txt(13),make:txt(14),directions:sec(14)?.querySelectorAll('.v372-direction').length||0,vaultDisplay:getComputedStyle(sec(15)).display,exportText:txt(16),markdown:sec(16)?.querySelector('#v372-markdown')?.value||'',transcriptRows:sec(17)?.querySelectorAll('.v363-transcript-line').length||0,creatorInAnalyse:!!document.querySelector('#analyse #creatorCard'),creatorParent:document.querySelector('#creatorCard')?.closest('.view')?.id,progressClass:document.querySelector('#progressCard')?.className||'',activityOpen:document.querySelector('#v372-activity')?.open??null,body:document.body.innerText||''}});
+  assert.deepEqual(state.numbers,Array.from({length:17},(_,i)=>i+1));assert.deepEqual(state.titles,titles);
+  for(const phrase of ['What the video is','How it is built','How it is doing','What appears to matter','What is worth taking'])assert(state.summary.includes(phrase),`summary missing ${phrase}`);
+  assert(!/MAIN MESSAGE|Beat-by-beat watch replacement/i.test(state.summary));
+  assert(state.takeCards>=5,`takeaways ${state.takeCards}`);assert(!/could not be separated|not expose enough distinct evidence/i.test(state.take));
+  assert(state.hook.length>350);assert(state.rehooks>=3,`rehooks ${state.rehooks}`);assert(state.payoffs>=1,`payoffs ${state.payoffs}`);
+  assert(/HYPOTHESIS|HYP ·|Real public Most Replayed/i.test(state.replay));assert(/SOURCE ONLY/i.test(state.mechanics));assert(state.mechanicCards>=4);
+  assert(/storyboard|frame|thumbnail|visual/i.test(state.visual));assert(/motion|frame-pair|change|transition|recover/i.test(state.motion));assert(/WPM|audio|caption|music/i.test(state.audio));
+  assert(state.packageImg);assert(/VAULTED TO PACKAGE BANK/i.test(state.packaging));assert(/TITLE SURFACE CHECK/i.test(state.packaging));assert(/channel’s real recent hits|channel's real recent hits/i.test(state.channel));
+  assert(/THIS is the context-specific blueprint/i.test(state.make));assert.equal(state.directions,3);assert(/Exact hook direction|Thumbnail composition|Beat sheet for your video|Do not copy|Measure after publishing/i.test(state.make));
+  assert.equal(state.vaultDisplay,'none');assert.equal(state.creatorInAnalyse,false);assert.equal(state.creatorParent,'creator');assert(state.progressClass.includes('v372-compact'));assert.equal(state.activityOpen,false);
+  assert(/Copy full Markdown for AI/i.test(state.exportText));assert(state.markdown.includes('# YTIntel Full Analysis'));assert(state.markdown.includes('## 12. Packaging'));assert(state.markdown.includes('## 14. Make it yours'));assert(state.markdown.includes('## Source appendix: full timestamped transcript'));assert(state.markdown.length>5000);assert(state.transcriptRows>0);assert(!/NaN%|undefined undefined/.test(state.body));
+  assert(requests.some(x=>x.kind==='request'&&x.action==='media-rescue'),'browser did not route media through v093 media-rescue');assert(requests.some(x=>x.kind==='response'&&x.action==='analyze'&&x.status===200));assert(requests.some(x=>x.kind==='response'&&x.action==='discover'&&x.status===200));assert(!requests.some(x=>String(x.action||'').includes('research-stage'));
+  await page.setViewportSize({width:390,height:844});await page.waitForTimeout(300);const mobile=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth}));assert(mobile.width<=mobile.viewport+2,JSON.stringify(mobile));assert.equal(errors.length,0,errors.join('\n'));
+  await page.screenshot({path:'ytintel-v038-owner-mobile.png',fullPage:true});
+  console.log('V380_OWNER_PASS',JSON.stringify({sections:state.numbers.length,takeaways:state.takeCards,rehooks:state.rehooks,payoffs:state.payoffs,mechanics:state.mechanicCards,directions:state.directions,transcriptRows:state.transcriptRows,markdownChars:state.markdown.length,mobile,requests},null,2));
+}catch(e){failure={error:e?.stack||String(e),requests,state:await page.evaluate(()=>({version:window.YTINTEL_VERSION||null,pct:document.querySelector('#progressPct')?.textContent||'',progressState:document.querySelector('#progressState')?.textContent||'',progressMsg:document.querySelector('#progressMsg')?.textContent||'',canonical:document.querySelector('#report')?.dataset.v372Canonical||'',sections:document.querySelectorAll('#report [data-section]').length,reportVideo:window.__YTINTEL_NORMALIZED_REPORT?.video?.id||null,reportError:document.querySelector('#analyseError')?.textContent||'',body:(document.body?.innerText||'').slice(0,12000)})).catch(()=>({}))};await writeFile('ytintel-v038-diagnostic.json',JSON.stringify(failure,null,2));await page.screenshot({path:'ytintel-v038-owner-failure.png',fullPage:true}).catch(()=>{});throw e;
+}finally{await browser.close().catch(()=>{})}
