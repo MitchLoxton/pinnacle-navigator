@@ -69,7 +69,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Detect YTIntel changes
+      - name: Detect YTIntel release change
         if: github.event_name == 'push'
         id: ytintel
         shell: bash
@@ -78,10 +78,10 @@ jobs:
           BEFORE="${{ github.event.before }}"
           AFTER="${{ github.sha }}"
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then BEFORE="$(git rev-parse HEAD^ 2>/dev/null || printf '%s' "$AFTER")"; fi
-          if git diff --name-only "$BEFORE" "$AFTER" | grep -q '^ytintel/'; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
+          if git diff --name-only "$BEFORE" "$AFTER" | grep -qx 'ytintel/latest/release.json'; then echo "release_changed=true" >> "$GITHUB_OUTPUT"; else echo "release_changed=false" >> "$GITHUB_OUTPUT"; fi
 
       - name: Send YTIntel Discord release
-        if: github.event_name == 'push' && steps.ytintel.outputs.changed == 'true'
+        if: github.event_name == 'push' && steps.ytintel.outputs.release_changed == 'true'
         env:
           WEBHOOK: ${{ secrets.DISCORD_YTINTEL_WEBHOOK }}
           LIVE_URL: https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/
