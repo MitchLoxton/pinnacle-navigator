@@ -1,5 +1,5 @@
 {
-  "release": "v0.37.8",
-  "reason": "@aaron — fixed the YTIntel blank-screen crash when leaving for YouTube and returning with browser Back/Forward; added return-navigation regression proof",
-  "requested_at": "2026-09-10T13:52:00Z"
+  "release": "v0.37.9",
+  "reason": "@aaron — YTIntel click-lock fixed: removed the blocking boot overlay, made the shell fail-open, isolated feature module failures, and added a clean stale-client repair path",
+  "requested_at": "2026-09-10T14:07:00Z"
 }
