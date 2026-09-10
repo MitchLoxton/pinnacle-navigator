@@ -25,12 +25,12 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.63.0
           npx playwright install --with-deps chromium
-      - name: Real deployed v0.37.0 benchmark-depth premium proof
+      - name: Real deployed v0.37.1 feedback regression proof
         shell: bash
         run: |
           mkdir -p ytintel-live-proof
           set +e
-          node ytintel/tests/production-v370.mjs > ytintel-live-proof/run.log 2>&1
+          node ytintel/tests/production-v371.mjs > ytintel-live-proof/run.log 2>&1
           code=$?
           cat ytintel-live-proof/run.log
           exit $code
@@ -38,6 +38,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ytintel-v0370-live-production-proof
+          name: ytintel-v0371-live-production-proof
           path: ytintel-live-proof
           retention-days: 14
