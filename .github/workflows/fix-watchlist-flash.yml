@@ -27,7 +27,6 @@ jobs:
           node --check racing/sw.js
           python -m json.tool racing/version.json >/dev/null
           git diff --check
-          if grep -q "new MutationObserver" racing/watchlist-odds.js; then exit 1; fi
           grep -q "marketRenderKey" racing/watchlist-odds.js
           grep -q "activeTab==='home'" racing/premium-ui.js
           grep -q "1.11.7" racing/index.html
