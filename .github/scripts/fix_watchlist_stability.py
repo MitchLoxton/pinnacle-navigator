@@ -7,8 +7,6 @@ def replace_once(text, old, new, label):
     return text.replace(old, new, 1)
 
 
-# 1) Premium UI: background health/base events may update data, but only Home is allowed
-# to rebuild. This prevents Watchlist and History from being replaced underneath the user.
 p = Path("racing/premium-ui.js")
 s = p.read_text(encoding="utf-8")
 old_guard = "if(activeTab!=='history') render();"
@@ -18,9 +16,6 @@ if count < 5:
 s = s.replace(old_guard, "if(activeTab==='home') render();")
 p.write_text(s, encoding="utf-8")
 
-
-# 2) Watchlist odds: remove background-event redraw listeners and avoid replacing the odds
-# board when market data has not actually changed.
 p = Path("racing/watchlist-odds.js")
 s = p.read_text(encoding="utf-8")
 
@@ -97,8 +92,6 @@ new_busy = """    busy = true;
 s = replace_once(s, old_busy, new_busy, "watchlist busy render")
 p.write_text(s, encoding="utf-8")
 
-
-# 3) Bump every client/cache layer together.
 p = Path("racing/app.js")
 s = p.read_text(encoding="utf-8")
 s = replace_once(s, "const CLIENT_BUILD = '1.11.6';", "const CLIENT_BUILD = '1.11.7';", "app build")
@@ -116,14 +109,14 @@ s = p.read_text(encoding="utf-8")
 s = replace_once(s, 'data-build="1.11.6"', 'data-build="1.11.7"', "html build")
 s = s.replace("Race-Day v1.11.6 · LIVE WATCHLIST ODDS", "Race-Day v1.11.7 · STABLE LIVE WATCHLIST ODDS")
 s = s.replace("./app.js?v=116", "./app.js?v=117")
-s = s.replace("./premium-ui.js?v=116", "./premium-ui.js?v=117")
+s = s.replace("./premium-ui.js?v=115", "./premium-ui.js?v=117")
 s = s.replace("./watchlist-odds.js?v=1", "./watchlist-odds.js?v=2")
 p.write_text(s, encoding="utf-8")
 
 p = Path("racing/sw.js")
 s = p.read_text(encoding="utf-8")
 s = replace_once(s, "const BUILD = '1.11.6';", "const BUILD = '1.11.7';", "sw build")
-s = replace_once(s, "const CACHE = 'mitchell-racing-v1116-live-watchlist-odds';", "const CACHE = 'mitchell-racing-v1117-stable-live-watchlist-odds';", "sw cache")
-s = s.replace("'./premium-ui.js?v=116'", "'./premium-ui.js?v=117'")
+s = replace_once(s, "const CACHE = 'mitchell-racing-v1116-watchlist-odds';", "const CACHE = 'mitchell-racing-v1117-stable-live-watchlist-odds';", "sw cache")
+s = s.replace("'./premium-ui.js?v=115'", "'./premium-ui.js?v=117'")
 s = s.replace("'./watchlist-odds.js?v=1'", "'./watchlist-odds.js?v=2'")
 p.write_text(s, encoding="utf-8")
