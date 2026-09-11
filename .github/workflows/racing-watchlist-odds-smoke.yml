@@ -1,0 +1,43 @@
+name: Racing Watchlist Odds Smoke
+
+on:
+  push:
+    paths:
+      - '.github/workflows/racing-watchlist-odds-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test live Watchlist odds endpoint
+        run: |
+          node <<'NODE' > /tmp/key
+          const fs = require('fs');
+          const s = fs.readFileSync('racing/watchlist-odds.js','utf8');
+          const m = s.match(/const ANON = '([^']+)'/);
+          if (!m) process.exit(2);
+          process.stdout.write(m[1]);
+          NODE
+          KEY=$(cat /tmp/key)
+          curl -fsS --max-time 90 \
+            -X POST 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe' \
+            -H 'Content-Type: application/json' \
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY" \
+            --data '{"races":["PR1","PR2","PR3","SR1","MR1"]}' \
+            -o /tmp/odds.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/odds.json'))
+          print('endpoint_ok=', d.get('ok'))
+          for r in d.get('results') or []:
+              print(r.get('race'), 'status='+str(r.get('oddsStatus')), 'priced='+str(r.get('pricedRunnerCount')), 'active='+str(r.get('activeRunnerCount')), 'fav='+str(r.get('favouritePrice')), 'error='+str(r.get('error')))
+          if d.get('ok') is not True:
+              raise SystemExit(1)
+          if not any(r.get('oddsAvailable') is True and (r.get('pricedRunnerCount') or 0) > 0 for r in d.get('results') or []):
+              raise SystemExit('No published odds were returned')
+          PY
