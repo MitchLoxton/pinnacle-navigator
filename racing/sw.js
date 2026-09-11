@@ -1,12 +1,12 @@
-const BUILD = '1.11.4';
-const CACHE = 'mitchell-racing-v1114-native-history-scroll';
+const BUILD = '1.11.5';
+const CACHE = 'mitchell-racing-v1115-mobile-bet-pl';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
-  './premium-ui.js?v=114',
-  './bet-history.js?v=5',
+  './premium-ui.js?v=115',
+  './bet-history.js?v=6',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
