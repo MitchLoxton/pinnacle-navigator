@@ -1,5 +1,5 @@
 name: Racing Watchlist Odds Smoke
-# backend-v11 retest
+# apikey-only retest
 
 on:
   push:
@@ -28,7 +28,6 @@ jobs:
             -X POST 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe' \
             -H 'Content-Type: application/json' \
             -H "apikey: $KEY" \
-            -H "Authorization: Bearer $KEY" \
             --data '{"races":["PR1","PR2","PR3","SR1","MR1"]}' \
             -o /tmp/odds.json
           python - <<'PY'
