@@ -225,12 +225,12 @@
     const locked=$('lockedBets');
     if(locked) new MutationObserver(()=>{ if(activeTab==='home') render(); }).observe(locked,{subtree:true,childList:true,characterData:true});
 
-    window.addEventListener('mitchell-base-ready',event=>{data=event.detail||window.__MITCHELL_BASE_DATA||data;render();});
-    window.addEventListener('mitchell-assist-health',event=>{assist={...assist,...(event.detail||{})};render();});
-    window.addEventListener('mitchell-preflight-health',event=>{preflight={...preflight,...(event.detail||{})};render();});
+    window.addEventListener('mitchell-base-ready',event=>{data=event.detail||window.__MITCHELL_BASE_DATA||data;if(activeTab!=='history') render();});
+    window.addEventListener('mitchell-assist-health',event=>{assist={...assist,...(event.detail||{})};if(activeTab!=='history') render();});
+    window.addEventListener('mitchell-preflight-health',event=>{preflight={...preflight,...(event.detail||{})};if(activeTab!=='history') render();});
     window.addEventListener('mitchell-live-health',event=>{live={...live,...(event.detail||{})};if(activeTab==='home') render();});
-    window.addEventListener('online',render);
-    window.addEventListener('offline',render);
+    window.addEventListener('online',()=>{if(activeTab!=='history') render();});
+    window.addEventListener('offline',()=>{if(activeTab!=='history') render();});
     render();
   }
 
