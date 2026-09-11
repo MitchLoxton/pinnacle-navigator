@@ -19,20 +19,20 @@ s = s.replace(old_guard, "if(activeTab==='home') render();")
 p.write_text(s, encoding="utf-8")
 
 
-# 2) Watchlist odds: remove self-observing MutationObserver and avoid replacing the odds
+# 2) Watchlist odds: remove background-event redraw listeners and avoid replacing the odds
 # board when market data has not actually changed.
 p = Path("racing/watchlist-odds.js")
 s = p.read_text(encoding="utf-8")
 
-observer = """    const premium = document.getElementById('premiumApp');
-    if (premium) {
-      new MutationObserver(() => {
-        if (isWatchlistOpen()) scheduleRender();
-      }).observe(premium, { childList:true, subtree:true });
-    }
-
+redraw_block = """    const refreshAfterPremiumRender = () => {
+      if (isWatchlistOpen()) scheduleRender(120);
+    };
+    window.addEventListener('mitchell-base-ready', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-assist-health', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-preflight-health', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-live-health', refreshAfterPremiumRender);
 """
-s = replace_once(s, observer, "", "watchlist self observer")
+s = replace_once(s, redraw_block, "", "watchlist background redraw listeners")
 
 marker = "  function render() {\n"
 helper = """  function marketRenderKey() {
