@@ -175,17 +175,32 @@
     </section>`;
   }
 
+  function marketRenderKey() {
+    return JSON.stringify((lastResults || []).map(result => ({
+      race:raceCode(result?.race),
+      status:result?.oddsStatus || '',
+      favouritePrice:Number.isFinite(Number(result?.favouritePrice)) ? Number(result.favouritePrice) : null,
+      runners:(Array.isArray(result?.runners) ? result.runners : []).map(r => [r?.number, r?.name, r?.price, r?.placePrice, r?.scratched, r?.suspended])
+    })));
+  }
+
   function render() {
     if (!isWatchlistOpen()) return;
     ensureCss();
     const page = document.getElementById('premiumPage');
     if (!page) return;
 
+    const key = marketRenderKey();
     let root = page.querySelector('[data-watchlist-live-odds]');
+    if (root?.dataset?.marketRenderKey === key) {
+      root.querySelector('[data-watch-odds-refresh]')?.addEventListener('click', () => refresh(true), { once:true });
+      return;
+    }
     if (!root) {
       const holder = document.createElement('div');
       holder.innerHTML = buildHtml();
       root = holder.firstElementChild;
+      root.dataset.marketRenderKey = key;
       const title = page.querySelector('.premium-section-title');
       if (title?.nextSibling) page.insertBefore(root, title.nextSibling);
       else page.prepend(root);
@@ -194,8 +209,11 @@
       const holder = document.createElement('div');
       holder.innerHTML = buildHtml();
       const next = holder.firstElementChild;
+      next.dataset.marketRenderKey = key;
+      const pageY = window.scrollY || document.documentElement.scrollTop || 0;
       root.replaceWith(next);
       root = next;
+      if (pageY > 0) requestAnimationFrame(() => window.scrollTo({ top:pageY, left:0, behavior:'auto' }));
       if (openRaces.size) {
         [...root.querySelectorAll('.wlo-race')].forEach(d => {
           const code = d.querySelector('.wlo-code')?.textContent || '';
@@ -221,7 +239,11 @@
     }
 
     busy = true;
-    render();
+    const refreshButton = document.querySelector('[data-watch-odds-refresh]');
+    if (refreshButton) {
+      refreshButton.disabled = true;
+      refreshButton.textContent = 'CHECKING...';
+    }
     try {
       const groups = ['PR','SR','MR'].map(prefix => rows.filter(x => raceCode(x?.race).startsWith(prefix)).map(x => raceCode(x?.race)));
       const settled = await Promise.allSettled(groups.map(fetchGroup));
@@ -265,13 +287,6 @@
       if (event.target?.closest?.('[data-premium-tab="watchlist"], [data-tab-jump="watchlist"]')) onTabChange();
     }, true);
 
-    const refreshAfterPremiumRender = () => {
-      if (isWatchlistOpen()) scheduleRender(120);
-    };
-    window.addEventListener('mitchell-base-ready', refreshAfterPremiumRender);
-    window.addEventListener('mitchell-assist-health', refreshAfterPremiumRender);
-    window.addEventListener('mitchell-preflight-health', refreshAfterPremiumRender);
-    window.addEventListener('mitchell-live-health', refreshAfterPremiumRender);
     window.addEventListener('online', () => { if (isWatchlistOpen()) refresh(); });
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && isWatchlistOpen()) refresh();

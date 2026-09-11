@@ -1,12 +1,12 @@
-const BUILD = '1.11.6';
-const CACHE = 'mitchell-racing-v1116-watchlist-odds';
+const BUILD = '1.11.7';
+const CACHE = 'mitchell-racing-v1117-stable-live-watchlist-odds';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
-  './premium-ui.js?v=115',
-  './watchlist-odds.js?v=1',
+  './premium-ui.js?v=117',
+  './watchlist-odds.js?v=2',
   './bet-history.js?v=6',
   './manifest.webmanifest',
   './icon.svg',
