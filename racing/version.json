@@ -1,5 +1,5 @@
 {
-  "build": "1.11.0",
-  "label": "PREMIUM MINIMAL UI · ONE-ACTION HOME · CORE WATCHLIST · PHONE ALERTS · AU V11 FAIL-CLOSED",
-  "minimumClientBuild": "1.11.0"
+  "build": "1.11.4",
+  "label": "PREMIUM MINIMAL UI · NATIVE HISTORY SCROLL · PHONE ALERTS · AU V11 FAIL-CLOSED",
+  "minimumClientBuild": "1.11.4"
 }

@@ -187,8 +187,8 @@
     root.innerHTML=`${header()}<main class="premium-page" id="premiumPage">${page()}</main>${nav()}`;
 
     $('premiumRefresh')?.addEventListener('click',()=>$('refreshButton')?.click(),{once:true});
-    document.querySelectorAll('[data-premium-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.premiumTab||'home';render();window.scrollTo({top:0,behavior:'smooth'});},{once:true}));
-    document.querySelectorAll('[data-tab-jump]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tabJump||'home';render();window.scrollTo({top:0,behavior:'smooth'});},{once:true}));
+    document.querySelectorAll('[data-premium-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.premiumTab||'home';render();window.scrollTo({top:0,behavior:'auto'});},{once:true}));
+    document.querySelectorAll('[data-tab-jump]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tabJump||'home';render();window.scrollTo({top:0,behavior:'auto'});},{once:true}));
     $('premiumAlertsToggle')?.addEventListener('click',toggleAlerts,{once:true});
     $('premiumSettingsAlerts')?.addEventListener('click',toggleAlerts,{once:true});
   }
