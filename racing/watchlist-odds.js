@@ -2,7 +2,7 @@
   'use strict';
 
   const ODDS_URL = 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe';
-  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYXNlIiwicmVmIjoiZGttYWNrdGNmaHVic3Vtd3J5ZHciLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NjQ1Njg5NCwiZXhwIjoyMTAyMDMyODk0fQ.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
+  const APP_TOKEN = 'mitchell-racing-watchlist-readonly-v1';
   const POLL_MS = 30000;
   const FETCH_TIMEOUT_MS = 12000;
 
@@ -83,8 +83,7 @@
       cache:'no-store',
       headers:{
         'Content-Type':'application/json',
-        apikey:ANON,
-        Authorization:`Bearer ${ANON}`
+        'x-mitchell-watchlist':APP_TOKEN
       },
       body:JSON.stringify({ races })
     });

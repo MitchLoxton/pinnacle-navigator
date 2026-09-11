@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.11.7';
+  const CLIENT_BUILD = '1.11.8';
   const BUILD_CHECK_MS = 300000;
   const SW_CHECK_MS = 600000;
   let updateReloading = false;
