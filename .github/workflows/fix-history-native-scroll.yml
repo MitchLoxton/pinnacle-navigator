@@ -1,0 +1,114 @@
+name: Native History Scroll Repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-history-native-scroll.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove History redraws and nested iPhone scroller
+        shell: python
+        run: |
+          from pathlib import Path
+
+          # 1) Premium tabs: never start a smooth scroll animation on iOS.
+          p = Path('racing/premium-ui.js')
+          s = p.read_text(encoding='utf-8')
+          old = "render();window.scrollTo({top:0,behavior:'smooth'});"
+          if old not in s:
+              raise SystemExit('premium-ui smooth-scroll target not found')
+          s = s.replace(old, "render();window.scrollTo({top:0,behavior:'auto'});")
+          p.write_text(s, encoding='utf-8')
+
+          # 2) History: use the normal page scroll instead of a nested 60vh scroller.
+          #    Also remove the broad MutationObserver that could repaint the ledger.
+          p = Path('racing/bet-history.js')
+          s = p.read_text(encoding='utf-8')
+          desktop = '.sl{height:60vh;min-height:420px;max-height:800px;overflow-y:auto;padding:8px 10px 16px}'
+          mobile = '.sl{height:60vh;min-height:390px;padding:6px}'
+          if desktop not in s:
+              raise SystemExit('bet-history desktop scroller target not found')
+          if mobile not in s:
+              raise SystemExit('bet-history mobile scroller target not found')
+          s = s.replace(desktop, '.sl{height:auto;min-height:0;max-height:none;overflow:visible;padding:8px 10px 16px}', 1)
+          s = s.replace(mobile, '.sl{height:auto;min-height:0;max-height:none;overflow:visible;padding:6px}', 1)
+
+          old_start = '''function start(){css();let r=document.getElementById('premiumApp');if(r)new MutationObserver(()=>setTimeout(paint,0)).observe(r,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});document.addEventListener('click',q=>{if(q.target?.closest?.('[data-premium-tab="history"]'))setTimeout(()=>{paint();if(!S.loaded)load()},30)});window.addEventListener('mitchell-refresh-live',()=>{if(open())load(1)});paint()}'''
+          new_start = '''function start(){css();document.addEventListener('click',q=>{if(q.target?.closest?.('[data-premium-tab="history"]'))setTimeout(()=>{paint();if(!S.loaded)load()},30)});paint()}'''
+          if old_start not in s:
+              raise SystemExit('bet-history start target not found')
+          s = s.replace(old_start, new_start, 1)
+          p.write_text(s, encoding='utf-8')
+
+          # 3) Remove the previous scroll-restoration shim entirely. Native page scrolling
+          #    is now the only scrolling model on History.
+          p = Path('racing/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('data-build="1.11.3"', 'data-build="1.11.4"')
+          s = s.replace('Race-Day v1.11.3 · STABLE HISTORY SCROLL · AU V11 + HK V4', 'Race-Day v1.11.4 · NATIVE HISTORY SCROLL · AU V11 + HK V4')
+          s = s.replace('./app.js?v=111', './app.js?v=114')
+          s = s.replace('./premium-ui.js?v=112', './premium-ui.js?v=114')
+          s = s.replace('./bet-history.js?v=4', './bet-history.js?v=5')
+          s = s.replace('  <script src="./history-scroll-stability.js?v=1" defer></script>\n', '')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/app.js')
+          s = p.read_text(encoding='utf-8')
+          if "const CLIENT_BUILD = '1.11.0';" not in s:
+              raise SystemExit('app.js build target not found')
+          s = s.replace("const CLIENT_BUILD = '1.11.0';", "const CLIENT_BUILD = '1.11.4';", 1)
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/version.json')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('"build": "1.11.0"', '"build": "1.11.4"')
+          s = s.replace('"minimumClientBuild": "1.11.0"', '"minimumClientBuild": "1.11.4"')
+          s = s.replace('PREMIUM MINIMAL UI · ONE-ACTION HOME · CORE WATCHLIST · PHONE ALERTS · AU V11 FAIL-CLOSED', 'PREMIUM MINIMAL UI · NATIVE HISTORY SCROLL · PHONE ALERTS · AU V11 FAIL-CLOSED')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/sw.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("const BUILD = '1.11.3';", "const BUILD = '1.11.4';")
+          s = s.replace("const CACHE = 'mitchell-racing-v1113-history-scroll-stable';", "const CACHE = 'mitchell-racing-v1114-native-history-scroll';")
+          s = s.replace("'./premium-ui.js?v=112'", "'./premium-ui.js?v=114'")
+          s = s.replace("'./bet-history.js?v=4'", "'./bet-history.js?v=5'")
+          s = s.replace("  './history-scroll-stability.js?v=1',\n", '')
+          s = s.replace('bet-history\\.js|history-scroll-stability\\.js|stats-link', 'bet-history\\.js|stats-link')
+          p.write_text(s, encoding='utf-8')
+
+          shim = Path('racing/history-scroll-stability.js')
+          if shim.exists():
+              shim.unlink()
+
+      - name: Validate repair
+        run: |
+          node --check racing/premium-ui.js
+          node --check racing/bet-history.js
+          node --check racing/app.js
+          node --check racing/sw.js
+          python -m json.tool racing/version.json >/dev/null
+          git diff --check
+          grep -q "height:auto;min-height:0;max-height:none;overflow:visible" racing/bet-history.js
+          ! grep -q "new MutationObserver(()=>setTimeout(paint,0))" racing/bet-history.js
+          ! grep -q "history-scroll-stability" racing/index.html
+          grep -q "CLIENT_BUILD = '1.11.4'" racing/app.js
+          grep -q '"build": "1.11.4"' racing/version.json
+          grep -q "const BUILD = '1.11.4'" racing/sw.js
+
+      - name: Commit repaired History
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix iPhone History scrolling with native page scroll"
+          git push origin HEAD:main
