@@ -1,0 +1,89 @@
+name: Mobile History Amount Repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-history-mobile-amount.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.event.head_commit.message == 'Run mobile History amount repair'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Show amount won/lost on phone and bump build
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('racing/bet-history.js')
+          s = p.read_text(encoding='utf-8')
+          old_css = '.cc{border-left:0;padding:4px}.hm{display:none}}'
+          new_css = '.cc{border-left:0;padding:4px}.hm{display:block}.ht{display:none}}'
+          if old_css not in s:
+              raise SystemExit('mobile History hidden-P/L CSS target not found')
+          s = s.replace(old_css, new_css, 1)
+          if '<span>MODEL P/L</span>' not in s:
+              raise SystemExit('per-bet P/L label not found')
+          s = s.replace('<span>MODEL P/L</span>', '<span>AMOUNT WON / LOST</span>', 1)
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/app.js')
+          s = p.read_text(encoding='utf-8')
+          if "const CLIENT_BUILD = '1.11.4';" not in s:
+              raise SystemExit('app build marker not found')
+          s = s.replace("const CLIENT_BUILD = '1.11.4';", "const CLIENT_BUILD = '1.11.5';", 1)
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/version.json')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('"build": "1.11.4"', '"build": "1.11.5"')
+          s = s.replace('"minimumClientBuild": "1.11.4"', '"minimumClientBuild": "1.11.5"')
+          s = s.replace('NATIVE HISTORY SCROLL', 'NATIVE HISTORY SCROLL · MOBILE BET P/L')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('data-build="1.11.4"', 'data-build="1.11.5"')
+          s = s.replace('Race-Day v1.11.4 · NATIVE HISTORY SCROLL', 'Race-Day v1.11.5 · MOBILE BET P/L · NATIVE HISTORY SCROLL')
+          s = s.replace('./app.js?v=114', './app.js?v=115')
+          s = s.replace('./premium-ui.js?v=114', './premium-ui.js?v=115')
+          s = s.replace('./bet-history.js?v=5', './bet-history.js?v=6')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/sw.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("const BUILD = '1.11.4';", "const BUILD = '1.11.5';")
+          s = s.replace("const CACHE = 'mitchell-racing-v1114-native-history-scroll';", "const CACHE = 'mitchell-racing-v1115-mobile-bet-pl';")
+          s = s.replace("'./premium-ui.js?v=114'", "'./premium-ui.js?v=115'")
+          s = s.replace("'./bet-history.js?v=5'", "'./bet-history.js?v=6'")
+          p.write_text(s, encoding='utf-8')
+
+      - name: Sanity checks
+        run: |
+          node --check racing/bet-history.js
+          node --check racing/app.js
+          node --check racing/sw.js
+          python -m json.tool racing/version.json >/dev/null
+          git diff --check
+          grep -q 'AMOUNT WON / LOST' racing/bet-history.js
+          grep -q '.hm{display:block}.ht{display:none}' racing/bet-history.js
+          grep -q '1.11.5' racing/app.js
+          grep -q '1.11.5' racing/version.json
+          grep -q '1.11.5' racing/index.html
+          grep -q '1.11.5' racing/sw.js
+
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add racing/bet-history.js racing/app.js racing/version.json racing/index.html racing/sw.js
+          git rm .github/workflows/fix-history-mobile-amount.yml
+          git commit -m "Show amount won and lost in mobile History"
+          git push origin HEAD:main
