@@ -1,5 +1,5 @@
 name: Racing Watchlist Odds Smoke
-# auth-fix retest
+# backend-v11 retest
 
 on:
   push:
