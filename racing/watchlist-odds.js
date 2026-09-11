@@ -2,7 +2,7 @@
   'use strict';
 
   const ODDS_URL = 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe';
-  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
+  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYXNlIiwicmVmIjoiZGttYWNrdGNmaHVic3Vtd3J5ZHciLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NjQ1Njg5NCwiZXhwIjoyMTAyMDMyODk0fQ.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
   const POLL_MS = 30000;
   const FETCH_TIMEOUT_MS = 12000;
 
@@ -69,11 +69,11 @@
 
   async function fetchTimeout(url, options = {}) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
       return await fetch(url, { ...options, signal:controller.signal });
     } finally {
-      clearTimeout(timer);
+      clearTimeout(timeout);
     }
   }
 
@@ -141,8 +141,7 @@
       ? `${favs.map(x => x?.name || 'UNKNOWN').join(' / ')} · ${odds(fp)}`
       : info.label === 'NOT OUT YET' ? 'Waiting for TABtouch fixed-WIN market' : 'Favourite/price checking';
     const hasPrices = Boolean(result?.oddsAvailable);
-    const open = hasPrices ? ' open' : '';
-    return `<details class="wlo-race ${item?.corePotential ? 'wlo-core' : ''}"${open}>
+    return `<details class="wlo-race ${item?.corePotential ? 'wlo-core' : ''}"${hasPrices ? ' open' : ''}>
       <summary>
         <span class="wlo-code">${esc(race)}</span>
         <span class="wlo-summary"><strong>${esc(favText)}${item?.corePotential ? '<span class="wlo-core-tag">CORE</span>' : ''}</strong><small>State ${esc(item?.state ?? '—')} · ${esc(result?.venue || item?.venue || item?.region || '')}</small></span>
@@ -208,12 +207,12 @@
     root.querySelector('[data-watch-odds-refresh]')?.addEventListener('click', () => refresh(true), { once:true });
   }
 
-  function scheduleRender() {
+  function scheduleRender(delay = 80) {
     clearTimeout(renderTimer);
-    renderTimer = setTimeout(render, 50);
+    renderTimer = setTimeout(render, delay);
   }
 
-  async function refresh(force = false) {
+  async function refresh() {
     if (!isWatchlistOpen() || busy) return;
     const rows = tracklist();
     if (!rows.length) {
@@ -239,14 +238,14 @@
     } finally {
       busy = false;
       render();
-      scheduleNext(force ? POLL_MS : POLL_MS);
+      scheduleNext();
     }
   }
 
   function scheduleNext(delay = POLL_MS) {
     clearTimeout(timer);
     if (!isWatchlistOpen()) return;
-    timer = setTimeout(() => refresh(false), delay);
+    timer = setTimeout(refresh, delay);
   }
 
   function onTabChange() {
@@ -256,8 +255,8 @@
         return;
       }
       render();
-      refresh(false);
-    }, 80);
+      refresh();
+    }, 90);
   }
 
   function start() {
@@ -266,27 +265,21 @@
       if (event.target?.closest?.('[data-premium-tab="watchlist"], [data-tab-jump="watchlist"]')) onTabChange();
     }, true);
 
-    const premium = document.getElementById('premiumApp');
-    if (premium) {
-      new MutationObserver(() => {
-        if (isWatchlistOpen()) scheduleRender();
-      }).observe(premium, { childList:true, subtree:true });
-    }
-
-    window.addEventListener('mitchell-base-ready', () => {
-      if (isWatchlistOpen()) {
-        scheduleRender();
-        refresh(false);
-      }
-    });
-    window.addEventListener('online', () => { if (isWatchlistOpen()) refresh(true); });
+    const refreshAfterPremiumRender = () => {
+      if (isWatchlistOpen()) scheduleRender(120);
+    };
+    window.addEventListener('mitchell-base-ready', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-assist-health', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-preflight-health', refreshAfterPremiumRender);
+    window.addEventListener('mitchell-live-health', refreshAfterPremiumRender);
+    window.addEventListener('online', () => { if (isWatchlistOpen()) refresh(); });
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && isWatchlistOpen()) refresh(false);
+      if (document.visibilityState === 'visible' && isWatchlistOpen()) refresh();
     });
 
     if (isWatchlistOpen()) {
       render();
-      refresh(false);
+      refresh();
     }
   }
 
