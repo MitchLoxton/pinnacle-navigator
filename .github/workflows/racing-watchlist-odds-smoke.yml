@@ -1,5 +1,5 @@
 name: Racing Watchlist Odds Smoke
-# print auth failure body
+# read-only header auth smoke test
 
 on:
   push:
@@ -14,26 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnose live Watchlist odds endpoint
+      - name: Test live Watchlist odds endpoint
         run: |
-          node <<'NODE' > /tmp/key
-          const fs = require('fs');
-          const s = fs.readFileSync('racing/watchlist-odds.js','utf8');
-          const m = s.match(/const ANON = '([^']+)'/);
-          if (!m) process.exit(2);
-          process.stdout.write(m[1]);
-          NODE
-          KEY=$(cat /tmp/key)
           STATUS=$(curl -sS --max-time 90 \
             -X POST 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe' \
             -H 'Content-Type: application/json' \
-            -H "apikey: $KEY" \
+            -H 'x-mitchell-watchlist: mitchell-racing-watchlist-readonly-v1' \
             --data '{"races":["PR1","PR2","PR3","SR1","MR1"]}' \
             -o /tmp/odds.json -w '%{http_code}')
           echo "http_status=$STATUS"
-          cat /tmp/odds.json
-          echo
-          test "$STATUS" = "200"
           python - <<'PY'
           import json
           d=json.load(open('/tmp/odds.json'))
@@ -45,3 +34,4 @@ jobs:
           if not any(r.get('oddsAvailable') is True and (r.get('pricedRunnerCount') or 0) > 0 for r in d.get('results') or []):
               raise SystemExit('No published odds were returned')
           PY
+          test "$STATUS" = "200"
