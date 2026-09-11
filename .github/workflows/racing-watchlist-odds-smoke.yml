@@ -1,5 +1,5 @@
 name: Racing Watchlist Odds Smoke
-# apikey-only retest
+# print auth failure body
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Test live Watchlist odds endpoint
+      - name: Diagnose live Watchlist odds endpoint
         run: |
           node <<'NODE' > /tmp/key
           const fs = require('fs');
@@ -24,12 +24,16 @@ jobs:
           process.stdout.write(m[1]);
           NODE
           KEY=$(cat /tmp/key)
-          curl -fsS --max-time 90 \
+          STATUS=$(curl -sS --max-time 90 \
             -X POST 'https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-source-probe' \
             -H 'Content-Type: application/json' \
             -H "apikey: $KEY" \
             --data '{"races":["PR1","PR2","PR3","SR1","MR1"]}' \
-            -o /tmp/odds.json
+            -o /tmp/odds.json -w '%{http_code}')
+          echo "http_status=$STATUS"
+          cat /tmp/odds.json
+          echo
+          test "$STATUS" = "200"
           python - <<'PY'
           import json
           d=json.load(open('/tmp/odds.json'))
