@@ -1,0 +1,172 @@
+name: Fix Watchlist Flash
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-watchlist-flash.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.event.head_commit.message == 'Run Watchlist stability repair'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch stable Watchlist rendering
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('racing/premium-ui.js')
+          s = p.read_text(encoding='utf-8')
+          old = "if(activeTab!=='history') render();"
+          count = s.count(old)
+          if count < 5:
+              raise SystemExit(f'Expected passive render guards, found {count}')
+          s = s.replace(old, "if(activeTab==='home') render();")
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/watchlist-odds.js')
+          s = p.read_text(encoding='utf-8')
+
+          observer = """    const premium = document.getElementById('premiumApp');
+    if (premium) {
+      new MutationObserver(() => {
+        if (isWatchlistOpen()) scheduleRender();
+      }).observe(premium, { childList:true, subtree:true });
+    }
+
+"""
+          if observer not in s:
+              raise SystemExit('Watchlist self observer not found')
+          s = s.replace(observer, '', 1)
+
+          marker = "  function render() {\n"
+          helper = """  function marketRenderKey() {
+    return JSON.stringify((lastResults || []).map(result => ({
+      race:raceCode(result?.race),
+      status:result?.oddsStatus || '',
+      favouritePrice:Number.isFinite(Number(result?.favouritePrice)) ? Number(result.favouritePrice) : null,
+      runners:(Array.isArray(result?.runners) ? result.runners : []).map(r => [r?.number, r?.name, r?.price, r?.placePrice, r?.scratched, r?.suspended])
+    })));
+  }
+
+"""
+          if marker not in s:
+              raise SystemExit('render marker not found')
+          s = s.replace(marker, helper + marker, 1)
+
+          old_start = """    let root = page.querySelector('[data-watchlist-live-odds]');
+    if (!root) {
+"""
+          new_start = """    const key = marketRenderKey();
+    let root = page.querySelector('[data-watchlist-live-odds]');
+    if (root?.dataset?.marketRenderKey === key) {
+      root.querySelector('[data-watch-odds-refresh]')?.addEventListener('click', () => refresh(true), { once:true });
+      return;
+    }
+    if (!root) {
+"""
+          if old_start not in s:
+              raise SystemExit('render start not found')
+          s = s.replace(old_start, new_start, 1)
+
+          old_insert = """      root = holder.firstElementChild;
+      const title = page.querySelector('.premium-section-title');
+"""
+          new_insert = """      root = holder.firstElementChild;
+      root.dataset.marketRenderKey = key;
+      const title = page.querySelector('.premium-section-title');
+"""
+          if old_insert not in s:
+              raise SystemExit('initial insert not found')
+          s = s.replace(old_insert, new_insert, 1)
+
+          old_replace = """      const next = holder.firstElementChild;
+      root.replaceWith(next);
+      root = next;
+"""
+          new_replace = """      const next = holder.firstElementChild;
+      next.dataset.marketRenderKey = key;
+      const pageY = window.scrollY || document.documentElement.scrollTop || 0;
+      root.replaceWith(next);
+      root = next;
+      if (pageY > 0) requestAnimationFrame(() => window.scrollTo({ top:pageY, left:0, behavior:'auto' }));
+"""
+          if old_replace not in s:
+              raise SystemExit('replacement block not found')
+          s = s.replace(old_replace, new_replace, 1)
+
+          old_busy = """    busy = true;
+    render();
+    try {
+"""
+          new_busy = """    busy = true;
+    const refreshButton = document.querySelector('[data-watch-odds-refresh]');
+    if (refreshButton) {
+      refreshButton.disabled = true;
+      refreshButton.textContent = 'CHECKING…';
+    }
+    try {
+"""
+          if old_busy not in s:
+              raise SystemExit('busy render block not found')
+          s = s.replace(old_busy, new_busy, 1)
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/app.js')
+          s = p.read_text(encoding='utf-8')
+          if "const CLIENT_BUILD = '1.11.6';" not in s:
+              raise SystemExit('app build marker not found')
+          p.write_text(s.replace("const CLIENT_BUILD = '1.11.6';", "const CLIENT_BUILD = '1.11.7';", 1), encoding='utf-8')
+
+          p = Path('racing/version.json')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('"build": "1.11.6"', '"build": "1.11.7"')
+          s = s.replace('"minimumClientBuild": "1.11.6"', '"minimumClientBuild": "1.11.7"')
+          s = s.replace('LIVE WATCHLIST ODDS', 'STABLE LIVE WATCHLIST ODDS')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('data-build="1.11.6"', 'data-build="1.11.7"')
+          s = s.replace('Race-Day v1.11.6 · LIVE WATCHLIST ODDS', 'Race-Day v1.11.7 · STABLE LIVE WATCHLIST ODDS')
+          s = s.replace('./app.js?v=116', './app.js?v=117')
+          s = s.replace('./premium-ui.js?v=116', './premium-ui.js?v=117')
+          s = s.replace('./watchlist-odds.js?v=1', './watchlist-odds.js?v=2')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('racing/sw.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("const BUILD = '1.11.6';", "const BUILD = '1.11.7';")
+          s = s.replace("const CACHE = 'mitchell-racing-v1116-live-watchlist-odds';", "const CACHE = 'mitchell-racing-v1117-stable-live-watchlist-odds';")
+          s = s.replace("'./premium-ui.js?v=116'", "'./premium-ui.js?v=117'")
+          s = s.replace("'./watchlist-odds.js?v=1'", "'./watchlist-odds.js?v=2'")
+          p.write_text(s, encoding='utf-8')
+
+      - name: Sanity checks
+        run: |
+          node --check racing/premium-ui.js
+          node --check racing/watchlist-odds.js
+          node --check racing/app.js
+          node --check racing/sw.js
+          python -m json.tool racing/version.json >/dev/null
+          git diff --check
+          ! grep -q "new MutationObserver" racing/watchlist-odds.js
+          grep -q "marketRenderKey" racing/watchlist-odds.js
+          grep -q "activeTab==='home'" racing/premium-ui.js
+          grep -q "1.11.7" racing/index.html
+
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add racing/premium-ui.js racing/watchlist-odds.js racing/app.js racing/version.json racing/index.html racing/sw.js
+          git rm .github/workflows/fix-watchlist-flash.yml
+          git commit -m "Fix Watchlist flashing while odds refresh"
+          git push origin HEAD:main
