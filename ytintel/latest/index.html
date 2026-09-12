@@ -6,34 +6,94 @@
   <meta name="theme-color" content="#07090d">
   <meta name="color-scheme" content="dark">
   <meta name="application-name" content="YTIntel">
-  <meta name="description" content="YTIntel Endgame: benchmark-depth single-video research, multimodal analysis, compounding Vault, private creator footage supply and Watchtower.">
+  <meta name="description" content="YTIntel — stable source-backed YouTube creator intelligence.">
   <title>YTIntel — Creator Intelligence</title>
   <link rel="canonical" href="https://mitchloxton.github.io/pinnacle-navigator/ytintel/latest/">
-  <link rel="icon" href="icon.svg?v=0379" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg?v=0379">
-  <link rel="manifest" href="manifest.webmanifest?v=0379">
-  <link rel="stylesheet" href="v340-zero-credit.css?v=0375">
-  <link rel="stylesheet" href="v360-endgame.css?v=0375">
-  <link rel="stylesheet" href="v371-mobile-containment.css?v=0375">
-  <style>.v361-legacy-anchor{display:none!important}#v350-profile-overlay{display:none!important}</style>
+  <link rel="icon" href="icon.svg?v=0380" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg?v=0380">
+  <link rel="manifest" href="manifest.webmanifest?v=0380">
+  <link rel="stylesheet" href="v340-zero-credit.css?v=0380">
+  <link rel="stylesheet" href="v371-mobile-containment.css?v=0380">
 </head>
 <body>
   <main class="app" id="app">
-    <header class="topbar"><div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div><div class="top-grow"></div><div class="mode"><span class="dot"></span><span class="mode-copy">Zero paid AI credits</span><strong id="localMode">Loading intelligence…</strong></div><span class="version" id="version">v0.37.9</span></header>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">YT</span><span>YTIntel</span></div>
+      <div class="top-grow"></div>
+      <div class="mode"><span class="dot"></span><span class="mode-copy">Stable core</span><strong id="localMode">Loading analysis core…</strong></div>
+      <span class="version" id="version">v0.38.0</span>
+    </header>
+
     <div class="shell">
-      <nav class="nav" aria-label="YTIntel navigation"><button class="on" data-tab="analyse">◉ Analyse</button><button data-tab="competitors">◎ Competitors</button><button data-tab="vault">▱ Vault</button></nav>
+      <nav class="nav" aria-label="YTIntel navigation">
+        <button class="on" data-tab="analyse" type="button">◉ Analyse</button>
+        <button data-tab="competitors" type="button">◎ Competitors</button>
+        <button data-tab="vault" type="button">▱ Vault</button>
+      </nav>
+
       <div class="content">
         <section class="view active" id="analyse">
-          <div class="hero"><div class="eyebrow">YTINTEL ENDGAME · PREMIUM VIDEO ANALYSIS</div><h1>Find the winner. Understand it. Make yours better.</h1><p>Paste one winning YouTube video. YTIntel turns it into a watch-replacement brief with source facts, summary, hook/rehook/payoff analysis, replay evidence, visuals, motion, audio, packaging, channel context, a Creator-DNA blueprint and clean Markdown export.</p><form class="formrow" id="analyseForm"><input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required><button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button></form></div>
-          <section class="card progress-card hidden" id="progressCard" aria-live="polite"><div class="progress-top"><div class="grow"><b id="progressMsg">Starting…</b></div><span class="pill" id="progressState">RUNNING</span><strong id="progressPct">0%</strong></div><div class="progress-track"><div class="progress-bar" id="progressBar"></div></div><div class="agents" id="agents"></div></section>
-          <div class="badbox hidden" id="analyseError"></div><div id="report"></div>
+          <div class="hero">
+            <div class="eyebrow">YTINTEL · STABLE CORE</div>
+            <h1>Find the winner. Understand it. Make yours better.</h1>
+            <p>Paste one YouTube video and run the source-backed analysis. Navigation stays usable even if a research source fails.</p>
+            <form class="formrow" id="analyseForm">
+              <input class="input" id="videoUrl" type="url" inputmode="url" autocomplete="url" placeholder="Paste a YouTube video URL" required>
+              <button class="btn primary" id="analyseBtn" type="submit">Run full analysis</button>
+            </form>
+          </div>
+
+          <section class="card progress-card hidden" id="progressCard" aria-live="polite">
+            <div class="progress-top"><div class="grow"><b id="progressMsg">Starting…</b></div><span class="pill" id="progressState">RUNNING</span><strong id="progressPct">0%</strong></div>
+            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="agents" id="agents"></div>
+          </section>
+          <div class="badbox hidden" id="analyseError"></div>
+          <div id="report"></div>
         </section>
-        <section class="view" id="competitors"><div class="hero"><div class="eyebrow">WATCHTOWER</div><h1>Know who is moving.</h1></div><div class="v361-legacy-anchor" aria-hidden="true"><input id="competitorInput"><button id="addCompetitor" type="button">Add</button><div id="competitorList"></div></div></section>
-        <section class="view" id="vault"><div class="hero"><div class="eyebrow">COMPOUNDING VAULT</div><h1>Your research should compound.</h1></div><section class="card" id="creatorCard" style="margin-bottom:16px"><div class="split"><div class="grow"><div class="eyebrow">TAILOR EVERY REMAKE</div><h2 style="margin:5px 0">Creator DNA</h2></div><span class="pill">optional</span></div><div class="grid" style="margin-top:12px"><div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div><div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div><div class="c6"><label class="eyebrow" for="creator_audience">Audience</label><input class="input" id="creator_audience" placeholder="Who is this for?"></div><div class="c6"><label class="eyebrow" for="creator_brand">Brand rules</label><textarea class="textarea" id="creator_brand" placeholder="Tone, evidence rules, what you never copy, thumbnail rules…"></textarea></div></div><div class="actions" style="margin-top:10px"><button class="btn" id="saveCreator" type="button">Save Creator DNA</button><span class="muted" id="creatorSaved"></span></div></section><div id="vaultList" class="v361-legacy-anchor" aria-hidden="true"></div></section>
+
+        <section class="view" id="competitors" hidden>
+          <div class="hero">
+            <div class="eyebrow">COMPETITORS</div>
+            <h1>Track the channels you care about.</h1>
+            <p>Add a YouTube @handle or channel URL. This page is intentionally simple and clickable first.</p>
+            <div class="formrow">
+              <input class="input" id="competitorInput" placeholder="@handle or YouTube channel URL">
+              <button class="btn primary" id="addCompetitor" type="button">Add competitor</button>
+            </div>
+          </div>
+          <div id="competitorList" class="comp-list"></div>
+        </section>
+
+        <section class="view" id="vault" hidden>
+          <div class="hero">
+            <div class="eyebrow">VAULT</div>
+            <h1>Your research should compound.</h1>
+            <p>Saved analyses live here. Creator DNA is optional and never blocks the rest of the site.</p>
+          </div>
+
+          <section class="card" id="creatorCard" style="margin-bottom:16px">
+            <div class="split"><div class="grow"><div class="eyebrow">CREATOR DNA</div><h2 style="margin:5px 0">Tailor future remakes</h2></div><span class="pill">optional</span></div>
+            <div class="grid" style="margin-top:12px">
+              <div class="c6"><label class="eyebrow" for="creator_niche">Niche</label><input class="input" id="creator_niche" placeholder="e.g. GTA 6"></div>
+              <div class="c6"><label class="eyebrow" for="creator_subniche">Subniche</label><input class="input" id="creator_subniche" placeholder="e.g. GTA 6 news + money"></div>
+              <div class="c6"><label class="eyebrow" for="creator_audience">Audience</label><input class="input" id="creator_audience" placeholder="Who is this for?"></div>
+              <div class="c6"><label class="eyebrow" for="creator_brand">Brand rules</label><textarea class="textarea" id="creator_brand" placeholder="Tone, evidence rules, things you never copy…"></textarea></div>
+            </div>
+            <div class="actions" style="margin-top:10px"><button class="btn" id="saveCreator" type="button">Save Creator DNA</button><span class="muted" id="creatorSaved"></span></div>
+          </section>
+          <div id="vaultList" class="vault-list"></div>
+        </section>
       </div>
     </div>
   </main>
-  <nav class="mobile-dock" aria-label="Mobile navigation"><button class="on" data-dock="analyse">Analyse</button><button data-dock="competitors">Competitors</button><button data-dock="vault">Vault</button></nav>
-  <script type="module" src="v360-entry.js?v=0379"></script>
+
+  <nav class="mobile-dock" aria-label="Mobile navigation">
+    <button class="on" data-dock="analyse" type="button">Analyse</button>
+    <button data-dock="competitors" type="button">Competitors</button>
+    <button data-dock="vault" type="button">Vault</button>
+  </nav>
+
+  <script src="v380-stable-shell.js?v=0380" defer></script>
 </body>
 </html>
