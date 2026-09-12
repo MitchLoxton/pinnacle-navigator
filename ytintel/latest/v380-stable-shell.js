@@ -5,6 +5,9 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 let coreReady=false;
 let current='analyse';
+let releaseValue=RELEASE;
+
+try{Object.defineProperty(window,'YTINTEL_VERSION',{configurable:true,enumerable:true,get:()=>releaseValue,set:v=>{if(String(v)===RELEASE)releaseValue=RELEASE}})}catch{window.YTINTEL_VERSION=RELEASE}
 
 function showShell(){
   const app=$('#app');
@@ -47,9 +50,9 @@ function installNavigation(){
 }
 
 function setVersion(){
-  try{window.YTINTEL_VERSION=RELEASE}catch{}
+  releaseValue=RELEASE;
   root.dataset.ytintelVersion=RELEASE;
-  const v=$('#version');if(v)v.textContent=`v${RELEASE}`;
+  const v=$('#version');if(v&&v.textContent!==`v${RELEASE}`)v.textContent=`v${RELEASE}`;
 }
 
 function failCore(error){
@@ -81,7 +84,7 @@ async function loadCore(){
     coreReady=true;
     root.dataset.ytintelCore='ready';
     if(status)status.textContent='Evidence-first core ready';
-    removeBlockers();hardenButtons();switchTab(current);
+    setVersion();removeBlockers();hardenButtons();switchTab(current);
     window.dispatchEvent(new CustomEvent('ytintel:v380-core-ready'));
   }catch(error){
     console.error('[YTIntel v0.38] core load failed',error);
@@ -90,11 +93,12 @@ async function loadCore(){
 }
 
 function health(){
-  showShell();removeBlockers();hardenButtons();
+  showShell();setVersion();removeBlockers();hardenButtons();
   if(!document.querySelector('.view.active'))switchTab(current||'analyse');
 }
 
 setVersion();
+const versionNode=$('#version');if(versionNode)new MutationObserver(setVersion).observe(versionNode,{childList:true,subtree:true,characterData:true});
 showShell();
 removeBlockers();
 installNavigation();
