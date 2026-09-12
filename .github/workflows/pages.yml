@@ -31,88 +31,35 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ github.event_name }}" != "push" ]; then
-            echo "ytintel=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          BEFORE="${{ github.event.before }}"
-          AFTER="${{ github.sha }}"
-          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            BEFORE="$(git rev-parse HEAD^ 2>/dev/null || printf '%s' "$AFTER")"
-          fi
-          if git diff --name-only "$BEFORE" "$AFTER" | grep -q '^ytintel/'; then
-            echo "ytintel=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ytintel=false" >> "$GITHUB_OUTPUT"
-          fi
+          if [ "${{ github.event_name }}" != "push" ]; then echo "ytintel=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          BEFORE="${{ github.event.before }}"; AFTER="${{ github.sha }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then BEFORE="$(git rev-parse HEAD^ 2>/dev/null || printf '%s' "$AFTER")"; fi
+          if git diff --name-only "$BEFORE" "$AFTER" | grep -q '^ytintel/'; then echo "ytintel=true" >> "$GITHUB_OUTPUT"; else echo "ytintel=false" >> "$GITHUB_OUTPUT"; fi
 
-      - name: Validate YTIntel v0.37.9 usability-first release
+      - name: Validate YTIntel v0.38 stable shell
         if: github.event_name != 'push' || steps.changes.outputs.ytintel == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          node --input-type=module --check < ytintel/latest/v360-entry.js
-          node --input-type=module --check < ytintel/latest/v366-local-ai-shield.js
-          node --input-type=module --check < ytintel/latest/v361-capability-guard.js
-          node --input-type=module --check < ytintel/latest/v361-review-fixes.js
-          node --input-type=module --check < ytintel/latest/v360-endgame.js
-          node --input-type=module --check < ytintel/latest/v366-local-ai-optin.js
-          node --input-type=module --check < ytintel/latest/v362-source-polish.js
-          node --input-type=module --check < ytintel/latest/v363-premium-brief.js
-          node --input-type=module --check < ytintel/latest/v364-fact-surfaces.js
-          node --input-type=module --check < ytintel/latest/v369-packaging-depth.js
-          node --input-type=module --check < ytintel/latest/v365-canonical-shell.js
-          node --input-type=module --check < ytintel/latest/v367-premium-lock.js
-          node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
-          node --input-type=module --check < ytintel/latest/v371-feedback-overhaul.js
-          node --input-type=module --check < ytintel/latest/v372-endgame-closer.js
-          node --input-type=module --check < ytintel/latest/v373-analyse-focus.js
-          node --input-type=module --check < ytintel/latest/v374-creator-assets.js
-          node --input-type=module --check < ytintel/latest/v375-creator-assets-cloud.js
-          node --input-type=module --check < ytintel/latest/v376-resumable-creator-assets.js
-          node --input-type=module --check < ytintel/latest/v377-scene-indexer.js
-          node --input-type=module --check < ytintel/latest/v378-navigation-resilience.js
-          node --input-type=module --check < ytintel/latest/v379-usability-guard.js
-          node --input-type=module --check < ytintel/latest/v360-local-ai.js
-          node --input-type=module --check < ytintel/latest/v360-media-intel.js
-          node --input-type=module --check < ytintel/latest/v360-cloud.js
-          node --check ytintel/tests/production-v371.mjs
-          node --check ytintel/tests/production-v372.mjs
-          node --check ytintel/tests/production-v378-navigation.mjs
+          node --check ytintel/latest/v380-stable-shell.js
+          node --check ytintel/latest/v340-zero-credit.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q 'v360-entry.js?v=0379' ytintel/latest/index.html
-          grep -q 'manifest.webmanifest?v=0379' ytintel/latest/index.html
-          grep -q 'v371-mobile-containment.css?v=0375' ytintel/latest/index.html
-          grep -q 'ytintel-shell-v0379-r2' ytintel/latest/sw.js
-          grep -q 'v378-navigation-resilience.js?v=0379' ytintel/latest/v360-entry.js
-          grep -q 'v379-usability-guard.js?v=0379u1' ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.9'" ytintel/latest/v360-entry.js
-          grep -q 'revealShell' ytintel/latest/v360-entry.js
-          grep -q '__YTINTEL_SHELL_VISIBLE_MS' ytintel/latest/v360-entry.js
-          grep -q 'removeBlockingOnboarding' ytintel/latest/v379-usability-guard.js
-          grep -q 'blocking_onboarding:false' ytintel/latest/v379-usability-guard.js
-          grep -q 'shellVisibleMs' ytintel/tests/production-v378-navigation.mjs
-          grep -q 'navLatency' ytintel/tests/production-v378-navigation.mjs
+          test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
+          grep -q 'v380-stable-shell.js?v=0380' ytintel/latest/index.html
+          grep -q 'v0.38.0' ytintel/latest/index.html
+          grep -q "const RELEASE='0.38.0'" ytintel/latest/v380-stable-shell.js
+          grep -q 'ytintel-shell-v0380' ytintel/latest/sw.js
+          grep -q 'data-tab="analyse"' ytintel/latest/index.html
+          grep -q 'data-tab="competitors"' ytintel/latest/index.html
+          grep -q 'data-tab="vault"' ytintel/latest/index.html
+          grep -q 'id="competitorInput"' ytintel/latest/index.html
+          grep -q 'id="vaultList"' ytintel/latest/index.html
+          grep -q 'id="saveCreator"' ytintel/latest/index.html
+          if grep -q 'v360-entry.js' ytintel/latest/index.html; then echo "Old multi-layer entry returned"; exit 1; fi
           if grep -q '<div class="boot" id="boot"' ytintel/latest/index.html; then echo "Blocking boot overlay returned"; exit 1; fi
-          if grep -q '<main class="app v360-prehide"' ytintel/latest/index.html; then echo "App shell is pre-hidden again"; exit 1; fi
-          if grep -q '<main class="app" id="app" hidden' ytintel/latest/index.html; then echo "App shell is hidden again"; exit 1; fi
-          grep -q '#v350-profile-overlay{display:none!important}' ytintel/latest/index.html
-          grep -q '<span class="pill">optional</span>' ytintel/latest/index.html
-          grep -q 'pageshow' ytintel/latest/v378-navigation-resilience.js
-          grep -q 'youtube-new-tab' ytintel/latest/v378-navigation-resilience.js
-          grep -q 'Cloud Creator Assets' ytintel/latest/v375-creator-assets-cloud.js
-          grep -q 'storage.supabase.co/storage/v1/upload/resumable' ytintel/latest/v376-resumable-creator-assets.js
-          grep -q 'findPreviousUploads' ytintel/latest/v376-resumable-creator-assets.js
-          grep -q 'Automatic Scene Index' ytintel/latest/v377-scene-indexer.js
-          grep -q 'ytintel_creator_scenes' ytintel/latest/v377-scene-indexer.js
-          grep -q 'Find footage from a commentary script' ytintel/latest/v377-scene-indexer.js
-          grep -q 'uploadCreatorAssetFile' ytintel/latest/v360-cloud.js
-          if grep -q 'data-tab="compare"' ytintel/latest/index.html; then echo "Compare is still present in the shipped shell"; exit 1; fi
-          if grep -q 'data-dock="compare"' ytintel/latest/index.html; then echo "Compare is still present in the shipped mobile dock"; exit 1; fi
-          if grep -qi 'Compare Winners' ytintel/latest/manifest.webmanifest; then echo "Compare is still present in the installed PWA shortcuts"; exit 1; fi
-          node --test ytintel/tests/creator-assets-v376.test.mjs ytintel/tests/creator-assets-v377.test.mjs
-          echo "YTIntel v0.37.9 usability-first release validation passed."
+          if grep -q '<main class="app" id="app" hidden' ytintel/latest/index.html; then echo "App shell is hidden"; exit 1; fi
+          echo "YTIntel v0.38 stable shell validation passed."
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -134,8 +81,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BEFORE="${{ github.event.before }}"
-          AFTER="${{ github.sha }}"
+          BEFORE="${{ github.event.before }}"; AFTER="${{ github.sha }}"
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then BEFORE="$(git rev-parse HEAD^ 2>/dev/null || printf '%s' "$AFTER")"; fi
           if git diff --name-only "$BEFORE" "$AFTER" | grep -qx 'ytintel/latest/release.json'; then echo "release_changed=true" >> "$GITHUB_OUTPUT"; else echo "release_changed=false" >> "$GITHUB_OUTPUT"; fi
 
@@ -149,11 +95,11 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${WEBHOOK:-}" ]; then echo "::error::DISCORD_YTINTEL_WEBHOOK is not configured."; exit 1; fi
-          VERSION="$(jq -r '.version // "v0.37.9"' ytintel/latest/release.json)"
-          TITLE="$(jq -r '.title // "Usability-first stability hardening"' ytintel/latest/release.json)"
-          SUMMARY="$(jq -r '.summary // "YTIntel now prioritises usability, reliability and performance before feature expansion."' ytintel/latest/release.json)"
+          VERSION="$(jq -r '.version // "v0.38.0"' ytintel/latest/release.json)"
+          TITLE="$(jq -r '.title // "Stable single-entry shell"' ytintel/latest/release.json)"
+          SUMMARY="$(jq -r '.summary // "YTIntel now boots through one stable shell so navigation stays usable even when a research source fails."' ytintel/latest/release.json)"
           MENTION="$(jq -r '.discord_mention // ""' ytintel/latest/release.json)"
           BULLETS="$(jq -r '[ (.discord_changes // .changes // [])[] ][0:4] | map("✦ " + .) | join("\n")' ytintel/latest/release.json)"
-          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" --arg mention "$MENTION" '{username:"YTIntel",avatar_url:$icon,content:((if $mention=="" then "" else ($mention + " ") end) + "🏆 **SHIP COMPLETE — YTINTEL ENDGAME**"),allowed_mentions:{parse:["users","roles"]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
+          PAYLOAD="$(jq -n --arg version "$VERSION" --arg title "$TITLE" --arg summary "$SUMMARY" --arg bullets "$BULLETS" --arg live "$LIVE_URL" --arg icon "$ICON_URL" --arg sha "${GITHUB_SHA:0:7}" --arg mention "$MENTION" '{username:"YTIntel",avatar_url:$icon,content:((if $mention=="" then "" else ($mention + " ") end) + "🏆 **SHIP COMPLETE — YTINTEL**"),allowed_mentions:{parse:["users","roles"]},embeds:[{title:("🚀 " + $version + " — " + $title),url:$live,description:($summary + "\n\n" + $bullets + "\n\n**[OPEN YTINTEL →](" + $live + ")**"),color:16171850,footer:{text:("✓ LIVE NOW  •  build " + $sha)}}]}')"
           curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$PAYLOAD" "$WEBHOOK"
           echo "YTIntel Discord release notification sent."
