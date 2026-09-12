@@ -14,7 +14,6 @@ function showShell(){
   if(app){app.hidden=false;app.removeAttribute('hidden');app.style.pointerEvents='auto'}
   document.body?.classList.remove('v360-prehide');
   root.classList.remove('v360-loading');
-  $('#boot')?.remove();
 }
 
 function removeBlockers(){
@@ -77,8 +76,14 @@ function hardenButtons(){
   const nav=$('.nav');if(nav)nav.style.pointerEvents='auto';
 }
 
+function ensureCoreBootAnchor(){
+  if($('#boot'))return;
+  const d=document.createElement('div');d.id='boot';d.hidden=true;d.setAttribute('aria-hidden','true');document.body.append(d);
+}
+
 async function loadCore(){
   const status=$('#localMode');if(status)status.textContent='Loading analysis core…';
+  ensureCoreBootAnchor();
   try{
     await import('./v340-zero-credit.js?v=0380');
     coreReady=true;
@@ -87,6 +92,7 @@ async function loadCore(){
     setVersion();removeBlockers();hardenButtons();switchTab(current);
     window.dispatchEvent(new CustomEvent('ytintel:v380-core-ready'));
   }catch(error){
+    $('#boot')?.remove();
     console.error('[YTIntel v0.38] core load failed',error);
     failCore(error);
   }
