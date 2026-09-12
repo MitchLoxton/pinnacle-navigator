@@ -39,7 +39,7 @@ function installNavigation(){
     if(!b)return;
     const name=b.dataset.tab||b.dataset.dock;
     if(!document.getElementById(name))return;
-    e.preventDefault();e.stopPropagation();
+    e.preventDefault();
     switchTab(name);
   },true);
   const requested=location.hash.replace('#','');
@@ -81,7 +81,6 @@ async function loadCore(){
     coreReady=true;
     root.dataset.ytintelCore='ready';
     if(status)status.textContent='Evidence-first core ready';
-    // Reassert the stable shell after the core installs its own handlers.
     removeBlockers();hardenButtons();switchTab(current);
     window.dispatchEvent(new CustomEvent('ytintel:v380-core-ready'));
   }catch(error){
@@ -101,16 +100,13 @@ removeBlockers();
 installNavigation();
 guardAnalyse();
 hardenButtons();
-
 window.YTIntelStableShell={version:RELEASE,switchTab,repair:health,get coreReady(){return coreReady}};
 root.dataset.ytintelShell='stable';
-
 loadCore();
 setTimeout(health,250);
 setTimeout(health,1200);
 window.addEventListener('pageshow',health);
 window.addEventListener('focus',health);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)health()});
-
 if('serviceWorker'in navigator){try{navigator.serviceWorker.register('./sw.js?v=0380',{scope:'./'}).catch(()=>null)}catch{}}
 })();
