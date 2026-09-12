@@ -1,0 +1,96 @@
+name: YTIntel v0.38 Stability Smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ytintel/latest/index.html'
+      - 'ytintel/latest/v380-stable-shell.js'
+      - 'ytintel/latest/v340-zero-credit.js'
+      - 'ytintel/latest/v340-zero-credit.css'
+      - 'ytintel/latest/v371-mobile-containment.css'
+      - 'ytintel/latest/sw.js'
+      - '.github/workflows/ytintel-v380-stability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and one-entry contract
+        run: |
+          set -euo pipefail
+          node --check ytintel/latest/v380-stable-shell.js
+          node --check ytintel/latest/v340-zero-credit.js
+          test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
+          grep -q 'v380-stable-shell.js?v=0380' ytintel/latest/index.html
+          ! grep -q 'v360-entry.js' ytintel/latest/index.html
+      - name: Install browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Start local site
+        run: |
+          python3 -m http.server 8765 >/tmp/ytintel-http.log 2>&1 &
+          echo $! >/tmp/ytintel-http.pid
+      - name: Clickability, navigation, phone and real Analyse smoke
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const assert = require('node:assert/strict');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage({viewport:{width:1280,height:900},serviceWorkers:'block'});
+            const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+            await page.goto('http://127.0.0.1:8765/ytintel/latest/?qa=v380',{waitUntil:'domcontentloaded',timeout:30000});
+            await page.waitForFunction(()=>window.YTIntelStableShell?.coreReady===true,null,{timeout:30000});
+            await page.waitForTimeout(500);
+            const base=await page.evaluate(()=>({version:document.querySelector('#version')?.textContent,scriptCount:document.scripts.length,core:document.documentElement.dataset.ytintelCore,bodyWidth:document.body.scrollWidth,viewport:innerWidth}));
+            assert.equal(base.version,'v0.38.0'); assert.equal(base.scriptCount,1); assert.equal(base.core,'ready');
+            async function checkTab(name){
+              await page.locator(`[data-tab="${name}"]`).click();
+              await page.waitForFunction(n=>{const x=document.getElementById(n);return x&&x.classList.contains('active')&&!x.hidden&&getComputedStyle(x).display!=='none'},name);
+            }
+            await checkTab('competitors');
+            assert(await page.locator('#competitorInput').isVisible());
+            await page.locator('#competitorInput').fill('@YTIntelSmoke');
+            await page.locator('#addCompetitor').click();
+            assert((await page.locator('#competitorList').innerText()).includes('@YTIntelSmoke'));
+            await checkTab('vault');
+            await page.locator('#creator_niche').fill('Smoke niche');
+            await page.locator('#creator_subniche').fill('Smoke subniche');
+            await page.locator('#saveCreator').click();
+            await page.waitForFunction(()=>/Saved locally/i.test(document.querySelector('#creatorSaved')?.textContent||''));
+            await checkTab('analyse');
+            assert(await page.locator('#videoUrl').isVisible());
+            await page.setViewportSize({width:390,height:844});
+            for(const name of ['competitors','vault','analyse']){
+              await page.locator(`[data-dock="${name}"]`).click();
+              await page.waitForFunction(n=>{const x=document.getElementById(n);return x&&x.classList.contains('active')&&!x.hidden&&getComputedStyle(x).display!=='none'},name);
+            }
+            const mobile=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
+            assert(mobile.scroll<=mobile.viewport+1,`mobile overflow ${mobile.scroll}>${mobile.viewport}`);
+            await page.locator('#videoUrl').fill('https://www.youtube.com/watch?v=GzhT10i4vag');
+            await page.locator('#analyseBtn').click();
+            await page.waitForFunction(()=>!document.querySelector('#progressCard')?.classList.contains('hidden'),null,{timeout:10000});
+            // Navigation must stay responsive while analysis is running.
+            await page.locator('[data-dock="vault"]').click();
+            await page.waitForFunction(()=>document.querySelector('#vault')?.classList.contains('active'));
+            await page.locator('[data-dock="analyse"]').click();
+            await page.waitForFunction(()=>document.querySelector('#analyse')?.classList.contains('active'));
+            await page.waitForFunction(()=>document.querySelectorAll('#report > .section').length>=17 || (document.querySelector('#analyseError')?.textContent||'').trim().length>0,null,{timeout:210000});
+            const result=await page.evaluate(()=>({sections:document.querySelectorAll('#report > .section').length,error:(document.querySelector('#analyseError')?.textContent||'').trim(),pct:document.querySelector('#progressPct')?.textContent||'',buttonDisabled:document.querySelector('#analyseBtn')?.disabled,version:document.querySelector('#version')?.textContent,active:document.querySelector('.view.active')?.id}));
+            assert.equal(result.error,'',result.error); assert(result.sections>=17,`only ${result.sections} sections`); assert.equal(result.pct,'100%'); assert.equal(result.buttonDisabled,false); assert.equal(result.version,'v0.38.0'); assert.equal(result.active,'analyse');
+            assert.deepEqual(errors,[],`page errors: ${errors.join(' | ')}`);
+            console.log(JSON.stringify({pass:true,...result,mobile},null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
