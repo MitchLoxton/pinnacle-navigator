@@ -1,0 +1,38 @@
+/* MITCHELL Racing odds matrix visual layer. Analysis-only: does not alter V11 or odds sources. */
+.odds-matrix-wrap{display:grid;gap:12px;margin-top:12px}
+.odds-matrix-warning{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border:1px solid #6d5525;border-radius:14px;background:linear-gradient(145deg,#2c220e,#181308);color:#e8ca80;font-size:11px;line-height:1.5}
+.odds-matrix-warning strong{color:#ffe4a2}
+.odds-matrix-coverage{display:flex;gap:7px;flex-wrap:wrap;padding:11px;border:1px solid #22384d;border-radius:14px;background:#091522}
+.odds-matrix-cover{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid #23384d;border-radius:10px;background:#0d1b2a;color:#6f859a;font-size:8px;font-weight:900}
+.odds-matrix-cover.live{border-color:#2f775a;background:#0d291f;color:#c5eddb}
+.odds-matrix-cover i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#43586b}
+.odds-matrix-cover.live i{background:#55dc93;box-shadow:0 0 0 3px rgba(85,220,147,.08)}
+.odds-matrix-logo{position:relative;display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:#132438;border:1px solid #29445f;overflow:hidden}
+.odds-matrix-logo span{font-size:7px;font-weight:950;color:#dce7f1}
+.odds-matrix-logo img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:contain;border-radius:5px;background:#fff}
+.odds-matrix-shell{overflow:hidden;border:1px solid #263b52;border-radius:18px;background:#08131f;box-shadow:0 16px 44px rgba(0,0,0,.18)}
+.odds-matrix-titlebar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid #23384d;background:#0b1928}
+.odds-matrix-titlebar strong{font-size:14px;color:#f4f8fb}.odds-matrix-titlebar span{color:#8197ac;font-size:9px}
+.odds-matrix-scroll{overflow:auto;max-width:100%;scrollbar-color:#35516e #0a1521;scrollbar-width:thin}
+.odds-matrix{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:11px}
+.odds-matrix th,.odds-matrix td{border-right:1px solid #1d3043;border-bottom:1px solid #1b2d3f;vertical-align:middle}
+.odds-matrix th{position:sticky;top:0;z-index:4;min-width:112px;padding:10px 8px;background:#0d1c2b;color:#a9b9ca;font-size:8px;font-weight:950;letter-spacing:.04em;text-transform:uppercase}
+.odds-matrix th.runner-col{left:0;z-index:7;min-width:230px;text-align:left;padding-left:14px}
+.odds-matrix td{min-width:112px;padding:10px 8px;background:#091521;text-align:center}
+.odds-matrix tbody tr:hover td{background:#0c1b2a}
+.odds-matrix td.runner-col{position:sticky;left:0;z-index:3;min-width:230px;padding:10px 14px;background:#0b1927;text-align:left;box-shadow:8px 0 18px rgba(0,0,0,.16)}
+.odds-matrix tr.market-fav td.runner-col{background:#0d2b20}.odds-matrix tr.market-fav td{border-bottom-color:#2d604d}
+.odds-matrix-bookhead{display:flex;flex-direction:column;align-items:center;gap:5px}
+.odds-matrix-bookhead span{max-width:94px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#c4d1de}
+.odds-matrix-runner{display:flex;align-items:center;gap:10px}.odds-matrix-number{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:1px solid #28445f;border-radius:9px;background:#132436;color:#8eabc8;font-size:10px;font-weight:950}
+.odds-matrix-runner strong{display:block;color:#f4f8fb;font-size:12px;line-height:1.2}.odds-matrix-runner small{display:block;margin-top:4px;color:#74899e;font-size:8px}
+.odds-matrix-fav{display:inline-flex;margin-top:5px;padding:3px 6px;border-radius:999px;background:#123728;color:#7df0b6;font-size:7px;font-weight:950}
+.odds-matrix-quote{display:flex;min-height:46px;flex-direction:column;align-items:center;justify-content:center;gap:3px}.odds-matrix-quote strong{font-size:14px;color:#f1f6fb}.odds-matrix-quote small{font-size:7px;color:#71879d}
+.odds-matrix-quote.best{margin:-5px -3px;padding:6px 4px;border:1px solid #38a875;border-radius:10px;background:#0e3024}.odds-matrix-quote.best strong{color:#77f2b2}.odds-matrix-quote.best small{color:#7fd9ae}
+.odds-matrix-best{display:inline-flex;padding:2px 5px;border-radius:999px;background:#1a5a40;color:#a8f5d0!important;font-size:6px!important;font-weight:950;letter-spacing:.06em}
+.odds-matrix-quote.stale{opacity:.44}.odds-matrix-quote.missing strong{color:#40566a}.odds-matrix-quote.missing small{color:#4d6377}
+.odds-matrix-calc{background:#0d1d2d!important}.odds-matrix-calc strong{font-size:13px;color:#dfe9f2}.odds-matrix-calc small{display:block;margin-top:3px;color:#748a9f;font-size:7px}
+.odds-matrix-calc.best{background:#0d2c21!important}.odds-matrix-calc.best strong{color:#78efb4}
+.odds-runner.odds-matrix-source-hidden{display:none!important}
+@media(max-width:700px){.odds-matrix th.runner-col,.odds-matrix td.runner-col{min-width:190px}.odds-matrix-titlebar{align-items:flex-start;flex-direction:column;gap:4px}}
+@media(max-width:430px){.odds-matrix th.runner-col,.odds-matrix td.runner-col{min-width:170px}.odds-matrix th,.odds-matrix td{min-width:98px}.odds-matrix-titlebar strong{font-size:12px}}
