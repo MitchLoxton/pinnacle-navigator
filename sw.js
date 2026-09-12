@@ -1,7 +1,7 @@
-const BUILD='5378';
-const VERSION='v53.71';
-const SHELL='pn-shell-stable-v5378';
-const LOCAL=['./','./index.html','./open.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability-core.js','./runtime-late.js','./workshop-ui-fast.js','./navigator-nova.css','./email-audit.js','./morning-pack.js','./miter-48-template.html','./repair.html'];
+const BUILD='5379';
+const VERSION='v53.72';
+const SHELL='pn-shell-stable-v5379';
+const LOCAL=['./','./index.html','./open.html','./manifest.webmanifest','./icon.svg','./v51.css','./v51.js','./fabrication.js','./stability-core.js','./runtime-late.js','./workshop-ui-fast.js','./navigator-nova.css','./email-audit.js','./task-guides.js','./morning-pack.js','./miter-48-template.html','./repair.html'];
 const SCOPE_PATH=new URL(self.registration.scope).pathname.replace(/\/?$/,'/');
 function canonical(url){return new Request(new URL(url.pathname,self.location.origin).href);}
 function isShell(path){return path===SCOPE_PATH||path===SCOPE_PATH+'index.html'||path===SCOPE_PATH+'open.html';}
