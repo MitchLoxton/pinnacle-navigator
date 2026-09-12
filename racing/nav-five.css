@@ -1,0 +1,72 @@
+/* MITCHELL Racing five-tab navigation layout
+   Keeps Home / Watchlist / History / Odds / Settings in one clean row. */
+
+.premium-nav{
+  display:grid !important;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  align-items:stretch !important;
+  gap:6px !important;
+}
+
+.premium-nav button{
+  min-width:0 !important;
+  width:100% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:5px !important;
+  padding:8px 4px !important;
+  box-sizing:border-box !important;
+  white-space:nowrap !important;
+}
+
+.premium-nav button svg{
+  flex:0 0 auto !important;
+  width:20px !important;
+  height:20px !important;
+}
+
+.premium-nav button span{
+  display:block !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+  line-height:1.1 !important;
+}
+
+@media (min-width:700px){
+  .premium-nav{
+    gap:10px !important;
+  }
+
+  .premium-nav button{
+    min-height:54px !important;
+    padding:9px 6px !important;
+    border-radius:14px !important;
+  }
+
+  .premium-nav button svg{
+    width:22px !important;
+    height:22px !important;
+  }
+}
+
+@media (max-width:699px){
+  .premium-nav{
+    gap:2px !important;
+  }
+
+  .premium-nav button{
+    min-height:50px !important;
+    padding:7px 2px !important;
+    font-size:7.5px !important;
+  }
+
+  .premium-nav button svg{
+    width:19px !important;
+    height:19px !important;
+  }
+}
