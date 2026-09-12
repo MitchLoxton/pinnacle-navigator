@@ -1,125 +1,51 @@
 (() => {
   'use strict';
 
-  const BOOKS = ['Sportsbet','TAB','TABtouch','Ladbrokes','Neds','Unibet','PointsBet','bet365'];
-  const STORAGE_PREFIX = 'mitchell_odds_compare_v1_';
-  let oddsMode = false;
-  let observer = null;
+  const LIVE_URL='https://dkmacktcfhubsumwrydw.supabase.co/functions/v1/racing-tab-live';
+  const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrbWFja3RjZmh1YnN1bXdyeWR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTY4OTQsImV4cCI6MjEwMjAzMjg5NH0.EUZ5Xd6rLsxoZIpfPwVzH-TUcz1t8-j1DVZ6ES8A1zk';
+  const PE_DEMO='https://api.puntersedge.online/v1/demo/racing/next-to-go';
+  const PE_FULL='https://api.puntersedge.online/v1/racing/next-to-go?num_races=150&categories=horse';
+  const KEY_STORE='mitchell_racing_odds_api_key';
+  const REFRESH_MS=20000;
+  const BOOK_LABELS={tab:'TAB',tabtouch:'TABtouch',neds:'Neds',betdeluxe:'BetDeluxe',ladbrokes_au:'Ladbrokes',ladbrokes:'Ladbrokes',pointsbetau:'PointsBet',pointsbet:'PointsBet',betr_au:'Betr',betright:'BetRight',sportsbet:'Sportsbet',playup:'NextBet',palmerbet:'Palmerbet',unibet:'Unibet',betgold:'BetGold',boostbet:'BoostBet'};
+  const BOOK_ORDER=['sportsbet','tab','tabtouch','neds','ladbrokes_au','pointsbetau','betright','betdeluxe','betr_au','unibet','playup','palmerbet','betgold','boostbet'];
+  let oddsMode=false, observer=null, selectedRace='', busy=false, timer=null;
 
-  const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-  const num = v => Number.isFinite(Number(v)) && Number(v) > 1 ? Number(v) : null;
-  const raceCode = v => String(v || '').trim().toUpperCase();
-  const moneyOdds = v => num(v) !== null ? '$' + Number(v).toFixed(2) : '—';
-  const horseKey = v => String(v || '').toUpperCase().replace(/^★\s*/,'').replace(/\bNZ\b$/,'').replace(/[^A-Z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+  const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+  const num=v=>Number.isFinite(Number(v))&&Number(v)>1?Number(v):null;
+  const raceCode=v=>String(v||'').trim().toUpperCase();
+  const horseKey=v=>String(v||'').toUpperCase().replace(/\([^)]*\)/g,' ').replace(/\b(?:NZ|AUS)\b/g,' ').replace(/[^A-Z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+  const venueKey=v=>String(v||'').toUpperCase().replace(/\b(?:PARK|GARDENS|RACECOURSE|RACING|THE)\b/g,' ').replace(/[^A-Z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+  const odds=v=>num(v)!==null?'$'+Number(v).toFixed(2):'—';
+  const round2=v=>Math.round(Number(v)*100)/100;
+  const base=()=>window.__MITCHELL_BASE_DATA||{};
+  const rows=()=>Array.isArray(base()?.stateTracklist)?base().stateTracklist:[];
+  const coreRace=()=>raceCode(base()?.watchlist?.[0]?.race||rows().find(x=>x?.corePotential)?.race||'PR2');
+  const rowFor=r=>rows().find(x=>raceCode(x?.race)===raceCode(r))||base()?.watchlist?.find(x=>raceCode(x?.race)===raceCode(r))||null;
+  const sameVenue=(a,b)=>{const x=venueKey(a),y=venueKey(b);return !!x&&!!y&&(x===y||x.includes(y)||y.includes(x));};
+  function median(a){if(!a.length)return null;const x=[...a].sort((p,q)=>p-q),m=Math.floor(x.length/2);return x.length%2?x[m]:(x[m-1]+x[m])/2;}
+  function stamp(v=new Date()){const d=v instanceof Date?v:new Date(v);return Number.isNaN(d.getTime())?'—':new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Perth',hour:'numeric',minute:'2-digit',second:'2-digit'}).format(d);}
+  function canonicalBook(v){const k=String(v||'').trim().toLowerCase();return k==='ladbrokes'?'ladbrokes_au':k==='pointsbet'?'pointsbetau':k;}
+  function unwrap(body){if(Array.isArray(body))return body;for(const k of ['races','data','results','items'])if(Array.isArray(body?.[k]))return body[k];return [];}
 
-  function baseData(){ return window.__MITCHELL_BASE_DATA || {}; }
-  function coreRace(){ return raceCode(baseData()?.watchlist?.[0]?.race || baseData()?.stateTracklist?.find(x => x?.corePotential)?.race || 'PR2'); }
-  function storeKey(){ return STORAGE_PREFIX + coreRace(); }
-  function saved(){ try { return JSON.parse(localStorage.getItem(storeKey()) || '{}'); } catch { return {}; } }
-  function save(x){ localStorage.setItem(storeKey(), JSON.stringify(x)); }
+  async function fetchJson(url,options={},timeout=10000){const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);try{const r=await fetch(url,{...options,cache:'no-store',signal:c.signal});const body=await r.json().catch(()=>null);if(!r.ok)throw new Error(body?.detail||body?.message||body?.error||`HTTP ${r.status}`);return body;}finally{clearTimeout(t)}}
+  async function provider(){const key=String(localStorage.getItem(KEY_STORE)||'').trim();const body=await fetchJson(key?PE_FULL:PE_DEMO,key?{headers:{'X-API-Key':key}}:{});return{races:unwrap(body),full:!!key};}
+  async function tabtouch(row){if(!row)return null;try{const body=await fetchJson(LIVE_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:ANON,Authorization:`Bearer ${ANON}`},body:JSON.stringify({requests:[{race:raceCode(row.race),date:row.date,venue:row.venue}]})});return body?.ok===true?body?.results?.[0]||null:null;}catch{return null;}}
+  function findRace(list,row){if(!row)return null;const rn=Number(raceCode(row.race).slice(2));const exact=(list||[]).filter(r=>Number(r?.race_number)===rn&&String(r?.category||'horse').toLowerCase()==='horse');return exact.find(r=>sameVenue(r?.venue,row?.venue))||null;}
+  function buildMap(providerRace,live){const map=new Map();for(const r of Array.isArray(providerRace?.runners)?providerRace.runners:[]){const key=horseKey(r?.name);if(!key)continue;const books=[];for(const b of Array.isArray(r?.bookmakers)?r.bookmakers:[]){const bk=canonicalBook(b?.key||b?.bookmaker||b?.name),p=num(b?.win_price??b?.price);if(!bk||p===null)continue;books.push({key:bk,label:BOOK_LABELS[bk]||bk,price:p,age:num(b?.age_seconds??b?.ageSeconds),stale:b?.stale===true,source:'market feed'});}map.set(key,{name:String(r?.name||'').trim(),number:r?.number,books});}
+    for(const r of Array.isArray(live?.runners)?live.runners.filter(x=>!x?.scratched&&num(x?.price)!==null):[]){const key=horseKey(r.name),x=map.get(key)||{name:r.name,number:r.number,books:[]};x.books=x.books.filter(b=>b.key!=='tabtouch');x.books.push({key:'tabtouch',label:'TABtouch',price:num(r.price),age:0,stale:false,source:'direct app feed'});map.set(key,x);}return map;}
+  function stats(r){const d=new Map();for(const b of r.books||[]){const key=canonicalBook(b.key);if(num(b.price)!==null)d.set(key,{...b,key,label:BOOK_LABELS[key]||b.label||key});}const books=[...d.values()].sort((a,b)=>{const ai=BOOK_ORDER.indexOf(a.key),bi=BOOK_ORDER.indexOf(b.key);return(ai<0?99:ai)-(bi<0?99:bi);});const fresh=books.filter(b=>!b.stale),used=fresh.length?fresh:books,ps=used.map(b=>b.price),avg=ps.length?ps.reduce((a,b)=>a+b,0)/ps.length:null,med=median(ps),imp=ps.length?ps.reduce((a,p)=>a+1/p,0)/ps.length:null,cons=imp?1/imp:null,best=used.reduce((a,b)=>!a||b.price>a.price?b:a,null),low=used.reduce((a,b)=>!a||b.price<a.price?b:a,null);return{...r,books,usedCount:used.length,avg:avg?round2(avg):null,med:med?round2(med):null,consensus:cons?round2(cons):null,best,low,spread:best&&low?round2(best.price-low.price):null};}
 
-  function parseLiveRunners(){
-    const race = coreRace();
-    const card = document.querySelector(`.watch-card[data-race="${CSS.escape(race)}"]`);
-    if (!card) return [];
-    const rows = [...card.querySelectorAll('.live-odds-board div[style*="grid-template-columns:34px"]')];
-    return rows.map(row => {
-      const children = [...row.children];
-      const no = String(children[0]?.textContent || '').replace('#','').trim();
-      const name = String(children[1]?.textContent || '').replace(/^★\s*/,'').trim();
-      const price = num(String(children[2]?.textContent || '').replace('$','').trim());
-      return { number:no, name, tabtouch:price };
-    }).filter(x => x.name);
-  }
-
-  function statsFor(runner, state){
-    const vals = [];
-    const rows = BOOKS.map(book => {
-      const value = book === 'TABtouch' ? runner.tabtouch : num(state?.[horseKey(runner.name)]?.[book]);
-      if (value !== null) vals.push({book, value});
-      return {book, value};
-    });
-    const prices = vals.map(x => x.value);
-    const avg = prices.length ? prices.reduce((a,b)=>a+b,0)/prices.length : null;
-    const sorted = [...prices].sort((a,b)=>a-b);
-    const med = sorted.length ? (sorted.length % 2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1] + sorted[sorted.length/2]) / 2) : null;
-    const imp = prices.length ? prices.reduce((a,p)=>a + 1/p,0)/prices.length : null;
-    const consensus = imp ? 1/imp : null;
-    const best = vals.reduce((a,b)=>!a || b.value > a.value ? b : a, null);
-    const low = vals.reduce((a,b)=>!a || b.value < a.value ? b : a, null);
-    return {rows, count:prices.length, avg, med, consensus, best, low, spread:best&&low ? best.value-low.value : null};
-  }
-
-  function styles(){ return `<style id="mitchellOddsCompareStyles">
-    .odds-wrap{display:grid;gap:12px;padding-bottom:8px}.odds-hero{position:relative;overflow:hidden;padding:20px;border-radius:18px;background:linear-gradient(145deg,#0d1826 0%,#0a121e 58%,#101a2a 100%);border:1px solid #263a52;box-shadow:0 18px 45px rgba(0,0,0,.28)}
-    .odds-hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-65px;top:-70px;background:radial-gradient(circle,rgba(76,189,255,.17),rgba(76,189,255,0) 70%)}
-    .odds-kicker{font-size:9px;font-weight:950;letter-spacing:.14em;color:#7ba5cb;text-transform:uppercase}.odds-title{margin:4px 0 0;font-size:27px;line-height:1.05;color:#fff}.odds-sub{margin:8px 0 0;max-width:620px;color:#9eb2c8;font-size:11px;line-height:1.5}.odds-analysis{display:inline-flex;margin-top:12px;padding:6px 9px;border-radius:999px;background:#132b22;border:1px solid #285c49;color:#78efb4;font-size:8px;font-weight:950;letter-spacing:.08em}
-    .odds-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.odds-btn{appearance:none;border:1px solid #315270;background:#122337;color:#eaf4ff;padding:9px 11px;border-radius:10px;font-weight:900;font-size:10px}.odds-btn.danger{border-color:#59313b;background:#29151b;color:#ffb3bd}.odds-updated{margin-left:auto;align-self:center;color:#7790a8;font-size:9px}
-    .odds-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.odds-summary>div{padding:10px 11px;border-radius:12px;background:#0a1522;border:1px solid #22374d}.odds-summary span{display:block;font-size:7px;color:#7189a1;font-weight:950;letter-spacing:.09em}.odds-summary strong{display:block;margin-top:4px;color:#f2f8ff;font-size:13px}
-    .odds-runner{border-radius:16px;background:linear-gradient(145deg,#0a1522,#0d1928);border:1px solid #253a50;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}.odds-runner.fav{border-color:#2f8060;box-shadow:0 10px 34px rgba(23,120,83,.12)}
-    .odds-runner-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:13px 14px 11px}.odds-horse{font-size:15px;font-weight:950;color:#f7fbff}.odds-number{color:#7f96ad;margin-right:6px}.odds-fav-pill{display:inline-flex;margin-left:7px;padding:3px 6px;border-radius:999px;background:#133426;color:#78efb4;font-size:7px;font-weight:950;vertical-align:2px}.odds-best{text-align:right}.odds-best span{display:block;font-size:7px;color:#7189a1;font-weight:950}.odds-best strong{display:block;margin-top:2px;font-size:17px;color:#78efb4}.odds-best small{display:block;margin-top:1px;color:#8ca0b5;font-size:8px}
-    .odds-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1c3044;border-top:1px solid #22374d;border-bottom:1px solid #22374d}.odds-metrics>div{background:#0c1826;padding:8px 9px}.odds-metrics span{display:block;font-size:6.5px;letter-spacing:.07em;color:#6f879f;font-weight:950}.odds-metrics strong{display:block;margin-top:3px;font-size:11px;color:#f2f7fc}
-    .odds-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:11px}.odds-book{display:grid;grid-template-columns:1fr 76px;gap:8px;align-items:center;padding:8px 9px;border-radius:10px;background:#101e2e;border:1px solid #223950}.odds-book.best{border-color:#317c5d;background:#0f2920}.odds-book label{font-size:9px;color:#b8c8d8;font-weight:900}.odds-book input{width:100%;box-sizing:border-box;text-align:right;background:#07111c;border:1px solid #29415a;color:#f5f9fd;border-radius:8px;padding:7px 8px;font:inherit;font-size:11px;font-weight:900}.odds-book input[readonly]{color:#7eeeb5;border-color:#2d7256;background:#0c211a}.odds-auto{display:block;color:#64829d;font-size:7px;margin-top:2px}.odds-empty{padding:22px;border-radius:16px;background:#0b1623;border:1px solid #253a50;color:#90a5ba;text-align:center;line-height:1.5}.odds-note{font-size:8.5px;line-height:1.5;color:#758da5;padding:0 4px}
-    .premium-nav{grid-template-columns:repeat(5,1fr)!important}.premium-nav button[data-odds-compare-tab] svg{width:19px;height:19px}
-    @media(max-width:520px){.odds-summary{grid-template-columns:repeat(2,1fr)}.odds-grid{grid-template-columns:1fr}.odds-metrics{grid-template-columns:repeat(2,1fr)}.odds-updated{width:100%;margin-left:0}.odds-title{font-size:24px}}
-  </style>`; }
-
-  function renderOdds(){
-    const page = document.getElementById('premiumPage');
-    if (!page) return;
-    const runners = parseLiveRunners();
-    const state = saved();
-    const computed = runners.map(r => ({...r, s:statsFor(r,state)}));
-    const favourite = computed.filter(x=>x.s.consensus).sort((a,b)=>a.s.consensus-b.s.consensus)[0] || null;
-    const widest = computed.filter(x=>x.s.spread!==null).sort((a,b)=>b.s.spread-a.s.spread)[0] || null;
-    const booksSeen = new Set(); computed.forEach(x=>x.s.rows.forEach(b=>{if(b.value!==null)booksSeen.add(b.book);}));
-    const stamp = new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Perth',hour:'numeric',minute:'2-digit',second:'2-digit'}).format(new Date());
-
-    page.innerHTML = `${styles()}<div class="odds-wrap">
-      <section class="odds-hero"><div class="odds-kicker">${esc(coreRace())} · bookmaker comparison</div><h2 class="odds-title">Market Odds</h2><p class="odds-sub">Compare the main Australian bookmakers side-by-side. TABtouch fills automatically from the app; enter the other live prices and the averages recalculate instantly.</p><span class="odds-analysis">ANALYSIS ONLY · DOES NOT CHANGE V11</span><div class="odds-toolbar"><button class="odds-btn" id="oddsRefreshLive" type="button">REFRESH TABTOUCH</button><button class="odds-btn danger" id="oddsClear" type="button">CLEAR MANUAL ODDS</button><span class="odds-updated">view updated ${esc(stamp)} Perth</span></div></section>
-      ${runners.length ? `<section class="odds-summary"><div><span>CONSENSUS FAVOURITE</span><strong>${esc(favourite?.name||'—')}</strong></div><div><span>CONSENSUS PRICE</span><strong>${moneyOdds(favourite?.s?.consensus)}</strong></div><div><span>BOOKMAKERS SEEN</span><strong>${booksSeen.size}</strong></div><div><span>WIDEST DISAGREEMENT</span><strong>${widest?`${esc(widest.name)} · $${widest.s.spread.toFixed(2)}`:'—'}</strong></div></section>` : ''}
-      ${runners.length ? computed.map(x=>{
-        const isFav=favourite&&horseKey(favourite.name)===horseKey(x.name);
-        return `<article class="odds-runner ${isFav?'fav':''}"><div class="odds-runner-head"><div class="odds-horse"><span class="odds-number">#${esc(x.number||'—')}</span>${esc(x.name)}${isFav?'<span class="odds-fav-pill">CONSENSUS FAV</span>':''}</div><div class="odds-best"><span>BEST AVAILABLE</span><strong>${moneyOdds(x.s.best?.value)}</strong><small>${esc(x.s.best?.book||'')}</small></div></div><div class="odds-metrics"><div><span>AVERAGE</span><strong>${moneyOdds(x.s.avg)}</strong></div><div><span>CONSENSUS</span><strong>${moneyOdds(x.s.consensus)}</strong></div><div><span>MEDIAN</span><strong>${moneyOdds(x.s.med)}</strong></div><div><span>RANGE</span><strong>${x.s.low&&x.s.best?`${moneyOdds(x.s.low.value)}–${moneyOdds(x.s.best.value)}`:'—'}</strong></div></div><div class="odds-grid">${x.s.rows.map(b=>`<div class="odds-book ${x.s.best&&b.book===x.s.best.book?'best':''}"><label>${esc(b.book)}${b.book==='TABtouch'?'<span class="odds-auto">AUTO FROM APP</span>':''}</label><input ${b.book==='TABtouch'?'readonly':''} inputmode="decimal" data-horse="${esc(horseKey(x.name))}" data-book="${esc(b.book)}" placeholder="—" value="${b.value!==null?Number(b.value).toFixed(2):''}"></div>`).join('')}</div></article>`;
-      }).join('') : `<div class="odds-empty">Live runner prices have not populated yet. Press <b>REFRESH TABTOUCH</b>, then reopen this tab in a few seconds.</div>`}
-      <div class="odds-note">Average = arithmetic mean of the available prices. Consensus = inverse of the average implied probability, so it is less distorted by one very high quote. Manual bookmaker entries are saved only in this browser. Betfair/exchange prices are intentionally not mixed into the fixed-odds average.</div>
-    </div>`;
-
-    page.querySelectorAll('.odds-book input:not([readonly])').forEach(input=>input.addEventListener('input',()=>{
-      const next=saved(), horse=input.dataset.horse, book=input.dataset.book, value=String(input.value||'').trim();
-      next[horse]=next[horse]||{};
-      if(value) next[horse][book]=value; else delete next[horse][book];
-      save(next); renderOdds();
-    }));
-    document.getElementById('oddsClear')?.addEventListener('click',()=>{localStorage.removeItem(storeKey());renderOdds();});
-    document.getElementById('oddsRefreshLive')?.addEventListener('click',()=>{document.getElementById('refreshButton')?.click();setTimeout(renderOdds,2200);});
-  }
-
-  function ensureTab(){
-    const nav=document.querySelector('.premium-nav');
-    if(!nav)return;
-    let btn=nav.querySelector('[data-odds-compare-tab]');
-    if(!btn){
-      btn=document.createElement('button');btn.type='button';btn.dataset.oddsCompareTab='1';
-      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-3M9 18v-6M14 18V8M19 18V4"/><path d="M3 21h18"/></svg><span>Odds</span>';
-      const settings=nav.querySelector('[data-premium-tab="settings"]');
-      settings?nav.insertBefore(btn,settings):nav.appendChild(btn);
-      btn.addEventListener('click',()=>{oddsMode=true;nav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));renderOdds();window.scrollTo({top:0,behavior:'auto'});});
-    }
-    if(oddsMode)nav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));
-  }
-
-  document.addEventListener('click',e=>{if(e.target.closest('[data-premium-tab]'))oddsMode=false;},true);
-
-  function mount(){
-    const tryMount=()=>{
-      const root=document.getElementById('premiumApp');
-      if(!root){setTimeout(tryMount,150);return;}
-      ensureTab();
-      observer=new MutationObserver(()=>{ensureTab();if(oddsMode&&!document.querySelector('.odds-wrap'))setTimeout(renderOdds,0);});
-      observer.observe(root,{childList:true,subtree:true});
-    };
-    tryMount();
-  }
+  function styles(){return `<style id="oddsLiveStyles">
+  .odds-page{display:grid;gap:12px}.odds-hero{padding:20px;border:1px solid #263a52;border-radius:20px;background:linear-gradient(145deg,#0d1826,#09121e 58%,#101d2e);box-shadow:0 18px 48px rgba(0,0,0,.26)}.odds-kicker{font-size:8px;font-weight:950;letter-spacing:.14em;color:#78a7d3}.odds-title{margin:4px 0 0;font-size:28px}.odds-sub{margin:7px 0 0;color:#9eb2c7;font-size:11px;line-height:1.5}.odds-pill{display:inline-flex;margin-top:10px;padding:6px 9px;border:1px solid #2b6b50;border-radius:999px;background:#102b20;color:#7df0b6;font-size:8px;font-weight:950}.odds-tools{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:14px}.odds-select,.odds-key{min-width:0;background:#07121f;border:1px solid #2b435e;border-radius:10px;color:#eef6ff;padding:10px;font:inherit}.odds-btn{border:1px solid #365a7f;background:#11263d;color:#eef6ff;border-radius:10px;padding:10px 12px;font-weight:900;font-size:10px;cursor:pointer}.odds-feed{margin-top:9px;padding:10px;border:1px solid #263b52;border-radius:11px;background:#0b1725;color:#9db1c6;font-size:9px;line-height:1.5}.odds-feed b{color:#fff}.odds-keyrow{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:8px}.odds-keyhelp{margin-top:7px;color:#7890a8;font-size:8px}.odds-keyhelp a{color:#7db7ff}.odds-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.odds-summary div{padding:10px;border:1px solid #243951;border-radius:12px;background:#0a1522}.odds-summary span{display:block;font-size:7px;color:#738aa2;font-weight:950;letter-spacing:.08em}.odds-summary strong{display:block;margin-top:4px;font-size:13px}.odds-runner{overflow:hidden;border:1px solid #263b52;border-radius:16px;background:linear-gradient(145deg,#0a1522,#0d1a2a)}.odds-runner.fav{border-color:#338463;box-shadow:0 0 28px rgba(50,183,126,.10)}.odds-head{display:flex;justify-content:space-between;gap:12px;padding:13px 14px}.odds-name{font-size:15px;font-weight:950}.odds-no{color:#7f96ad;margin-right:6px}.odds-fav{display:inline-flex;margin-left:7px;padding:3px 6px;border-radius:999px;background:#123728;color:#7df0b6;font-size:7px}.odds-best{text-align:right}.odds-best span{display:block;color:#748ba2;font-size:7px;font-weight:900}.odds-best strong{display:block;color:#7df0b6;font-size:17px}.odds-best small{display:block;color:#8ca0b5;font-size:8px}.odds-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#20364c}.odds-metrics div{background:#0c1928;padding:8px 9px}.odds-metrics span{display:block;color:#7189a1;font-size:6.5px;font-weight:950}.odds-metrics strong{display:block;margin-top:3px;font-size:11px}.odds-books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:11px}.odds-book{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 9px;border:1px solid #233a52;border-radius:10px;background:#101f30}.odds-book.best{border-color:#317c5d;background:#0e2a20}.odds-book.stale{opacity:.48}.odds-book b{font-size:9px}.odds-book strong{font-size:11px}.odds-age{display:block;color:#70879f;font-size:7px;font-weight:500;margin-top:2px}.odds-empty{padding:22px;border:1px solid #263b52;border-radius:16px;background:#0b1623;color:#91a6bc;text-align:center;line-height:1.55}.odds-loading{padding:22px;text-align:center;color:#9db2c8}.odds-foot{color:#778fa7;font-size:8px;line-height:1.5}.premium-nav{grid-template-columns:repeat(5,1fr)!important}@media(max-width:700px){.odds-summary{grid-template-columns:repeat(2,1fr)}.odds-books{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:430px){.odds-books{grid-template-columns:1fr}.odds-metrics{grid-template-columns:repeat(2,1fr)}}
+  </style>`;}
+  function raceOptions(){const groups=['Perth','Sydney','Melbourne'];return groups.map(g=>{const x=rows().filter(r=>String(r?.region||'').toLowerCase()===g.toLowerCase());return x.length?`<optgroup label="${esc(g)}">${x.map(r=>`<option value="${esc(raceCode(r.race))}" ${raceCode(r.race)===selectedRace?'selected':''}>${esc(raceCode(r.race))} · ${esc(r.venue||g)}${r.corePotential?' · CORE':''}</option>`).join('')}</optgroup>`:''}).join('');}
+  function shell(){const key=!!localStorage.getItem(KEY_STORE),r=rowFor(selectedRace);return `${styles()}<div class="odds-page"><section class="odds-hero"><div class="odds-kicker">${esc(selectedRace)} · ${esc(r?.venue||'')} · live bookmaker comparison</div><h2 class="odds-title">Market Odds</h2><p class="odds-sub">Automatic fixed-win prices from the major Australian racing books. Fresh quotes are used for the average and consensus; stale quotes are dimmed.</p><span class="odds-pill">ANALYSIS ONLY · DOES NOT CHANGE V11</span><div class="odds-tools"><select id="oddsRace" class="odds-select">${raceOptions()}</select><button id="oddsRefresh" class="odds-btn">REFRESH</button></div><div class="odds-feed" id="oddsFeed">${key?'<b>FULL LIVE FEED CONNECTED</b> · all available books are requested automatically.':'<b>PUBLIC LIVE SANDBOX</b> · automatic but truncated. TABtouch is also read directly for the CORE race.'}</div><details style="margin-top:9px"><summary style="font-size:9px;color:#9fb3c8;font-weight:900">${key?'Manage full live feed':'Unlock all bookmaker prices'}</summary><div class="odds-keyrow"><input id="oddsKey" class="odds-key" type="password" placeholder="PuntersEdge API key"><button id="oddsSaveKey" class="odds-btn">${key?'REPLACE':'CONNECT'}</button></div><div class="odds-keyhelp">A free key provides the full next-to-go feed instead of the truncated public sandbox. <a href="https://puntersedge.online/api#signup" target="_blank" rel="noopener">Get a free key</a>. The key is stored only in this browser.</div>${key?'<button id="oddsRemoveKey" class="odds-btn" style="margin-top:7px">DISCONNECT</button>':''}</details></section><div id="oddsContent"><div class="odds-loading">Loading live prices…</div></div><div class="odds-foot">Consensus = inverse of the mean implied probability across fresh fixed-win quotes. It is an analysis view only; V11 remains driven by its frozen rules and separate execution checks.</div></div>`;}
+  function renderShell(){if(!oddsMode)return;const page=document.getElementById('premiumPage');if(!page)return;page.innerHTML=shell();document.getElementById('oddsRace')?.addEventListener('change',e=>{selectedRace=raceCode(e.target.value);load();});document.getElementById('oddsRefresh')?.addEventListener('click',()=>load());document.getElementById('oddsSaveKey')?.addEventListener('click',()=>{const v=String(document.getElementById('oddsKey')?.value||'').trim();if(v){localStorage.setItem(KEY_STORE,v);renderShell();load();}});document.getElementById('oddsRemoveKey')?.addEventListener('click',()=>{localStorage.removeItem(KEY_STORE);renderShell();load();});load();}
+  function renderResult(runners,meta){const box=document.getElementById('oddsContent');if(!box)return;if(!runners.length){box.innerHTML=`<div class="odds-empty">No matched live quotes are available for ${esc(selectedRace)} right now.${meta.full?' The full feed returned no matching race.':' The public sandbox is intentionally truncated — connect the free full feed above to request the whole card.'}</div>`;return;}const fav=[...runners].filter(x=>x.consensus).sort((a,b)=>a.consensus-b.consensus)[0]||null,widest=[...runners].filter(x=>x.spread!==null).sort((a,b)=>b.spread-a.spread)[0]||null,books=new Set(runners.flatMap(x=>x.books.map(b=>b.label)));const f=document.getElementById('oddsFeed');if(f)f.innerHTML=`<b>${meta.full?'FULL':'PUBLIC'} LIVE MARKET</b> · ${books.size} books represented · ${meta.provider?'comparison feed matched':''}${meta.tabtouch?' + direct TABtouch':''} · updated ${stamp()} Perth`;box.innerHTML=`<section class="odds-summary"><div><span>CONSENSUS FAVOURITE</span><strong>${esc(fav?.name||'—')}</strong></div><div><span>CONSENSUS PRICE</span><strong>${odds(fav?.consensus)}</strong></div><div><span>BOOKS SEEN</span><strong>${books.size}</strong></div><div><span>WIDEST SPREAD</span><strong>${widest?`${esc(widest.name)} · $${widest.spread.toFixed(2)}`:'—'}</strong></div></section>${runners.map(x=>{const isFav=fav&&horseKey(fav.name)===horseKey(x.name);return `<article class="odds-runner ${isFav?'fav':''}"><div class="odds-head"><div class="odds-name"><span class="odds-no">#${esc(x.number??'—')}</span>${esc(x.name)}${isFav?'<span class="odds-fav">CONSENSUS FAV</span>':''}</div><div class="odds-best"><span>BEST FRESH PRICE</span><strong>${odds(x.best?.price)}</strong><small>${esc(x.best?.label||'')}</small></div></div><div class="odds-metrics"><div><span>AVERAGE</span><strong>${odds(x.avg)}</strong></div><div><span>CONSENSUS</span><strong>${odds(x.consensus)}</strong></div><div><span>MEDIAN</span><strong>${odds(x.med)}</strong></div><div><span>RANGE</span><strong>${x.low&&x.best?`${odds(x.low.price)}–${odds(x.best.price)}`:'—'}</strong></div></div><div class="odds-books">${x.books.map(b=>`<div class="odds-book ${x.best&&b.key===x.best.key?'best':''} ${b.stale?'stale':''}"><div><b>${esc(b.label)}</b><span class="odds-age">${b.source==='direct app feed'?'DIRECT':b.stale?'STALE':b.age!==null&&b.age!==undefined?`${Math.round(b.age)}s old`:'LIVE'}</span></div><strong>${odds(b.price)}</strong></div>`).join('')}</div></article>`;}).join('')}`;}
+  async function load(){if(!oddsMode||busy)return;const row=rowFor(selectedRace||coreRace());if(!row)return;busy=true;clearTimeout(timer);const b=document.getElementById('oddsRefresh');if(b){b.disabled=true;b.textContent='LOADING';}try{const [p,t]=await Promise.allSettled([provider(),tabtouch(row)]);const pd=p.status==='fulfilled'?p.value:{races:[],full:!!localStorage.getItem(KEY_STORE)},live=t.status==='fulfilled'?t.value:null,pr=findRace(pd.races,row),map=buildMap(pr,live),runners=[...map.values()].map(stats).sort((a,b)=>(Number(a.number)||999)-(Number(b.number)||999));renderResult(runners,{full:pd.full,provider:!!pr,tabtouch:!!live});}catch(e){const box=document.getElementById('oddsContent');if(box)box.innerHTML=`<div class="odds-empty">Live odds refresh failed: ${esc(e instanceof Error?e.message:'feed error')}. V11 is unaffected.</div>`;}finally{busy=false;if(b){b.disabled=false;b.textContent='REFRESH';}timer=setTimeout(load,REFRESH_MS);}}
+  function ensureTab(){const nav=document.querySelector('.premium-nav');if(!nav)return;let btn=nav.querySelector('[data-odds-compare-tab]');if(!btn){btn=document.createElement('button');btn.type='button';btn.dataset.oddsCompareTab='1';btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-3M9 18v-6M14 18V8M19 18V4"/><path d="M3 21h18"/></svg><span>Odds</span>';const settings=nav.querySelector('[data-premium-tab="settings"]');settings?nav.insertBefore(btn,settings):nav.appendChild(btn);btn.addEventListener('click',()=>{oddsMode=true;selectedRace=selectedRace||coreRace();nav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));renderShell();window.scrollTo({top:0,behavior:'auto'});});}if(oddsMode)nav.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));}
+  document.addEventListener('click',e=>{if(e.target.closest('[data-premium-tab]')){oddsMode=false;clearTimeout(timer);}},true);
+  function mount(){const go=()=>{const root=document.getElementById('premiumApp');if(!root){setTimeout(go,150);return;}selectedRace=selectedRace||coreRace();ensureTab();observer=new MutationObserver(()=>{ensureTab();if(oddsMode&&!document.querySelector('.odds-page'))setTimeout(renderShell,0);});observer.observe(root,{childList:true,subtree:true});};go();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
