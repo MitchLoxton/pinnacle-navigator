@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-09-12",
+  "timezone": "Australia/Perth",
+  "status": "COMPLETE",
+  "source": "TABtouch archived result pages + V11 execution ledger",
+  "sourceKind": "TABTOUCH_ARCHIVED_FOB_FAVOURITE",
+  "verification": "All 21 archived TABtouch race pages were re-read after results. Each race had exactly one non-scratched isFobFavourite runner; that runner was cross-checked against the placing=1 winner. PR2 was also cross-checked against the V11 execution ledger and recorded NO_BET with A$0 cash P/L.",
+  "summary": {
+    "streamsLogged": 21,
+    "favouriteWins": 4,
+    "favouriteLosses": 17,
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "pending": 0,
+    "ambiguous": 0,
+    "errors": 0
+  },
+  "races": [
+    {"race":"PR1","venue":"Belmont Park","stateBefore":6,"favouriteNumber":1,"favourite":"BOY CRUSH","outcome":"LOSS","winnerNumber":2,"winner":"SWIFT RULER","stateAfter":7,"systemBet":false,"cashPlAud":0},
+    {"race":"PR2","venue":"Belmont Park","stateBefore":6,"favouriteNumber":8,"favourite":"OLAF THE SNOWMAN","outcome":"LOSS","winnerNumber":2,"winner":"SOWAR","stateAfter":7,"systemBet":false,"cashPlAud":0},
+    {"race":"PR3","venue":"Belmont Park","stateBefore":0,"favouriteNumber":4,"favourite":"ARCADIA KNIGHT","outcome":"WIN","winnerNumber":4,"winner":"ARCADIA KNIGHT","stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"PR4","venue":"Belmont Park","stateBefore":2,"favouriteNumber":8,"favourite":"COSMIC WALTZ","outcome":"LOSS","winnerNumber":7,"winner":"STREAK OF GOD","stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"PR5","venue":"Belmont Park","stateBefore":0,"favouriteNumber":1,"favourite":"BOSUN","outcome":"WIN","winnerNumber":1,"winner":"BOSUN","stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"PR6","venue":"Belmont Park","stateBefore":2,"favouriteNumber":1,"favourite":"MISS VEUVE","outcome":"LOSS","winnerNumber":11,"winner":"ADMIRED","stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"PR7","venue":"Belmont Park","stateBefore":1,"favouriteNumber":9,"favourite":"RISSOLES","outcome":"LOSS","winnerNumber":11,"winner":"HAIDA GWAII","stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"SR1","venue":"Rosehill","stateBefore":2,"favouriteNumber":15,"favourite":"BRUTAL MISS (EM1)","outcome":"LOSS","winnerNumber":1,"winner":"WAYBURN","stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"SR2","venue":"Rosehill","stateBefore":1,"favouriteNumber":4,"favourite":"HEROIC DEED","outcome":"LOSS","winnerNumber":7,"winner":"FORMAL","stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"SR3","venue":"Rosehill","stateBefore":0,"favouriteNumber":3,"favourite":"APPEARED (USA)","outcome":"WIN","winnerNumber":3,"winner":"APPEARED (USA)","stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"SR4","venue":"Rosehill","stateBefore":1,"favouriteNumber":7,"favourite":"MUKHTALIF (IRE)","outcome":"LOSS","winnerNumber":10,"winner":"ANTHRACITE (NZ)","stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"SR5","venue":"Rosehill","stateBefore":1,"favouriteNumber":8,"favourite":"TRANSCEND","outcome":"LOSS","winnerNumber":6,"winner":"SILVANITO","stateAfter":2,"systemBet":false,"cashPlAud":0},
+    {"race":"SR6","venue":"Rosehill","stateBefore":7,"favouriteNumber":9,"favourite":"GENESIS RUNNER","outcome":"LOSS","winnerNumber":7,"winner":"PERSIAN WONDER (NZ)","stateAfter":8,"systemBet":false,"cashPlAud":0},
+    {"race":"SR7","venue":"Rosehill","stateBefore":3,"favouriteNumber":2,"favourite":"LAZZURA","outcome":"LOSS","winnerNumber":4,"winner":"SAVVY HALLIE","stateAfter":4,"systemBet":false,"cashPlAud":0},
+    {"race":"MR1","venue":"Flemington","stateBefore":5,"favouriteNumber":5,"favourite":"NAVAL ACADEMY","outcome":"LOSS","winnerNumber":6,"winner":"JETT SMASH","stateAfter":6,"systemBet":false,"cashPlAud":0},
+    {"race":"MR2","venue":"Flemington","stateBefore":2,"favouriteNumber":3,"favourite":"UNIT FIVE","outcome":"LOSS","winnerNumber":5,"winner":"LARA ANTIPOVA","stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"MR3","venue":"Flemington","stateBefore":2,"favouriteNumber":14,"favourite":"OVER EXCITED","outcome":"LOSS","winnerNumber":2,"winner":"SATONO GLOW (NZ)","stateAfter":3,"systemBet":false,"cashPlAud":0},
+    {"race":"MR4","venue":"Flemington","stateBefore":3,"favouriteNumber":6,"favourite":"MBUBE","outcome":"LOSS","winnerNumber":1,"winner":"PARADOXIUM","stateAfter":4,"systemBet":false,"cashPlAud":0},
+    {"race":"MR5","venue":"Flemington","stateBefore":2,"favouriteNumber":6,"favourite":"SHOCKLETZ (NZ)","outcome":"WIN","winnerNumber":6,"winner":"SHOCKLETZ (NZ)","stateAfter":0,"systemBet":false,"cashPlAud":0},
+    {"race":"MR6","venue":"Flemington","stateBefore":0,"favouriteNumber":8,"favourite":"SASS APPEAL","outcome":"LOSS","winnerNumber":11,"winner":"WELCOMETOTHESHOW","stateAfter":1,"systemBet":false,"cashPlAud":0},
+    {"race":"MR7","venue":"Flemington","stateBefore":0,"favouriteNumber":5,"favourite":"OLIVEANOTHERDAY","outcome":"LOSS","winnerNumber":13,"winner":"LOSESOMEWINMORE","stateAfter":1,"systemBet":false,"cashPlAud":0}
+  ]
+}
