@@ -1,5 +1,5 @@
-const CACHE='ytintel-shell-v0380';
-const CORE=['./index.html','./v380-stable-shell.js?v=0380','./v340-zero-credit.js?v=0380','./v340-zero-credit.css?v=0380','./v371-mobile-containment.css?v=0380','./manifest.webmanifest?v=0380','./icon.svg?v=0380'];
+const CACHE='ytintel-shell-v0390';
+const CORE=['./index.html','./v390-stable-shell.js?v=0390','./v340-zero-credit.js?v=0390','./v390-stable-intelligence.js?v=0390','./v340-zero-credit.css?v=0390','./v371-mobile-containment.css?v=0390','./manifest.webmanifest?v=0390','./icon.svg?v=0390'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(CORE.map(x=>cache.add(x)))));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('ytintel-shell-')&&key!==CACHE)await caches.delete(key).catch(()=>{});await self.clients.claim()})())});
 self.addEventListener('fetch',event=>{const req=event.request,url=new URL(req.url);if(req.method!=='GET'||url.origin!==location.origin)return;if(req.mode==='navigate'){event.respondWith(fetch(req,{cache:'no-store'}).then(async r=>{if(r.ok)(await caches.open(CACHE)).put('./index.html',r.clone()).catch(()=>{});return r}).catch(()=>caches.match('./index.html')));return}if(/\.(?:js|css|webmanifest|svg)$/.test(url.pathname)){event.respondWith(fetch(req,{cache:'no-store'}).then(async r=>{if(r.ok)(await caches.open(CACHE)).put(req,r.clone()).catch(()=>{});return r}).catch(()=>caches.match(req)));}});
