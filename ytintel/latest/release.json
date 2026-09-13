@@ -1,34 +1,35 @@
 {
-  "release_id": "ytintel-0.39.0-stable-intelligence",
+  "release_id": "ytintel-0.39.0-premium-benchmark-hotfix",
   "version": "v0.39.0",
-  "title": "Stable intelligence — deeper analysis without breaking the shell",
-  "summary": "YTIntel keeps the proven one-owner v0.38 shell and upgrades the heart of Analyse: interpretation is separated from transcript receipts, key takeaways are source-backed, Creator DNA drives a concrete remake blueprint, media enrichment is bounded and optional, and cross-checks fail visibly instead of hanging.",
-  "published_at": "2026-09-13T12:15:00Z",
+  "title": "Benchmark premium mode — analysis now follows the Blake Ryan quality bar",
+  "summary": "YTIntel keeps the proven one-owner stable shell, but the main Analyse result is now a benchmark-grade premium research report: GPT-5.6 Sol specialist stages, web-backed claims verification, first-minute line jobs, channel/outlier context, public title-surface checks, cross-channel validation, funnel analysis, Creator-DNA remakes, measurement plans and an independent final audit. The previous deterministic 17-section result remains as a collapsible fallback.",
+  "published_at": "2026-09-13T12:30:00Z",
   "discord_mention": "",
   "discord_changes": [
-    "🧠 INTELLIGENCE UPGRADE: Summary and Key Takeaways now separate interpretation from exact transcript receipts instead of presenting transcript lines as the insight.",
-    "🎯 MAKE IT YOURS: the zero-credit blueprint now uses Creator DNA + the source video’s hook/proof/structure mechanics to produce three distinct directions without copying source wording.",
-    "🧾 CROSS-CHECK: transcript availability, WPM plausibility, Most Replayed availability, takeaway quote grounding and visual/audio limitations are checked explicitly.",
-    "🧱 STABILITY PRESERVED: the app still boots through one HTML script owner. Optional media and local-AI enrichment are timeout-bounded and can never hold the 17-section report at a fake percentage."
+    "🧠 BENCHMARK MODE: the main report now follows the hand-built Blake Ryan benchmark structure instead of stopping at heuristic 17-section output.",
+    "🧾 PREMIUM RESEARCH: GPT-5.6 Sol runs source-specific summary, takeaways, mechanics and web-backed claims stages with independent review and final audit gates.",
+    "📊 CREATOR CONTEXT: channel median/outlier evidence, public title discrepancies, live cross-channel search validation and selling-share/funnel analysis are surfaced explicitly.",
+    "🎯 MAKE IT YOURS: Creator DNA now drives 2–3 executable remake directions with titles, spoken hooks, thumbnails, beat sheets, steal/do-not-copy rules and post-publish measurements."
   ],
   "changes": [
-    "Preserved the v0.38 one-script stable shell and its independent Analyse / Competitors / Vault navigation.",
-    "Added a single bounded v0.39 intelligence enhancement layer after the proven zero-credit core; no old-version loader chain was restored.",
-    "Rebuilt the watch-replacement Summary into 10–15 chronological interpreted beats with exact transcript receipts underneath and a guarded why-it-likely-popped verdict.",
-    "Rebuilt Key Takeaways so facts/list videos preserve evidenced list items while other videos produce actionable mechanics with exact receipts.",
-    "Expanded Make It Yours into three mechanically distinct Creator-DNA directions with title, hook, thumbnail, beat sheet, steal/do-not-copy and measurement guidance.",
-    "Added a deterministic cross-check for transcript presence, WPM plausibility, public Most Replayed availability, quote grounding and source limitations.",
-    "Added an optional 12-second media enrichment request. When YouTube exposes storyboard samples or public music metadata they are surfaced; when it does not, the core report still completes normally.",
-    "Added explicit research-stage telemetry and a no-silent-hang message if a source stage stops moving, while retaining the core source timeout.",
-    "Added optional on-device LanguageModel synthesis only when the browser already supports a ready local model; it never calls a paid cloud model and never blocks core completion.",
-    "Kept phone containment and mobile navigation from v0.38."
+    "Preserved the stable single-script HTML entry and independent Analyse / Competitors / Vault navigation.",
+    "Added a benchmark premium layer after the stable v0.39 evidence/intelligence fallback; a premium failure cannot make the site unusable.",
+    "Runs the existing premium-single-link-v036 research contract against the complete source report using the configured GPT-5.6 Sol research model.",
+    "Runs plan, summary, takeaways, mechanics and consequential claims specialists; claims use web search and source URLs rather than memory-only verification.",
+    "Runs independent review before remake generation and a final independent audit before the benchmark report is promoted as the main result.",
+    "Renders a canonical 16-part benchmark report: short version, facts, first 60 seconds, structure, retention, claims ledger, pacing, packaging, visuals/audio, outlier context, pattern mine, funnel, steal/do-not-copy, remake blueprint, Creator Loop and method/audit.",
+    "Uses live public YouTube search plus the creator's channel feed for cross-channel and same-channel context; title strings are compared across public surfaces without falsely asserting an A/B test.",
+    "Calculates commercial/selling share from source-backed selling intervals and keeps creator claims separate from independently verified facts.",
+    "Uses public channel data to recover subscriber evidence where available instead of treating missing subscriber data as zero.",
+    "Preserves real storyboard samples and public audio metadata when YouTube exposes them, with explicit limits when it does not.",
+    "Keeps the prior stable 17-section output in a collapsible source-evidence appendix for resilience and debugging."
   ],
   "known_limitations": [
-    "Zero paid API credits means YTIntel still cannot guarantee Claude Max / frontier cloud-model reasoning quality.",
-    "On-device model availability depends on the user’s browser/device; deterministic intelligence remains the default fallback.",
-    "YouTube does not expose storyboards, direct media, subscriber counts or Most Replayed for every video/request. Missing media evidence remains explicitly limited.",
-    "Storyboard samples are seek-bar frames, not every encoded frame; sampled stills alone cannot prove every cut, zoom, transition, text overlay or sound effect.",
-    "Public Most Replayed is replay/seek interest, not private audience-retention data and is never described as causal proof."
+    "Premium research consumes the configured research-model quota. If the quota, model provider or a research stage is unavailable, YTIntel falls back visibly to the stable deterministic report instead of inventing confidence.",
+    "Public YouTube surfaces do not expose subscriber counts, Most Replayed, storyboards, comments or every title variant for every video/request; unavailable evidence remains marked unavailable.",
+    "Cross-channel validation is a live public search/channel-feed sample and is descriptive evidence, not a forecast of future performance.",
+    "Storyboard samples are seek-bar frames, not every encoded frame; sampled stills cannot prove every cut, zoom, transition, text overlay or sound effect.",
+    "Public Most Replayed is replay/seek interest, not private audience-retention data, and channel-relative performance does not prove which mechanic caused the result."
   ],
-  "why_it_matters": "The stable website is no longer the finish line. v0.39 keeps that stability while moving the actual product back toward the 07/09 Monday Brief: save the watch time, explain the mechanics, show the receipt, and finish with a video direction the creator can actually use."
+  "why_it_matters": "The product now aims at the actual benchmark: a creator should be able to paste one video, skip watching it, understand the evidence and business mechanics, see what is true versus claimed, and leave with an original video plan plus a measurement loop — without sacrificing the stable shell that made v0.38/v0.39 usable."
 }
