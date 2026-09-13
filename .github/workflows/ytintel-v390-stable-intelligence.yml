@@ -1,0 +1,49 @@
+name: YTIntel v039 Stable Intelligence Gate
+
+on:
+  push:
+    branches: ['fix/ytintel-v039-stable-intelligence']
+    paths:
+      - 'ytintel/latest/**'
+      - 'ytintel/tests/v390-browser.mjs'
+      - '.github/workflows/ytintel-v390-stable-intelligence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stable-intelligence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and one-owner contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check ytintel/latest/v390-stable-shell.js
+          node --check ytintel/latest/v390-stable-intelligence.js
+          jq empty ytintel/latest/release.json
+          jq empty ytintel/latest/manifest.webmanifest
+          grep -q 'v390-stable-shell.js?v=0390' ytintel/latest/index.html
+          test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
+          ! grep -q 'ytintel-v093' ytintel/latest/v390-stable-intelligence.js
+          ! grep -q 'api.openai.com' ytintel/latest/v390-stable-intelligence.js
+          grep -q 'ytintel-shell-v0390' ytintel/latest/sw.js
+      - name: Install browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Real source + mobile + intelligence acceptance
+        run: node ytintel/tests/v390-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ytintel-v0390-branch-proof
+          path: ytintel-v390-proof
+          if-no-files-found: warn
+          retention-days: 14
