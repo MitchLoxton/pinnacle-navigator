@@ -26,10 +26,12 @@ jobs:
         run: |
           set -euo pipefail
           node --check ytintel/latest/v390-stable-shell.js
+          node --check ytintel/latest/v390-wpm-guard.js
           node --check ytintel/latest/v390-stable-intelligence.js
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
           grep -q 'v390-stable-shell.js?v=0390' ytintel/latest/index.html
+          grep -q 'v390-wpm-guard.js?v=0390' ytintel/latest/v390-stable-shell.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
           ! grep -q 'ytintel-v093' ytintel/latest/v390-stable-intelligence.js
           ! grep -q 'api.openai.com' ytintel/latest/v390-stable-intelligence.js
