@@ -1,30 +1,34 @@
 {
-  "release_id": "ytintel-0.38.0-stable-clickable-shell",
-  "version": "v0.38.0",
-  "title": "Stable shell — the website is usable again",
-  "summary": "YTIntel now boots through one stable entry layer instead of a chain of old runtime versions. Analyse, Competitors and Vault remain clickable on desktop and phone, and navigation stays responsive while a real analysis is running.",
-  "published_at": "2026-09-12T02:26:00Z",
+  "release_id": "ytintel-0.39.0-stable-intelligence",
+  "version": "v0.39.0",
+  "title": "Stable intelligence — deeper analysis without breaking the shell",
+  "summary": "YTIntel keeps the proven one-owner v0.38 shell and upgrades the heart of Analyse: interpretation is separated from transcript receipts, key takeaways are source-backed, Creator DNA drives a concrete remake blueprint, media enrichment is bounded and optional, and cross-checks fail visibly instead of hanging.",
+  "published_at": "2026-09-13T12:15:00Z",
   "discord_mention": "",
   "discord_changes": [
-    "🖱️ EVERY CORE SCREEN CLICKABLE: Analyse, Competitors and Vault now use one stable navigation owner on desktop and phone.",
-    "🧹 ONE CLEAN BOOT: removed the old multi-module startup chain from the shipped page so the UI no longer cycles through competing runtime layers.",
-    "📱 PHONE VERIFIED: 390px mobile navigation passed with no horizontal overflow and all three bottom-nav destinations working.",
-    "✅ REAL ANALYSE VERIFIED: the live Blake benchmark run completed all 17 sections to 100%, and navigation remained usable during the run."
+    "🧠 INTELLIGENCE UPGRADE: Summary and Key Takeaways now separate interpretation from exact transcript receipts instead of presenting transcript lines as the insight.",
+    "🎯 MAKE IT YOURS: the zero-credit blueprint now uses Creator DNA + the source video’s hook/proof/structure mechanics to produce three distinct directions without copying source wording.",
+    "🧾 CROSS-CHECK: transcript availability, WPM plausibility, Most Replayed availability, takeaway quote grounding and visual/audio limitations are checked explicitly.",
+    "🧱 STABILITY PRESERVED: the app still boots through one HTML script owner. Optional media and local-AI enrichment are timeout-bounded and can never hold the 17-section report at a fake percentage."
   ],
   "changes": [
-    "Replaced v360-entry.js and its long sequential module graph with v380-stable-shell.js as the only HTML script entry.",
-    "Kept the proven v340 zero-credit analysis core behind the stable shell instead of letting optional UI layers own navigation.",
-    "Made the app shell visible immediately and removed blocking onboarding/tour overlays from the stability path.",
-    "Restored visible Competitors controls and Vault content instead of keeping their containers hidden behind legacy anchor classes.",
-    "Locked the displayed release version to v0.38.0 so older core code cannot visually overwrite it during hydration.",
-    "Reset the service-worker cache contract to the minimal v0.38 stable asset set.",
-    "Added local browser smoke coverage for every top-level tab, Creator DNA saving, Competitor adding, phone navigation and a real 17-section analysis.",
-    "Added a production-browser smoke that repeats the same interaction flow against the actual GitHub Pages deployment."
+    "Preserved the v0.38 one-script stable shell and its independent Analyse / Competitors / Vault navigation.",
+    "Added a single bounded v0.39 intelligence enhancement layer after the proven zero-credit core; no old-version loader chain was restored.",
+    "Rebuilt the watch-replacement Summary into 10–15 chronological interpreted beats with exact transcript receipts underneath and a guarded why-it-likely-popped verdict.",
+    "Rebuilt Key Takeaways so facts/list videos preserve evidenced list items while other videos produce actionable mechanics with exact receipts.",
+    "Expanded Make It Yours into three mechanically distinct Creator-DNA directions with title, hook, thumbnail, beat sheet, steal/do-not-copy and measurement guidance.",
+    "Added a deterministic cross-check for transcript presence, WPM plausibility, public Most Replayed availability, quote grounding and source limitations.",
+    "Added an optional 12-second media enrichment request. When YouTube exposes storyboard samples or public music metadata they are surfaced; when it does not, the core report still completes normally.",
+    "Added explicit research-stage telemetry and a no-silent-hang message if a source stage stops moving, while retaining the core source timeout.",
+    "Added optional on-device LanguageModel synthesis only when the browser already supports a ready local model; it never calls a paid cloud model and never blocks core completion.",
+    "Kept phone containment and mobile navigation from v0.38."
   ],
   "known_limitations": [
-    "v0.38 deliberately prioritises a dependable clickable website over the unfinished experimental v0.36/v0.37 feature layers.",
-    "Advanced Endgame media and multimodal features remain outside this stability release until they can be reintroduced without destabilising navigation.",
-    "Zero-credit evidence mode remains the current analysis engine; this release does not claim frontier paid-model parity."
+    "Zero paid API credits means YTIntel still cannot guarantee Claude Max / frontier cloud-model reasoning quality.",
+    "On-device model availability depends on the user’s browser/device; deterministic intelligence remains the default fallback.",
+    "YouTube does not expose storyboards, direct media, subscriber counts or Most Replayed for every video/request. Missing media evidence remains explicitly limited.",
+    "Storyboard samples are seek-bar frames, not every encoded frame; sampled stills alone cannot prove every cut, zoom, transition, text overlay or sound effect.",
+    "Public Most Replayed is replay/seek interest, not private audience-retention data and is never described as causal proof."
   ],
-  "why_it_matters": "Before adding more intelligence, the product has to behave like a website: load once, let the user click things, move between screens, run an analysis and get back out without the shell fighting itself. v0.38 establishes that stable base."
+  "why_it_matters": "The stable website is no longer the finish line. v0.39 keeps that stability while moving the actual product back toward the 07/09 Monday Brief: save the watch time, explain the mechanics, show the receipt, and finish with a video direction the creator can actually use."
 }
