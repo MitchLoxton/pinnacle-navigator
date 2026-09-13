@@ -1,4 +1,5 @@
 name: YTIntel Core CI
+
 on:
   push:
     branches: ["main"]
@@ -10,8 +11,10 @@ on:
       - "ytintel/benchmarks/**"
       - ".github/workflows/ytintel-v300-ci.yml"
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   syntax:
     runs-on: ubuntu-latest
@@ -20,110 +23,38 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate v0.37.9 usability-first production core
+      - name: Validate v0.39 stable intelligence core
         shell: bash
         run: |
           set -euo pipefail
+          node --check ytintel/latest/v390-stable-shell.js
+          node --check ytintel/latest/v390-wpm-guard.js
+          node --check ytintel/latest/v390-stable-intelligence.js
           node --check ytintel/latest/v340-zero-credit.js
-          node --check ytintel/latest/v341-quality-core.js
-          node --check ytintel/latest/v342-brief-intelligence.js
-          node --check ytintel/latest/v350-heart-lock.js
-          node --input-type=module --check < ytintel/latest/v360-entry.js
-          node --input-type=module --check < ytintel/latest/v366-local-ai-shield.js
-          node --input-type=module --check < ytintel/latest/v361-capability-guard.js
-          node --input-type=module --check < ytintel/latest/v361-review-fixes.js
-          node --input-type=module --check < ytintel/latest/v360-endgame.js
-          node --input-type=module --check < ytintel/latest/v366-local-ai-optin.js
-          node --input-type=module --check < ytintel/latest/v362-source-polish.js
-          node --input-type=module --check < ytintel/latest/v363-premium-brief.js
-          node --input-type=module --check < ytintel/latest/v364-fact-surfaces.js
-          node --input-type=module --check < ytintel/latest/v369-packaging-depth.js
-          node --input-type=module --check < ytintel/latest/v365-canonical-shell.js
-          node --input-type=module --check < ytintel/latest/v367-premium-lock.js
-          node --input-type=module --check < ytintel/latest/v370-transcript-receipt.js
-          node --input-type=module --check < ytintel/latest/v371-feedback-overhaul.js
-          node --input-type=module --check < ytintel/latest/v372-endgame-closer.js
-          node --input-type=module --check < ytintel/latest/v373-analyse-focus.js
-          node --input-type=module --check < ytintel/latest/v374-creator-assets.js
-          node --input-type=module --check < ytintel/latest/v375-creator-assets-cloud.js
-          node --input-type=module --check < ytintel/latest/v376-resumable-creator-assets.js
-          node --input-type=module --check < ytintel/latest/v377-scene-indexer.js
-          node --input-type=module --check < ytintel/latest/v378-navigation-resilience.js
-          node --input-type=module --check < ytintel/latest/v379-usability-guard.js
-          node --input-type=module --check < ytintel/latest/v360-local-ai.js
-          node --input-type=module --check < ytintel/latest/v360-media-intel.js
-          node --input-type=module --check < ytintel/latest/v360-cloud.js
-          node --check ytintel/tests/production-v371.mjs
-          node --check ytintel/tests/production-v372.mjs
-          node --check ytintel/tests/production-v378-navigation.mjs
           node --check ytintel/latest/sw.js
+          node --check ytintel/tests/v390-browser.mjs
+          node --check ytintel/tests/production-v390.mjs
           jq empty ytintel/latest/release.json
           jq empty ytintel/latest/manifest.webmanifest
-          grep -q "ytintel-shell-v0379-r2" ytintel/latest/sw.js
-          grep -q "v360-entry.js?v=0379" ytintel/latest/index.html
-          grep -q "manifest.webmanifest?v=0379" ytintel/latest/index.html
-          grep -q "v360-endgame.css?v=0375" ytintel/latest/index.html
-          grep -q "v371-mobile-containment.css?v=0375" ytintel/latest/index.html
-          grep -q "v378-navigation-resilience.js?v=0379" ytintel/latest/v360-entry.js
-          grep -q "v379-usability-guard.js?v=0379u1" ytintel/latest/v360-entry.js
-          grep -q "const RELEASE='0.37.9'" ytintel/latest/v360-entry.js
-          grep -q "revealShell" ytintel/latest/v360-entry.js
-          grep -q "__YTINTEL_SHELL_VISIBLE_MS" ytintel/latest/v360-entry.js
-          grep -q "const failures=\[\]" ytintel/latest/v360-entry.js
-          grep -q "entry-recovered-with-module-failures" ytintel/latest/v360-entry.js
-          grep -q "document.addEventListener('click'" ytintel/latest/v360-entry.js
-          grep -q "analyseForm.*submit" ytintel/latest/v360-entry.js
-          grep -q "removeBlockingOnboarding" ytintel/latest/v379-usability-guard.js
-          grep -q "blocking_onboarding:false" ytintel/latest/v379-usability-guard.js
-          grep -q "shellVisibleMs" ytintel/tests/production-v378-navigation.mjs
-          grep -q "navLatency" ytintel/tests/production-v378-navigation.mjs
-          grep -q "shell-visible budget exceeded" ytintel/tests/production-v378-navigation.mjs
-          grep -q "navigation latency budget exceeded" ytintel/tests/production-v378-navigation.mjs
-          if grep -q '<div class="boot" id="boot"' ytintel/latest/index.html; then echo "Blocking boot overlay returned"; exit 1; fi
-          if grep -q '<main class="app v360-prehide"' ytintel/latest/index.html; then echo "App shell is pre-hidden again"; exit 1; fi
-          if grep -q '<main class="app" id="app" hidden' ytintel/latest/index.html; then echo "App shell is hidden again"; exit 1; fi
-          grep -q '#v350-profile-overlay{display:none!important}' ytintel/latest/index.html
-          grep -q '<span class="pill">optional</span>' ytintel/latest/index.html
-          ! grep -q 'data-tab="compare"' ytintel/latest/index.html
-          ! grep -q 'data-dock="compare"' ytintel/latest/index.html
-          ! grep -qi 'Compare Winners' ytintel/latest/manifest.webmanifest
-          grep -q 'id="creatorCard"' ytintel/latest/index.html
-          grep -q "The claims ledger" ytintel/latest/v363-premium-brief.js
-          grep -q "Cross-channel validation sample" ytintel/latest/v363-premium-brief.js
-          grep -q "TITLE SURFACE CHECK" ytintel/latest/v364-fact-surfaces.js
-          grep -q "PACKAGE MECHANICS" ytintel/latest/v369-packaging-depth.js
-          grep -q "full timestamped transcript" ytintel/latest/v370-transcript-receipt.js
-          grep -q "Copy full analysis Markdown" ytintel/latest/v373-analyse-focus.js
-          grep -q "UNIFIED MEDIA TIMELINE" ytintel/latest/v373-analyse-focus.js
-          grep -q "PACKAGE BANK" ytintel/latest/v373-analyse-focus.js
-          grep -q "PRESCRIPTIVE OUTPUT · THE VIDEO TO MAKE" ytintel/latest/v372-endgame-closer.js
-          grep -q "ENDGAME VAULT INDEX" ytintel/latest/v372-endgame-closer.js
-          grep -q "WATCHTOWER BRIEF" ytintel/latest/v372-endgame-closer.js
-          grep -q "CREATOR FOOTAGE SUPPLY" ytintel/latest/v374-creator-assets.js
-          grep -q "GTA 6 launch capture board" ytintel/latest/v374-creator-assets.js
-          grep -q "Cloud Creator Assets" ytintel/latest/v375-creator-assets-cloud.js
-          grep -q "Upload privately + bank" ytintel/latest/v375-creator-assets-cloud.js
-          grep -q "storage.supabase.co/storage/v1/upload/resumable" ytintel/latest/v376-resumable-creator-assets.js
-          grep -q "findPreviousUploads" ytintel/latest/v376-resumable-creator-assets.js
-          grep -q "CHUNK_SIZE=6\*1024\*1024" ytintel/latest/v376-resumable-creator-assets.js
-          grep -q "Automatic Scene Index" ytintel/latest/v377-scene-indexer.js
-          grep -q "ytintel_creator_scenes" ytintel/latest/v377-scene-indexer.js
-          grep -q "rgb-histogram-adaptive-v1" ytintel/latest/v377-scene-indexer.js
-          grep -q "Find footage from a commentary script" ytintel/latest/v377-scene-indexer.js
-          grep -q "localAI.analyzeFrame" ytintel/latest/v377-scene-indexer.js
-          grep -q "pageshow" ytintel/latest/v378-navigation-resilience.js
-          grep -q "youtube-new-tab" ytintel/latest/v378-navigation-resilience.js
-          grep -q "restoreShell" ytintel/latest/v378-navigation-resilience.js
-          grep -q "loadCreatorAssets" ytintel/latest/v360-cloud.js
-          grep -q "uploadCreatorAssetFile" ytintel/latest/v360-cloud.js
-          grep -q "signedCreatorAssetUrl" ytintel/latest/v360-cloud.js
           test "$(grep -o '<script ' ytintel/latest/index.html | wc -l)" -eq 1
-          ! grep -q "research-stage" ytintel/latest/v360-endgame.js
-          ! grep -q "ytintel-v093" ytintel/latest/v360-endgame.js
-          grep -q "WATCHTOWER" ytintel/latest/v360-endgame.js
-          grep -q "ytintel_analysis_vault" ytintel/latest/v360-cloud.js
-          grep -q "P0 — Heart of the tool" ytintel/ENDGAME_BRIEF.md
-          grep -q "The 18 screens, in order" ytintel/benchmarks/PREMIUM_SINGLE_LINK_STANDARD.md
-          grep -q "enable row level security" ytintel/backend/migrations/20260910_creator_scene_index.sql
-          node --test ytintel/tests/contract.test.mjs ytintel/tests/brief033.test.mjs ytintel/tests/creator-assets-v376.test.mjs ytintel/tests/creator-assets-v377.test.mjs
-          echo "YTIntel v0.37.9 usability-first production contracts passed."
+          grep -q 'v390-stable-shell.js?v=0390' ytintel/latest/index.html
+          grep -q 'v0.39.0' ytintel/latest/index.html
+          grep -q "const RELEASE='0.39.0'" ytintel/latest/v390-stable-shell.js
+          grep -q 'v390-wpm-guard.js?v=0390' ytintel/latest/v390-stable-shell.js
+          grep -q 'v390-stable-intelligence.js?v=0390' ytintel/latest/v390-stable-shell.js
+          grep -q 'ytintel-shell-v0390' ytintel/latest/sw.js
+          grep -q 'data-tab="analyse"' ytintel/latest/index.html
+          grep -q 'data-tab="competitors"' ytintel/latest/index.html
+          grep -q 'data-tab="vault"' ytintel/latest/index.html
+          grep -q 'id="competitorInput"' ytintel/latest/index.html
+          grep -q 'id="vaultList"' ytintel/latest/index.html
+          grep -q 'id="saveCreator"' ytintel/latest/index.html
+          grep -q 'INTELLIGENCE PASS' ytintel/latest/v390-stable-intelligence.js
+          grep -q 'INDEPENDENT DETERMINISTIC CROSS-CHECK' ytintel/latest/v390-stable-intelligence.js
+          grep -q 'rolling-caption + cross-segment overlap dedupe' ytintel/latest/v390-wpm-guard.js
+          ! grep -q 'ytintel-v093' ytintel/latest/v390-stable-intelligence.js
+          ! grep -q 'api.openai.com' ytintel/latest/v390-stable-intelligence.js
+          if grep -q 'v360-entry.js' ytintel/latest/index.html; then echo 'Old multi-layer entry returned'; exit 1; fi
+          if grep -q '<div class="boot" id="boot"' ytintel/latest/index.html; then echo 'Blocking boot overlay returned'; exit 1; fi
+          if grep -q '<main class="app" id="app" hidden' ytintel/latest/index.html; then echo 'App shell is hidden'; exit 1; fi
+          echo 'YTIntel v0.39 core contracts passed.'
