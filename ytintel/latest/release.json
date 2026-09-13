@@ -1,35 +1,39 @@
 {
-  "release_id": "ytintel-0.39.0-premium-benchmark-hotfix",
+  "release_id": "ytintel-0.39.0-resilient-benchmark-mode",
   "version": "v0.39.0",
-  "title": "Benchmark premium mode — analysis now follows the Blake Ryan quality bar",
-  "summary": "YTIntel keeps the proven one-owner stable shell, but the main Analyse result is now a benchmark-grade premium research report: GPT-5.6 Sol specialist stages, web-backed claims verification, first-minute line jobs, channel/outlier context, public title-surface checks, cross-channel validation, funnel analysis, Creator-DNA remakes, measurement plans and an independent final audit. The previous deterministic 17-section result remains as a collapsible fallback.",
-  "published_at": "2026-09-13T12:30:00Z",
+  "title": "Benchmark mode — the Blake Ryan quality bar is now the product contract",
+  "summary": "YTIntel now renders the benchmark-style 16-part creator report as its main analysis experience while preserving the stable one-owner shell. Cloud GPT-5.6 Sol research is attempted first for deeper synthesis and web-backed claim verification; if that provider path is unavailable, YTIntel automatically completes the same benchmark structure in transparent evidence mode using the transcript, public channel context, title/search surfaces, cross-channel discovery, outlier data and storyboard evidence. The old stable 17-section result remains available as a collapsible source appendix.",
+  "published_at": "2026-09-13T12:40:00Z",
   "discord_mention": "",
   "discord_changes": [
-    "🧠 BENCHMARK MODE: the main report now follows the hand-built Blake Ryan benchmark structure instead of stopping at heuristic 17-section output.",
-    "🧾 PREMIUM RESEARCH: GPT-5.6 Sol runs source-specific summary, takeaways, mechanics and web-backed claims stages with independent review and final audit gates.",
-    "📊 CREATOR CONTEXT: channel median/outlier evidence, public title discrepancies, live cross-channel search validation and selling-share/funnel analysis are surfaced explicitly.",
-    "🎯 MAKE IT YOURS: Creator DNA now drives 2–3 executable remake directions with titles, spoken hooks, thumbnails, beat sheets, steal/do-not-copy rules and post-publish measurements."
+    "🧠 BENCHMARK CONTRACT: Analyse now targets the full Blake Ryan benchmark structure — short version, facts, first-minute jobs, structure, retention, claims, pacing, packaging, visuals, outlier context, Pattern Mine, funnel, remake and Creator Loop.",
+    "🛡️ RESILIENT BY DESIGN: GPT-5.6 Sol premium research upgrades the report when available; otherwise a full 16-section evidence report is built automatically instead of dropping back to a weak generic result.",
+    "🧾 CLAIMS DISCIPLINE: evidence mode marks outside-world numbers as creator_claim/unverified rather than manufacturing verification; public facts keep pull/context receipts.",
+    "🎯 CREATOR OUTPUT: live channel/search context, title-surface checks, storyboard fallback, selling-share analysis, Creator-DNA remake directions and post-publish measurements are all part of the report."
   ],
   "changes": [
-    "Preserved the stable single-script HTML entry and independent Analyse / Competitors / Vault navigation.",
-    "Added a benchmark premium layer after the stable v0.39 evidence/intelligence fallback; a premium failure cannot make the site unusable.",
-    "Runs the existing premium-single-link-v036 research contract against the complete source report using the configured GPT-5.6 Sol research model.",
-    "Runs plan, summary, takeaways, mechanics and consequential claims specialists; claims use web search and source URLs rather than memory-only verification.",
-    "Runs independent review before remake generation and a final independent audit before the benchmark report is promoted as the main result.",
-    "Renders a canonical 16-part benchmark report: short version, facts, first 60 seconds, structure, retention, claims ledger, pacing, packaging, visuals/audio, outlier context, pattern mine, funnel, steal/do-not-copy, remake blueprint, Creator Loop and method/audit.",
-    "Uses live public YouTube search plus the creator's channel feed for cross-channel and same-channel context; title strings are compared across public surfaces without falsely asserting an A/B test.",
-    "Calculates commercial/selling share from source-backed selling intervals and keeps creator claims separate from independently verified facts.",
-    "Uses public channel data to recover subscriber evidence where available instead of treating missing subscriber data as zero.",
-    "Preserves real storyboard samples and public audio metadata when YouTube exposes them, with explicit limits when it does not.",
-    "Keeps the prior stable 17-section output in a collapsible source-evidence appendix for resilience and debugging."
+    "Preserved the v0.39 single-owner stable shell and independent Analyse, Competitors and Vault navigation.",
+    "Added the premium benchmark research layer using the existing staged GPT-5.6 Sol research contract with specialist stages, web-backed claims, independent review, Creator-DNA remake and final audit.",
+    "Added a separate no-credit benchmark evidence engine that automatically takes over if the premium research provider cannot complete.",
+    "The evidence engine still renders all 16 benchmark sections rather than reverting to the old generic result.",
+    "First-minute transcript lines are timestamped and labelled by observable job such as promise, re-hook, proof/receipt, claim/number or commercial beat.",
+    "Structure is mapped across the full runtime with transcript receipts and conservative function labels.",
+    "Claims containing consequential numbers or absolute language remain labelled creator_claim until independently verified; evidence mode never converts them into facts.",
+    "Public channel/subscriber context, recent-video baseline/outlier information and pull timestamps are surfaced when available.",
+    "Public title strings from source/search/channel surfaces are compared; discrepancies are treated as possible experiment/edit/cache evidence, not falsely declared a confirmed A/B test.",
+    "Cross-channel Pattern Mine uses live public YouTube discovery and clearly labels the result as a descriptive sample rather than a forecast.",
+    "Commercial/CTA transcript intervals are grouped into a conservative minimum selling-share read.",
+    "Storyboard samples are used as a visual fallback when available, with explicit limits on what seek-bar frames can prove.",
+    "Creator DNA drives three original remake directions with titles, spoken hooks, thumbnails, beat sheets, steal/do-not-copy rules and a post-publish measurement plan.",
+    "The previous stable 17-section analysis is retained inside a collapsible source-evidence appendix for debugging and resilience.",
+    "Production browser smoke now requires either a full premium report or a full 16-section evidence-mode report; a raw fallback is a failure."
   ],
   "known_limitations": [
-    "Premium research consumes the configured research-model quota. If the quota, model provider or a research stage is unavailable, YTIntel falls back visibly to the stable deterministic report instead of inventing confidence.",
-    "Public YouTube surfaces do not expose subscriber counts, Most Replayed, storyboards, comments or every title variant for every video/request; unavailable evidence remains marked unavailable.",
-    "Cross-channel validation is a live public search/channel-feed sample and is descriptive evidence, not a forecast of future performance.",
-    "Storyboard samples are seek-bar frames, not every encoded frame; sampled stills cannot prove every cut, zoom, transition, text overlay or sound effect.",
-    "Public Most Replayed is replay/seek interest, not private audience-retention data, and channel-relative performance does not prove which mechanic caused the result."
+    "The cloud GPT-5.6 Sol research path depends on provider quota/availability. The currently verified production fallback is evidence mode; when cloud research is unavailable, outside-world claims are not independently web-verified and are labelled accordingly.",
+    "Public YouTube surfaces do not expose subscriber counts, Most Replayed, storyboards, comments or every title variant for every request; unavailable evidence remains unavailable.",
+    "Cross-channel validation is a live public search/channel-feed sample and is descriptive evidence, not a prediction of future performance.",
+    "Storyboard samples are seek-bar frames, not every encoded frame; they cannot prove every cut, zoom, overlay, transition or audio event.",
+    "Public Most Replayed is replay/seek interest rather than private audience-retention data, and channel-relative performance does not establish which creative mechanic caused the result."
   ],
-  "why_it_matters": "The product now aims at the actual benchmark: a creator should be able to paste one video, skip watching it, understand the evidence and business mechanics, see what is true versus claimed, and leave with an original video plan plus a measurement loop — without sacrificing the stable shell that made v0.38/v0.39 usable."
+  "why_it_matters": "The product contract is now the benchmark itself: paste one video, understand what it says and how it is built, separate facts from creator claims, see channel/topic context, decide what is transferable, leave with an original package and remake plan, and know exactly what to measure after publishing — without sacrificing site stability when premium research is unavailable."
 }
