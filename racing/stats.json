@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 3,
-  "appVersion": "0.7.0",
-  "updatedAt": "2026-08-26T19:08:00+08:00",
+  "schemaVersion": 4,
+  "appVersion": "0.9.2",
+  "updatedAt": "2026-09-14T08:12:00+08:00",
   "strategy": {
     "name": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
     "status": "PREFERRED CHAMPION",
@@ -30,6 +30,23 @@
     "fivePctWorseStartAvgAud": 136550.757,
     "executionSensitivityAud": 27149.937444444397,
     "message": "The stored V11 start-around-10-Aug replay falls by about A$27.1K/year when winning prices are 5% worse. Real accepted price and fill quality remain one of the largest practical profit levers."
+  },
+  "liveAudit": {
+    "throughDate": "2026-09-12",
+    "confirmedAcceptedSystemBets": 0,
+    "confirmedCashPlAud": 0,
+    "latestSignalDate": "2026-09-12",
+    "latestSignalRace": "PR2",
+    "latestSignalHorse": "OLAF THE SNOWMAN",
+    "latestSignalStakeAud": 10000,
+    "latestSignalPrice": 3.0,
+    "latestSignalFinalStatus": "NO_BET",
+    "latestSignalExecutionStatus": "NOT_PLACED",
+    "latestSignalOutcome": "LOSS",
+    "latestSignalWinner": "SOWAR",
+    "latestSignalRevokePrice": 2.9,
+    "latestSignalCashPlAud": 0,
+    "note": "The 12 Sep PR2 temporary signal was revoked before execution when the live fixed-WIN price fell below the $3.00 V11 minimum. It is not a system bet and must not be counted in betting totals or cash P/L."
   },
   "safeFloor": {
     "stressLabel": "5% central winning-price stress · fixed A$100K floor",
