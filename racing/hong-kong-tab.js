@@ -1,9 +1,9 @@
 (() => {
   'use strict';
 
-  const DATA_URL = './hong-kong.json?v=20260904-optimal-v4';
+  const DATA_URL = './hong-kong.json?v=20260914-reliability-lock';
   const FETCH_TIMEOUT_MS = 9000;
-  const LIVE_FRESH_MAX_MS = 30000;
+  const LIVE_FRESH_MAX_MS = 10000;
   const esc = v => String(v ?? '')
     .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
     .replaceAll('"','&quot;').replaceAll("'",'&#039;');
@@ -30,13 +30,14 @@
       .hk-tab-btn{min-height:42px;border:1px solid #334961;background:#111e2f;color:#aebed0;padding:9px 13px;border-radius:10px;font-weight:900;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
       .hk-tab-btn.active{background:#173455;color:#fff;border-color:#4a79a8}
       .hk-panel{display:none}.hk-panel.active{display:block}
-      .hk-action,.hk-note,.hk-good,.hk-strategy,.hk-card,.hk-dayguard{border-radius:12px;margin-bottom:10px;padding:12px}
+      .hk-action,.hk-note,.hk-good,.hk-strategy,.hk-card,.hk-dayguard,.hk-reliability{border-radius:12px;margin-bottom:10px;padding:12px}
       .hk-action{padding:16px;border:1px solid #765f2a;background:#2a2413}
       .hk-action.bet{border-color:#2a8058;background:#0d3525}.hk-action.no{border-color:#74323e;background:#35151d}
       .hk-action-label{font-size:9px;color:#aebed0;font-weight:950}.hk-action-title{font-size:26px;font-weight:1000;color:#ffc34f;margin-top:3px}
       .hk-action.bet .hk-action-title{color:#78f2b5}.hk-action.no .hk-action-title{color:#ff9eaa}.hk-action-text{font-size:11px;line-height:1.45;margin-top:5px}
       .hk-note{border:1px solid #765f2a;background:#2a2413;color:#ffe29a;font-size:10px;line-height:1.5}
       .hk-good{border:1px solid #2a8058;background:#0d2b20;color:#b9f6d8;font-size:10px;line-height:1.5}
+      .hk-reliability{border:1px solid #78404b;background:#2c151b;color:#ffd0d6;font-size:10px;line-height:1.5}.hk-reliability.good{border-color:#2a8058;background:#0d2b20;color:#b9f6d8}
       .hk-dayguard{border:1px solid #365678;background:#0d2134}.hk-dayguard h3{font-size:11px;margin:0 0 8px}.hk-daygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.hk-daycell{padding:9px;background:#10283e;border-radius:9px}.hk-daycell span{display:block;color:#829bb4;font-size:8px;font-weight:950}.hk-daycell strong{display:block;margin-top:4px;font-size:12px}.hk-daycell.stop strong{color:#ff9eaa}.hk-daycell.good strong{color:#78f2b5}
       .hk-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}.hk-kpi{padding:10px;border:1px solid #2e435c;border-radius:10px;background:#0f1d2d}.hk-kpi span,.hk-rule span{display:block;color:#8198af;font-size:8px;font-weight:950}.hk-kpi strong{display:block;font-size:15px;margin-top:4px}
       .hk-strategy{border:1px solid #2e435c;background:#0d1725}.hk-strategy h3{margin:0 0 9px;font-size:13px}.hk-rules{display:grid;grid-template-columns:1fr 1fr;gap:7px}.hk-rule{padding:9px;border-radius:9px;background:#111f30}.hk-rule strong{display:block;font-size:10px;margin-top:3px;line-height:1.35}
@@ -56,7 +57,7 @@
     const nav = document.createElement('div');
     nav.className = 'hk-switcher';
     nav.setAttribute('aria-label','Racing sections');
-    nav.innerHTML = '<button class="hk-tab-btn active" data-tab="au" type="button">AUSTRALIA · V11</button><button class="hk-tab-btn" data-tab="hk" type="button">HONG KONG · OPTIMAL V4</button>';
+    nav.innerHTML = '<button class="hk-tab-btn active" data-tab="au" type="button">AUSTRALIA · V11</button><button class="hk-tab-btn" data-tab="hk" type="button">HONG KONG · RELIABILITY LOCK</button>';
 
     const au = document.createElement('div');
     au.id = 'auRacingPanel';
@@ -66,7 +67,7 @@
     const hk = document.createElement('div');
     hk.id = 'hkRacingPanel';
     hk.className = 'hk-panel';
-    hk.innerHTML = '<section style="margin-bottom:12px"><div style="font-size:10px;color:#7f96ae;font-weight:950">HONG KONG · DAILY RISK GUARD</div><h2 id="hkMeetingTitle" style="margin:5px 0 3px;font-size:20px">HONG KONG MEETING</h2><div id="hkMeetingMeta" style="font-size:11px;color:#9eb3ca">Loading current meeting…</div></section><div id="hkRacingContent"><div class="hk-note">Loading Hong Kong OPTIMAL V4…</div></div>';
+    hk.innerHTML = '<section style="margin-bottom:12px"><div style="font-size:10px;color:#7f96ae;font-weight:950">HONG KONG · FAIL-CLOSED RELIABILITY MODE</div><h2 id="hkMeetingTitle" style="margin:5px 0 3px;font-size:20px">HONG KONG MEETING</h2><div id="hkMeetingMeta" style="font-size:11px;color:#9eb3ca">Loading current meeting…</div></section><div id="hkRacingContent"><div class="hk-note">Loading Hong Kong reliability checks…</div></div>';
     host.append(nav, au, hk);
 
     const switchTab = tab => {
@@ -156,15 +157,43 @@
     return { status:'OK', todayCount, todayPl, maxDay, lossStop };
   }
 
+  function productionDecision(strategy) {
+    const approval = strategy?.productionApproval || {};
+    const gates = approval?.gates || {};
+    if (approval.approved !== true) {
+      return { status:'WAIT', reason:'RELIABILITY LOCK — production approval is not explicitly TRUE. Hong Kong remains shadow-only.' };
+    }
+    const required = [
+      ['researchFreezePassed','research freeze'],
+      ['executionFeasibilityPassed','execution feasibility'],
+      ['forwardCalibrationPassed','forward calibration'],
+      ['capacityPassed','capacity'],
+      ['commercialPromotionPassed','commercial promotion']
+    ];
+    const missing = required.filter(([key]) => gates[key] !== true).map(([,label]) => label);
+    if (missing.length) return { status:'WAIT', reason:`RELIABILITY LOCK — evidence gates still open: ${missing.join(', ')}.` };
+    return { status:'OK', reason:'Production approval and every reliability evidence gate are explicitly verified.' };
+  }
+
+  function quoteFresh(signal) {
+    const raw = signal?.quoteVerifiedAt || signal?.quoteAt || signal?.lastQuoteAt || null;
+    const ms = raw ? Date.parse(raw) : NaN;
+    return Number.isFinite(ms) && (Date.now() - ms) >= 0 && (Date.now() - ms) <= LIVE_FRESH_MAX_MS;
+  }
+
   function executeTop(candidate, strategy) {
     const signal = candidate.signal || {};
     const hardCap = Number(strategy?.risk?.hardMaxStakeAud ?? 10000);
     const yearCap = Number(strategy?.risk?.maxBetsPerCalendarYear ?? 100);
     if (!(candidate.stakeAud > 0) || candidate.stakeAud > hardCap) return { ...candidate, status:'NO_BET', reason:`Stake ${money(candidate.stakeAud)} breaches the ${money(hardCap)} hard cap.` };
 
+    const production = productionDecision(strategy);
+    if (production.status !== 'OK') return { ...candidate, status:'WAIT', reason:production.reason };
+
     const feed = strategy?.liveFeed || {};
     if (feed.runtimeMeetingToday !== true) return { ...candidate, status:'WAIT', reason:'Loaded Hong Kong meeting is not today in Perth/Hong Kong time.' };
     if (feed.runtimeFresh !== true) return { ...candidate, status:'WAIT', reason:'Live HK model/quote verification is stale or missing.' };
+    if (!quoteFresh(signal)) return { ...candidate, status:'WAIT', reason:'The runner-specific executable WIN quote is missing a fresh timestamp or is older than 10 seconds.' };
     if (feed.yearBetCountVerified !== true) return { ...candidate, status:'WAIT', reason:'Calendar-year confirmed bet count is not verified, so the 100-bet hard cap cannot be enforced.' };
     const used = num(feed.confirmedBetsThisCalendarYear);
     if (used === null) return { ...candidate, status:'WAIT', reason:'Confirmed Hong Kong bets this calendar year are missing.' };
@@ -177,7 +206,7 @@
     if (capacity === null) return { ...candidate, status:'WAIT', reason:`Capacity amount is missing; need at least ${money(candidate.stakeAud)}.` };
     if (capacity < candidate.stakeAud) return { ...candidate, status:'NO_BET', reason:`Available capacity ${money(capacity)} is below ${money(candidate.stakeAud)}.` };
 
-    return { ...candidate, status:'BET_NOW', reason:`All OPTIMAL V4 gates passed · ${candidate.sleeve} · highest calibrated model EV in this race · daily guard clear (${day.todayCount}/${day.maxDay} bets, ${money(day.todayPl)} realised today).` };
+    return { ...candidate, status:'BET_NOW', reason:`Every reliability, live-model, execution, capacity and daily-risk gate passed · ${candidate.sleeve} · highest calibrated model EV in this race · daily guard clear (${day.todayCount}/${day.maxDay} bets, ${money(day.todayPl)} realised today).` };
   }
 
   function evaluateRace(rawSignals, strategy) {
@@ -188,7 +217,7 @@
     qualifiers.sort((a,b) => (b.calibratedEv - a.calibratedEv) || (a.odds - b.odds) || (b.rawEv - a.rawEv));
     const top = qualifiers[0];
     const chosen = executeTop(top, strategy);
-    return checked.map(x => x === top ? chosen : x.status === 'QUALIFIES' ? { ...x, status:'NO_BET', reason:'Qualifies, but OPTIMAL V4 allows one bet per race and another runner has higher calibrated model EV.' } : x);
+    return checked.map(x => x === top ? chosen : x.status === 'QUALIFIES' ? { ...x, status:'NO_BET', reason:'Qualifies, but the frozen system allows one horse per race and another runner has higher calibrated model EV.' } : x);
   }
 
   function raceSignals(data, race) {
@@ -220,11 +249,12 @@
     const guard = strategy.dailyRiskGuard || {};
     const races = Array.isArray(data.races) ? data.races : [];
     const meeting = data.meeting || {};
+    const production = productionDecision(strategy);
 
     const title = document.getElementById('hkMeetingTitle');
     const meta = document.getElementById('hkMeetingMeta');
     if (title) title.textContent = `${String(meeting.venue || 'HONG KONG').toUpperCase()} · ${meeting.date || 'DATE TBC'}`;
-    if (meta) meta.textContent = `HK OPTIMAL V4 · one bet/race · max 2/day · stop day at −A$10k realised P/L · 100/year cap`;
+    if (meta) meta.textContent = `HK reliability lock · frozen selection rules · one horse/race · max 2/day · 10s live freshness`;
 
     const meetingToday = Boolean(meeting.date) && meeting.date === perthToday();
     const verifiedAtRaw = feed.lastVerifiedAt || feed.verifiedAt || null;
@@ -236,13 +266,13 @@
     const byRace = races.map(race => ({ race, results:evaluateRace(raceSignals(data, race), runtimeStrategy) }));
     const bets = byRace.flatMap(x => x.results).filter(x => x.status === 'BET_NOW');
     const fullyScored = races.length > 0 && races.every(r => !String(r.strategyStatus || '').includes('NOT SCORED'));
-    const feedReady = baseFeedReady && meetingToday && liveFresh;
+    const feedReady = production.status === 'OK' && baseFeedReady && meetingToday && liveFresh;
 
-    let action = { cls:'', title:'WAIT', text:feed.message || 'Do not bet until every OPTIMAL V4 live gate is verified.' };
-    if (!meetingToday) action = { cls:'', title:'WAIT', text:`Loaded HK meeting is ${meeting.date || 'not dated'}; today is ${perthToday()}. No live Hong Kong action can unlock on the wrong date.` };
-    else if (baseFeedReady && !liveFresh) action = { cls:'', title:'WAIT', text:'HK model/quote/risk flags may be present, but the live verification timestamp is missing or older than 30 seconds. Fail closed.' };
-    else if (bets.length) action = { cls:'bet', title:'BET NOW', text:`${bets.length} race${bets.length === 1 ? '' : 's'} currently has one fresh verified OPTIMAL V4 selection. Place only the exact horse and stake shown.` };
-    else if (feedReady && fullyScored) action = { cls:'no', title:'NO BET', text:'Meeting scored; no horse passed every OPTIMAL V4 selection, execution and daily-risk gate.' };
+    let action = { cls:'', title:'WAIT', text:production.reason };
+    if (production.status === 'OK' && !meetingToday) action = { cls:'', title:'WAIT', text:`Loaded HK meeting is ${meeting.date || 'not dated'}; today is ${perthToday()}. No live Hong Kong action can unlock on the wrong date.` };
+    else if (production.status === 'OK' && baseFeedReady && !liveFresh) action = { cls:'', title:'WAIT', text:'HK model/quote/risk flags may be present, but the live verification timestamp is missing or older than 10 seconds. Fail closed.' };
+    else if (production.status === 'OK' && bets.length) action = { cls:'bet', title:'BET NOW', text:`${bets.length} race${bets.length === 1 ? '' : 's'} currently has one fresh verified selection. Place only the exact horse and stake shown.` };
+    else if (production.status === 'OK' && feedReady && fullyScored) action = { cls:'no', title:'NO BET', text:'Meeting scored; no horse passed every frozen selection, execution and daily-risk gate.' };
 
     const todayCount = num(feed.confirmedBetsToday);
     const todayPl = num(feed.realizedPlTodayAud);
@@ -253,7 +283,8 @@
 
     root.innerHTML = `
       <div class="hk-action ${action.cls}"><div class="hk-action-label">HONG KONG · YOUR ACTION</div><div class="hk-action-title">${esc(action.title)}</div><div class="hk-action-text">${esc(action.text)}</div></div>
-      <div class="hk-good"><b>OPTIMAL V4 FROZEN:</b> same horse-selection model and stakes as V3, maximum <b>2 HK bets per race day</b>, stop after realised HK P/L reaches <b>−${money(lossStop)}</b> or worse, maximum one horse per race and ${esc(cadence.calendarYearBetCap || 100)} per calendar year.</div>
+      <div class="hk-reliability ${production.status === 'OK' ? 'good' : ''}"><b>RELIABILITY / PRODUCTION LOCK:</b> ${esc(production.status === 'OK' ? 'PASSED — all pre-agreed evidence gates are explicitly verified.' : 'BLOCKED — no real-money Hong Kong BET NOW can appear until production approval plus research-freeze, execution-feasibility, forward-calibration, capacity and commercial-promotion gates are all explicitly TRUE.')}</div>
+      <div class="hk-good"><b>FROZEN RULES:</b> selection thresholds are not retuned from future wins/losses. Maximum <b>2 HK bets per race day</b>, stop after realised HK P/L reaches <b>−${money(lossStop)}</b> or worse, maximum one horse per race and ${esc(cadence.calendarYearBetCap || 100)} per calendar year.</div>
       <div class="hk-dayguard">
         <h3>TODAY'S HONG KONG RISK GUARD</h3>
         <div class="hk-daygrid">
@@ -261,10 +292,10 @@
           <div class="hk-daycell ${todayCount !== null && todayCount >= maxDay ? 'stop' : ''}"><span>CONFIRMED BETS TODAY</span><strong>${todayCount === null ? '—' : `${todayCount} / ${maxDay}`}</strong></div>
           <div class="hk-daycell ${todayPl !== null && todayPl <= -lossStop ? 'stop' : ''}"><span>REALISED HK P/L TODAY</span><strong>${money(todayPl)}</strong></div>
         </div>
-        <div class="hk-small">BET NOW additionally requires: correct meeting date + a fresh live verification timestamp no older than 30 seconds. Missing or stale = WAIT.</div>
+        <div class="hk-small">A future production BET NOW additionally requires the correct meeting date, every model/capacity/risk flag, and a runner-specific executable WIN quote timestamp no older than 10 seconds. Missing or stale = WAIT.</div>
       </div>
       <div class="hk-kpis"><div class="hk-kpi"><span>HIST BETS/YR</span><strong>${n1(cadence.betsPerYear)}</strong></div><div class="hk-kpi"><span>HIST ROI</span><strong>${pct(headline.roi)}</strong></div><div class="hk-kpi"><span>HIST AVG/YR</span><strong>${money(headline.annualProfitAud)}</strong></div><div class="hk-kpi"><span>STORED HIST DD</span><strong>${money(headline.maxDrawdownAud)}</strong></div></div>
-      <div class="hk-note"><b>RESEARCH WARNING:</b> ${money(headline.maxDrawdownAud)} is the stored historical path, not a guaranteed maximum. V4 was found by testing the historical sequence and every removed historical V3 bet happened to lose. Freeze it and judge fresh forward evidence. Day-block P95 stress is about ${money(risk.dayBlockSequenceStressP95MaxDrawdownAud)}. Calibrated model EV is about ${money(strategy?.prediction?.calibratedModelEvAudPerYear)}/year.</div>
+      <div class="hk-note"><b>RESEARCH WARNING:</b> historical performance is not a guarantee. ${money(headline.maxDrawdownAud)} is the stored historical path, while day-block P95 stress is about ${money(risk.dayBlockSequenceStressP95MaxDrawdownAud)}. V4's historical daily guard was discovered on historical sequencing, so fresh forward evidence and real accepted-price evidence are mandatory before promotion.</div>
       <section class="hk-strategy"><h3>${esc(strategy.name || 'HK OPTIMAL V4')}</h3><div class="hk-rules">
         <div class="hk-rule"><span>LOW CORE</span><strong>R2 CORE · ${price(low.minOddsInclusive)}–&lt;${price(low.maxOddsExclusive)} · ${money(low.stakeAud)}</strong></div>
         <div class="hk-rule"><span>LONG CORE</span><strong>R2 CORE · ${price(long.minOddsInclusive)}–&lt;${price(long.maxOddsExclusive)} · ${money(long.stakeAud)}</strong></div>
@@ -272,19 +303,19 @@
         <div class="hk-rule"><span>EXTRA EV SAT</span><strong>Satellite-only · raw EV ≥ ${pct(extra.minimumOriginalRawModelEv)} · ${money(extra.stakeAud)}</strong></div>
         <div class="hk-rule"><span>WITHIN A RACE</span><strong>Only highest verified calibrated model EV qualifier</strong></div>
         <div class="hk-rule"><span>DAY / YEAR CAPS</span><strong>Max ${esc(maxDay)}/day · stop at −${money(lossStop)} · max ${esc(risk.maxBetsPerCalendarYear || 100)}/year</strong></div>
-      </div><div class="hk-small">WIN only · BACK only · maximum stake ${money(risk.hardMaxStakeAud)}.</div></section>
+      </div><div class="hk-small">WIN only · BACK only · maximum model stake ${money(risk.hardMaxStakeAud)}. No guarantee of profit.</div></section>
       ${byRace.map(({race, results}) => {
         const hasBet = results.some(x => x.status === 'BET_NOW');
         const allNo = !hasBet && results.length > 0 && results.every(x => x.status === 'NO_BET');
         const cls = hasBet ? 'bet' : allNo ? 'no' : '';
-        const status = hasBet ? 'BET NOW' : allNo ? 'NO BET' : (race.strategyStatus || 'WAIT — OPTIMAL V4 NOT SCORED');
-        return `<div class="hk-card ${cls}"><div class="hk-race">HK R${esc(race.race)} · ${esc(race.timeHkt || 'TBC')} · ${esc(race.name || 'Race')}</div><div class="hk-meta">${esc(race.class || '')} · ${esc(race.distanceM)}m</div><div class="hk-status ${cls}">${esc(status)}</div>${results.length ? results.map(signalHtml).join('') : '<div class="hk-small">No verified V4 horse-level model signal loaded yet. Do not choose a horse manually.</div>'}</div>`;
+        const status = hasBet ? 'BET NOW' : allNo ? 'NO BET' : (race.strategyStatus || 'WAIT — SHADOW / NOT SCORED');
+        return `<div class="hk-card ${cls}"><div class="hk-race">HK R${esc(race.race)} · ${esc(race.timeHkt || 'TBC')} · ${esc(race.name || 'Race')}</div><div class="hk-meta">${esc(race.class || '')} · ${esc(race.distanceM)}m</div><div class="hk-status ${cls}">${esc(status)}</div>${results.length ? results.map(signalHtml).join('') : '<div class="hk-small">No verified horse-level model signal loaded yet. Do not choose a horse manually.</div>'}</div>`;
       }).join('')}
       <a class="hk-source" href="${esc(meeting.officialSourceUrl || '#')}" target="_blank" rel="noopener">OPEN OFFICIAL HKJC RACE CARD ↗</a>`;
 
     window.dispatchEvent(new CustomEvent('mitchell-hk-health', { detail:{
       status:feedReady ? 'READY' : 'SHADOW', checkedAt:Date.now(), action:action.title,
-      reason:feedReady ? 'Fresh HK model/quote/risk gates verified.' : action.text
+      reason:feedReady ? 'Production approval plus fresh HK model/quote/risk gates verified.' : action.text
     }}));
   }
 
@@ -298,7 +329,7 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       render(await response.json());
     } catch (error) {
-      root.innerHTML = '<div class="hk-action"><div class="hk-action-label">HONG KONG · YOUR ACTION</div><div class="hk-action-title">WAIT</div><div class="hk-action-text">Hong Kong OPTIMAL V4 data could not be verified. Do not place a Hong Kong bet.</div></div>';
+      root.innerHTML = '<div class="hk-action"><div class="hk-action-label">HONG KONG · YOUR ACTION</div><div class="hk-action-title">WAIT</div><div class="hk-action-text">Hong Kong data could not be verified. Fail closed and do not place a Hong Kong bet.</div></div>';
       window.dispatchEvent(new CustomEvent('mitchell-hk-health', { detail:{ status:'ERROR', checkedAt:Date.now(), action:'WAIT', reason:error instanceof Error ? error.message : 'HK data unavailable' } }));
     } finally {
       clearTimeout(timer);
