@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 8,
-  "appVersion": "1.9.0",
-  "updatedAt": "2026-09-10T19:50:00+08:00",
+  "schemaVersion": 9,
+  "appVersion": "1.10.0",
+  "updatedAt": "2026-09-14T10:00:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-13",
@@ -10,15 +10,29 @@
     "track": "Turf",
     "course": "B",
     "meetingNo": 3,
-    "status": "FIELDS CONFIRMED · SHADOW SCORING ONLY",
+    "status": "COMPLETE / ARCHIVED · SHADOW SCORING ONLY",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F13"
   },
-  "systemStatus": "HK OPTIMAL V4 FROZEN · SHADOW FORWARD VALIDATION · PRODUCTION EXECUTION BLOCKED",
-  "systemMessage": "Hong Kong OPTIMAL V4 remains frozen for forward validation. V4 keeps the V3 horse-selection model and stake schedule and adds a strict race-day risk guard: maximum two confirmed Hong Kong bets per race day, no new bet after realised Hong Kong P/L for that day reaches -A$10,000 or worse, maximum one horse per race and 100 bets per calendar year. Real-money BET NOW remains disabled until production approval and every live model/quote/capacity/risk gate are independently verified.",
+  "systemStatus": "HK OPTIMAL V4 FROZEN · RELIABILITY LOCK ACTIVE · PRODUCTION EXECUTION BLOCKED",
+  "systemMessage": "No horse-racing model can be made guaranteed. The app is now fail-closed: Hong Kong real-money BET NOW is impossible unless productionApproval.approved is explicitly true AND every pre-agreed research, execution, forward-calibration, capacity and commercial-promotion gate is explicitly passed. Until then every qualifying signal remains shadow-only.",
   "strategy": {
-    "name": "HK OPTIMAL V4 · DAILY RISK GUARD",
-    "mode": "SHADOW · ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR",
+    "name": "HK OPTIMAL V4 · RELIABILITY LOCK",
+    "mode": "SHADOW · ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR · PRODUCTION LOCKED",
     "status": "FROZEN RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED",
+    "productionApproval": {
+      "approved": false,
+      "status": "BLOCKED_SHADOW_ONLY",
+      "guaranteedProfit": false,
+      "reason": "Fresh forward calibration, executable-price/fill evidence, capacity evidence and commercial-promotion evidence are not complete. Historical performance alone is insufficient.",
+      "gates": {
+        "researchFreezePassed": true,
+        "executionFeasibilityPassed": false,
+        "forwardCalibrationPassed": false,
+        "capacityPassed": false,
+        "commercialPromotionPassed": false
+      },
+      "promotionPolicy": "Never set approved=true because of a backtest, a short winning run, or revised thresholds. Promotion requires the frozen rule to survive genuinely new races, real executable quote/fill logging, calibration checks, drawdown review and target-stake capacity checks without retuning."
+    },
     "historicalCadence": {
       "completedBets": 393,
       "completedYears": 11,
@@ -93,12 +107,18 @@
     },
     "requiredPreBetGates": [
       "PRODUCTION_APPROVAL_TRUE",
+      "RESEARCH_FREEZE_PASSED",
+      "EXECUTION_FEASIBILITY_PASSED",
+      "FORWARD_CALIBRATION_PASSED",
+      "CAPACITY_GATE_PASSED",
+      "COMMERCIAL_PROMOTION_PASSED",
       "HORSE_IDENTITY_VERIFIED",
       "R2_OR_RVENUE_MODEL_CLASSIFICATION_VERIFIED",
       "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
       "CALIBRATED_MODEL_EV_VERIFIED",
       "ONE_BET_PER_RACE_RANKING_VERIFIED",
       "EXECUTABLE_WIN_QUOTE_VERIFIED",
+      "RUNNER_QUOTE_TIMESTAMP_WITHIN_10_SECONDS",
       "OPTIMAL_V4_SELECTION_RULE_PASSED",
       "CAPACITY_VERIFIED",
       "STAKE_WITHIN_A$10000_CAP",
@@ -110,7 +130,7 @@
     "postExecutionAccounting": {
       "acceptedBetConfirmationRequired": true,
       "settlementRequiredForDailyPl": true,
-      "rule": "BET NOW is a pre-bet instruction only after production approval. After placement, only the actually accepted stake and price count in cash P/L."
+      "rule": "A future BET NOW is only a pre-bet instruction after production approval. After placement, only the actually accepted stake and price count in cash P/L."
     },
     "liveFeed": {
       "status": "SHADOW · NOT PRODUCTION VERIFIED",
@@ -124,7 +144,7 @@
       "confirmedBetsToday": null,
       "realizedPlTodayAud": null,
       "lastVerifiedAt": null,
-      "message": "WAIT — SHADOW ONLY. Sha Tin 13 Sep fields are loaded, but no real-money Hong Kong action may unlock until production approval plus model classification, calibrated model EV, within-race ranking, executable WIN price, capacity, yearly bet count and today's daily-risk state are all verified."
+      "message": "WAIT — RELIABILITY LOCK ACTIVE. No real-money Hong Kong action may unlock until production approval plus all evidence, model, quote, capacity, yearly-count and daily-risk gates are verified."
     },
     "archivedResearch": {
       "optimalV3": "Same selections/stakes without daily guard: 405 completed bets, A$106.1k historical average/year, A$78.9k stored historical DD, 50.4% historical ROI.",
