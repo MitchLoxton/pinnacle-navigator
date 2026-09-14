@@ -22,6 +22,11 @@
     return rows.filter(x => String(x?.race || '').startsWith(prefix));
   }
 
+  function venueFor(rows, fallback) {
+    const venue = rows.find(x => x?.venue)?.venue;
+    return venue || fallback;
+  }
+
   function groupCard(label, rows) {
     return `<div style="padding:10px;border-radius:11px;background:#0b1726;border:1px solid #2d425c">
       <div style="font-size:10px;font-weight:950;color:#fff;letter-spacing:.04em">${esc(label)}</div>
@@ -36,29 +41,41 @@
     </div>`;
   }
 
+  function dateLabel(value) {
+    const d = new Date(`${value || ''}T00:00:00+08:00`);
+    if (Number.isNaN(d.getTime())) return 'LAST WEEK';
+    return new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Perth',day:'numeric',month:'short'}).format(d).toUpperCase();
+  }
+
   function render(history) {
     const box = document.getElementById('lastWeekLog');
     const summary = document.getElementById('lastWeekSummary');
     if (!box || !summary) return;
 
-    const rows = Array.isArray(history?.results) ? history.results : [];
-    const system = history?.systemSummary || {};
-    const wins = rows.filter(x => String(x?.outcome).toUpperCase() === 'WIN').length;
-    const losses = rows.filter(x => String(x?.outcome).toUpperCase() === 'LOSS').length;
+    const rows = Array.isArray(history?.races) ? history.races : (Array.isArray(history?.results) ? history.results : []);
+    const system = history?.summary || history?.systemSummary || {};
+    const wins = Number.isFinite(Number(system.favouriteWins)) ? Number(system.favouriteWins) : rows.filter(x => String(x?.outcome).toUpperCase() === 'WIN').length;
+    const losses = Number.isFinite(Number(system.favouriteLosses)) ? Number(system.favouriteLosses) : rows.filter(x => String(x?.outcome).toUpperCase() === 'LOSS').length;
     const bets = Number(system.confirmedSystemBets) || 0;
+    const cash = Number(system.systemCashPlAud) || 0;
+    const money = new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(cash);
+
+    const perth = groupRows(rows,'PR');
+    const sydney = groupRows(rows,'SR');
+    const melbourne = groupRows(rows,'MR');
 
     summary.textContent = `${rows.length} states logged · ${bets} system bets`;
     box.innerHTML = `
       <div style="padding:12px;border-radius:12px;background:#162338;border:1px solid #36516e">
-        <div style="font-size:9px;color:#8fa5bd;font-weight:950;letter-spacing:.06em">29 AUG FINAL LOG</div>
+        <div style="font-size:9px;color:#8fa5bd;font-weight:950;letter-spacing:.06em">${esc(dateLabel(history?.date))} FINAL LOG</div>
         <div style="font-size:15px;font-weight:1000;color:#fff;margin-top:4px">${wins} favourite wins · ${losses} favourite losses</div>
-        <div style="font-size:12px;font-weight:950;color:#9eb3ca;margin-top:5px">SYSTEM BETS: ${bets} · SYSTEM CASH P/L: A$0</div>
+        <div style="font-size:12px;font-weight:950;color:#9eb3ca;margin-top:5px">SYSTEM BETS: ${bets} · SYSTEM CASH P/L: ${esc(money)}</div>
         <div style="font-size:9px;color:#b7c5d5;line-height:1.4;margin-top:6px">Favourite results move the stream state even when there was no wager. Official-SP evidence remains separate and is not guessed from closing fixed odds.</div>
       </div>
       <div style="display:grid;gap:9px;margin-top:9px">
-        ${groupCard('PERTH · BELMONT', groupRows(rows,'PR'))}
-        ${groupCard('SYDNEY · ROSEHILL', groupRows(rows,'SR'))}
-        ${groupCard('MELBOURNE · CAULFIELD', groupRows(rows,'MR'))}
+        ${groupCard(`PERTH · ${venueFor(perth,'BELMONT PARK')}`, perth)}
+        ${groupCard(`SYDNEY · ${venueFor(sydney,'SYDNEY')}`, sydney)}
+        ${groupCard(`MELBOURNE · ${venueFor(melbourne,'MELBOURNE')}`, melbourne)}
       </div>`;
   }
 
