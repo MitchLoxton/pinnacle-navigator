@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071018">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Progress HQ">
+  <title>YTIntel Progress HQ</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <style>
+    :root{color-scheme:dark;--bg:#071018;--panel:#0b1620;--panel2:#101f2b;--line:#203342;--text:#eef6ff;--muted:#8ea4b8;--accent:#79d8ff;--good:#76e6ad;--warn:#f2cc78;--bad:#ff8f9a;--radius:18px;--shadow:0 18px 44px rgba(0,0,0,.28)}
+    *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% -10%,rgba(121,216,255,.12),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    button,input,textarea,select{font:inherit}button{cursor:pointer}.app{max-width:1100px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 14px max(90px,calc(28px + env(safe-area-inset-bottom)))}
+    .topbar{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.14em;color:var(--accent)}h1{font-size:clamp(26px,6vw,42px);margin:4px 0 6px;line-height:1.02}.sub{color:var(--muted);font-size:13px;line-height:1.45}.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.btn{border:1px solid var(--line);background:#0d1a25;color:var(--text);border-radius:12px;padding:10px 12px;font-weight:800;font-size:12px}.btn.primary{background:var(--text);color:#061019;border-color:var(--text)}.btn.ghost{background:transparent}.btn.small{padding:7px 9px;font-size:10px}.btn.good{border-color:#2d6c50;color:var(--good)}.btn.warn{border-color:#6d592d;color:var(--warn)}
+    .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}.card{grid-column:span 12;background:linear-gradient(180deg,rgba(16,31,43,.94),rgba(10,21,30,.94));border:1px solid var(--line);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow)}.card h2{font-size:16px;margin:0 0 10px}.card h3{font-size:13px;margin:0}.card p{margin:5px 0;color:var(--muted);line-height:1.5}.kicker{font-size:9px;font-weight:900;letter-spacing:.12em;color:var(--muted);margin-bottom:5px}.hero{background:linear-gradient(135deg,rgba(19,43,58,.98),rgba(8,21,31,.98))}.hero-row{display:flex;gap:14px;align-items:stretch;justify-content:space-between;flex-wrap:wrap}.focus-box{flex:1;min-width:250px}.focus-title{font-size:22px;font-weight:900;line-height:1.12;margin:7px 0}.focus-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:10px;color:var(--muted);font-weight:800}.pill.good{border-color:#28533e;color:var(--good)}.pill.warn{border-color:#6d592d;color:var(--warn)}.pill.bad{border-color:#6d333a;color:var(--bad)}
+    .timer{min-width:185px;border:1px solid var(--line);border-radius:15px;background:#08131c;padding:12px}.timer-time{font-size:34px;font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.03em}.timer-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{border:1px solid var(--line);border-radius:14px;padding:11px;background:#09151e}.stat strong{display:block;font-size:24px;letter-spacing:-.03em}.stat span{display:block;color:var(--muted);font-size:10px;margin-top:3px}.bar{height:8px;border-radius:999px;background:#071018;overflow:hidden;border:1px solid #1b2b38}.bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--good));transition:width .25s ease}.section-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.section-head .actions{display:flex;gap:7px;flex-wrap:wrap}
+    .outcomes{display:grid;gap:10px}.outcome{border:1px solid var(--line);border-radius:15px;padding:12px;background:#09151e}.outcome-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.outcome-title{font-weight:900}.outcome-meta{font-size:10px;color:var(--muted);margin-top:3px}.task-list{display:grid;gap:7px;margin-top:11px}.task{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:flex-start;border-top:1px solid #1b2b38;padding-top:8px}.task:first-child{border-top:0;padding-top:0}.check{width:24px;height:24px;border:1px solid #315066;background:#08131c;border-radius:8px;color:var(--good);font-weight:900}.check.done{background:#173b2c;border-color:#2f7655}.task-title{font-size:12px;font-weight:800;line-height:1.35}.task-note{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}.task-evidence{font-size:9px;color:var(--good);margin-top:4px}.task.blocked .task-title{color:var(--warn)}.task.done .task-title{text-decoration:line-through;color:#7d92a4}.task-actions{display:flex;gap:4px}.icon-btn{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:5px 7px;font-size:10px}
+    .schedule{display:grid;gap:8px}.day{border:1px solid var(--line);border-radius:14px;padding:11px;background:#09151e}.day.today{border-color:#326781}.day-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.day-name{font-weight:900}.day-date{font-size:10px;color:var(--muted)}.session{display:grid;grid-template-columns:54px 1fr auto;gap:9px;align-items:center;padding-top:8px;margin-top:8px;border-top:1px solid #1b2b38}.session-time{font-weight:900;font-size:11px}.session-title{font-size:11px;font-weight:800}.session-meta{font-size:9px;color:var(--muted);margin-top:2px}.session.done .session-title{text-decoration:line-through;color:#71879a}
+    .github-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.gh{border:1px solid var(--line);border-radius:12px;padding:10px;background:#09151e}.gh b{font-size:12px;display:block}.gh span{font-size:9px;color:var(--muted);display:block;margin-top:3px;line-height:1.35}
+    .checkpoint{display:grid;gap:7px}.checkpoint-row{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:flex-start}.checkpoint-row button{width:24px;height:24px;border:1px solid var(--line);background:#08131c;border-radius:8px;color:var(--good)}.checkpoint-row.done button{background:#173b2c}.checkpoint-row span{font-size:11px;line-height:1.4}.activity{display:grid;gap:7px}.log{border-left:2px solid #31526a;padding-left:9px}.log b{font-size:11px}.log p{font-size:10px;margin:2px 0}.empty{color:var(--muted);font-size:11px;padding:10px 0}.guard{border:1px solid #6d592d;background:#17140b;color:#edd183;border-radius:13px;padding:10px;font-size:11px;line-height:1.45}
+    dialog{border:1px solid var(--line);border-radius:18px;background:#09151e;color:var(--text);width:min(92vw,520px);padding:0;box-shadow:0 30px 80px rgba(0,0,0,.55)}dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}.modal{padding:16px}.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.modal-head h2{margin:0;font-size:17px}.close{border:0;background:transparent;color:var(--muted);font-size:22px}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:10px;font-weight:800;color:var(--muted)}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:11px;background:#071018;color:var(--text);padding:10px}.field textarea{min-height:84px;resize:vertical}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:13px;flex-wrap:wrap}
+    .mobile-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(10px,env(safe-area-inset-bottom));z-index:10;display:flex;gap:6px;background:rgba(7,16,24,.92);border:1px solid var(--line);border-radius:16px;padding:6px;backdrop-filter:blur(16px);box-shadow:var(--shadow)}.mobile-nav button{border:0;background:transparent;color:var(--muted);font-size:10px;font-weight:900;padding:8px 10px;border-radius:10px}.mobile-nav button.on{background:#142635;color:var(--text)}
+    .anchor{scroll-margin-top:16px}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#e9f6ff;color:#061019;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;z-index:20;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+    @media(min-width:760px){.app{padding-left:24px;padding-right:24px}.span6{grid-column:span 6}.span7{grid-column:span 7}.span5{grid-column:span 5}.span8{grid-column:span 8}.span4{grid-column:span 4}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.schedule{grid-template-columns:repeat(2,minmax(0,1fr))}.mobile-nav{display:none}.github-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    @media(max-width:620px){.topbar{display:block}.top-actions{justify-content:flex-start;margin-top:11px}.session{grid-template-columns:48px 1fr}.session>.task-actions{grid-column:2}.github-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">YTINTEL · PROGRESS HQ</div>
+        <h1>Build the week. Prove the work.</h1>
+        <div class="sub" id="weekLabel">Loading week…</div>
+      </div>
+      <div class="top-actions">
+        <button class="btn" id="openYTIntel">Open YTIntel</button>
+        <button class="btn" id="copyStatus">Copy status for ChatGPT</button>
+        <button class="btn primary" id="installBtn">Install app</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card hero anchor" id="today">
+        <div class="hero-row">
+          <div class="focus-box">
+            <div class="kicker">RIGHT NOW</div>
+            <div class="focus-title" id="focusTitle">Loading next action…</div>
+            <div class="sub" id="focusWhy"></div>
+            <div class="focus-meta" id="focusMeta"></div>
+          </div>
+          <div class="timer">
+            <div class="kicker">FOCUS TIMER</div>
+            <div class="timer-time" id="timerTime">45:00</div>
+            <div class="sub" id="timerLabel">Use the next action above.</div>
+            <div class="timer-actions">
+              <button class="btn small primary" id="startTimer">Start</button>
+              <button class="btn small" id="pauseTimer">Pause</button>
+              <button class="btn small" id="finishTimer">Finish + log</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span12 anchor" id="score">
+        <div class="section-head"><div><div class="kicker">ACCOUNTABILITY SCORE</div><h2>This week</h2></div><button class="btn small" id="checkInBtn">Daily check-in</button></div>
+        <div class="stats">
+          <div class="stat"><strong id="scoreValue">0%</strong><span>Accountability score</span></div>
+          <div class="stat"><strong id="taskValue">0%</strong><span>Outcome tasks complete</span></div>
+          <div class="stat"><strong id="evidenceValue">0%</strong><span>Done tasks with evidence</span></div>
+          <div class="stat"><strong id="streakValue">0</strong><span>Check-in streak</span></div>
+        </div>
+        <div class="bar" style="margin-top:10px"><span id="scoreBar"></span></div>
+      </article>
+
+      <article class="card span7 anchor" id="outcomes">
+        <div class="section-head"><div><div class="kicker">ONLY 3 OUTCOMES</div><h2>Weekly outcomes</h2></div><button class="btn small" id="addTaskBtn">Add task</button></div>
+        <div class="guard" id="scopeGuard">Scope guard loading…</div>
+        <div class="outcomes" id="outcomeList" style="margin-top:10px"></div>
+      </article>
+
+      <article class="card span5 anchor" id="live">
+        <div class="section-head"><div><div class="kicker">AUTOMATIC EVIDENCE</div><h2>GitHub live</h2></div><button class="btn small" id="refreshGithub">Refresh</button></div>
+        <div class="github-grid" id="githubGrid"></div>
+        <p id="githubNote">Live repository evidence is supplemental; task completion still needs explicit proof.</p>
+      </article>
+
+      <article class="card span8 anchor" id="schedule">
+        <div class="section-head"><div><div class="kicker">PERTH TIME</div><h2>Work schedule</h2></div><div class="actions"><button class="btn small" id="addSessionBtn">Add session</button><button class="btn small" id="calendarBtn">Calendar .ics</button></div></div>
+        <div class="schedule" id="scheduleList"></div>
+      </article>
+
+      <article class="card span4 anchor" id="checkpoint">
+        <div class="section-head"><div><div class="kicker">SUNDAY 20 SEP</div><h2>Pass / fail checkpoint</h2></div></div>
+        <div class="checkpoint" id="checkpointList"></div>
+      </article>
+
+      <article class="card span6 anchor" id="activity">
+        <div class="section-head"><div><div class="kicker">NO MEMORY GAPS</div><h2>Activity + check-ins</h2></div><button class="btn small" id="exportBtn">Export</button></div>
+        <div class="activity" id="activityList"></div>
+      </article>
+
+      <article class="card span6">
+        <div class="section-head"><div><div class="kicker">CONTROL</div><h2>How we use this</h2></div></div>
+        <div class="outcomes">
+          <div class="outcome"><h3>1. Open this first</h3><p>The app picks the highest-priority unfinished task and shows the next scheduled session.</p></div>
+          <div class="outcome"><h3>2. “Done” requires evidence</h3><p>A commit, workflow run, screenshot, issue, receipt or a short proof note. No vibes-based completion.</p></div>
+          <div class="outcome"><h3>3. End every work block</h3><p>Log what shipped, what is blocked, and what the exact next action is.</p></div>
+          <div class="outcome"><h3>4. Sunday is binary</h3><p>We run the checkpoint, write the weekly review, and roll only unfinished evidence-backed work forward.</p></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Progress navigation">
+    <button data-jump="today" class="on">Today</button>
+    <button data-jump="outcomes">Outcomes</button>
+    <button data-jump="schedule">Plan</button>
+    <button data-jump="checkpoint">Sunday</button>
+  </nav>
+
+  <dialog id="taskDialog"><form method="dialog" class="modal" id="taskForm"><div class="modal-head"><h2>Add task</h2><button class="close" value="cancel" aria-label="Close">×</button></div><div class="field"><label>Outcome</label><select id="taskOutcome"></select></div><div class="field"><label>Task</label><input id="taskTitle" required></div><div class="field"><label>Priority</label><select id="taskPriority"><option>P0</option><option>P1</option><option>P2</option></select></div><div class="field"><label>Blocker / note (optional)</label><textarea id="taskBlocker"></textarea></div><div class="modal-actions"><button class="btn" value="cancel">Cancel</button><button class="btn primary" id="saveTask" value="default">Add task</button></div></form></dialog>
+
+  <dialog id="evidenceDialog"><form method="dialog" class="modal" id="evidenceForm"><div class="modal-head"><h2>Proof before done</h2><button class="close" value="cancel" aria-label="Close">×</button></div><div class="sub" id="evidenceTask"></div><div class="field"><label>Evidence URL, commit/run ID, screenshot reference or proof note</label><textarea id="evidenceText" required placeholder="Example: production smoke run 34757645134 — 16/16 benchmark sections"></textarea></div><div class="modal-actions"><button class="btn" value="cancel">Cancel</button><button class="btn good" id="confirmDone" value="default">Mark done</button></div></form></dialog>
+
+  <dialog id="sessionDialog"><form method="dialog" class="modal" id="sessionForm"><div class="modal-head"><h2>Schedule work</h2><button class="close" value="cancel" aria-label="Close">×</button></div><div class="field"><label>Date</label><input id="sessionDate" type="date" required></div><div class="field"><label>Start time</label><input id="sessionTime" type="time" required></div><div class="field"><label>Minutes</label><input id="sessionMinutes" type="number" min="15" step="15" value="60" required></div><div class="field"><label>Work block</label><input id="sessionTitle" required></div><div class="modal-actions"><button class="btn" value="cancel">Cancel</button><button class="btn primary" id="saveSession" value="default">Schedule</button></div></form></dialog>
+
+  <dialog id="checkInDialog"><form method="dialog" class="modal" id="checkInForm"><div class="modal-head"><h2>Daily accountability</h2><button class="close" value="cancel" aria-label="Close">×</button></div><div class="field"><label>What shipped / moved?</label><textarea id="checkInShipped" required></textarea></div><div class="field"><label>What is blocked?</label><textarea id="checkInBlocked" placeholder="None"></textarea></div><div class="field"><label>Exact next action</label><textarea id="checkInNext" required></textarea></div><div class="field"><label>Today score / 10</label><input id="checkInScore" type="number" min="1" max="10" value="8" required></div><div class="modal-actions"><button class="btn" value="cancel">Cancel</button><button class="btn primary" id="saveCheckIn" value="default">Save check-in</button></div></form></dialog>
+
+  <dialog id="finishDialog"><form method="dialog" class="modal" id="finishForm"><div class="modal-head"><h2>Close the work block</h2><button class="close" value="cancel" aria-label="Close">×</button></div><div class="field"><label>What changed?</label><textarea id="finishChanged" required></textarea></div><div class="field"><label>Evidence / receipt</label><textarea id="finishEvidence" placeholder="Commit, run, screenshot, issue, note…"></textarea></div><div class="field"><label>Exact next action</label><textarea id="finishNext" required></textarea></div><div class="modal-actions"><button class="btn" value="cancel">Cancel</button><button class="btn primary" id="saveFinish" value="default">Log work</button></div></form></dialog>
+
+  <div class="toast" id="toast">Saved</div>
+  <script src="./app.js?v=1"></script>
+</body>
+</html>
