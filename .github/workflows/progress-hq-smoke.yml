@@ -1,0 +1,19 @@
+name: Progress HQ Smoke
+on:
+  push:
+    paths:
+      - 'ytintel/progress/**'
+      - '.github/workflows/progress-hq-smoke.yml'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check app JavaScript syntax
+        run: node --check ytintel/progress/app.js
+      - name: Verify gamified UI contract
+        run: node ytintel/progress/smoke.mjs
