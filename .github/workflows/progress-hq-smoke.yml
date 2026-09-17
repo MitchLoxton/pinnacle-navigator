@@ -13,7 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Check app JavaScript syntax
-        run: node --check ytintel/progress/app.js
-      - name: Verify gamified UI contract
+      - name: Check Progress HQ JavaScript syntax
+        run: |
+          node --check ytintel/progress/app.js
+          node --check ytintel/progress/shared.js
+      - name: Verify shared gamified UI contract
         run: node ytintel/progress/smoke.mjs
