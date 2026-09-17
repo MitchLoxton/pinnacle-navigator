@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.11.12';
+  const CLIENT_BUILD = '1.11.13';
   const BUILD_CHECK_MS = 600000;
   const SW_CHECK_MS = 900000;
 
@@ -18,9 +18,7 @@
       if (!r.ok) return;
       const version = await r.json();
       if (version?.build) window.__MITCHELL_LATEST_BUILD = String(version.build);
-      // IMPORTANT: never force a top-level page reload from a background version check.
-      // iOS Safari exposes each reload as the address-bar X/refresh flicker and an old
-      // cached bundle can otherwise create an infinite reload loop.
+      // Never force a top-level reload from a background version check.
     } catch (e) {
       console.warn('Build check unavailable', e);
     }
@@ -33,7 +31,6 @@
           scope: './',
           updateViaCache: 'none'
         });
-        // Update the worker quietly. A controller change must never reload the page.
         reg.update().catch(() => {});
         window.setInterval(() => reg.update().catch(() => {}), SW_CHECK_MS);
       } catch (e) {
