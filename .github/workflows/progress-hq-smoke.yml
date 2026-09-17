@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'ytintel/progress/**'
+      - 'ytintel/latest/v401-progress-link.js'
+      - 'ytintel/latest/v390-stable-shell.js'
       - '.github/workflows/progress-hq-smoke.yml'
   workflow_dispatch:
 jobs:
@@ -17,5 +19,6 @@ jobs:
         run: |
           node --check ytintel/progress/app.js
           node --check ytintel/progress/shared.js
-      - name: Verify shared gamified UI contract
+          node --check ytintel/latest/v401-progress-link.js
+      - name: Verify shared gamified UI and YTIntel bridge
         run: node ytintel/progress/smoke.mjs
