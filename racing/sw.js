@@ -1,15 +1,15 @@
-const BUILD = '1.11.12';
-const CACHE = 'mitchell-racing-v11112-no-auto-reload';
+const BUILD = '1.11.13';
+const CACHE = 'mitchell-racing-v11113-hk-status-single-tap';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
-  './app.js?v=119',
+  './app.js?v=120',
   './premium-ui.js?v=118',
   './watchlist-odds.js?v=3',
   './bet-history.js?v=6',
-  './hk-main-tab.js?v=2',
+  './hk-main-tab.js?v=3',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
