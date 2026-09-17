@@ -3,30 +3,24 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.11.8';
-  const BUILD_CHECK_MS = 300000;
-  const SW_CHECK_MS = 600000;
-  let updateReloading = false;
+  const CLIENT_BUILD = '1.11.12';
+  const BUILD_CHECK_MS = 600000;
+  const SW_CHECK_MS = 900000;
 
   window.__MITCHELL_BASE_DATA = null;
   window.__MITCHELL_STATS = null;
   window.__MITCHELL_LIVE_V11_HAS_RENDERED = false;
-
-  function reloadForBuild(build) {
-    if (updateReloading) return;
-    updateReloading = true;
-    const url = new URL(window.location.href);
-    url.searchParams.set('build', String(build || CLIENT_BUILD));
-    url.searchParams.delete('_refresh');
-    window.location.replace(url.toString());
-  }
+  window.__MITCHELL_LATEST_BUILD = CLIENT_BUILD;
 
   async function checkClientBuild() {
     try {
-      const r = await fetch(`./version.json?v=${encodeURIComponent(CLIENT_BUILD)}`, { cache: 'no-cache' });
+      const r = await fetch(`./version.json?v=${Date.now()}`, { cache: 'no-store' });
       if (!r.ok) return;
       const version = await r.json();
-      if (version?.build && version.build !== CLIENT_BUILD) reloadForBuild(version.build);
+      if (version?.build) window.__MITCHELL_LATEST_BUILD = String(version.build);
+      // IMPORTANT: never force a top-level page reload from a background version check.
+      // iOS Safari exposes each reload as the address-bar X/refresh flicker and an old
+      // cached bundle can otherwise create an infinite reload loop.
     } catch (e) {
       console.warn('Build check unavailable', e);
     }
@@ -35,23 +29,11 @@
   async function setupAppUpdater() {
     if ('serviceWorker' in navigator) {
       try {
-        const hadController = Boolean(navigator.serviceWorker.controller);
-        let controllerReloaded = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (hadController && !controllerReloaded) {
-            controllerReloaded = true;
-            window.location.reload();
-          }
-        });
-        navigator.serviceWorker.addEventListener('message', event => {
-          if (event?.data?.type === 'MITCHELL_APP_UPDATE' && event.data.build !== CLIENT_BUILD) {
-            reloadForBuild(event.data.build);
-          }
-        });
         const reg = await navigator.serviceWorker.register(`./sw.js?build=${CLIENT_BUILD}`, {
           scope: './',
           updateViaCache: 'none'
         });
+        // Update the worker quietly. A controller change must never reload the page.
         reg.update().catch(() => {});
         window.setInterval(() => reg.update().catch(() => {}), SW_CHECK_MS);
       } catch (e) {
@@ -71,7 +53,7 @@
   }
 
   async function json(path) {
-    const r = await fetch(`${path}?v=${encodeURIComponent(CLIENT_BUILD)}`, { cache: 'no-cache' });
+    const r = await fetch(`${path}?v=${encodeURIComponent(CLIENT_BUILD)}`, { cache: 'no-store' });
     if (!r.ok) throw new Error(`${path} HTTP ${r.status}`);
     return r.json();
   }
