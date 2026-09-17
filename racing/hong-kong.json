@@ -1,20 +1,20 @@
 {
-  "schemaVersion": 9,
-  "appVersion": "1.10.0",
-  "updatedAt": "2026-09-14T10:00:00+08:00",
+  "schemaVersion": 10,
+  "appVersion": "1.11.11",
+  "updatedAt": "2026-09-17T08:41:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
-    "date": "2026-09-13",
+    "date": "2026-09-20",
     "venue": "Sha Tin",
     "country": "Hong Kong",
-    "track": "Turf",
-    "course": "B",
-    "meetingNo": 3,
-    "status": "COMPLETE / ARCHIVED · SHADOW SCORING ONLY",
-    "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F13"
+    "track": "Turf / All Weather",
+    "course": "C Course / meeting card",
+    "meetingNo": 5,
+    "status": "ENTRIES PUBLISHED · SHADOW MODEL SCORING PENDING",
+    "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F20"
   },
-  "systemStatus": "HK OPTIMAL V4 FROZEN · RELIABILITY LOCK ACTIVE · PRODUCTION EXECUTION BLOCKED",
-  "systemMessage": "No horse-racing model can be made guaranteed. The app is now fail-closed: Hong Kong real-money BET NOW is impossible unless productionApproval.approved is explicitly true AND every pre-agreed research, execution, forward-calibration, capacity and commercial-promotion gate is explicitly passed. Until then every qualifying signal remains shadow-only.",
+  "systemStatus": "HK OPTIMAL V4 FROZEN · RELIABILITY LOCK ACTIVE · 20 SEP POSSIBILITY SCAN LOADED",
+  "systemMessage": "The 20 September Sha Tin meeting is loaded for monitoring. All races are visible as scan possibilities, but no horse-level model possibility is treated as a bet unless the frozen model and every production gate are independently verified.",
   "strategy": {
     "name": "HK OPTIMAL V4 · RELIABILITY LOCK",
     "mode": "SHADOW · ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR · PRODUCTION LOCKED",
@@ -154,15 +154,15 @@
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"SHA TIN RACE 1","timeHkt":"TBC","distanceM":1000,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":2,"name":"SHA TIN RACE 2","timeHkt":"TBC","distanceM":1200,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":3,"name":"SHA TIN RACE 3","timeHkt":"TBC","distanceM":1400,"class":"Class 3","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":4,"name":"SHA TIN RACE 4","timeHkt":"TBC","distanceM":1000,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":5,"name":"SHA TIN RACE 5","timeHkt":"TBC","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":6,"name":"SHA TIN RACE 6","timeHkt":"TBC","distanceM":1200,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":7,"name":"SHA TIN RACE 7","timeHkt":"TBC","distanceM":1400,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":8,"name":"SHA TIN RACE 8","timeHkt":"TBC","distanceM":1600,"class":"Class 4","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":9,"name":"SHA TIN RACE 9","timeHkt":"TBC","distanceM":1400,"class":"Class 5","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]},
-    {"race":10,"name":"SHA TIN RACE 10","timeHkt":"TBC","distanceM":1400,"class":"Class 5","strategyStatus":"WAIT — SHADOW NOT SCORED","signals":[]}
+    {"race":1,"name":"SHA TIN RACE 1","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":2,"name":"SHA TIN RACE 2","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":3,"name":"SHA TIN RACE 3","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":4,"name":"SHA TIN RACE 4","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":5,"name":"SHA TIN RACE 5","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":6,"name":"SHA TIN RACE 6","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":7,"name":"SHA TIN RACE 7","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":8,"name":"SHA TIN RACE 8","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":9,"name":"SHA TIN RACE 9","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
+    {"race":10,"name":"SHA TIN RACE 10","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]}
   ]
 }
