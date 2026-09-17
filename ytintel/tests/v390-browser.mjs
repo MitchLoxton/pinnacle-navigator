@@ -15,8 +15,8 @@ const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.
 try{
   await page.goto('http://127.0.0.1:8769/ytintel/latest/',{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>window.YTIntelStableShell?.coreReady===true&&window.YTIntelStableShell?.intelligenceReady===true,null,{timeout:30000});
-  const boot=await page.evaluate(()=>({scripts:document.scripts.length,version:document.querySelector('#version')?.textContent,shell:document.documentElement.dataset.ytintelShell,wpmGuard:!!window.YTIntelWpmGuard}));
-  assert.equal(boot.scripts,1,'HTML must have one script owner');assert.equal(boot.version,'v0.39.0');assert.equal(boot.shell,'stable');assert.equal(boot.wpmGuard,true,'WPM guard missing');
+  const boot=await page.evaluate(()=>({scripts:document.scripts.length,version:document.querySelector('#version')?.textContent,shell:document.documentElement.dataset.ytintelShell,wpmGuard:!!window.YTIntelWpmGuard,opsBridge:document.documentElement.dataset.ytintelOpsBridge||''}));
+  assert.equal(boot.scripts,1,'HTML must have one script owner');assert.equal(boot.version,'v0.39.0');assert.equal(boot.shell,'stable');assert.equal(boot.wpmGuard,true,'WPM guard missing');assert.match(boot.opsBridge,/ready|limited/,'Progress HQ bridge state missing');
   const tab=async n=>{await page.locator(`[data-tab="${n}"]`).click();await page.waitForFunction(x=>document.getElementById(x)?.classList.contains('active'),n)};
   await tab('vault');
   await page.locator('#creator_niche').fill('YouTube creator education');await page.locator('#creator_subniche').fill('AI content systems');await page.locator('#creator_audience').fill('YouTube creators');await page.locator('#creator_brand').fill('Evidence first. Never copy source wording.');await page.locator('#saveCreator').click();
@@ -34,7 +34,9 @@ try{
   assert.match(result.takeaways,/(ACTIONABLE TAKEAWAYS|FACT \/ LIST VIDEO MODE)/i);assert.match(result.takeaways,/Receipt:/i);
   assert(Number.isFinite(Number(result.wpm))&&Number(result.wpm)>=80&&Number(result.wpm)<=330,`implausible corrected WPM ${result.wpm}; raw ${result.rawWpm}`);assert(Number(result.totalWords)>500,`deduped words too low: ${result.totalWords}`);assert.match(result.audio,new RegExp(String(result.wpm).replace('.','\\.')));
   assert.match(result.remake,/CREATOR-DNA BLUEPRINT/i);assert.match(result.remake,/AI content systems/i);assert.match(result.review,/INDEPENDENT DETERMINISTIC CROSS-CHECK/i);assert(!/692\.7 WPM/.test(result.review),'old broken WPM leaked into review');
-  assert.deepEqual(errors,[],errors.join(' | '));assert(!requests.some(x=>/ytintel-v093|api\.openai\.com/i.test(x)),`paid/model route called: ${requests.join(', ')}`);
+  assert.deepEqual(errors,[],errors.join(' | '));
+  assert(requests.some(x=>/ytintel-v093\?action=research-begin/i.test(x)),`premium research was not attempted: ${requests.join(', ')}`);
+  assert(!requests.some(x=>/api\.openai\.com/i.test(x)),`browser must not call OpenAI directly: ${requests.join(', ')}`);
   await page.screenshot({path:'ytintel-v390-proof/mobile.png',fullPage:true});
   const receipt={pass:true,boot,result,mobile,errors,requests:requests.map(x=>x.replace(/\?.*$/,'')),checked_at:new Date().toISOString()};await writeFile('ytintel-v390-proof/receipt.json',JSON.stringify(receipt,null,2));console.log(JSON.stringify(receipt,null,2));
 }finally{await browser.close();server.close()}
