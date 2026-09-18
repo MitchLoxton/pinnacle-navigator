@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 10,
-  "appVersion": "1.11.11",
-  "updatedAt": "2026-09-17T08:41:00+08:00",
+  "schemaVersion": 11,
+  "appVersion": "1.11.16",
+  "updatedAt": "2026-09-18T12:20:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-20",
@@ -13,156 +13,319 @@
     "status": "ENTRIES PUBLISHED · SHADOW MODEL SCORING PENDING",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F20"
   },
-  "systemStatus": "HK OPTIMAL V4 FROZEN · RELIABILITY LOCK ACTIVE · 20 SEP POSSIBILITY SCAN LOADED",
-  "systemMessage": "The 20 September Sha Tin meeting is loaded for monitoring. All races are visible as scan possibilities, but no horse-level model possibility is treated as a bet unless the frozen model and every production gate are independently verified.",
+  "systemStatus": "HK ROBUST 70 V1 FROZEN · RELIABILITY LOCK ACTIVE · 20 SEP POSSIBILITY SCAN LOADED",
+  "systemMessage": "HK ROBUST 70 V1 is frozen from 18 Sep 2026. The app may show PENDING / POTENTIAL / NO MODEL POSSIBILITY, but real-money BET NOW remains locked until fresh post-freeze evidence plus executable quote, fill and capacity gates are independently verified.",
   "strategy": {
-    "name": "HK OPTIMAL V4 · RELIABILITY LOCK",
-    "mode": "SHADOW · ONE BET/RACE · MAX 2 BETS/DAY · DAILY LOSS STOP A$10K · <=100 BETS/YEAR · PRODUCTION LOCKED",
-    "status": "FROZEN RESEARCH CANDIDATE · SHADOW / FAIL-CLOSED",
+    "name": "HK ROBUST 70 V1 · RELIABILITY LOCK",
+    "mode": "SHADOW · WIN · ONE BET/RACE · MAX 3 BETS/DAY · FLAT 1U RESEARCH RISK · PRODUCTION LOCKED",
+    "status": "FROZEN FOR GENUINE FORWARD SHADOW · FAIL-CLOSED",
+    "targetBand": {
+      "betsPerYearMin": 60,
+      "betsPerYearPreferred": 70,
+      "betsPerYearMax": 100,
+      "note": "The user requested roughly 60-200 bets/year. Research favors the lower end because higher-frequency variants increased drawdown and/or weakened later-data behavior."
+    },
     "productionApproval": {
       "approved": false,
       "status": "BLOCKED_SHADOW_ONLY",
       "guaranteedProfit": false,
-      "reason": "Fresh forward calibration, executable-price/fill evidence, capacity evidence and commercial-promotion evidence are not complete. Historical performance alone is insufficient.",
+      "reason": "No future performance can be guaranteed. This rule has not yet accumulated genuinely prospective post-18-Sep-2026 evidence, and production-grade live model scoring, executable quote/fill evidence and target-stake capacity evidence are incomplete.",
       "gates": {
         "researchFreezePassed": true,
+        "postFreezeForwardEvidencePassed": false,
         "executionFeasibilityPassed": false,
         "forwardCalibrationPassed": false,
         "capacityPassed": false,
         "commercialPromotionPassed": false
       },
-      "promotionPolicy": "Never set approved=true because of a backtest, a short winning run, or revised thresholds. Promotion requires the frozen rule to survive genuinely new races, real executable quote/fill logging, calibration checks, drawdown review and target-stake capacity checks without retuning."
+      "promotionPolicy": "Do not retune this rule using future losses or wins. Promotion requires a predeclared forward sample, real executable WIN quotes and accepted-size logging, calibration review, drawdown review and capacity checks."
+    },
+    "researchDesign": {
+      "source": "HK_BEAT_AUSTRALIA_V1_RESEARCH.xlsx / 06 R3 RAW sourced from HKJC_R3_COMBO_PROPOSAL_V2.xlsx BET LOG",
+      "candidateRulesScreened": 1120,
+      "primaryDevelopment": "2015-2021",
+      "reusedAudit": "2022-2025",
+      "latestDiagnostic": "2026 source data through 2026-07-12; not a virgin holdout because 2026 has been seen in prior HK research",
+      "freezeDate": "2026-09-18",
+      "futureEvidenceStart": "First Hong Kong meeting after 2026-09-18",
+      "resultLeakageAllowed": false,
+      "selectionComplexity": "Simple four-gate rule plus one-per-race and max-three-per-day ranking"
+    },
+    "market": "WIN",
+    "prediction": {
+      "eligibleModelUniverse": "R2 core OR satellite classification from the supplied R3 research universe",
+      "calibrationLogOddsIntercept": 0.1679327961221175,
+      "liveProbabilityRule": "Use the frozen calibrated probability only; do not retrain or shift thresholds from results.",
+      "calibratedModelRoi2015To2025": 0.09121749758759823,
+      "calibratedModelRoi2022To2025": 0.08876427971373049,
+      "calibratedModelRoi2026Diagnostic": 0.08574803305727695
+    },
+    "rules": {
+      "eligibility": {
+        "requiresModelTag": "R2_CORE_OR_SATELLITE",
+        "minMarketRankInclusive": 1,
+        "maxMarketRankInclusive": 8,
+        "minOddsInclusive": 2.5,
+        "maxOddsExclusive": 30,
+        "minimumStressedCalibratedModelEv": 0.04
+      },
+      "historicalStress": {
+        "rebateAssumed": false,
+        "winningProfitPriceDamage": 0.03,
+        "effectiveOddsFormula": "1 + (researchOdds - 1) * 0.97"
+      },
+      "oneBetPerRace": {
+        "enabled": true,
+        "ranking": "Highest stressed calibrated model EV; tie-break lower odds, then higher original raw model EV."
+      },
+      "raceDayCap": {
+        "maxSelectionsPerRaceDay": 3,
+        "ranking": "If more than three races qualify on one HK race day, keep the three highest stressed calibrated model EV selections.",
+        "noDailyLossStop": true,
+        "note": "A same-day loss-stop overlay was tested and did not improve reused-audit robustness, so it is not included."
+      },
+      "staking": {
+        "research": "Flat 1 unit per accepted selection.",
+        "productionStakeAud": null,
+        "rule": "No Kelly, no edge-tier stake increases, no chase sizing. Dollar stake remains unset until capacity and bankroll risk are separately approved."
+      },
+      "liveExecution": {
+        "quoteMarket": "WIN",
+        "quoteMustBeRunnerSpecific": true,
+        "quoteMaxAgeSeconds": 10,
+        "currentOddsMinInclusive": 2.5,
+        "currentOddsMaxExclusive": 30,
+        "currentMarketRankMax": 8,
+        "currentExecutableQuoteMustStillClearCalibratedEv": 0.04,
+        "acceptedSizeRequired": true,
+        "note": "A historical possibility is cancelled if the actual executable quote no longer clears the frozen +4% calibrated EV gate."
+      }
     },
     "historicalCadence": {
-      "completedBets": 393,
+      "completedBets": 778,
       "completedYears": 11,
-      "betsPerYear": 35.72727272727273,
-      "maxBetsAnyCompletedYear": 57,
-      "calendarYearBetCap": 100,
-      "australiaV11BetsPerYear": 38.833333333333336,
-      "partial2026Bets": 25,
+      "betsPerYear": 70.72727272727273,
+      "maxBetsAnyCompletedYear": 101,
+      "recentAuditBetsPerYear": 54.5,
+      "calendarYearSafetyCap": 120,
+      "partial2026Bets": 36,
       "partial2026SourceCutoff": "2026-07-12"
     },
     "historicalHeadline": {
-      "annualProfitAud": 110836.36363636363,
-      "roi": 0.538753866548829,
-      "losingCompletedYears": 0,
-      "maxDrawdownAud": 75766,
-      "partial2026Bets": 25,
-      "partial2026PlAud": 13095,
-      "partial2026Roi": 0.10073076923076923
+      "researchUnitStakeAud": 1000,
+      "annualTurnoverAudAtReferenceStake": 70727.27272727272,
+      "annualProfitAudAtReferenceStake": 12431.272727272724,
+      "realizedRoi": 0.17576349614395884,
+      "calibratedModelRoi": 0.09121749758759823,
+      "losingCompletedYears": 2,
+      "worstCompletedYearUnits": -30.145000000000003,
+      "maxChronologicalDrawdownUnits": 34,
+      "maxDrawdownAudAtReferenceStake": 34000,
+      "note": "Dollar figures scale linearly from a A$1,000 research unit and are not a recommended live stake."
     },
-    "optimization": {
-      "baseSelectionVersion": "HK OPTIMAL V3",
-      "selectionThresholdsChanged": false,
-      "stakeScheduleChanged": false,
-      "dailyRiskOverlayChanged": true,
-      "oneBetPerRace": true,
-      "selectionWithinRace": "Among qualifying runners, choose the runner with the highest verified calibrated model EV; tie-break by lower executable/research odds, then higher original raw model EV.",
-      "warning": "The daily guard was discovered on historical race sequences. Every historical V3 bet removed by this overlay happened to be a loss, which can be a sign of sequencing overfit. Freeze V4 and judge it on fresh post-cutoff forward results rather than retuning it again."
+    "chronologicalSlices": {
+      "development2015To2021": {
+        "betsPerYear": 80,
+        "realizedRoi": 0.1870625,
+        "calibratedModelRoi": 0.09217250025992532,
+        "annualProfitUnits": 14.965,
+        "maxDrawdownUnits": 31.858,
+        "losingYears": 1
+      },
+      "reusedAudit2022To2025": {
+        "betsPerYear": 54.5,
+        "realizedRoi": 0.14673853211009172,
+        "calibratedModelRoi": 0.08876427971373049,
+        "annualProfitUnits": 7.99725,
+        "maxDrawdownUnits": 34,
+        "losingYears": 1
+      },
+      "diagnostic2026ThroughJul12": {
+        "bets": 36,
+        "realizedPlUnits": 6.114,
+        "realizedRoi": 0.1698333333333333,
+        "calibratedModelRoi": 0.08574803305727695,
+        "maxDrawdownUnits": 12,
+        "notVirginHoldout": true
+      }
     },
-    "prediction": {
-      "coreModel": "R2 CORE / Rclean",
-      "satelliteModel": "Rvenue satellite classification",
-      "calibrationLogOddsIntercept": 0.1679327961221175,
-      "calibratedModelEvAudPerYear": 18301.8813,
-      "calibratedModelRoi": 0.08896186224,
-      "resultLeakageAllowed": false
+    "fixedSelectionPriceStress": {
+      "damage5Pct": {
+        "realizedRoi": 0.1548,
+        "calibratedModelRoi": 0.0719,
+        "annualProfitUnits": 10.9491,
+        "maxDrawdownUnits": 34,
+        "losingCompletedYears": 3
+      },
+      "damage8Pct": {
+        "realizedRoi": 0.1234,
+        "calibratedModelRoi": 0.0429,
+        "annualProfitUnits": 8.7258,
+        "maxDrawdownUnits": 36.064,
+        "losingCompletedYears": 4
+      },
+      "damage10Pct": {
+        "realizedRoi": 0.1024,
+        "calibratedModelRoi": 0.0236,
+        "annualProfitUnits": 7.2436,
+        "maxDrawdownUnits": 38.28,
+        "losingCompletedYears": 4
+      },
+      "note": "Price-stress tests keep the originally selected bets fixed; they do not reselect a friendlier subset."
     },
-    "market": "WIN",
-    "rules": {
-      "coreLow": {"requiresR2Core":true,"minOddsInclusive":4.0,"maxOddsExclusive":7.0,"stakeAud":3000},
-      "coreLong": {"requiresR2Core":true,"minOddsInclusive":18.0,"maxOddsExclusive":30.0,"stakeAud":5000},
-      "mainSatellite": {"requiresSatelliteOnly":true,"minOddsInclusive":3.0,"maxOddsExclusive":7.0,"maxMarketRank":2,"stakeAud":7000},
-      "extraSatellite": {"requiresSatelliteOnly":true,"minimumOriginalRawModelEv":0.18,"stakeAud":10000}
-    },
-    "dailyRiskGuard": {
-      "maxConfirmedBetsPerRaceDay": 2,
-      "dailyRealizedLossStopAud": 10000,
-      "lossStopComparison": "realizedPlTodayAud <= -10000",
-      "reset": "NEXT HONG KONG RACE DAY",
-      "rule": "Before any new Hong Kong bet, verify today's confirmed HK bet count and realised HK P/L. Do not place a third HK bet that day. After a confirmed bet settles, if today's realised HK P/L is -A$10,000 or worse, take no more HK bets that day."
-    },
-    "historicalScoring": {
-      "rebateAssumed": false,
-      "winningProfitPriceDamage": 0.03,
-      "note": "Historical WIN research prices are stressed by damaging only the winning profit portion by 3%. This is not a substitute for a real executable live quote."
-    },
-    "risk": {
-      "hardMaxStakeAud": 10000,
-      "lowCoreStakeAud": 3000,
-      "longCoreStakeAud": 5000,
-      "mainSatelliteStakeAud": 7000,
-      "extraSatelliteStakeAud": 10000,
-      "storedHistoricalMaxDrawdownAud": 75766,
-      "australiaRecordedMaxDrawdownAud": 79850,
-      "australiaReorderStressMaxDrawdownAud": 108800,
-      "dayBlockSequenceStressMedianMaxDrawdownAud": 122295.5,
-      "dayBlockSequenceStressP95MaxDrawdownAud": 191902.95,
-      "dayBlockSequenceStressP99MaxDrawdownAud": 233691.12,
-      "maxOneBetPerRace": true,
-      "maxBetsPerRaceDay": 2,
-      "dailyRealizedLossStopAud": 10000,
-      "maxBetsPerCalendarYear": 100
+    "riskDiagnostics": {
+      "withinYearRaceDayReorderMaxDrawdownUnits": {
+        "median": 49.6,
+        "p95": 63.41,
+        "p99": 70.04,
+        "maxObservedSimulation": 81.13,
+        "simulations": 10000
+      },
+      "recent2019To2025DayBlockBootstrap": {
+        "medianAnnualPlUnits": 9.82,
+        "p05AnnualPlUnits": -27.45,
+        "p95AnnualPlUnits": 58.31,
+        "estimatedLossYearFrequency": 0.351,
+        "simulations": 20000
+      },
+      "winnerConcentration": {
+        "topSingleWinnerShareOfCompletedNetProfit": 0.192,
+        "topFiveWinnerShareOfCompletedNetProfit": 0.794,
+        "warning": "Historical realized profit is materially concentrated in a small number of high-odds winners. This is a major reason the system remains shadow despite positive model EV."
+      },
+      "regimeWarning": "The 2021-2023 rolling three-year realized period was weak even while calibrated model ROI stayed positive. Do not size from historical realized ROI alone."
     },
     "requiredPreBetGates": [
       "PRODUCTION_APPROVAL_TRUE",
-      "RESEARCH_FREEZE_PASSED",
+      "POST_FREEZE_FORWARD_EVIDENCE_PASSED",
       "EXECUTION_FEASIBILITY_PASSED",
       "FORWARD_CALIBRATION_PASSED",
       "CAPACITY_GATE_PASSED",
       "COMMERCIAL_PROMOTION_PASSED",
       "HORSE_IDENTITY_VERIFIED",
-      "R2_OR_RVENUE_MODEL_CLASSIFICATION_VERIFIED",
-      "MARKET_RANK_AND_RAW_EV_VERIFIED_WHERE_REQUIRED",
-      "CALIBRATED_MODEL_EV_VERIFIED",
+      "R2_OR_SATELLITE_MODEL_CLASSIFICATION_VERIFIED",
+      "MARKET_RANK_8_OR_BETTER_VERIFIED",
+      "EXECUTABLE_WIN_ODDS_2_5_TO_UNDER_30",
+      "CALIBRATED_EV_AT_EXECUTABLE_QUOTE_AT_LEAST_4_PERCENT",
       "ONE_BET_PER_RACE_RANKING_VERIFIED",
-      "EXECUTABLE_WIN_QUOTE_VERIFIED",
+      "MAX_THREE_SELECTIONS_PER_RACE_DAY_VERIFIED",
       "RUNNER_QUOTE_TIMESTAMP_WITHIN_10_SECONDS",
-      "OPTIMAL_V4_SELECTION_RULE_PASSED",
-      "CAPACITY_VERIFIED",
-      "STAKE_WITHIN_A$10000_CAP",
-      "CALENDAR_YEAR_BET_CAP_NOT_EXCEEDED",
-      "DAILY_RISK_STATUS_VERIFIED",
-      "DAILY_BET_CAP_NOT_REACHED",
-      "DAILY_LOSS_STOP_NOT_TRIGGERED"
+      "ACCEPTED_SIZE_CAPACITY_VERIFIED",
+      "STAKE_RISK_APPROVED"
     ],
     "postExecutionAccounting": {
       "acceptedBetConfirmationRequired": true,
-      "settlementRequiredForDailyPl": true,
-      "rule": "A future BET NOW is only a pre-bet instruction after production approval. After placement, only the actually accepted stake and price count in cash P/L."
+      "settlementRequiredForCashPl": true,
+      "rule": "Only the actually accepted stake and price count. Rejected, partial or stale quotes do not count as executed bets."
     },
     "liveFeed": {
-      "status": "SHADOW · NOT PRODUCTION VERIFIED",
+      "status": "SHADOW · MODEL/EXECUTION PIPELINE NOT YET PRODUCTION VERIFIED",
       "modelClassificationVerified": false,
       "calibratedModelEvVerified": false,
       "executableQuotesVerified": false,
       "capacityVerified": false,
-      "yearBetCountVerified": false,
-      "confirmedBetsThisCalendarYear": null,
-      "todayRiskVerified": false,
+      "postFreezeForwardEvidencePassed": false,
       "confirmedBetsToday": null,
-      "realizedPlTodayAud": null,
       "lastVerifiedAt": null,
-      "message": "WAIT — RELIABILITY LOCK ACTIVE. No real-money Hong Kong action may unlock until production approval plus all evidence, model, quote, capacity, yearly-count and daily-risk gates are verified."
+      "message": "WAIT — the HK ROBUST 70 rule is frozen, but the production gates are not passed. The app may identify research possibilities; it must not issue a real-money BET NOW yet."
     },
     "archivedResearch": {
-      "optimalV3": "Same selections/stakes without daily guard: 405 completed bets, A$106.1k historical average/year, A$78.9k stored historical DD, 50.4% historical ROI.",
-      "safeV2": "Lower-risk family with about A$57k stored historical DD and A$71.6k/year historical P/L.",
-      "r15": "~1,071 proxy positions/year; archived as too high-frequency and dependent on proxy PLACE execution."
+      "optimalV4": "Previous ~35.7 bets/year WIN core retained in archive. It had a higher historical realized ROI but did not meet the requested activity target.",
+      "forced60WinSearch": "Earlier ~53-58 bets/year WIN candidates were rejected after severe later-data failure; they must not be revived or retuned around.",
+      "r23Place": "PLACE research remains structurally interesting and less winner-concentrated, but historical PLACE execution prices are synthetic and therefore not production evidence."
     }
   },
   "signals": [],
   "races": [
-    {"race":1,"name":"SHA TIN RACE 1","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":2,"name":"SHA TIN RACE 2","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":3,"name":"SHA TIN RACE 3","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":4,"name":"SHA TIN RACE 4","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":5,"name":"SHA TIN RACE 5","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":6,"name":"SHA TIN RACE 6","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":7,"name":"SHA TIN RACE 7","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":8,"name":"SHA TIN RACE 8","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":9,"name":"SHA TIN RACE 9","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]},
-    {"race":10,"name":"SHA TIN RACE 10","timeHkt":"TBC","distanceM":null,"class":"ENTRIES PUBLISHED · MODEL SCORE PENDING","strategyStatus":"POSSIBILITY SCAN · NOT SCORED","signals":[]}
+    {
+      "race": 1,
+      "name": "SHA TIN RACE 1",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 2,
+      "name": "SHA TIN RACE 2",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 3,
+      "name": "SHA TIN RACE 3",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 4,
+      "name": "SHA TIN RACE 4",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 5,
+      "name": "SHA TIN RACE 5",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 6,
+      "name": "SHA TIN RACE 6",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 7,
+      "name": "SHA TIN RACE 7",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 8,
+      "name": "SHA TIN RACE 8",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 9,
+      "name": "SHA TIN RACE 9",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    },
+    {
+      "race": 10,
+      "name": "SHA TIN RACE 10",
+      "timeHkt": "TBC",
+      "distanceM": null,
+      "class": "ENTRIES PUBLISHED · MODEL SCORE PENDING",
+      "strategyStatus": "POSSIBILITY SCAN · NOT SCORED",
+      "signals": []
+    }
   ]
 }
