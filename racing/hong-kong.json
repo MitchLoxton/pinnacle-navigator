@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 11,
-  "appVersion": "1.11.16",
-  "updatedAt": "2026-09-18T12:20:00+08:00",
+  "schemaVersion": 12,
+  "appVersion": "1.11.17",
+  "updatedAt": "2026-09-18T12:45:00+08:00",
   "timezone": "Australia/Perth",
   "meeting": {
     "date": "2026-09-20",
@@ -13,187 +13,223 @@
     "status": "ENTRIES PUBLISHED · SHADOW MODEL SCORING PENDING",
     "officialSourceUrl": "https://racing.hkjc.com/en-us/local/information/entries?Racecourse=ST&View=All&racedate=2026%2F09%2F20"
   },
-  "systemStatus": "HK ROBUST 70 V1 FROZEN · RELIABILITY LOCK ACTIVE · 20 SEP POSSIBILITY SCAN LOADED",
-  "systemMessage": "HK ROBUST 70 V1 is frozen from 18 Sep 2026. The app may show PENDING / POTENTIAL / NO MODEL POSSIBILITY, but real-money BET NOW remains locked until fresh post-freeze evidence plus executable quote, fill and capacity gates are independently verified.",
+  "systemStatus": "HK ROBUST 60 ROI30 V1 FROZEN · RELIABILITY LOCK ACTIVE · 20 SEP POSSIBILITY SCAN LOADED",
+  "systemMessage": "HK ROBUST 60 ROI30 V1 is frozen from 18 Sep 2026. Historical realized ROI clears 30% under the primary 3% adverse-price score and remains above 30% at 5% fixed-selection price damage, but future ROI is not guaranteed. Real-money BET NOW stays locked until genuine post-freeze and live-execution gates pass.",
   "strategy": {
-    "name": "HK ROBUST 70 V1 · RELIABILITY LOCK",
-    "mode": "SHADOW · WIN · ONE BET/RACE · MAX 3 BETS/DAY · FLAT 1U RESEARCH RISK · PRODUCTION LOCKED",
-    "status": "FROZEN FOR GENUINE FORWARD SHADOW · FAIL-CLOSED",
+    "name": "HK ROBUST 60 ROI30 V1 · RELIABILITY LOCK",
+    "mode": "SHADOW · WIN · ONE BET/RACE · MAX 5 BETS/DAY · FLAT 1U RESEARCH RISK · PRODUCTION LOCKED",
+    "status": "FROZEN FOR GENUINE FORWARD SHADOW · HISTORICAL ROI30 TARGET PASSED · FAIL-CLOSED",
     "targetBand": {
       "betsPerYearMin": 60,
-      "betsPerYearPreferred": 70,
+      "betsPerYearPreferred": 61,
       "betsPerYearMax": 100,
-      "note": "The user requested roughly 60-200 bets/year. Research favors the lower end because higher-frequency variants increased drawdown and/or weakened later-data behavior."
+      "historicalRealizedRoiTarget": 0.3,
+      "note": "The target is >30% historical realized ROI with roughly 60+ bets/year. This is a research screen, not a promise of future ROI."
     },
     "productionApproval": {
       "approved": false,
       "status": "BLOCKED_SHADOW_ONLY",
       "guaranteedProfit": false,
-      "reason": "No future performance can be guaranteed. This rule has not yet accumulated genuinely prospective post-18-Sep-2026 evidence, and production-grade live model scoring, executable quote/fill evidence and target-stake capacity evidence are incomplete.",
+      "reason": "The >30% figure is historical, not a guaranteed future return. Genuine post-18-Sep-2026 forward evidence plus runner-specific executable quote, accepted-size and capacity evidence are still incomplete.",
       "gates": {
         "researchFreezePassed": true,
+        "historicalRoi30ScreenPassed": true,
         "postFreezeForwardEvidencePassed": false,
         "executionFeasibilityPassed": false,
         "forwardCalibrationPassed": false,
         "capacityPassed": false,
         "commercialPromotionPassed": false
       },
-      "promotionPolicy": "Do not retune this rule using future losses or wins. Promotion requires a predeclared forward sample, real executable WIN quotes and accepted-size logging, calibration review, drawdown review and capacity checks."
+      "promotionPolicy": "Do not change thresholds because of future wins/losses. Promotion requires predeclared forward evidence, real executable WIN quotes and accepted-size logging, calibration stability, drawdown review and capacity checks."
     },
     "researchDesign": {
       "source": "HK_BEAT_AUSTRALIA_V1_RESEARCH.xlsx / 06 R3 RAW sourced from HKJC_R3_COMBO_PROPOSAL_V2.xlsx BET LOG",
-      "candidateRulesScreened": 1120,
+      "searchSummary": "Broad simple-rule screening plus a 729-rule local neighborhood robustness check around the frozen family.",
       "primaryDevelopment": "2015-2021",
       "reusedAudit": "2022-2025",
-      "latestDiagnostic": "2026 source data through 2026-07-12; not a virgin holdout because 2026 has been seen in prior HK research",
+      "latestDiagnostic": "2026 source data through 2026-07-12; NOT a virgin holdout because this period has been inspected in prior HK research.",
       "freezeDate": "2026-09-18",
       "futureEvidenceStart": "First Hong Kong meeting after 2026-09-18",
-      "resultLeakageAllowed": false,
-      "selectionComplexity": "Simple four-gate rule plus one-per-race and max-three-per-day ranking"
+      "resultLeakageAllowed": false
     },
     "market": "WIN",
     "prediction": {
       "eligibleModelUniverse": "R2 core OR satellite classification from the supplied R3 research universe",
       "calibrationLogOddsIntercept": 0.1679327961221175,
-      "liveProbabilityRule": "Use the frozen calibrated probability only; do not retrain or shift thresholds from results.",
-      "calibratedModelRoi2015To2025": 0.09121749758759823,
-      "calibratedModelRoi2022To2025": 0.08876427971373049,
-      "calibratedModelRoi2026Diagnostic": 0.08574803305727695
+      "calibratedModelRoi2015To2025": 0.08635072747505847,
+      "calibratedModelRoi2022To2025": 0.08762846577054142,
+      "calibratedModelRoi2026Diagnostic": 0.07728032647593652,
+      "resultLeakageAllowed": false
     },
     "rules": {
-      "eligibility": {
-        "requiresModelTag": "R2_CORE_OR_SATELLITE",
-        "minMarketRankInclusive": 1,
-        "maxMarketRankInclusive": 8,
-        "minOddsInclusive": 2.5,
-        "maxOddsExclusive": 30,
-        "minimumStressedCalibratedModelEv": 0.04
+      "core": {
+        "requiresR2Core": true,
+        "maxMarketRank": 8,
+        "lowBand": {
+          "minOddsInclusive": 4,
+          "maxOddsExclusive": 8
+        },
+        "longBand": {
+          "minOddsInclusive": 20,
+          "maxOddsExclusive": 30
+        },
+        "minimumStressedCalibratedModelEv": 0.03
       },
-      "historicalStress": {
-        "rebateAssumed": false,
-        "winningProfitPriceDamage": 0.03,
-        "effectiveOddsFormula": "1 + (researchOdds - 1) * 0.97"
+      "satellite": {
+        "requiresSatelliteOnly": true,
+        "mainBand": {
+          "maxMarketRank": 3,
+          "minOddsInclusive": 2.5,
+          "maxOddsExclusive": 9
+        },
+        "rawEvException": {
+          "minimumOriginalRawModelEv": 0.12
+        },
+        "minimumStressedCalibratedModelEv": 0.03
+      },
+      "midPriceExtension": {
+        "requiresR2CoreOrSatellite": true,
+        "maxMarketRank": 6,
+        "minOddsInclusive": 12,
+        "maxOddsExclusive": 20,
+        "minimumStressedCalibratedModelEv": 0.05
       },
       "oneBetPerRace": {
         "enabled": true,
         "ranking": "Highest stressed calibrated model EV; tie-break lower odds, then higher original raw model EV."
       },
       "raceDayCap": {
-        "maxSelectionsPerRaceDay": 3,
-        "ranking": "If more than three races qualify on one HK race day, keep the three highest stressed calibrated model EV selections.",
-        "noDailyLossStop": true,
-        "note": "A same-day loss-stop overlay was tested and did not improve reused-audit robustness, so it is not included."
+        "maxSelectionsPerRaceDay": 5,
+        "ranking": "If more than five races qualify on one Hong Kong race day, keep the five highest stressed calibrated model EV selections."
       },
       "staking": {
         "research": "Flat 1 unit per accepted selection.",
         "productionStakeAud": null,
-        "rule": "No Kelly, no edge-tier stake increases, no chase sizing. Dollar stake remains unset until capacity and bankroll risk are separately approved."
+        "rule": "No Kelly, no edge-tier stake increases, no loss chasing. Dollar stake stays unset until bankroll and capacity risk are separately approved."
+      },
+      "historicalStress": {
+        "rebateAssumed": false,
+        "primaryWinningProfitPriceDamage": 0.03,
+        "effectiveOddsFormula": "1 + (researchOdds - 1) * (1 - priceDamage)"
       },
       "liveExecution": {
         "quoteMarket": "WIN",
         "quoteMustBeRunnerSpecific": true,
         "quoteMaxAgeSeconds": 10,
-        "currentOddsMinInclusive": 2.5,
-        "currentOddsMaxExclusive": 30,
-        "currentMarketRankMax": 8,
-        "currentExecutableQuoteMustStillClearCalibratedEv": 0.04,
+        "coreAndSatelliteMinimumCalibratedEvAtExecutableQuote": 0.03,
+        "midPriceExtensionMinimumCalibratedEvAtExecutableQuote": 0.05,
         "acceptedSizeRequired": true,
-        "note": "A historical possibility is cancelled if the actual executable quote no longer clears the frozen +4% calibrated EV gate."
+        "rule": "If the actual executable quote no longer clears the same frozen sleeve EV threshold, PASS."
       }
     },
     "historicalCadence": {
-      "completedBets": 778,
+      "completedBets": 667,
       "completedYears": 11,
-      "betsPerYear": 70.72727272727273,
-      "maxBetsAnyCompletedYear": 101,
-      "recentAuditBetsPerYear": 54.5,
-      "calendarYearSafetyCap": 120,
+      "betsPerYear": 60.63636363636363,
+      "maxBetsPerRaceDay": 5,
+      "reusedAuditBetsPerYear": 42.25,
       "partial2026Bets": 36,
       "partial2026SourceCutoff": "2026-07-12"
     },
     "historicalHeadline": {
       "researchUnitStakeAud": 1000,
-      "annualTurnoverAudAtReferenceStake": 70727.27272727272,
-      "annualProfitAudAtReferenceStake": 12431.272727272724,
-      "realizedRoi": 0.17576349614395884,
-      "calibratedModelRoi": 0.09121749758759823,
+      "annualTurnoverAudAtReferenceStake": 60636.36363636363,
+      "annualProfitAudAtReferenceStake": 21573.36363636364,
+      "realizedRoi": 0.35578260869565226,
+      "calibratedModelRoi": 0.08635072747505847,
       "losingCompletedYears": 2,
-      "worstCompletedYearUnits": -30.145000000000003,
-      "maxChronologicalDrawdownUnits": 34,
-      "maxDrawdownAudAtReferenceStake": 34000,
-      "note": "Dollar figures scale linearly from a A$1,000 research unit and are not a recommended live stake."
+      "worstCompletedYearUnits": -8.090999999999998,
+      "maxChronologicalDrawdownUnits": 28.12900000000002,
+      "maxDrawdownAudAtReferenceStake": 28129.00000000002,
+      "note": "Dollar figures simply scale a A$1,000 research unit and are not a live-stake recommendation."
     },
     "chronologicalSlices": {
       "development2015To2021": {
-        "betsPerYear": 80,
-        "realizedRoi": 0.1870625,
-        "calibratedModelRoi": 0.09217250025992532,
-        "annualProfitUnits": 14.965,
-        "maxDrawdownUnits": 31.858,
-        "losingYears": 1
+        "bets": 498,
+        "betsPerYear": 71.14285714285714,
+        "realizedRoi": 0.30864658634538156,
+        "calibratedModelRoi": 0.08591711749125006,
+        "annualProfitUnits": 21.958000000000002,
+        "maxDrawdownUnits": 28.12900000000002,
+        "losingYears": 1,
+        "worstYearUnits": -8.090999999999998
       },
       "reusedAudit2022To2025": {
-        "betsPerYear": 54.5,
-        "realizedRoi": 0.14673853211009172,
-        "calibratedModelRoi": 0.08876427971373049,
-        "annualProfitUnits": 7.99725,
-        "maxDrawdownUnits": 34,
-        "losingYears": 1
+        "bets": 169,
+        "betsPerYear": 42.25,
+        "realizedRoi": 0.49468047337278087,
+        "calibratedModelRoi": 0.08762846577054142,
+        "annualProfitUnits": 20.900249999999993,
+        "maxDrawdownUnits": 15,
+        "losingYears": 1,
+        "worstYearUnits": -6.422
       },
       "diagnostic2026ThroughJul12": {
         "bets": 36,
-        "realizedPlUnits": 6.114,
-        "realizedRoi": 0.1698333333333333,
-        "calibratedModelRoi": 0.08574803305727695,
-        "maxDrawdownUnits": 12,
+        "realizedPlUnits": 11.673000000000002,
+        "realizedRoi": 0.32425000000000004,
+        "calibratedModelRoi": 0.07728032647593652,
+        "maxDrawdownUnits": 10,
         "notVirginHoldout": true
       }
     },
     "fixedSelectionPriceStress": {
+      "damage3Pct": {
+        "realizedRoi": 0.35578260869565226,
+        "calibratedModelRoi": 0.08635072747505847,
+        "maxDrawdownUnits": 28.12900000000002,
+        "losingCompletedYears": 2
+      },
       "damage5Pct": {
-        "realizedRoi": 0.1548,
-        "calibratedModelRoi": 0.0719,
-        "annualProfitUnits": 10.9491,
-        "maxDrawdownUnits": 34,
+        "realizedRoi": 0.33200149925037487,
+        "calibratedModelRoi": 0.06755859424381676,
+        "maxDrawdownUnits": 28.414999999999992,
         "losingCompletedYears": 3
       },
       "damage8Pct": {
-        "realizedRoi": 0.1234,
-        "calibratedModelRoi": 0.0429,
-        "annualProfitUnits": 8.7258,
-        "maxDrawdownUnits": 36.064,
-        "losingCompletedYears": 4
+        "realizedRoi": 0.29632983508245886,
+        "calibratedModelRoi": 0.039370394396954084,
+        "maxDrawdownUnits": 28.843999999999994,
+        "losingCompletedYears": 3
       },
       "damage10Pct": {
-        "realizedRoi": 0.1024,
-        "calibratedModelRoi": 0.0236,
-        "annualProfitUnits": 7.2436,
-        "maxDrawdownUnits": 38.28,
-        "losingCompletedYears": 4
+        "realizedRoi": 0.2725487256371814,
+        "calibratedModelRoi": 0.020578261165712212,
+        "maxDrawdownUnits": 29.13000000000001,
+        "losingCompletedYears": 3
       },
-      "note": "Price-stress tests keep the originally selected bets fixed; they do not reselect a friendlier subset."
+      "note": "Selections are frozen at the primary rule before worsening prices. The >30% historical ROI survives 5% damage, but not 8%; the app must therefore re-check the actual executable quote instead of assuming historical pricing."
     },
     "riskDiagnostics": {
+      "thresholdNeighborhood": {
+        "rulesTested": 729,
+        "shareWithCompletedRoiAtLeast30Pct": 0.7325102880658436,
+        "shareWith60To80BetsPerYear": 0.4101508916323731,
+        "shareWithBothFrequencyAndRoiTargets": 0.16049382716049382,
+        "shareWithFrequencyRoiPositiveAuditAndNonNegative2026Diagnostic": 0.12757201646090535,
+        "note": "This is a local stability check, not 729 independent experiments or proof of future profitability."
+      },
       "withinYearRaceDayReorderMaxDrawdownUnits": {
-        "median": 49.6,
-        "p95": 63.41,
-        "p99": 70.04,
-        "maxObservedSimulation": 81.13,
+        "median": 30.473,
+        "p95": 42.778,
+        "p99": 47.27,
+        "maxObservedSimulation": 55.217,
         "simulations": 10000
       },
       "recent2019To2025DayBlockBootstrap": {
-        "medianAnnualPlUnits": 9.82,
-        "p05AnnualPlUnits": -27.45,
-        "p95AnnualPlUnits": 58.31,
-        "estimatedLossYearFrequency": 0.351,
+        "averageRaceDaysSampledPerSyntheticYear": 36,
+        "p05AnnualPlUnits": -19.676,
+        "medianAnnualPlUnits": 16.11,
+        "p95AnnualPlUnits": 63.617,
+        "estimatedLossYearFrequency": 0.2493,
         "simulations": 20000
       },
       "winnerConcentration": {
-        "topSingleWinnerShareOfCompletedNetProfit": 0.192,
-        "topFiveWinnerShareOfCompletedNetProfit": 0.794,
-        "warning": "Historical realized profit is materially concentrated in a small number of high-odds winners. This is a major reason the system remains shadow despite positive model EV."
+        "topSingleWinnerShareOfCompletedNetProfit": 0.11036336896930979,
+        "topFiveWinnerShareOfCompletedNetProfit": 0.4578036046134333,
+        "topTenWinnerShareOfCompletedNetProfit": 0.7848061793373142
       },
-      "regimeWarning": "The 2021-2023 rolling three-year realized period was weak even while calibrated model ROI stayed positive. Do not size from historical realized ROI alone."
+      "warning": "Historical realized ROI is materially higher than calibrated model ROI. Use the model ROI and forward evidence as the conservative anchor; do not assume 35.6% will repeat."
     },
     "requiredPreBetGates": [
       "PRODUCTION_APPROVAL_TRUE",
@@ -201,15 +237,14 @@
       "EXECUTION_FEASIBILITY_PASSED",
       "FORWARD_CALIBRATION_PASSED",
       "CAPACITY_GATE_PASSED",
-      "COMMERCIAL_PROMOTION_PASSED",
       "HORSE_IDENTITY_VERIFIED",
-      "R2_OR_SATELLITE_MODEL_CLASSIFICATION_VERIFIED",
-      "MARKET_RANK_8_OR_BETTER_VERIFIED",
-      "EXECUTABLE_WIN_ODDS_2_5_TO_UNDER_30",
-      "CALIBRATED_EV_AT_EXECUTABLE_QUOTE_AT_LEAST_4_PERCENT",
+      "MODEL_CLASSIFICATION_VERIFIED",
+      "FROZEN_SLEEVE_RULE_VERIFIED",
       "ONE_BET_PER_RACE_RANKING_VERIFIED",
-      "MAX_THREE_SELECTIONS_PER_RACE_DAY_VERIFIED",
+      "MAX_FIVE_SELECTIONS_PER_RACE_DAY_VERIFIED",
+      "RUNNER_SPECIFIC_EXECUTABLE_WIN_QUOTE_VERIFIED",
       "RUNNER_QUOTE_TIMESTAMP_WITHIN_10_SECONDS",
+      "LIVE_QUOTE_STILL_CLEARS_FROZEN_EV_GATE",
       "ACCEPTED_SIZE_CAPACITY_VERIFIED",
       "STAKE_RISK_APPROVED"
     ],
@@ -227,12 +262,13 @@
       "postFreezeForwardEvidencePassed": false,
       "confirmedBetsToday": null,
       "lastVerifiedAt": null,
-      "message": "WAIT — the HK ROBUST 70 rule is frozen, but the production gates are not passed. The app may identify research possibilities; it must not issue a real-money BET NOW yet."
+      "message": "WAIT — HK ROBUST 60 ROI30 V1 is frozen and historically clears the ROI target, but production evidence is not complete. POTENTIAL is not BET NOW."
     },
     "archivedResearch": {
-      "optimalV4": "Previous ~35.7 bets/year WIN core retained in archive. It had a higher historical realized ROI but did not meet the requested activity target.",
-      "forced60WinSearch": "Earlier ~53-58 bets/year WIN candidates were rejected after severe later-data failure; they must not be revived or retuned around.",
-      "r23Place": "PLACE research remains structurally interesting and less winner-concentrated, but historical PLACE execution prices are synthetic and therefore not production evidence."
+      "robust70V1": "Superseded as the primary research display. Its lower historical realized ROI did not meet the user's >30% historical ROI target.",
+      "simple60": "~60.3 bets/year and ~35.1% completed-history ROI, but the 2026 diagnostic was materially negative; not promoted.",
+      "forced60WinSearch": "Earlier ~53-58 bets/year candidates with severe later-data failure remain rejected.",
+      "r23Place": "PLACE remains research-only because historical executable PLACE prices are synthetic."
     }
   },
   "signals": [],
