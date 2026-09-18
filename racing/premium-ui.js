@@ -172,7 +172,7 @@
   async function loadHongKong(force=false){
     if(hkLoadPromise) return hkLoadPromise;
     if(hkData && !force) return hkData;
-    hkLoadPromise=fetch('./hong-kong.json?v=20260918-robust70',{cache:'no-store'})
+    hkLoadPromise=fetch('./hong-kong.json?v=20260918-roi30',{cache:'no-store'})
       .then(async r=>{if(!r.ok) throw new Error('Hong Kong data HTTP '+r.status);return r.json();})
       .then(json=>{hkData=json;window.__MITCHELL_HK_DATA=json;return json;})
       .catch(error=>{console.warn('Hong Kong data unavailable',error);return hkData;})
@@ -210,20 +210,20 @@
       ${hkDecisionCard()}
       <section class="premium-card premium-history-card">
         <div class="premium-section-title"><span>Hong Kong system</span><strong>${esc(meeting.venue||'Hong Kong')} · ${esc(meeting.date||'meeting loading')}</strong></div>
-        <h2>${esc(strategy?.name||'HK ROBUST 70 V1')}</h2>
-        <p>Simple frozen rule: model-tagged runner, market rank ≤8, WIN odds 2.50–&lt;30.00, and the actual quote must still clear at least +4% calibrated model EV. One runner per race and no more than three selections per race day.</p>
+        <h2>${esc(strategy?.name||'HK ROBUST 60 ROI30 V1')}</h2>
+        <p>Frozen ROI30 rule: three simple WIN sleeves, one horse per race and no more than five selections per race day. Core/satellite sleeves must clear +3% stressed calibrated EV; the 12–20 mid-price sleeve must clear +5%.</p>
         <div class="premium-history-grid">
           <div><span>HISTORICAL CADENCE</span><strong>${Number.isFinite(bpy)?bpy.toFixed(1):'—'}/YR</strong></div>
+          <div><span>HISTORICAL ROI</span><strong>${Number.isFinite(Number(headline?.realizedRoi))?(Number(headline.realizedRoi)*100).toFixed(1)+'%':'—'}</strong></div>
           <div><span>MODEL ROI</span><strong>${Number.isFinite(mroi)?(mroi*100).toFixed(1)+'%':'—'}</strong></div>
-          <div><span>HISTORICAL DD</span><strong>${Number.isFinite(dd)?dd.toFixed(0)+'u':'—'}</strong></div>
-          <div><span>STATUS</span><strong>SHADOW</strong></div>
+          <div><span>HISTORICAL DD</span><strong>${Number.isFinite(dd)?dd.toFixed(1)+'u':'—'}</strong></div>
         </div>
         <p style="margin-top:12px">PENDING SCORE means the race has not been fully scored. POTENTIAL ONLY means the frozen HK model found a candidate. NO MODEL POSSIBILITY means scoring finished and nothing qualified. A potential is never permission to bet.</p>
-        <p style="margin-top:10px;color:#e6c77d">Risk note: historical realized profit is concentrated in a small number of high-odds winners, so the historical ROI is not being treated as a forward guarantee.</p>
+        <p style="margin-top:10px;color:#e6c77d">The >30% number is historical realized ROI, not a promised future return. The calibrated model ROI is lower and is the more conservative forward anchor.</p>
       </section>
       ${hkPossibilitiesCard()}
       ${hkStatsRow()}
-      <div class="premium-foot-note">HK ROBUST 70 V1 is frozen from 18 Sep 2026. The UI and watchlist are active, but real-money BET NOW remains locked until genuine post-freeze forward evidence and the live execution/capacity gates pass.</div>`;
+      <div class="premium-foot-note">HK ROBUST 60 ROI30 V1 is frozen from 18 Sep 2026. The UI and watchlist are active, but real-money BET NOW remains locked until genuine post-freeze forward evidence and the live execution/capacity gates pass.</div>`;
   }
 
   function watchlistPage(){
