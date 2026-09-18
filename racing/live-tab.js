@@ -293,6 +293,8 @@
   function render(data, results) {
     lastData=data;
     lastResults=results;
+    window.__MITCHELL_LIVE_RESULTS = Array.isArray(results) ? results : [];
+    window.dispatchEvent(new CustomEvent('mitchell-live-results', { detail: window.__MITCHELL_LIVE_RESULTS }));
     lastLiveSuccessAt=Date.now();
     currentPollMs=nextPoll(results);
 
