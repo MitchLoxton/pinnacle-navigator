@@ -1,15 +1,14 @@
-const BUILD = '1.11.13';
-const CACHE = 'mitchell-racing-v11113-hk-status-single-tap';
+const BUILD = '1.11.14';
+const CACHE = 'mitchell-racing-v11114-native-hk-watchlist';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
-  './app.js?v=120',
-  './premium-ui.js?v=118',
+  './app.js?v=121',
+  './premium-ui.js?v=119',
   './watchlist-odds.js?v=3',
   './bet-history.js?v=6',
-  './hk-main-tab.js?v=3',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
