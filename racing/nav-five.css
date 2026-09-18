@@ -1,9 +1,9 @@
-/* MITCHELL Racing five-tab navigation layout
-   Keeps Home / Watchlist / History / Odds / Settings in one clean row. */
+/* MITCHELL Racing six-tab navigation layout
+   Keeps Home / Watchlist / History / Odds / Hong Kong / Settings in one clean row. */
 
 .premium-nav{
   display:grid !important;
-  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
   align-items:stretch !important;
   gap:6px !important;
 }
