@@ -76,6 +76,46 @@
 
   function header(){ return `<header class="premium-top"><button class="premium-refresh" id="premiumRefresh" type="button" aria-label="Refresh racing app">${icon('refresh')}</button><div class="premium-brand"><div class="premium-brand-main">MITCHELL</div><span class="premium-brand-script">Racing</span><div class="premium-date">${esc(data?.weekLabel || 'Current race day')}</div><div class="premium-motto">Discipline drives longer wins</div></div><div class="premium-hero-mark">${heroGraphic()}</div>${statusPill()}</header>`; }
 
+
+  function liveResultFor(race){
+    const code=raceCode(race);
+    const rows=Array.isArray(window.__MITCHELL_LIVE_RESULTS)?window.__MITCHELL_LIVE_RESULTS:[];
+    return rows.find(x=>raceCode(x?.race)===code)||null;
+  }
+
+  function coreLiveSnapshot(race){
+    const result=liveResultFor(race);
+    if(!result) return {label:'CURRENT TABTOUCH',value:'Odds checking…',meta:'Waiting for live fixed-WIN market'};
+    const price=Number(result?.favouritePrice);
+    const favs=Array.isArray(result?.favourites)?result.favourites.filter(x=>x?.name):[];
+    const type=String(result?.favouriteType||'').toUpperCase();
+    const fetched=result?.fetchedAt ? new Date(result.fetchedAt) : null;
+    const time=fetched && !Number.isNaN(fetched.getTime())
+      ? new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Perth',hour:'numeric',minute:'2-digit',second:'2-digit'}).format(fetched)+' Perth'
+      : 'live source';
+    if(type==='SINGLE'&&favs[0]?.name&&Number.isFinite(price)) return {label:'CURRENT TABTOUCH FAVOURITE',value:`${favs[0].name} · ${price.toFixed(2)}`,meta:`Updated ${time}`};
+    if(type==='EQUAL'&&favs.length&&Number.isFinite(price)) return {label:'CURRENT TABTOUCH',value:`Equal favourites · ${price.toFixed(2)}`,meta:`${favs.map(x=>x.name).join(' / ')} · updated ${time}`};
+    if(Number.isFinite(price)) return {label:'CURRENT TABTOUCH',value:`Favourite · ${price.toFixed(2)}`,meta:`Updated ${time}`};
+    return {label:'CURRENT TABTOUCH',value:'No live quote yet',meta:'Market is still being checked'};
+  }
+
+  function coreLiveBox(race){
+    const snap=coreLiveSnapshot(race);
+    return `<div data-core-live-race="${esc(raceCode(race))}" style="margin-top:10px;padding:10px 11px;border:1px solid #2a8058;border-radius:11px;background:#0d2a20"><span data-core-live-label style="display:block;font-size:7px;font-weight:950;letter-spacing:.09em;color:#78cda5">${esc(snap.label)}</span><strong data-core-live-value style="display:block;margin-top:3px;font-size:13px;color:#eefbf5">${esc(snap.value)}</strong><small data-core-live-meta style="display:block;margin-top:3px;font-size:8px;color:#83a596">${esc(snap.meta)}</small></div>`;
+  }
+
+  function updateCoreOdds(){
+    document.querySelectorAll('[data-core-live-race]').forEach(box=>{
+      const snap=coreLiveSnapshot(box.dataset.coreLiveRace||'');
+      const label=box.querySelector('[data-core-live-label]');
+      const value=box.querySelector('[data-core-live-value]');
+      const meta=box.querySelector('[data-core-live-meta]');
+      if(label && label.textContent!==snap.label) label.textContent=snap.label;
+      if(value && value.textContent!==snap.value) value.textContent=snap.value;
+      if(meta && meta.textContent!==snap.meta) meta.textContent=snap.meta;
+    });
+  }
+
   function decisionCard(){
     const a=readAction(), bet=readLockedBet();
     let detail='';
@@ -87,7 +127,7 @@
   function coreCard(){
     const watch=Array.isArray(data?.watchlist)?data.watchlist:[];
     if(!watch.length) return `<section class="premium-card premium-core"><div class="premium-section-title"><span>Today's CORE possibilities</span><strong>NONE</strong></div><div class="premium-foot-note">The app is still tracking all 21 streams automatically.</div></section>`;
-    return `<section class="premium-card premium-core" id="premiumCoreCard"><div class="premium-section-title"><span>Today's CORE possibilities</span><strong>${watch.length} POTENTIAL RACE${watch.length===1?'':'S'}</strong></div>${watch.map((x,i)=>{const ref=num(x?.coreBaseReferenceAud);return `<div class="premium-core-main" style="${i?'border-top:1px solid rgba(120,145,170,.18);padding-top:14px;margin-top:14px;':''}"><div><h2>${esc(raceCode(x?.race||x?.code))} · ${esc(x?.venue||x?.region||'')}</h2><div class="premium-core-state">State ${esc(x?.state ?? '—')}</div><div class="premium-core-meta"><span class="premium-potential">Potential only</span><span class="premium-ref">Reference stake ${ref!==null?`<b>${esc(money.format(ref))}</b>`:'—'}</span></div></div><div class="premium-core-icon">${icon('horse')}</div></div>`;}).join('')}<button class="premium-link" data-tab-jump="watchlist" type="button" style="margin-top:14px">VIEW ALL 21 STREAMS</button></section>`;
+    return `<section class="premium-card premium-core" id="premiumCoreCard"><div class="premium-section-title"><span>Today's CORE possibilities</span><strong>${watch.length} POTENTIAL RACE${watch.length===1?'':'S'}</strong></div>${watch.map((x,i)=>{const ref=num(x?.coreBaseReferenceAud);return `<div class="premium-core-main" style="${i?'border-top:1px solid rgba(120,145,170,.18);padding-top:14px;margin-top:14px;':''}"><div><h2>${esc(raceCode(x?.race||x?.code))} · ${esc(x?.venue||x?.region||'')}</h2><div class="premium-core-state">State ${esc(x?.state ?? '—')}</div><div class="premium-core-meta"><span class="premium-potential">Potential only</span><span class="premium-ref">Reference stake ${ref!==null?`<b>${esc(money.format(ref))}</b>`:'—'}</span></div>${coreLiveBox(x?.race||x?.code)}</div><div class="premium-core-icon">${icon('horse')}</div></div>`;}).join('')}<button class="premium-link" data-tab-jump="watchlist" type="button" style="margin-top:14px">VIEW ALL 21 STREAMS</button></section>`;
   }
 
   function alertsCard(){
@@ -237,7 +277,8 @@
     window.addEventListener('mitchell-base-ready',event=>{data=event.detail||window.__MITCHELL_BASE_DATA||data;scheduleRender();});
     window.addEventListener('mitchell-assist-health',event=>{assist={...assist,...(event.detail||{})};scheduleRender();});
     window.addEventListener('mitchell-preflight-health',event=>{preflight={...preflight,...(event.detail||{})};scheduleRender();});
-    window.addEventListener('mitchell-live-health',event=>{live={...live,...(event.detail||{})};scheduleRender();});
+    window.addEventListener('mitchell-live-health',event=>{const next={...live,...(event.detail||{})};const changed=next?.status!==live?.status;live=next;if(changed)scheduleRender();});
+    window.addEventListener('mitchell-live-results',event=>{window.__MITCHELL_LIVE_RESULTS=Array.isArray(event.detail)?event.detail:window.__MITCHELL_LIVE_RESULTS;updateCoreOdds();});
     window.addEventListener('online',scheduleRender); window.addEventListener('offline',scheduleRender);
     window.addEventListener('mitchell-refresh-live',()=>loadHongKong(true));
     loadHongKong();
