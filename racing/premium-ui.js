@@ -7,9 +7,11 @@
   let assist = { alertsEnabled:false, pushRegistered:false, pushBusy:false, pushError:'', notificationPermission:'default' };
   let preflight = window.__MITCHELL_V11_PREFLIGHT || null;
   let live = null;
-  let activeTab = 'home';
+  let activeTab = location.hash === '#hong-kong' ? 'hongkong' : 'home';
   let renderQueued = false;
   let lastBaseHtml = '';
+  let hkData = window.__MITCHELL_HK_DATA || null;
+  let hkLoadPromise = null;
 
   const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
   const num = v => Number.isFinite(Number(v)) ? Number(v) : null;
@@ -27,6 +29,7 @@
       tag:`<svg ${common}><path d="M20 13 13 20l-9-9V4h7z"/><circle cx="8.5" cy="8.5" r="1"/></svg>`,
       refresh:`<svg ${common}><path d="M20 6v5h-5"/><path d="M18.4 9A7 7 0 1 0 19 15"/></svg>`,
       horse:`<svg ${common}><path d="M6.3 19c.5-5.2 2.2-8.8 5.2-10.9L10.8 4l3.4 2.2 2.9-.8-.8 3.2 2.4 2.4c1.5 1.5.6 4-1.5 4h-3.1l-2.2 4"/><path d="M8.7 12.4c1.1.7 2.4.9 3.8.6"/></svg>`,
+      flag:`<svg ${common}><path d="M5 21V4"/><path d="M6 5h11l-2 3 2 3H6"/></svg>`,
       info:`<svg ${common}><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>`
     };
     return icons[name] || icons.info;
@@ -105,9 +108,74 @@
 
   function regionName(region){ const meeting=(data?.meetings||[]).find(m=>String(m?.region||'').toLowerCase()===String(region||'').toLowerCase()); return `${region}${meeting?.venue?` · ${meeting.venue}`:''}`; }
 
+
+  function hkSignals(race){
+    const local=Array.isArray(race?.signals)?race.signals:[];
+    const global=Array.isArray(hkData?.signals)?hkData.signals.filter(x=>Number(x?.race)===Number(race?.race)):[];
+    return [...local,...global];
+  }
+
+  function hkRaceState(race){
+    const signals=hkSignals(race);
+    const potential=signals.some(s=>s?.modelVerified===true||s?.modelClassificationVerified===true||s?.r2Core===true||s?.satelliteOnly===true);
+    if(potential) return {kind:'potential',label:'POTENTIAL ONLY',short:'POT',signals};
+    const status=String(race?.strategyStatus||'').toUpperCase();
+    const pending=!signals.length&&(status.includes('NOT SCORED')||status.includes('PENDING')||status.includes('SCAN'));
+    if(pending) return {kind:'pending',label:'PENDING SCORE',short:'…',signals};
+    return {kind:'no',label:'NO MODEL POSSIBILITY',short:'NO',signals};
+  }
+
+  function hkRows(){
+    return (Array.isArray(hkData?.races)?hkData.races:[]).map(race=>({race,state:hkRaceState(race)}));
+  }
+
+  async function loadHongKong(force=false){
+    if(hkLoadPromise) return hkLoadPromise;
+    if(hkData && !force) return hkData;
+    hkLoadPromise=fetch('./hong-kong.json?v=20260918-native',{cache:'no-store'})
+      .then(async r=>{if(!r.ok) throw new Error('Hong Kong data HTTP '+r.status);return r.json();})
+      .then(json=>{hkData=json;window.__MITCHELL_HK_DATA=json;return json;})
+      .catch(error=>{console.warn('Hong Kong data unavailable',error);return hkData;})
+      .finally(()=>{hkLoadPromise=null; if(activeTab==='hongkong'||activeTab==='watchlist') render(true,false);});
+    return hkLoadPromise;
+  }
+
+  function hkDecisionCard(){
+    const rows=hkRows(), potentials=rows.filter(x=>x.state.kind==='potential'), pending=rows.filter(x=>x.state.kind==='pending');
+    const approved=hkData?.strategy?.productionApproval?.approved===true;
+    const tone=approved&&potentials.length?'wait':'wait';
+    const title=approved?'WAIT':'SHADOW / WAIT';
+    const sub=!hkData?'Loading the current Hong Kong meeting…':potentials.length
+      ? `${potentials.length} Hong Kong model possibilit${potentials.length===1?'y is':'ies are'} being monitored. Do not treat a possibility as a bet.`
+      : pending.length?`${pending.length} Hong Kong races are still waiting for model scoring.`:'No Hong Kong model possibility is currently flagged.';
+    return `<section class="premium-card premium-decision ${tone}"><div class="premium-decision-top"><div class="premium-decision-icon">${icon('horse')}</div><div><div class="premium-decision-kicker">HONG KONG · YOUR ACTION</div><h1>${esc(title)}</h1><div class="premium-decision-sub">${esc(sub)}</div></div></div><div class="premium-decision-rule">Same workflow as Australia: <b>PENDING → POTENTIAL → live gates → final instruction</b>. Hong Kong remains fail-closed until its production gates are genuinely verified.</div></section>`;
+  }
+
+  function hkPossibilitiesCard(){
+    const rows=hkRows(), potentials=rows.filter(x=>x.state.kind==='potential'), pending=rows.filter(x=>x.state.kind==='pending');
+    if(!hkData) return `<section class="premium-card premium-core"><div class="premium-section-title"><span>Hong Kong possibilities</span><strong>LOADING</strong></div><div class="premium-foot-note">Loading the current Hong Kong meeting.</div></section>`;
+    if(!potentials.length) return `<section class="premium-card premium-core"><div class="premium-section-title"><span>Hong Kong possibilities</span><strong>NONE YET</strong></div><div class="premium-foot-note">${pending.length} race${pending.length===1?' is':'s are'} pending model scoring. No horse is being invented or manually selected.</div><button class="premium-link" data-tab-jump="watchlist" type="button" style="margin-top:14px">OPEN WATCHLIST</button></section>`;
+    return `<section class="premium-card premium-core"><div class="premium-section-title"><span>Hong Kong possibilities</span><strong>${potentials.length} POTENTIAL RACE${potentials.length===1?'':'S'}</strong></div>${potentials.map((x,i)=>{const r=x.race,s=x.state.signals.find(v=>v?.horse);return `<div class="premium-core-main" style="${i?'border-top:1px solid rgba(120,145,170,.18);padding-top:14px;margin-top:14px;':''}"><div><h2>HK R${esc(r?.race??'—')} · ${esc(hkData?.meeting?.venue||'Hong Kong')}</h2><div class="premium-core-state">${esc(s?.horse||'Model-qualified race')}</div><div class="premium-core-meta"><span class="premium-potential">Potential only</span><span class="premium-ref">${esc(r?.timeHkt&&r.timeHkt!=='TBC'?r.timeHkt:'Live timing pending')}</span></div></div><div class="premium-core-icon">${icon('horse')}</div></div>`;}).join('')}<button class="premium-link" data-tab-jump="watchlist" type="button" style="margin-top:14px">OPEN WATCHLIST</button></section>`;
+  }
+
+  function hkStatsRow(){
+    const rows=hkRows(), potentials=rows.filter(x=>x.state.kind==='potential').length, pending=rows.filter(x=>x.state.kind==='pending').length;
+    return `<section class="premium-stats"><div class="premium-stat">${icon('signal')}<strong>${rows.length||'—'}</strong><span>HK races tracked</span></div><div class="premium-stat">${icon('star')}<strong>${potentials}</strong><span>possibilities</span></div><div class="premium-stat">${icon('clock')}<strong>${pending}</strong><span>pending score</span></div></section>`;
+  }
+
+  function hongKongPage(){
+    const meeting=hkData?.meeting||{};
+    return `<div class="premium-offline-banner">OFFLINE · DO NOT BET until the live connection is restored.</div>${hkDecisionCard()}<section class="premium-card premium-history-card"><div class="premium-section-title"><span>Hong Kong system</span><strong>${esc(meeting.venue||'Hong Kong')} · ${esc(meeting.date||'meeting loading')}</strong></div><h2>Same race-day workflow as Australia</h2><p>PENDING SCORE means the race has not been fully scored. POTENTIAL ONLY means the frozen HK model found a candidate. NO MODEL POSSIBILITY means scoring finished and nothing qualified. A potential is never permission to bet.</p></section>${hkPossibilitiesCard()}${hkStatsRow()}<div class="premium-foot-note">Hong Kong is currently shadow / fail-closed. The UI is live and the watchlist works, but real-money BET NOW remains locked until the separate HK evidence and execution gates are actually passed.</div>`;
+  }
+
   function watchlistPage(){
     const rows=Array.isArray(data?.stateTracklist)?data.stateTracklist:[], groups=['Perth','Sydney','Melbourne'];
-    return `<div class="premium-section-title"><span>Watchlist</span><strong>${rows.length} streams · ${(data?.watchlist||[]).length} CORE today</strong></div>${groups.map(region=>{const items=rows.filter(x=>String(x?.region||'').toLowerCase()===region.toLowerCase());return `<section class="premium-card premium-region"><div class="premium-region-head"><h3>${esc(regionName(region))}</h3><span>${items.filter(x=>x?.corePotential).length?'CORE highlighted':'tracking only'}</span></div><div class="premium-state-grid">${items.map(x=>`<div class="premium-state ${x?.corePotential?'core':''}"><span>${esc(raceCode(x?.race))}</span><strong>${esc(x?.state ?? '—')}</strong>${x?.corePotential?'<span class="premium-core-badge">CORE</span>':''}</div>`).join('')}</div></section>`;}).join('')}<div class="premium-foot-note">States track favourite win/loss history. They are not bets on their own.</div>`;
+    const hk=hkRows(), hkPot=hk.filter(x=>x.state.kind==='potential').length, hkPending=hk.filter(x=>x.state.kind==='pending').length;
+    return `<div class="premium-section-title"><span>Watchlist</span><strong>Australia + Hong Kong</strong></div>
+      <section class="premium-card premium-history-card"><div class="premium-section-title"><span>AUSTRALIA · V11</span><strong>${rows.length} streams · ${(data?.watchlist||[]).length} CORE</strong></div></section>
+      ${groups.map(region=>{const items=rows.filter(x=>String(x?.region||'').toLowerCase()===region.toLowerCase());return `<section class="premium-card premium-region"><div class="premium-region-head"><h3>${esc(regionName(region))}</h3><span>${items.filter(x=>x?.corePotential).length?'CORE highlighted':'tracking only'}</span></div><div class="premium-state-grid">${items.map(x=>`<div class="premium-state ${x?.corePotential?'core':''}"><span>${esc(raceCode(x?.race))}</span><strong>${esc(x?.state ?? '—')}</strong>${x?.corePotential?'<span class="premium-core-badge">CORE</span>':''}</div>`).join('')}</div></section>`;}).join('')}
+      <section class="premium-card premium-region"><div class="premium-region-head"><h3>Hong Kong · ${esc(hkData?.meeting?.venue||'Loading')}</h3><span>${hkData?`${hkPot} potential · ${hkPending} pending`:'loading current meeting'}</span></div><div class="premium-state-grid">${hk.length?hk.map(({race:r,state})=>`<div class="premium-state ${state.kind==='potential'?'core':''}"><span>HK R${esc(r?.race??'—')}</span><strong>${esc(state.short)}</strong><span class="premium-core-badge">${esc(state.kind==='potential'?'POTENTIAL':state.kind==='pending'?'PENDING':'NO')}</span></div>`).join(''):'<div class="premium-foot-note">Loading Hong Kong races…</div>'}</div></section>
+      <div class="premium-foot-note">Australia CORE and Hong Kong POTENTIAL are watchlist flags only. Neither is automatically a bet.</div>`;
   }
 
   function historyPage(){
@@ -120,15 +188,15 @@
     return `<section class="premium-card premium-settings-card"><div class="premium-section-title"><span>Settings</span><strong>Keep it simple</strong></div><h2>Race-day setup</h2><p>The safest setup is alerts on, live checks automatic, and no manual interpretation of the watchlist.</p><div class="premium-setting-row"><div><span>PHONE ALERTS</span><strong>${alertOn?'ON':'OFF'}</strong></div><button class="premium-link" id="premiumSettingsAlerts" type="button">${alertOn?'TURN OFF':'TURN ON'}</button></div><div class="premium-setting-row"><div><span>V11 PREFLIGHT</span><strong>${esc(preflight?.status || 'CHECKING')}</strong></div><span>${preflight?.safe===true?'21-stream integrity check passed':'Fail-closed until verified'}</span></div><div class="premium-setting-row"><div><span>EXECUTION RULE</span><strong>20s → 10s pre-jump</strong></div><span>$3.00+ accepted price</span></div><div class="premium-setting-row"><div><span>ADVANCED</span><strong>Hidden by default</strong></div><a class="premium-link" href="./automation.html">AUTOMATION</a></div></section>`;
   }
 
-  function page(){ if(activeTab==='watchlist') return watchlistPage(); if(activeTab==='history') return historyPage(); if(activeTab==='settings') return settingsPage(); return homePage(); }
-  function nav(){ const items=[['home','Home'],['watchlist','Watchlist'],['history','History'],['settings','Settings']]; return `<nav class="premium-nav" aria-label="Racing app navigation">${items.map(([key,label])=>`<button type="button" data-premium-tab="${key}" class="${activeTab===key?'active':''}">${icon(key==='watchlist'?'star':key==='history'?'clock':key==='settings'?'gear':'home')}<span>${label}</span></button>`).join('')}</nav>`; }
+  function page(){ if(activeTab==='watchlist') return watchlistPage(); if(activeTab==='history') return historyPage(); if(activeTab==='hongkong') return hongKongPage(); if(activeTab==='settings') return settingsPage(); return homePage(); }
+  function nav(){ const items=[['home','Home'],['watchlist','Watchlist'],['history','History'],['hongkong','Hong Kong'],['settings','Settings']]; return `<nav class="premium-nav" aria-label="Racing app navigation">${items.map(([key,label])=>`<button type="button" data-premium-tab="${key}" class="${activeTab===key?'active':''}">${icon(key==='watchlist'?'star':key==='history'?'clock':key==='hongkong'?'flag':key==='settings'?'gear':'home')}<span>${label}</span></button>`).join('')}</nav>`; }
 
   function externalViewOpen(){ const page=$('premiumPage'); return Boolean(page?.dataset?.hkMain==='1' || page?.querySelector?.('.odds-page')); }
   function canAutoRender(){ return activeTab==='home' && !externalViewOpen(); }
 
   function bind(){
     $('premiumRefresh')?.addEventListener('click',()=>$('refreshButton')?.click(),{once:true});
-    document.querySelectorAll('[data-premium-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.premiumTab||'home';lastBaseHtml='';render(true,true);},{once:true}));
+    document.querySelectorAll('[data-premium-tab]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.premiumTab||'home';if(activeTab==='hongkong'){history.replaceState?.(null,'',location.pathname+location.search+'#hong-kong');loadHongKong();}else if(location.hash==='#hong-kong'){history.replaceState?.(null,'',location.pathname+location.search);}lastBaseHtml='';render(true,true);},{once:true}));
     document.querySelectorAll('[data-tab-jump]').forEach(btn=>btn.addEventListener('click',()=>{activeTab=btn.dataset.tabJump||'home';lastBaseHtml='';render(true,true);},{once:true}));
     $('premiumAlertsToggle')?.addEventListener('click',toggleAlerts,{once:true});
     $('premiumSettingsAlerts')?.addEventListener('click',toggleAlerts,{once:true});
@@ -171,6 +239,8 @@
     window.addEventListener('mitchell-preflight-health',event=>{preflight={...preflight,...(event.detail||{})};scheduleRender();});
     window.addEventListener('mitchell-live-health',event=>{live={...live,...(event.detail||{})};scheduleRender();});
     window.addEventListener('online',scheduleRender); window.addEventListener('offline',scheduleRender);
+    window.addEventListener('mitchell-refresh-live',()=>loadHongKong(true));
+    loadHongKong();
     render(true,false);
   }
 
