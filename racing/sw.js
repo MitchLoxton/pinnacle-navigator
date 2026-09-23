@@ -1,5 +1,5 @@
-const BUILD = '1.11.17';
-const CACHE = 'mitchell-racing-v11117-hk-roi30';
+const BUILD = '1.11.18';
+const CACHE = 'mitchell-racing-v11118-bet-history-fix';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
@@ -8,7 +8,7 @@ const STATIC_SHELL = [
   './app.js?v=124',
   './premium-ui.js?v=122',
   './watchlist-odds.js?v=3',
-  './bet-history.js?v=6',
+  './bet-history.js?v=7',
   './manifest.webmanifest',
   './icon.svg',
   './apple-touch-icon.png'
