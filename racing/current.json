@@ -1,12 +1,12 @@
 {
   "schemaVersion": 8,
   "appVersion": "0.9.2",
-  "updatedAt": "2026-09-23T13:20:00+08:00",
+  "updatedAt": "2026-09-23T14:00:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 26 September 2026",
   "overallStatus": "READY",
-  "overallMessage": "SAT 26 SEP READY: all 21 stream states have been carried forward through 19 Sep from verified TABtouch archived FOB favourites. The frozen V11 CORE possibilities this week are PR6 state 4, SR7 state 5, MR2 state 4 and MR3 state 4. These are NOT bets now; the app must still verify the single live favourite, $3.00+ price, final execution window and confirmed accepted execution.",
-  "productionRule": "Track every stream result for state. Real money is restricted to frozen V11 CORE state matches. A model signal is not a system bet. The live favourite must remain verified at $3.00+ in the execution window and the accepted bookmaker execution must be confirmed. Hard model stake cap A$10,000. Official SP is a separate post-race evidence input and must never be invented from final fixed-WIN odds.",
+  "overallMessage": "AUSTRALIA AUDITED THROUGH WED 23 SEP. All 21 streams are carried through the completed 19 Sep card. MR4 PROFLIGATE A$7,550 @ $3.50 is preserved as a BET NOW signal and LOSS, but accepted bookmaker execution is unconfirmed so it is excluded from counted-bet/turnover/P&L/ROI stats. For Sat 26 Sep the frozen V11 CORE possibilities are PR6 state 4, SR7 state 5, MR2 state 4 and MR3 state 4. These are watchlist only until the live gates pass.",
+  "productionRule": "Track every stream result for state. Every final BET NOW instruction must be preserved in history even if bookmaker execution is not confirmed. Unconfirmed BET NOW signals are audit-only and must not alter counted-bet, turnover, cash P/L or ROI statistics. Confirmed accepted bookmaker executions remain the only live wagers counted in cash stats. Real money is restricted to frozen V11 CORE state matches; live favourite must remain verified at $3.00+ in the execution window. Hard model stake cap A$10,000.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
@@ -22,7 +22,7 @@
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": null,
     "actualCashStatus": "19 SEP = A$0 CONFIRMED SYSTEM P/L; FULL FY ACTUAL CASH NOT YET VERIFIED",
-    "note": "Do not treat the displayed historical FY model figure as a complete current cash balance. 19 September produced no confirmed system wager."
+    "note": "Historical/model figures remain separate from actual cash. Live BET NOW signals are now always preserved in history; an unconfirmed execution does not alter counted-bet/cash KPIs."
   },
   "lastWeek": {
     "date": "2026-09-19",
@@ -34,7 +34,11 @@
     "historyFile": "./history/2026-09-19.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_FOB_FAVOURITE",
-    "note": "All 21 archived TABtouch race pages were verified from the embedded final FOB favourite and winner data. MR4 and SR7 were also reconciled to the V11 execution ledger as NO_BET. Final fixed-WIN prices are audit/reference only; Official SP remains unverified."
+    "note": "All 21 stream results are verified for 19 Sep. MR4 issued BET NOW: PROFLIGATE A$7,550 @ $3.50 and the signal lost. Because accepted bookmaker execution was not confirmed, it is logged in history but excluded from counted-bet/turnover/P&L/ROI stats. SR7 remained NO_BET. Australia re-audited through 23 Sep 2026.",
+    "betNowSignals": 1,
+    "betNowSignalWins": 0,
+    "betNowSignalLosses": 1,
+    "betNowSignalModelPlAud": -7550
   },
   "meetings": [
     {
@@ -478,5 +482,7 @@
     "officialSpRequiredForEvidence": true,
     "cardDateMustMatchPerthToday": true,
     "preflightMustPass": true
-  }
+  },
+  "auditThroughDate": "2026-09-23",
+  "auditStatus": "AUSTRALIA AUDITED THROUGH 23 SEP 2026"
 }
