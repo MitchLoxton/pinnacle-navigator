@@ -5,7 +5,7 @@
   "status": "COMPLETE",
   "source": "TABtouch archived embedded market models + V11 execution ledger",
   "sourceKind": "TABTOUCH_ARCHIVED_FOB_FAVOURITE",
-  "verification": "All 21 archived TABtouch race pages were re-read from the embedded market model. Each final FOB favourite was identified from isFobFavourite and cross-checked against the placing=1 winner. MR4 and SR7 were reconciled against the V11 ledger; neither had confirmed accepted execution. Final fixed-WIN prices below are audit/reference only. Official SP remains unverified and is not inferred from them.",
+  "verification": "All 21 archived TABtouch race pages were re-read from the embedded market model. Each final FOB favourite was identified from isFobFavourite and cross-checked against the placing=1 winner. MR4 is now preserved as a verified BET NOW instruction from the 19 Sep app notification: PROFLIGATE, A$7,550 @ $3.50; PROFLIGATE lost. Accepted bookmaker execution remains unconfirmed, so this signal is excluded from counted-bet/cash statistics. SR7 remains NO_BET/unconfirmed. Final fixed-WIN prices below are audit/reference only. Official SP remains unverified and is not inferred from them.",
   "summary": {
     "streamsLogged": 21,
     "favouriteWins": 6,
@@ -14,7 +14,11 @@
     "systemCashPlAud": 0,
     "pending": 0,
     "ambiguous": 0,
-    "errors": 0
+    "errors": 0,
+    "betNowSignals": 1,
+    "betNowSignalWins": 0,
+    "betNowSignalLosses": 1,
+    "betNowSignalModelPlAud": -7550
   },
   "races": [
     {
@@ -271,7 +275,13 @@
       "systemBet": false,
       "cashPlAud": 0,
       "executionStatus": "UNCONFIRMED",
-      "finalStatus": "NO_BET"
+      "finalStatus": "BET_NOW_SIGNAL_LOGGED_EXECUTION_UNCONFIRMED",
+      "betNowSignal": true,
+      "signalHorse": "PROFLIGATE",
+      "signalStakeAud": 7550,
+      "signalPrice": 3.5,
+      "signalOutcome": "LOSS",
+      "signalModelPlAud": -7550
     },
     {
       "race": "MR5",
