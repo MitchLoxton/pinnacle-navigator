@@ -86,7 +86,7 @@
       "histN": 21,
       "histWins": 8,
       "histWinRatePct": 38.0952380952,
-      "histRoiPct": 29.0476,
+      "histRoiPct": 29.04761904761904,
       "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
       "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/belmont-park/2026-09-26/race-fields",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/pr/6",
@@ -111,7 +111,7 @@
       "histN": 28,
       "histWins": 9,
       "histWinRatePct": 32.1428571429,
-      "histRoiPct": 15.8929,
+      "histRoiPct": 15.89285714285715,
       "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
       "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Sep26%2CNSW%2CRosehill+Gardens",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/sr/7",
@@ -136,7 +136,7 @@
       "histN": 56,
       "histWins": 18,
       "histWinRatePct": 32.1428571429,
-      "histRoiPct": 17.2321,
+      "histRoiPct": 17.23214285714286,
       "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
       "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/mornington/2026-09-26/race-fields",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/mr/2",
@@ -161,7 +161,7 @@
       "histN": 43,
       "histWins": 16,
       "histWinRatePct": 37.2093023256,
-      "histRoiPct": 45.2326,
+      "histRoiPct": 45.23255813953488,
       "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
       "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/mornington/2026-09-26/race-fields",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/mr/3",
@@ -217,7 +217,7 @@
       "state": 4,
       "corePotential": true,
       "histN": 21,
-      "histRoiPct": 29.0476
+      "histRoiPct": 29.04761904761904
     },
     {
       "race": "PR7",
@@ -283,7 +283,7 @@
       "state": 5,
       "corePotential": true,
       "histN": 28,
-      "histRoiPct": 15.8929
+      "histRoiPct": 15.89285714285715
     },
     {
       "race": "MR1",
@@ -301,7 +301,7 @@
       "state": 4,
       "corePotential": true,
       "histN": 56,
-      "histRoiPct": 17.2321
+      "histRoiPct": 17.23214285714286
     },
     {
       "race": "MR3",
@@ -311,7 +311,7 @@
       "state": 4,
       "corePotential": true,
       "histN": 43,
-      "histRoiPct": 45.2326
+      "histRoiPct": 45.23255813953488
     },
     {
       "race": "MR4",
