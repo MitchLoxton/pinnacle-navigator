@@ -57,6 +57,7 @@
     const wins = Number.isFinite(Number(system.favouriteWins)) ? Number(system.favouriteWins) : rows.filter(x => String(x?.outcome).toUpperCase() === 'WIN').length;
     const losses = Number.isFinite(Number(system.favouriteLosses)) ? Number(system.favouriteLosses) : rows.filter(x => String(x?.outcome).toUpperCase() === 'LOSS').length;
     const bets = Number(system.confirmedSystemBets) || 0;
+    const signals = Number(system.betNowSignals) || 0;
     const cash = Number(system.systemCashPlAud) || 0;
     const money = new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(cash);
 
@@ -64,13 +65,13 @@
     const sydney = groupRows(rows,'SR');
     const melbourne = groupRows(rows,'MR');
 
-    summary.textContent = `${rows.length} states logged · ${bets} system bets`;
+    summary.textContent = `${rows.length} states logged · ${signals} BET NOW signal${signals===1?'':'s'} · ${bets} confirmed bet${bets===1?'':'s'}`;
     box.innerHTML = `
       <div style="padding:12px;border-radius:12px;background:#162338;border:1px solid #36516e">
         <div style="font-size:9px;color:#8fa5bd;font-weight:950;letter-spacing:.06em">${esc(dateLabel(history?.date))} FINAL LOG</div>
         <div style="font-size:15px;font-weight:1000;color:#fff;margin-top:4px">${wins} favourite wins · ${losses} favourite losses</div>
-        <div style="font-size:12px;font-weight:950;color:#9eb3ca;margin-top:5px">SYSTEM BETS: ${bets} · SYSTEM CASH P/L: ${esc(money)}</div>
-        <div style="font-size:9px;color:#b7c5d5;line-height:1.4;margin-top:6px">Favourite results move the stream state even when there was no wager. Official-SP evidence remains separate and is not guessed from closing fixed odds.</div>
+        <div style="font-size:12px;font-weight:950;color:#9eb3ca;margin-top:5px">BET NOW SIGNALS: ${signals} · CONFIRMED BETS: ${bets} · CASH P/L: ${esc(money)}</div>
+        <div style="font-size:9px;color:#b7c5d5;line-height:1.4;margin-top:6px">Every BET NOW instruction stays in history. If accepted bookmaker execution is unconfirmed, the signal remains visible but does not alter counted-bet, turnover, cash P/L or ROI stats. Favourite results still move stream state independently.</div>
       </div>
       <div style="display:grid;gap:9px;margin-top:9px">
         ${groupCard(`PERTH · ${venueFor(perth,'BELMONT PARK')}`, perth)}
