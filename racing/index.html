@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="./odds-matrix-ui.css?v=1">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.11.20">
+<body data-build="1.11.21">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -39,7 +39,7 @@
     <section class="only-rule">
       <div class="only-rule-label">YOUR ONLY BETTING RULE</div>
       <div class="only-rule-main">ONLY BET WHEN THE BIG TOP BOX IS <b>GREEN</b> AND LITERALLY SAYS <b>BET NOW</b></div>
-      <div class="only-rule-sub">Anything else means you do nothing. A horse being favourite, being $3+, or appearing under possible races is never enough by itself.</div>
+      <div class="only-rule-sub">Anything else means you do nothing. A horse being favourite, being $3+, or appearing under possible races is never enough by itself. <b>Equal favourites are a HARD BLOCK: never choose one manually.</b></div>
     </section>
 
     <section class="plain-instruction plain-wait" id="plainInstruction" aria-live="polite">
@@ -86,6 +86,7 @@
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
         <div class="info-row"><span>System bet</span><strong>Confirmed accepted bookmaker execution only</strong></div>
+        <div class="info-row"><span>Equal favourites</span><strong>HARD BLOCK · NO BET NOW until one sole favourite is verified</strong></div>
         <div class="info-row"><span>Cash P/L</span><strong>Only SYSTEM BET = YES</strong></div>
         <div class="info-row"><span>State tracking</span><strong>Favourite W/L even with no bet</strong></div>
         <div class="info-row"><span>Closing fixed price</span><strong>Reference only</strong></div>
@@ -97,7 +98,7 @@
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.11.20 · HK ROBUST 60 ROI30 · LIVE CORE ODDS · AU + HK WATCHLIST</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.11.21 · HK ROBUST 60 ROI30 · LIVE CORE ODDS · AU + HK WATCHLIST</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -105,9 +106,9 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=125" defer></script>
+  <script src="./app.js?v=126" defer></script>
   <script src="./preflight-guard.js?v=1" defer></script>
-  <script src="./live-tab.js?v=8" defer></script>
+  <script src="./live-tab.js?v=9" defer></script>
   <script src="./execution-truth.js?v=1" defer></script>
   <script src="./result-truth-simple.js?v=1" defer></script>
   <script src="./weekly-history.js?v=2" defer></script>
