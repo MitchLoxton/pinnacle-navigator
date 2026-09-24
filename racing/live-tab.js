@@ -224,17 +224,19 @@
     const phaseOk = result?.phase === 'LOCKED' && d?.status === 'BET_LOCKED';
     const windowOk = Number.isFinite(lead) && lead <= EXEC_OPEN && lead > EXEC_CUTOFF && result?.closed !== true;
     const fresh = Number.isFinite(sourceAt) && sourceAgeMs >= -2000 && sourceAgeMs <= SOURCE_MAX_AGE_MS;
-    const favouriteOk = sameFavourite(result,d.horse);
+    const equalFavourite = result?.favouriteType === 'EQUAL';
+    const favouriteOk = !equalFavourite && sameFavourite(result,d.horse);
     const unconfirmed = String(d?.executionStatus || 'UNCONFIRMED').toUpperCase() !== 'CONFIRMED';
-    const okay = priceOk && phaseOk && windowOk && fresh && favouriteOk && unconfirmed;
+    const okay = priceOk && phaseOk && windowOk && fresh && favouriteOk && !equalFavourite && unconfirmed;
     let blockReason = null;
     if (!unconfirmed) blockReason = 'This wager is already recorded. Do not place it again.';
     else if (!phaseOk) blockReason = 'The server no longer reports an active locked signal.';
     else if (!windowOk) blockReason = `The ${EXEC_OPEN}s→${EXEC_CUTOFF}s execution window is not open.`;
+    else if (equalFavourite) blockReason = 'Equal favourites detected. HARD BLOCK — no manual choice and no BET NOW.';
     else if (!favouriteOk) blockReason = 'The locked horse is no longer the single verified favourite.';
     else if (!fresh) blockReason = 'The source quote is stale or timestamp-invalid.';
     else if (!priceOk) blockReason = 'The current live price is below the required minimum or unavailable.';
-    return { d, live, min, lead, sourceAgeMs, okay, blockReason };
+    return { d, live, min, lead, sourceAgeMs, okay, blockReason, equalFavourite };
   }
 
   function renderTop(results) {
