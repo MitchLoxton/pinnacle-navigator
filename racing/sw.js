@@ -1,5 +1,5 @@
-const BUILD = '1.11.20';
-const CACHE = 'mitchell-racing-v11120-history-truth';
+const BUILD = '1.11.21';
+const CACHE = 'mitchell-racing-v11121-equal-favourite-hard-block';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
