@@ -1,16 +1,16 @@
 {
   "schemaVersion": 8,
   "appVersion": "0.9.2",
-  "updatedAt": "2026-09-23T14:00:00+08:00",
+  "updatedAt": "2026-10-02T09:46:00+08:00",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 26 September 2026",
+  "weekLabel": "Saturday 3 October 2026",
   "overallStatus": "READY",
-  "overallMessage": "AUSTRALIA AUDITED THROUGH WED 23 SEP. All 21 streams are carried through the completed 19 Sep card. MR4 PROFLIGATE A$7,550 @ $3.50 is preserved as a BET NOW signal and LOSS, but accepted bookmaker execution is unconfirmed so it is excluded from counted-bet/turnover/P&L/ROI stats. For Sat 26 Sep the frozen V11 CORE possibilities are PR6 state 4, SR7 state 5, MR2 state 4 and MR3 state 4. These are watchlist only until the live gates pass.",
+  "overallMessage": "AUSTRALIA READY FOR SAT 3 OCT. The 26 Sep card is fully state-logged: 9 favourite wins and 12 losses. MR2 PLUNGER A$7,750 @ $4.00 and MR3 RECUPERATO A$10,000 @ $3.80 are preserved as BET NOW signals and signal losses; accepted bookmaker execution remains unconfirmed, so they are excluded from counted-bet/turnover/cash P&L/ROI statistics. Perth Racing has no metropolitan meeting on 3 Oct, so PR1-PR7 states are carried forward unchanged. This week's frozen V11 CORE possibilities are SR4 state 4 at Royal Randwick and MR2 state 5 at Flemington. These are watchlist only until the live gates pass.",
   "productionRule": "Track every stream result for state. Every final BET NOW instruction must be preserved in history even if bookmaker execution is not confirmed. Unconfirmed BET NOW signals are audit-only and must not alter counted-bet, turnover, cash P/L or ROI statistics. Confirmed accepted bookmaker executions remain the only live wagers counted in cash stats. Real money is restricted to frozen V11 CORE state matches; live favourite must remain verified at $3.00+ in the execution window. Hard model stake cap A$10,000.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "19 SEP STATE LOG COMPLETE · 19 SEP CONFIRMED SYSTEM P/L A$0 · EARLIER CASH RECONCILIATION STILL INCOMPLETE",
+    "status": "26 SEP STATE LOG COMPLETE · 26 SEP CONFIRMED SYSTEM P/L A$0 · TWO BET NOW SIGNALS PRESERVED · FULL FY CASH RECONCILIATION STILL INCOMPLETE",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -21,63 +21,66 @@
     "modelLosses": 4,
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": null,
-    "actualCashStatus": "19 SEP = A$0 CONFIRMED SYSTEM P/L; FULL FY ACTUAL CASH NOT YET VERIFIED",
-    "note": "Historical/model figures remain separate from actual cash. Live BET NOW signals are now always preserved in history; an unconfirmed execution does not alter counted-bet/cash KPIs."
+    "actualCashStatus": "26 SEP = A$0 CONFIRMED SYSTEM P/L; MR2/MR3 BET NOW SIGNALS PRESERVED WITH EXECUTION UNCONFIRMED; FULL FY ACTUAL CASH NOT YET VERIFIED",
+    "note": "Historical/model figures remain separate from actual cash. Every final BET NOW signal is preserved permanently in history. Unconfirmed execution does not alter counted-bet, turnover, cash P/L or ROI KPIs."
   },
   "lastWeek": {
-    "date": "2026-09-19",
+    "date": "2026-09-26",
     "streamsLogged": 21,
-    "favouriteWins": 6,
-    "favouriteLosses": 15,
+    "favouriteWins": 9,
+    "favouriteLosses": 12,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-09-19.json",
+    "historyFile": "./history/2026-09-26.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
-    "sourceKind": "TABTOUCH_ARCHIVED_FOB_FAVOURITE",
-    "note": "All 21 stream results are verified for 19 Sep. MR4 issued BET NOW: PROFLIGATE A$7,550 @ $3.50 and the signal lost. Because accepted bookmaker execution was not confirmed, it is logged in history but excluded from counted-bet/turnover/P&L/ROI stats. SR7 remained NO_BET. Australia re-audited through 23 Sep 2026.",
-    "betNowSignals": 1,
+    "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
+    "note": "All 21 stream states are verified for 26 Sep. MR2 issued BET NOW: PLUNGER A$7,750 @ $4.00; MR3 issued BET NOW: RECUPERATO A$10,000 @ $3.80. Both signal horses lost. Accepted bookmaker execution is unconfirmed, so both remain permanent BET NOW audit signals but are excluded from counted-bet/turnover/cash P&L/ROI stats.",
+    "betNowSignals": 2,
     "betNowSignalWins": 0,
-    "betNowSignalLosses": 1,
-    "betNowSignalModelPlAud": -7550
+    "betNowSignalLosses": 2,
+    "betNowSignalModelPlAud": -17750
   },
   "meetings": [
     {
       "region": "Perth",
       "code": "PR1-PR7",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "status": "FIELDS PUBLISHED · LIVE TABTOUCH MARKET PENDING",
-      "programSourceUrl": "https://perthracing.com.au/",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/belmont-park/2026-09-26/race-fields"
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "status": "NO PERTH RACING METRO MEETING · PR STATES CARRIED FORWARD · NEXT PERTH RACING SAT 10 OCT AT ASCOT",
+      "active": false,
+      "programSourceUrl": "https://perthracing.com.au/racedays-events/",
+      "fieldSourceUrl": "https://perthracing.com.au/"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "status": "FIELDS PUBLISHED · LIVE TABTOUCH MARKET PENDING",
-      "programSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/RaceProgram.aspx?Key=2026Sep26%2CNSW%2CRosehill+Gardens",
-      "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Sep26%2CNSW%2CRosehill+Gardens"
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "status": "ACCEPTANCES PUBLISHED · LIVE TABTOUCH MARKET PENDING",
+      "active": true,
+      "programSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
+      "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Oct03%2CNSW%2CRoyal+Randwick"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "status": "FIELDS PUBLISHED · LIVE TABTOUCH MARKET PENDING",
-      "programSourceUrl": "https://www.racing.com/",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/mornington/2026-09-26/race-fields"
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "status": "ACCEPTANCES PUBLISHED · LIVE TABTOUCH MARKET PENDING",
+      "active": true,
+      "programSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/",
+      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/"
     }
   ],
   "lockedBets": [],
   "watchlist": [
     {
-      "race": "PR6",
-      "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
+      "race": "SR4",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
       "state": 4,
-      "qualifyingKey": "PR6|4",
+      "qualifyingKey": "SR4|4",
       "modelPath": "V11 CORE",
       "status": "POTENTIAL_PENDING_LIVE_MARKET",
       "fieldsConfirmed": true,
@@ -87,22 +90,22 @@
       "marketSnapshotAt": null,
       "priceGate": 3,
       "coreBaseReferenceAud": 4000,
-      "histN": 21,
-      "histWins": 8,
-      "histWinRatePct": 38.0952380952,
-      "histRoiPct": 29.04761904761904,
-      "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/belmont-park/2026-09-26/race-fields",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/pr/6",
-      "why": "CURRENT 26 SEP V11 CORE POTENTIAL. PR6 advanced to state 4 after the 19 Sep favourite TRULY LOYAL lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and the accepted wager must be confirmed."
+      "histN": 41,
+      "histWins": 14,
+      "histWinRatePct": 34.146341463414636,
+      "histRoiPct": 18.78048780487805,
+      "marketStatus": "ACCEPTANCES PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
+      "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Oct03%2CNSW%2CRoyal+Randwick",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-03/sr/4",
+      "why": "CURRENT 3 OCT V11 CORE POTENTIAL. SR4 advanced to state 4 after the 26 Sep favourite STARZINTHEIREYES lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and accepted execution is tracked separately."
     },
     {
-      "race": "SR7",
-      "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
+      "race": "MR2",
+      "region": "Melbourne",
+      "venue": "Flemington",
+      "date": "2026-10-03",
       "state": 5,
-      "qualifyingKey": "SR7|5",
+      "qualifyingKey": "MR2|5",
       "modelPath": "V11 CORE",
       "status": "POTENTIAL_PENDING_LIVE_MARKET",
       "fieldsConfirmed": true,
@@ -112,285 +115,257 @@
       "marketSnapshotAt": null,
       "priceGate": 3,
       "coreBaseReferenceAud": 6000,
-      "histN": 28,
-      "histWins": 9,
-      "histWinRatePct": 32.1428571429,
-      "histRoiPct": 15.89285714285715,
-      "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Sep26%2CNSW%2CRosehill+Gardens",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/sr/7",
-      "why": "CURRENT 26 SEP V11 CORE POTENTIAL. SR7 advanced to state 5 after the 19 Sep favourite STRIKING ALIBI lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and the accepted wager must be confirmed."
-    },
-    {
-      "race": "MR2",
-      "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 4,
-      "qualifyingKey": "MR2|4",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 4000,
-      "histN": 56,
-      "histWins": 18,
-      "histWinRatePct": 32.1428571429,
-      "histRoiPct": 17.23214285714286,
-      "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/mornington/2026-09-26/race-fields",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/mr/2",
-      "why": "CURRENT 26 SEP V11 CORE POTENTIAL. MR2 advanced to state 4 after the 19 Sep favourite ICY YOU lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and the accepted wager must be confirmed."
-    },
-    {
-      "race": "MR3",
-      "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 4,
-      "qualifyingKey": "MR3|4",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 4000,
-      "histN": 43,
-      "histWins": 16,
-      "histWinRatePct": 37.2093023256,
-      "histRoiPct": 45.23255813953488,
-      "marketStatus": "FIELDS PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/mornington/2026-09-26/race-fields",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-09-26/mr/3",
-      "why": "CURRENT 26 SEP V11 CORE POTENTIAL. MR3 advanced to state 4 after the 19 Sep favourite WINNASEDGE lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and the accepted wager must be confirmed."
+      "histN": 34,
+      "histWins": 13,
+      "histWinRatePct": 38.23529411764706,
+      "histRoiPct": 46.47058823529411,
+      "marketStatus": "ACCEPTANCES PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
+      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-03/mr/2",
+      "why": "CURRENT 3 OCT V11 CORE POTENTIAL. MR2 advanced to state 5 after the 26 Sep favourite PLUNGER lost. The prior BET NOW signal remains preserved in history; this week's MR2 is a new race state. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and accepted execution is tracked separately."
     }
   ],
   "stateTracklist": [
     {
       "race": "PR1",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 0,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 1,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR2",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 8,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 9,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR3",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 1,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 2,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR4",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 4,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR5",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 1,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR6",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 4,
-      "corePotential": true,
-      "histN": 21,
-      "histRoiPct": 29.04761904761904
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 5,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "PR7",
       "region": "Perth",
-      "venue": "Belmont Park",
-      "date": "2026-09-26",
-      "state": 3,
-      "corePotential": false
+      "venue": "NO PERTH METRO MEETING",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": false,
+      "inactiveReason": "No Perth Racing metropolitan meeting on Saturday 3 October 2026; state carried forward unchanged to the next Perth Racing metropolitan meeting."
     },
     {
       "race": "SR1",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "state": 0,
-      "corePotential": false
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "state": 1,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR2",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
       "state": 0,
-      "corePotential": false
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR3",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
       "state": 0,
-      "corePotential": false
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR4",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "state": 3,
-      "corePotential": false
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "state": 4,
+      "corePotential": true,
+      "active": true,
+      "histN": 41,
+      "histRoiPct": 18.78048780487805
     },
     {
       "race": "SR5",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "state": 3,
-      "corePotential": false
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR6",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "state": 9,
-      "corePotential": false
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR7",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-09-26",
-      "state": 5,
-      "corePotential": true,
-      "histN": 28,
-      "histRoiPct": 15.89285714285715
+      "venue": "Royal Randwick",
+      "date": "2026-10-03",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR1",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
+      "venue": "Flemington",
+      "date": "2026-10-03",
       "state": 0,
-      "corePotential": false
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR2",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 4,
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 5,
       "corePotential": true,
-      "histN": 56,
-      "histRoiPct": 17.23214285714286
+      "active": true,
+      "histN": 34,
+      "histRoiPct": 46.47058823529411
     },
     {
       "race": "MR3",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 4,
-      "corePotential": true,
-      "histN": 43,
-      "histRoiPct": 45.23255813953488
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 5,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR4",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 5,
-      "corePotential": false
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 6,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR5",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 0,
-      "corePotential": false
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 1,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR6",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 2,
-      "corePotential": false
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 3,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR7",
       "region": "Melbourne",
-      "venue": "Mornington",
-      "date": "2026-09-26",
-      "state": 2,
-      "corePotential": false
+      "venue": "Flemington",
+      "date": "2026-10-03",
+      "state": 3,
+      "corePotential": false,
+      "active": true
     }
   ],
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR2",
-      "currentState": 8,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 9,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR3",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 2,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR4",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 0,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR5",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 0,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR6",
-      "currentState": 4,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "PR6|4"
+      "currentState": 5,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "PR7",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 0,
+      "currentStatus": "NO PERTH METRO MEETING · STATE HELD"
     },
     {
       "race": "SR1",
-      "currentState": 0,
+      "currentState": 1,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
@@ -405,25 +380,25 @@
     },
     {
       "race": "SR4",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 4,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 4000,
+      "qualifyingKey": "SR4|4"
     },
     {
       "race": "SR5",
-      "currentState": 3,
+      "currentState": 0,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
       "race": "SR6",
-      "currentState": 9,
+      "currentState": 0,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
       "race": "SR7",
-      "currentState": 5,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 6000,
-      "qualifyingKey": "SR7|5"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY"
     },
     {
       "race": "MR1",
@@ -432,36 +407,34 @@
     },
     {
       "race": "MR2",
-      "currentState": 4,
+      "currentState": 5,
       "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "MR2|4"
+      "currentReferenceStakeAud": 6000,
+      "qualifyingKey": "MR2|5"
     },
     {
       "race": "MR3",
-      "currentState": 4,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "MR3|4"
-    },
-    {
-      "race": "MR4",
       "currentState": 5,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
+      "race": "MR4",
+      "currentState": 6,
+      "currentStatus": "STATE TRACKING ONLY"
+    },
+    {
       "race": "MR5",
-      "currentState": 0,
+      "currentState": 1,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
       "race": "MR6",
-      "currentState": 2,
+      "currentState": 3,
       "currentStatus": "STATE TRACKING ONLY"
     },
     {
       "race": "MR7",
-      "currentState": 2,
+      "currentState": 3,
       "currentStatus": "STATE TRACKING ONLY"
     }
   ],
@@ -483,6 +456,6 @@
     "cardDateMustMatchPerthToday": true,
     "preflightMustPass": true
   },
-  "auditThroughDate": "2026-09-23",
-  "auditStatus": "AUSTRALIA AUDITED THROUGH 23 SEP 2026"
+  "auditThroughDate": "2026-09-26",
+  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 26 SEP 2026 · 3 OCT CARD READY"
 }
