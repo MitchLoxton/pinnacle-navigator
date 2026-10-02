@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 4,
+  "date": "2026-09-26",
+  "timezone": "Australia/Perth",
+  "status": "COMPLETE",
+  "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
+  "summary": {
+    "streamsLogged": 21,
+    "favouriteWins": 9,
+    "favouriteLosses": 12,
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "betNowSignals": 2,
+    "betNowSignalWins": 0,
+    "betNowSignalLosses": 2,
+    "betNowSignalModelPlAud": -17750
+  },
+  "note": "All 21 stream states are verified. MR2 PLUNGER A$7,750 @ $4.00 and MR3 RECUPERATO A$10,000 @ $3.80 were timestamped BET NOW signals. Both signal horses lost. Accepted execution is unconfirmed, so the signals remain audit history and are excluded from cash KPIs.",
+  "races": [
+    {
+      "race": "PR1",
+      "stateBefore": 0,
+      "favourite": "LUCKY I AM",
+      "outcome": "LOSS",
+      "stateAfter": 1
+    },
+    {
+      "race": "PR2",
+      "stateBefore": 8,
+      "favourite": "SWIFT RULER",
+      "outcome": "LOSS",
+      "stateAfter": 9
+    },
+    {
+      "race": "PR3",
+      "stateBefore": 1,
+      "favourite": "CHAMPAGNE CRUSADER",
+      "outcome": "LOSS",
+      "stateAfter": 2
+    },
+    {
+      "race": "PR4",
+      "stateBefore": 4,
+      "favourite": "MISS VEUVE",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "PR5",
+      "stateBefore": 1,
+      "favourite": "SILENT DIVA",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "PR6",
+      "stateBefore": 4,
+      "favourite": "BOSUN",
+      "outcome": "LOSS",
+      "stateAfter": 5
+    },
+    {
+      "race": "PR7",
+      "stateBefore": 3,
+      "favourite": "LIKE CLOCKWORK",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "SR1",
+      "stateBefore": 0,
+      "favourite": "BETTER LATE",
+      "outcome": "LOSS",
+      "stateAfter": 1
+    },
+    {
+      "race": "SR2",
+      "stateBefore": 0,
+      "favourite": "BLUISH HUE",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "SR3",
+      "stateBefore": 0,
+      "favourite": "SO YOU ARE",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "SR4",
+      "stateBefore": 3,
+      "favourite": "STARZINTHEIREYES",
+      "outcome": "LOSS",
+      "stateAfter": 4
+    },
+    {
+      "race": "SR5",
+      "stateBefore": 3,
+      "favourite": "DECORUM",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "SR6",
+      "stateBefore": 9,
+      "favourite": "BLUE DOOR",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "SR7",
+      "stateBefore": 5,
+      "favourite": "LAZZURA",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "MR1",
+      "stateBefore": 0,
+      "favourite": "SAVITRI",
+      "outcome": "WIN",
+      "stateAfter": 0
+    },
+    {
+      "race": "MR2",
+      "stateBefore": 4,
+      "favourite": "PLUNGER",
+      "outcome": "LOSS",
+      "stateAfter": 5
+    },
+    {
+      "race": "MR3",
+      "stateBefore": 4,
+      "favourite": "RECUPERATO",
+      "outcome": "LOSS",
+      "stateAfter": 5
+    },
+    {
+      "race": "MR4",
+      "stateBefore": 5,
+      "favourite": "TRES MAGNIFIQUE",
+      "outcome": "LOSS",
+      "stateAfter": 6
+    },
+    {
+      "race": "MR5",
+      "stateBefore": 0,
+      "favourite": "FEDERER",
+      "outcome": "LOSS",
+      "stateAfter": 1
+    },
+    {
+      "race": "MR6",
+      "stateBefore": 2,
+      "favourite": "LEONCHROI",
+      "outcome": "LOSS",
+      "stateAfter": 3
+    },
+    {
+      "race": "MR7",
+      "stateBefore": 2,
+      "favourite": "CONCORD CONNIE",
+      "outcome": "LOSS",
+      "stateAfter": 3
+    }
+  ]
+}
