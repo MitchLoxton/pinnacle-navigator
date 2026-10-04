@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.11.21';
+  const CLIENT_BUILD = '1.11.22';
   const BUILD_CHECK_MS = 600000;
   const SW_CHECK_MS = 900000;
 
@@ -85,9 +85,17 @@
   function details(data, stats) {
     $('weekLabel').textContent = data?.weekLabel || 'Current racing week';
     $('updatedAt').textContent = data?.updatedAt ? 'Base card published ' + fmtUpdated(data.updatedAt) : 'Base card time unavailable';
-    const season = data?.season || {};
-    const p = Number(season.modelProfitAud);
-    $('seasonProfit').textContent = Number.isFinite(p) ? money.format(p) : '—';
+    const live = stats?.liveAudit || data?.season?.liveSignalAudit || {};
+    const signals = Number(live.immutableBetNowSignals ?? live.signals);
+    const signalWins = Number(live.signalWins ?? live.wins);
+    const signalLosses = Number(live.signalLosses ?? live.losses);
+    const signalPl = Number(live.signalModelPlAud);
+    const cashPl = Number(live.confirmedCashPlAud);
+    if ($('signalRecord')) $('signalRecord').textContent = Number.isFinite(signals)
+      ? `${signals} signals · ${Number.isFinite(signalWins)?signalWins:0}W / ${Number.isFinite(signalLosses)?signalLosses:0}L`
+      : '—';
+    $('seasonProfit').textContent = Number.isFinite(signalPl) ? money.format(signalPl) : '—';
+    if ($('cashProfit')) $('cashProfit').textContent = Number.isFinite(cashPl) ? money.format(cashPl) : '—';
     const h = stats?.historical || {};
     const avg = Number(h.avgCompletedFyAud);
     const roi = Number(h.roiPct);
