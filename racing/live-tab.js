@@ -196,19 +196,32 @@
     const d = result?.decision || {};
     const r = result?.result || {};
     const pending = result?.phase === 'CLOSED_RESULT_PENDING';
-    if (pending) return `<article class="watch-card" style="display:block"><div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''}</div><strong style="font-size:19px;margin-top:5px;color:#ffc34f">RACE FINISHED — RESULT PENDING</strong><div style="margin-top:10px;color:#dbe6f4">${d.status==='BET_LOCKED'?`Saved bet: ${esc(d.horse)} · ${money.format(Number(d.stake)||0)}`:'No live V11 bet is active.'}</div></article>`;
-    const noBet = r.status === 'NO_BET' || d.status === 'RACE_COMPLETE_NO_BET';
-    const won = r.status === 'WIN' || d.status === 'SETTLED_WIN';
-    const lost = r.status === 'LOSS' || d.status === 'SETTLED_LOSS';
-    const tone = won ? '#78f2b5' : lost ? '#ff9eaa' : '#9eb3ca';
-    const betLine = noBet ? 'NO BET — no V11 lock was recorded before the start' : won ? `BET RESULT: WIN · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)}` : lost ? `BET RESULT: LOSS · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)}` : esc(d.reason || 'Race complete');
+    if (pending) return `<article class="watch-card" style="display:block"><div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''}</div><strong style="font-size:19px;margin-top:5px;color:#ffc34f">RACE FINISHED — RESULT PENDING</strong><div style="margin-top:10px;color:#dbe6f4">${d.status==='BET_LOCKED'? `BET NOW signal: ${esc(d.horse)} · ${money.format(Number(d.stake)||0)}. Do not bet again.` : 'No BET NOW signal was recorded.'}</div></article>`;
+
+    const signalWon = r.status === 'WIN' || d.status === 'SETTLED_WIN';
+    const signalLost = r.status === 'LOSS' || d.status === 'SETTLED_LOSS';
+    const signalExists = signalWon || signalLost || ['BET_LOCKED','SETTLED_WIN','SETTLED_LOSS'].includes(String(d.status||'').toUpperCase());
+    const executionStatus = String(d.executionStatus || 'UNCONFIRMED').toUpperCase();
+    const cashConfirmed = executionStatus === 'CONFIRMED' && Number(d.acceptedStake)>0 && Number(d.acceptedPrice)>=3;
+    const tone = signalWon ? '#78f2b5' : signalLost ? '#ff9eaa' : '#9eb3ca';
+
+    let signalLine = 'NO BET NOW SIGNAL';
+    if (signalWon) signalLine = `BET NOW SIGNAL: WIN · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)} @ ${odds(d.entryPrice)}`;
+    else if (signalLost) signalLine = `BET NOW SIGNAL: LOSS · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)} @ ${odds(d.entryPrice)}`;
+    else if (signalExists) signalLine = `BET NOW SIGNAL RECORDED · ${esc(d.horse||'')} · ${money.format(Number(d.stake)||0)}`;
+
+    const execLine = cashConfirmed
+      ? `BOOKMAKER EXECUTION: CONFIRMED · ${money.format(Number(d.acceptedStake)||0)} @ ${odds(d.acceptedPrice)} · CASH P/L ${money.format(Number(d.cashPl)||0)}`
+      : `BOOKMAKER EXECUTION: ${esc(executionStatus)} · CASH P/L EXCLUDED`;
+
     return `<article class="watch-card" style="display:block;border-color:#33465f;background:#091523">
       <div class="watch-race">${esc(race)}${venue?' | '+esc(venue):''}</div>
       <strong style="font-size:19px;margin-top:5px;color:${tone}">RACE COMPLETE</strong>
       <div style="display:grid;gap:7px;margin-top:11px;padding:11px;border-radius:11px;background:#101b2b;border:1px solid #2d425c">
         <div><span style="color:#8fa5bd;font-size:9px;font-weight:900">WINNER</span><div style="font-size:15px;font-weight:950;color:#fff;margin-top:2px">${r.winnerNumber?'#'+esc(r.winnerNumber)+' ':''}${esc(r.winnerName || 'Result received — winner name pending')}</div></div>
         <div><span style="color:#8fa5bd;font-size:9px;font-weight:900">OFFICIAL RESULT</span><div style="font-size:12px;font-weight:800;color:#dbe6f4;margin-top:2px">${Array.isArray(r.numbers)&&r.numbers.length?esc(r.numbers.join('-')):'—'}</div></div>
-        <div style="padding:9px;border-radius:9px;background:${won?'#0d3525':lost?'#35151d':'#162338'};font-size:11px;font-weight:900;color:${tone}">${betLine}</div>
+        <div style="padding:9px;border-radius:9px;background:${signalWon?'#0d3525':signalLost?'#35151d':'#162338'};font-size:11px;font-weight:900;color:${tone}">${signalLine}</div>
+        <div style="padding:9px;border-radius:9px;background:#162338;font-size:10px;font-weight:850;color:#c9d6e5">${execLine}</div>
       </div>
     </article>`;
   }
@@ -252,7 +265,12 @@
       $('bottomLabel').textContent='DO NOT BET'; $('bottomText').textContent='Multiple simultaneous locks detected.'; document.title='DO NOT BET · MITCHELL Racing';
     } else if (locked.length) {
       const x=locked[0], q=instruction(x), d=q.d;
-      if (String(d?.executionStatus || '').toUpperCase() === 'CONFIRMED') {
+      if (String(x?.phase || '').toUpperCase() === 'SIGNAL_LOCKED') {
+        card.className='decision-card waiting'; bottom.className='bottom-command waiting'; kicker.textContent='BET NOW SIGNAL RECORDED'; title.textContent='WAIT FOR RESULT';
+        msg.textContent=`${x.race}: ${d.horse}. The BET NOW signal is permanent. The execution window has closed — do not place or chase another wager.`;
+        box.innerHTML=`<article class="locked-bet"><div class="bet-badge">SIGNAL RECORDED · DO NOT BET AGAIN</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>SIGNAL STAKE</span><strong>${money.format(Number(d.stake)||0)}</strong></div><div><span>SIGNAL PRICE</span><strong>${odds(d.entryPrice)}</strong></div></div></article>`;
+        $('bottomLabel').textContent='WAIT'; $('bottomText').textContent='BET NOW signal is saved permanently. Wait for the result.'; document.title='SIGNAL RECORDED · MITCHELL Racing';
+      } else if (String(d?.executionStatus || '').toUpperCase() === 'CONFIRMED') {
         card.className='decision-card waiting'; bottom.className='bottom-command waiting'; kicker.textContent='ACTUAL WAGER CONFIRMED'; title.textContent='BET RECORDED';
         msg.textContent=`${x.race}: ${d.horse}. Accepted execution is already recorded. Do not place another wager.`;
         box.innerHTML=`<article class="locked-bet"><div class="bet-badge">ACTUAL BET CONFIRMED</div><div class="race-line">${esc(x.race)} · FIXED WIN</div><div class="horse-name">${esc(d.horse)}</div><div class="bet-numbers"><div><span>ACCEPTED STAKE</span><strong>${money.format(Number(d.acceptedStake)||0)}</strong></div><div><span>ACCEPTED PRICE</span><strong>${odds(d.acceptedPrice)}</strong></div></div></article>`;
