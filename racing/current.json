@@ -1,12 +1,12 @@
 {
   "schemaVersion": 8,
-  "appVersion": "0.9.2",
-  "updatedAt": "2026-10-03T20:16:00+08:00",
+  "appVersion": "1.11.22",
+  "updatedAt": "2026-10-04T09:53:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 3 October 2026",
-  "overallStatus": "READY",
+  "overallStatus": "COMPLETE",
   "overallMessage": "3 OCT CARD COMPLETE. Sydney and Melbourne's 14 active streams are state-logged; Perth had no metropolitan meeting and its seven states were held. MR2 issued BET NOW for HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00, and the signal WON. The immutable BET NOW ledger now contains 6 signals total: 1 WIN / 5 LOSS, A$49,750 signal turnover and +A$250 signal-model P/L. Bookmaker execution remains unconfirmed for all six, so confirmed live cash bets/turnover/P&L remain 0 / A$0 / A$0.",
-  "productionRule": "Track every stream result for state. Every final BET NOW instruction must be preserved in history even if bookmaker execution is not confirmed. Unconfirmed BET NOW signals are audit-only and must not alter counted-bet, turnover, cash P/L or ROI statistics. Confirmed accepted bookmaker executions remain the only live wagers counted in cash stats. Real money is restricted to frozen V11 CORE state matches; live favourite must remain verified at $3.00+ in the execution window. Hard model stake cap A$10,000.",
+  "productionRule": "Track every stream result for state. Every final green BET NOW instruction is immutable signal history even if bookmaker execution is unconfirmed or explicitly NOT_PLACED. Signal W/L, signal stakes and signal-model P/L/ROI are tracked separately. Only confirmed accepted bookmaker executions alter confirmed-cash bets, turnover, cash P/L or cash ROI. Real-money instructions remain restricted to frozen V11 CORE state matches with one verified favourite at $3.00+ inside the execution window and a hard A$10,000 model-stake cap.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
@@ -69,7 +69,7 @@
       "code": "SR1-SR7",
       "venue": "Royal Randwick",
       "date": "2026-10-03",
-      "status": "ACCEPTANCES PUBLISHED · LIVE TABTOUCH MARKET PENDING",
+      "status": "COMPLETE · FINAL STATES LOGGED",
       "active": true,
       "programSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
       "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Oct03%2CNSW%2CRoyal+Randwick"
@@ -79,7 +79,7 @@
       "code": "MR1-MR7",
       "venue": "Flemington",
       "date": "2026-10-03",
-      "status": "ACCEPTANCES PUBLISHED · LIVE TABTOUCH MARKET PENDING",
+      "status": "COMPLETE · FINAL STATES LOGGED",
       "active": true,
       "programSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/",
       "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/"
@@ -95,7 +95,7 @@
       "state": 4,
       "qualifyingKey": "SR4|4",
       "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "status": "COMPLETE",
       "fieldsConfirmed": true,
       "provisionalHorse": null,
       "currentMarketFavourite": null,
@@ -107,7 +107,7 @@
       "histWins": 14,
       "histWinRatePct": 34.146341463414636,
       "histRoiPct": 18.78048780487805,
-      "marketStatus": "ACCEPTANCES PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
+      "marketStatus": "COMPLETE · NO BET NOW signal recorded",
       "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/Form.aspx?Key=2026Oct03%2CNSW%2CRoyal+Randwick",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-03/sr/4",
       "why": "CURRENT 3 OCT V11 CORE POTENTIAL. SR4 advanced to state 4 after the 26 Sep favourite STARZINTHEIREYES lost. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and accepted execution is tracked separately."
@@ -120,7 +120,7 @@
       "state": 5,
       "qualifyingKey": "MR2|5",
       "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "status": "COMPLETE",
       "fieldsConfirmed": true,
       "provisionalHorse": null,
       "currentMarketFavourite": null,
@@ -132,7 +132,7 @@
       "histWins": 13,
       "histWinRatePct": 38.23529411764706,
       "histRoiPct": 46.47058823529411,
-      "marketStatus": "ACCEPTANCES PUBLISHED · no early price is being used as a bet signal · TABtouch live favourite/price will be verified near jump",
+      "marketStatus": "COMPLETE · BET NOW signal recorded and settled WIN · bookmaker execution UNCONFIRMED",
       "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-turnbull-stakes-day/",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-03/mr/2",
       "why": "CURRENT 3 OCT V11 CORE POTENTIAL. MR2 advanced to state 5 after the 26 Sep favourite PLUNGER lost. The prior BET NOW signal remains preserved in history; this week's MR2 is a new race state. This is not a bet now. Final live V11 must still return a positive stake, the single verified favourite must remain $3.00+, every live safety gate must pass, and accepted execution is tracked separately."
@@ -470,5 +470,5 @@
     "preflightMustPass": true
   },
   "auditThroughDate": "2026-10-03",
-  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · BET NOW LEDGER RECONCILED"
+  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · 6 BET NOW SIGNALS RECONCILED · BUILD 1.11.22"
 }
