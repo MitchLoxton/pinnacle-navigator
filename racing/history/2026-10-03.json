@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 5,
+  "date": "2026-10-03",
+  "timezone": "Australia/Perth",
+  "status": "COMPLETE",
+  "source": "TABtouch archived final-favourite state history + immutable V11 BET_LOCKED event ledger",
+  "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
+  "verification": "Sydney and Melbourne's 14 active streams are final. Perth had no metropolitan meeting and its seven states were held. MR2 issued BET NOW for HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00; the signal horse won. Accepted bookmaker execution remains unconfirmed, so the signal WIN is preserved while actual cash P/L remains A$0.",
+  "summary": {
+    "streamsLogged": 14,
+    "inactiveStreams": 7,
+    "favouriteWins": 4,
+    "favouriteLosses": 10,
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "betNowSignals": 1,
+    "betNowSignalWins": 1,
+    "betNowSignalLosses": 0,
+    "betNowSignalModelPlAud": 40000
+  },
+  "inactive": [
+    {
+      "region": "Perth",
+      "codes": "PR1-PR7",
+      "reason": "No Perth Racing metropolitan meeting on 3 October 2026; stream states carried forward unchanged."
+    }
+  ],
+  "races": [
+    {
+      "race": "SR1",
+      "venue": "Royal Randwick",
+      "stateBefore": 1,
+      "favourite": "COLUMBUS",
+      "favouriteNumber": 1,
+      "outcome": "LOSS",
+      "stateAfter": 2,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "SR2",
+      "venue": "Royal Randwick",
+      "stateBefore": 0,
+      "favourite": "NONU",
+      "favouriteNumber": 8,
+      "outcome": "LOSS",
+      "stateAfter": 1,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "SR3",
+      "venue": "Royal Randwick",
+      "stateBefore": 0,
+      "favourite": "SHRADDHA",
+      "favouriteNumber": 13,
+      "outcome": "WIN",
+      "stateAfter": 0,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "SR4",
+      "venue": "Royal Randwick",
+      "stateBefore": 4,
+      "favourite": "GENESIS RUNNER",
+      "favouriteNumber": 1,
+      "outcome": "LOSS",
+      "stateAfter": 5,
+      "systemBet": false,
+      "cashPlAud": 0,
+      "executionStatus": "UNCONFIRMED",
+      "finalStatus": "NO_BET"
+    },
+    {
+      "race": "SR5",
+      "venue": "Royal Randwick",
+      "stateBefore": 0,
+      "favourite": "UNLEESHING",
+      "favouriteNumber": 16,
+      "outcome": "WIN",
+      "stateAfter": 0,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "SR6",
+      "venue": "Royal Randwick",
+      "stateBefore": 0,
+      "favourite": "BANGKOK HOTTIE",
+      "favouriteNumber": 1,
+      "outcome": "LOSS",
+      "stateAfter": 1,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "SR7",
+      "venue": "Royal Randwick",
+      "stateBefore": 0,
+      "favourite": "AETHELWULF",
+      "favouriteNumber": 7,
+      "outcome": "LOSS",
+      "stateAfter": 1,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR1",
+      "venue": "Flemington",
+      "stateBefore": 0,
+      "favourite": "MUSANDAM",
+      "favouriteNumber": 7,
+      "outcome": "WIN",
+      "stateAfter": 0,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR2",
+      "venue": "Flemington",
+      "stateBefore": 5,
+      "favourite": "HANKEE ALPHA",
+      "favouriteNumber": 20,
+      "outcome": "WIN",
+      "stateAfter": 0,
+      "systemBet": false,
+      "cashPlAud": 0,
+      "executionStatus": "UNCONFIRMED",
+      "finalStatus": "BET_NOW_SIGNAL_WIN_EXECUTION_UNCONFIRMED",
+      "betNowSignal": true,
+      "signalHorse": "HANKEE ALPHA (NZ) (EM4)",
+      "signalStakeAud": 10000,
+      "signalPrice": 5,
+      "signalOutcome": "WIN",
+      "signalModelPlAud": 40000,
+      "winnerNumber": 20,
+      "winner": "HANKEE ALPHA (NZ) (EM4)"
+    },
+    {
+      "race": "MR3",
+      "venue": "Flemington",
+      "stateBefore": 5,
+      "favourite": "VALLICE",
+      "favouriteNumber": 5,
+      "outcome": "LOSS",
+      "stateAfter": 6,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR4",
+      "venue": "Flemington",
+      "stateBefore": 6,
+      "favourite": "STIPULATION",
+      "favouriteNumber": 11,
+      "outcome": "LOSS",
+      "stateAfter": 7,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR5",
+      "venue": "Flemington",
+      "stateBefore": 1,
+      "favourite": "GOLD COAST BELLE",
+      "favouriteNumber": 7,
+      "outcome": "LOSS",
+      "stateAfter": 2,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR6",
+      "venue": "Flemington",
+      "stateBefore": 3,
+      "favourite": "NATURAL FLING",
+      "favouriteNumber": 10,
+      "outcome": "LOSS",
+      "stateAfter": 4,
+      "systemBet": false,
+      "cashPlAud": 0
+    },
+    {
+      "race": "MR7",
+      "venue": "Flemington",
+      "stateBefore": 3,
+      "favourite": "LITZDEEL",
+      "favouriteNumber": 11,
+      "outcome": "LOSS",
+      "stateAfter": 4,
+      "systemBet": false,
+      "cashPlAud": 0
+    }
+  ]
+}
