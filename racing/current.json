@@ -1,16 +1,16 @@
 {
   "schemaVersion": 8,
   "appVersion": "0.9.2",
-  "updatedAt": "2026-10-02T09:46:00+08:00",
+  "updatedAt": "2026-10-03T20:16:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 3 October 2026",
   "overallStatus": "READY",
-  "overallMessage": "AUSTRALIA READY FOR SAT 3 OCT. The 26 Sep card is fully state-logged: 9 favourite wins and 12 losses. MR2 PLUNGER A$7,750 @ $4.00 and MR3 RECUPERATO A$10,000 @ $3.80 are preserved as BET NOW signals and signal losses; accepted bookmaker execution remains unconfirmed, so they are excluded from counted-bet/turnover/cash P&L/ROI statistics. Perth Racing has no metropolitan meeting on 3 Oct, so PR1-PR7 states are carried forward unchanged. This week's frozen V11 CORE possibilities are SR4 state 4 at Royal Randwick and MR2 state 5 at Flemington. These are watchlist only until the live gates pass.",
+  "overallMessage": "3 OCT CARD COMPLETE. Sydney and Melbourne's 14 active streams are state-logged; Perth had no metropolitan meeting and its seven states were held. MR2 issued BET NOW for HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00, and the signal WON. The immutable BET NOW ledger now contains 6 signals total: 1 WIN / 5 LOSS, A$49,750 signal turnover and +A$250 signal-model P/L. Bookmaker execution remains unconfirmed for all six, so confirmed live cash bets/turnover/P&L remain 0 / A$0 / A$0.",
   "productionRule": "Track every stream result for state. Every final BET NOW instruction must be preserved in history even if bookmaker execution is not confirmed. Unconfirmed BET NOW signals are audit-only and must not alter counted-bet, turnover, cash P/L or ROI statistics. Confirmed accepted bookmaker executions remain the only live wagers counted in cash stats. Real money is restricted to frozen V11 CORE state matches; live favourite must remain verified at $3.00+ in the execution window. Hard model stake cap A$10,000.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "26 SEP STATE LOG COMPLETE · 26 SEP CONFIRMED SYSTEM P/L A$0 · TWO BET NOW SIGNALS PRESERVED · FULL FY CASH RECONCILIATION STILL INCOMPLETE",
+    "status": "3 OCT STATE LOG COMPLETE · 6 IMMUTABLE BET NOW SIGNALS · 1 WIN / 5 LOSS · CONFIRMED LIVE CASH P/L A$0",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -21,24 +21,37 @@
     "modelLosses": 4,
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": null,
-    "actualCashStatus": "26 SEP = A$0 CONFIRMED SYSTEM P/L; MR2/MR3 BET NOW SIGNALS PRESERVED WITH EXECUTION UNCONFIRMED; FULL FY ACTUAL CASH NOT YET VERIFIED",
-    "note": "Historical/model figures remain separate from actual cash. Every final BET NOW signal is preserved permanently in history. Unconfirmed execution does not alter counted-bet, turnover, cash P/L or ROI KPIs."
+    "actualCashStatus": "Through 3 Oct: 0 bookmaker-confirmed V11 cash bets; confirmed turnover A$0; confirmed cash P/L A$0.",
+    "note": "Historical/model replay figures remain separate from forward live BET NOW signal history and actual cash execution. Every final BET NOW instruction is permanent. Signal outcomes do not imply bookmaker execution.",
+    "liveSignalAudit": {
+      "throughDate": "2026-10-03",
+      "signals": 6,
+      "wins": 1,
+      "losses": 5,
+      "signalTurnoverAud": 49750,
+      "signalModelPlAud": 250,
+      "signalModelRoiPct": 0.5025125628140703,
+      "confirmedCashBets": 0,
+      "confirmedCashTurnoverAud": 0,
+      "confirmedCashPlAud": 0
+    }
   },
   "lastWeek": {
-    "date": "2026-09-26",
-    "streamsLogged": 21,
-    "favouriteWins": 9,
-    "favouriteLosses": 12,
+    "date": "2026-10-03",
+    "streamsLogged": 14,
+    "inactiveStreams": 7,
+    "favouriteWins": 4,
+    "favouriteLosses": 10,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-09-26.json",
+    "historyFile": "./history/2026-10-03.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "All 21 stream states are verified for 26 Sep. MR2 issued BET NOW: PLUNGER A$7,750 @ $4.00; MR3 issued BET NOW: RECUPERATO A$10,000 @ $3.80. Both signal horses lost. Accepted bookmaker execution is unconfirmed, so both remain permanent BET NOW audit signals but are excluded from counted-bet/turnover/cash P&L/ROI stats.",
-    "betNowSignals": 2,
-    "betNowSignalWins": 0,
-    "betNowSignalLosses": 2,
-    "betNowSignalModelPlAud": -17750
+    "note": "MR2 issued BET NOW: HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00. The BET NOW signal won. Accepted bookmaker execution is unconfirmed, so signal-model P/L is +A$40,000 while confirmed cash P/L remains A$0. Perth had no metropolitan meeting.",
+    "betNowSignals": 1,
+    "betNowSignalWins": 1,
+    "betNowSignalLosses": 0,
+    "betNowSignalModelPlAud": 40000
   },
   "meetings": [
     {
@@ -456,6 +469,6 @@
     "cardDateMustMatchPerthToday": true,
     "preflightMustPass": true
   },
-  "auditThroughDate": "2026-09-26",
-  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 26 SEP 2026 · 3 OCT CARD READY"
+  "auditThroughDate": "2026-10-03",
+  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · BET NOW LEDGER RECONCILED"
 }
