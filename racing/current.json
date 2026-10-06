@@ -1,16 +1,16 @@
 {
   "schemaVersion": 8,
-  "appVersion": "1.11.23",
-  "updatedAt": "2026-10-05T16:52:00+08:00",
+  "appVersion": "1.11.24",
+  "updatedAt": "2026-10-06T21:41:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 3 October 2026",
   "overallStatus": "COMPLETE",
-  "overallMessage": "UPDATED THROUGH 5 OCT 2026. The latest completed Saturday card is 3 Oct. The 2026 immutable BET NOW ledger contains exactly 6 distinct signals: 1 WIN / 5 LOSS, A$49,750 signal stakes, +A$250 running signal-model P/L and +0.50% signal ROI. Every signal is preserved permanently. Future duplicate BET NOW signals/pushes and any NO BET alert after BET NOW are blocked. Confirmed bookmaker cash remains 0 bets / A$0 turnover / A$0 P/L because accepted execution is not confirmed in the ledger.",
+  "overallMessage": "UPDATED THROUGH 6 OCT 2026. The immutable 2026 BET NOW ledger contains 6 signals: 1 WIN / 5 LOSS, A$49,750 signal stakes, +A$250 signal-model P/L (+0.50%). Actual bookmaker execution is now confirmed for 3 Oct MR2 from user-provided result proof: HANKEE ALPHA, A$220 @ $4.80, A$1,056 total return, A$836 net cash profit. Confirmed live cash totals are now 1 bet, A$220 turnover, +A$836 P/L.",
   "productionRule": "A final green BET NOW is permanent signal truth. The first BET_LOCKED event for a race is canonical and immutable. That signal's horse, stake and signal price cannot later change; its race-state row cannot be deleted; a later NO BET classification/notification is forbidden; duplicate BET NOW inserts are collapsed and duplicate push notifications are deduped to one per race. Signal W/L and running signal-model P/L are tracked separately from confirmed bookmaker cash.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "2026 YTD BET NOW LEDGER · 6 SIGNALS · 1 WIN / 5 LOSS · A$49,750 STAKES · +A$250 RUNNING SIGNAL P/L · +0.50% ROI",
+    "status": "2026 YTD · 6 BET NOW SIGNALS · 1W/5L · SIGNAL P/L +A$250 · CONFIRMED CASH: 1 BET / A$220 TURNOVER / +A$836",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -21,11 +21,11 @@
     "modelLosses": 4,
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": null,
-    "actualCashStatus": "Through 3 Oct: 0 bookmaker-confirmed V11 cash bets; confirmed turnover A$0; confirmed cash P/L A$0.",
+    "actualCashStatus": "Through 6 Oct: 1 bookmaker-confirmed V11 execution; A$220 accepted turnover; +A$836 net cash P/L. Evidence: user result screenshot for 3 Oct MR2 Hankee Alpha @ $4.80.",
     "note": "Historical/model replay figures remain separate from forward live BET NOW signal history and actual cash execution. Every final BET NOW instruction is permanent. Signal outcomes do not imply bookmaker execution.",
     "liveSignalAudit": {
       "throughDate": "2026-10-03",
-      "checkedThroughCalendarDate": "2026-10-05",
+      "checkedThroughCalendarDate": "2026-10-06",
       "signals": 6,
       "wins": 1,
       "losses": 5,
@@ -33,9 +33,9 @@
       "signalTurnoverAud": 49750,
       "signalModelPlAud": 250,
       "signalModelRoiPct": 0.5025125628140703,
-      "confirmedCashBets": 0,
-      "confirmedCashTurnoverAud": 0,
-      "confirmedCashPlAud": 0,
+      "confirmedCashBets": 1,
+      "confirmedCashTurnoverAud": 220,
+      "confirmedCashPlAud": 836,
       "immutable": true,
       "ytdSignalLedger": [
         {
@@ -138,9 +138,26 @@
           "runningStakeAud": 49750,
           "runningSignalPlAud": 250,
           "runningRoiPct": 0.5,
-          "executionStatus": "UNCONFIRMED"
+          "executionStatus": "CONFIRMED",
+          "acceptedStakeAud": 220,
+          "acceptedPrice": 4.8,
+          "totalReturnAud": 1056,
+          "cashPlAud": 836
         }
-      ]
+      ],
+      "confirmedCashRoiPct": 380,
+      "latestConfirmedExecution": {
+        "date": "2026-10-03",
+        "race": "MR2",
+        "horse": "HANKEE ALPHA (NZ) (EM4)",
+        "acceptedStakeAud": 220,
+        "acceptedPrice": 4.8,
+        "totalReturnAud": 1056,
+        "cashPlAud": 836,
+        "signalStakeAud": 10000,
+        "signalPrice": 5,
+        "evidence": "USER_RESULT_SCREENSHOT"
+      }
     }
   },
   "lastWeek": {
@@ -149,12 +166,12 @@
     "inactiveStreams": 7,
     "favouriteWins": 4,
     "favouriteLosses": 10,
-    "confirmedSystemBets": 0,
-    "systemCashPlAud": 0,
+    "confirmedSystemBets": 1,
+    "systemCashPlAud": 836,
     "historyFile": "./history/2026-10-03.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "MR2 issued BET NOW: HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00. The BET NOW signal won. Accepted bookmaker execution is unconfirmed, so signal-model P/L is +A$40,000 while confirmed cash P/L remains A$0. Perth had no metropolitan meeting.",
+    "note": "MR2 issued BET NOW: HANKEE ALPHA (NZ) (EM4), signal A$10,000 @ $5.00. User-provided bookmaker result proof confirms actual execution A$220 @ $4.80. The horse won; total return A$1,056; net cash profit A$836. Signal-model P/L remains +A$40,000 and is kept separate from actual cash.",
     "betNowSignals": 1,
     "betNowSignalWins": 1,
     "betNowSignalLosses": 0,
@@ -577,6 +594,6 @@
     "preflightMustPass": true
   },
   "auditThroughDate": "2026-10-03",
-  "auditStatus": "UPDATED 5 OCT 2026 · AUSTRALIA RESULTS AUDITED THROUGH 3 OCT · 6 IMMUTABLE 2026 BET NOW SIGNALS · BUILD 1.11.23",
-  "auditCheckedAt": "2026-10-05T16:52:00+08:00"
+  "auditStatus": "UPDATED 6 OCT 2026 · AUSTRALIA RESULTS AUDITED THROUGH 3 OCT · HANKee ALPHA EXECUTION CONFIRMED · BUILD 1.11.24",
+  "auditCheckedAt": "2026-10-06T21:41:00+08:00"
 }
