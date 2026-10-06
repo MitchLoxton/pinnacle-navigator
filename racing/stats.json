@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
-  "appVersion": "1.11.23",
-  "updatedAt": "2026-10-05T16:52:00+08:00",
+  "appVersion": "1.11.24",
+  "updatedAt": "2026-10-06T21:41:00+08:00",
   "strategy": {
     "name": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
     "status": "PREFERRED CHAMPION",
@@ -39,9 +39,9 @@
     "signalTurnoverAud": 49750,
     "signalModelPlAud": 250,
     "signalModelRoiPct": 0.5025125628140703,
-    "confirmedAcceptedSystemBets": 0,
-    "confirmedCashTurnoverAud": 0,
-    "confirmedCashPlAud": 0,
+    "confirmedAcceptedSystemBets": 1,
+    "confirmedCashTurnoverAud": 220,
+    "confirmedCashPlAud": 836,
     "latestSignalDate": "2026-10-03",
     "latestSignalRace": "MR2",
     "latestSignalHorse": "HANKEE ALPHA (NZ) (EM4)",
@@ -53,9 +53,9 @@
     "latestSignalWinner": "HANKEE ALPHA (NZ) (EM4)",
     "latestSignalModelPlAud": 40000,
     "latestSignalCashPlAud": 0,
-    "note": "2026 running totals are sourced from the immutable BET_LOCKED ledger. Once BET NOW exists, the event cannot be edited/deleted, the race state cannot be deleted, signal horse/stake/price are restored from the original lock, and future NO BET alerts are forbidden for that race. Signal P/L is not confirmed bookmaker cash P/L.",
-    "checkedAt": "2026-10-05T16:52:00+08:00",
-    "checkedThroughCalendarDate": "2026-10-05",
+    "note": "2026 signal totals remain sourced from immutable BET_LOCKED events. 3 Oct MR2 now has confirmed bookmaker execution from user-provided result evidence: A$220 accepted at $4.80, A$1,056 total return, A$836 net cash profit. Signal-model P/L remains separate at +A$40,000 for that signal because the displayed model stake/price were A$10,000 @ $5.00.",
+    "checkedAt": "2026-10-06T21:41:00+08:00",
+    "checkedThroughCalendarDate": "2026-10-06",
     "signalPending": 0,
     "notificationAudit": {
       "distinctBetNowPushRaces": 5,
@@ -167,9 +167,29 @@
         "runningStakeAud": 49750,
         "runningSignalPlAud": 250,
         "runningRoiPct": 0.5,
-        "executionStatus": "UNCONFIRMED"
+        "executionStatus": "CONFIRMED",
+        "acceptedStakeAud": 220,
+        "acceptedPrice": 4.8,
+        "totalReturnAud": 1056,
+        "cashPlAud": 836
       }
-    ]
+    ],
+    "confirmedCashRoiPct": 380,
+    "latestConfirmedExecution": {
+      "date": "2026-10-03",
+      "race": "MR2",
+      "horse": "HANKEE ALPHA (NZ) (EM4)",
+      "signalStakeAud": 10000,
+      "signalPrice": 5,
+      "acceptedStakeAud": 220,
+      "acceptedPrice": 4.8,
+      "totalReturnAud": 1056,
+      "cashProfitAud": 836,
+      "stakeVarianceAud": -9780,
+      "acceptedStakePctOfSignal": 2.2,
+      "priceVariance": -0.2,
+      "evidence": "USER_RESULT_SCREENSHOT"
+    }
   },
   "safeFloor": {
     "stressLabel": "5% central winning-price stress · fixed A$100K floor",
