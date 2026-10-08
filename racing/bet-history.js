@@ -75,7 +75,7 @@ function html(){
   let sig=S.rows.filter(x=>x.source==='LIVE_SYSTEM_SIGNAL'),
       other=S.rows.filter(x=>x.source!=='LIVE_SYSTEM_SIGNAL'),
       y=S.year||2026,
-      h=`<section class="premium-card sbh"><header class="sh"><div class="st"><div><div class="sk">IMMUTABLE V11 BET NOW LEDGER</div><h1>${y} Running Total</h1><p class="ss">Every final green <b>BET NOW</b> instruction is stored permanently from the database event ledger. Once BET NOW exists, it cannot be edited, deleted or later shown as NO BET. Running signal P/L is model/signal P/L; confirmed bookmaker cash remains separate.</p></div><button class="rb" id="sbr" ${S.loading?'disabled':''}>${S.loading?'LOADING…':'REFRESH'}</button></div>${stats()}</header>`;
+      h=`<section class="premium-card sbh"><header class="sh"><div class="st"><div><div class="sk">IMMUTABLE V11 BET NOW LEDGER</div><h1>${y} Running Total</h1><p class="ss">Every genuine <b>BET NOW</b> instruction is permanent signal history. The ledger cross-checks immutable BET_LOCKED events with sent BET NOW push notifications and dedupes by race. Once BET NOW exists, later NO BET messages cannot erase it. Signal P/L and actual bookmaker cash remain separate.</p></div><button class="rb" id="sbr" ${S.loading?'disabled':''}>${S.loading?'LOADING…':'REFRESH'}</button></div>${stats()}</header>`;
   if(S.loading&&!S.loaded)return h+'<div class="msg">Loading immutable BET NOW ledger…</div></section>';
   if(S.err&&!S.loaded)return h+'<div class="msg">'+e(S.err)+'</div></section>';
   return h
@@ -83,7 +83,7 @@ function html(){
     +`<div class="sl">${sig.length?sig.map(row).join(''):'<div class="msg">No BET NOW signals recorded for '+y+'.</div>'}</div>`
     +`<div class="bar"><b>MODEL / REPLAY REFERENCE</b><span>${other.length} ROWS</span></div>`
     +`<div class="sl">${other.map(row).join('')}</div>`
-    +`<div class="note">${S.warn?e(S.warn)+' · ':''}Source of truth: immutable BET_LOCKED database events. A BET NOW signal can settle WIN/LOSS/PENDING, but can never become NO BET. Bookmaker execution and cash P/L are tracked separately.</div></section>`
+    +`<div class="note">${S.warn?e(S.warn)+' · ':''}Source of truth: canonical union of immutable BET_LOCKED events and sent BET NOW push notifications, deduped by race. A BET NOW signal can settle WIN/LOSS/PENDING but can never become NO BET. Bookmaker execution/cash is separate.</div></section>`
 }
 function paint(){if(!open())return;let p=document.getElementById('premiumPage'),k=[V,S.loading,S.loaded,S.rows.length,S.err,S.warn].join('|');if(p.dataset.shk===k&&p.querySelector('.sbh'))return;p.dataset.shk=k;p.innerHTML=html();document.getElementById('sbr')?.addEventListener('click',()=>load(1),{once:true});if(!S.loaded&&!S.loading)load()}
 async function load(force=0){if(S.loading||(S.loaded&&!force))return;S={...S,loading:1,err:'',warn:''};V++;paint();try{let[a,b]=await Promise.all([replay(),live()]);S={...S,loading:0,loaded:1,rows:merge(a,b.rows),summary:b.summary,year:b.year}}catch(q){S={...S,loading:0,err:q.message||'History failed'}}V++;paint()}
