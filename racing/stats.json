@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
-  "appVersion": "1.11.24",
-  "updatedAt": "2026-10-06T21:41:00+08:00",
+  "appVersion": "1.11.25",
+  "updatedAt": "2026-10-08T08:12:00+08:00",
   "strategy": {
     "name": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
     "status": "PREFERRED CHAMPION",
@@ -33,36 +33,44 @@
   },
   "liveAudit": {
     "throughDate": "2026-10-03",
+    "checkedAt": "2026-10-08T08:12:00+08:00",
+    "checkedThroughCalendarDate": "2026-10-08",
+    "source": "CANONICAL_BET_NOW_SIGNAL_LEDGER",
+    "sourceRule": "UNION_OF_IMMUTABLE_BET_LOCKED_AND_SENT_BET_NOW_PUSHES_DEDUPED_BY_RACE",
     "immutableBetNowSignals": 6,
     "signalWins": 1,
     "signalLosses": 5,
+    "signalPending": 0,
     "signalTurnoverAud": 49750,
     "signalModelPlAud": 250,
     "signalModelRoiPct": 0.5025125628140703,
     "confirmedAcceptedSystemBets": 1,
     "confirmedCashTurnoverAud": 220,
     "confirmedCashPlAud": 836,
+    "confirmedCashRoiPct": 380,
+    "unconfirmedSignals": 4,
+    "notPlacedSignals": 1,
     "latestSignalDate": "2026-10-03",
     "latestSignalRace": "MR2",
     "latestSignalHorse": "HANKEE ALPHA (NZ) (EM4)",
     "latestSignalStakeAud": 10000,
     "latestSignalPrice": 5,
     "latestSignalFinalStatus": "SIGNAL_WIN",
-    "latestSignalExecutionStatus": "UNCONFIRMED",
+    "latestSignalExecutionStatus": "CONFIRMED",
     "latestSignalOutcome": "WIN",
     "latestSignalWinner": "HANKEE ALPHA (NZ) (EM4)",
     "latestSignalModelPlAud": 40000,
-    "latestSignalCashPlAud": 0,
-    "note": "2026 signal totals remain sourced from immutable BET_LOCKED events. 3 Oct MR2 now has confirmed bookmaker execution from user-provided result evidence: A$220 accepted at $4.80, A$1,056 total return, A$836 net cash profit. Signal-model P/L remains separate at +A$40,000 for that signal because the displayed model stake/price were A$10,000 @ $5.00.",
-    "checkedAt": "2026-10-06T21:41:00+08:00",
-    "checkedThroughCalendarDate": "2026-10-06",
-    "signalPending": 0,
+    "latestSignalCashPlAud": 836,
+    "historicalContradictoryNoBetAlerts": 4,
+    "historicalContradictoryNoBetAlertsTreatment": "IGNORED_FOR_SIGNAL_TRUTH",
+    "duplicatePushRowsIgnored": 1,
+    "duplicateLockRowsIgnored": 2,
     "notificationAudit": {
       "distinctBetNowPushRaces": 5,
-      "immutableSignalRaces": 6,
-      "note": "The 29 Aug signal predates the current push ledger. All five later BET NOW push races match an immutable BET_LOCKED race. One historical Sep 26 race received a duplicate BET NOW push; build 1.11.23 prevents duplicate BET NOW pushes."
+      "canonicalSignalRaces": 6,
+      "betLockedOnlyRaces": 1,
+      "note": "Five signal races have sent BET NOW pushes; 29 Aug PR2 is supported by immutable BET_LOCKED history only. Duplicate Sep 26 MR2 push and duplicate lock rows are deduped by race."
     },
-    "historicalContradictoryNoBetAlerts": 4,
     "futureNoBetAfterBetNow": "DATABASE_BLOCKED",
     "futureDuplicateBetNowSignal": "DATABASE_BLOCKED",
     "futureDuplicateBetNowPush": "CANONICAL_ONE_PER_RACE",
@@ -82,7 +90,9 @@
         "runningStakeAud": 4450,
         "runningSignalPlAud": -4450,
         "runningRoiPct": -100,
-        "executionStatus": "UNCONFIRMED"
+        "executionStatus": "UNCONFIRMED",
+        "signalEvidence": "BET_LOCKED_ONLY",
+        "historicalContradictoryNoBetAlert": false
       },
       {
         "signalNo": 2,
@@ -99,7 +109,9 @@
         "runningStakeAud": 14450,
         "runningSignalPlAud": -14450,
         "runningRoiPct": -100,
-        "executionStatus": "NOT_PLACED"
+        "executionStatus": "NOT_PLACED",
+        "signalEvidence": "BET_LOCKED_AND_PUSH",
+        "historicalContradictoryNoBetAlert": true
       },
       {
         "signalNo": 3,
@@ -116,7 +128,9 @@
         "runningStakeAud": 22000,
         "runningSignalPlAud": -22000,
         "runningRoiPct": -100,
-        "executionStatus": "UNCONFIRMED"
+        "executionStatus": "UNCONFIRMED",
+        "signalEvidence": "BET_LOCKED_AND_PUSH",
+        "historicalContradictoryNoBetAlert": true
       },
       {
         "signalNo": 4,
@@ -133,7 +147,9 @@
         "runningStakeAud": 29750,
         "runningSignalPlAud": -29750,
         "runningRoiPct": -100,
-        "executionStatus": "UNCONFIRMED"
+        "executionStatus": "UNCONFIRMED",
+        "signalEvidence": "BET_LOCKED_AND_PUSH",
+        "historicalContradictoryNoBetAlert": true
       },
       {
         "signalNo": 5,
@@ -150,7 +166,9 @@
         "runningStakeAud": 39750,
         "runningSignalPlAud": -39750,
         "runningRoiPct": -100,
-        "executionStatus": "UNCONFIRMED"
+        "executionStatus": "UNCONFIRMED",
+        "signalEvidence": "BET_LOCKED_AND_PUSH",
+        "historicalContradictoryNoBetAlert": true
       },
       {
         "signalNo": 6,
@@ -171,10 +189,11 @@
         "acceptedStakeAud": 220,
         "acceptedPrice": 4.8,
         "totalReturnAud": 1056,
-        "cashPlAud": 836
+        "cashPlAud": 836,
+        "signalEvidence": "BET_LOCKED_AND_PUSH",
+        "historicalContradictoryNoBetAlert": false
       }
     ],
-    "confirmedCashRoiPct": 380,
     "latestConfirmedExecution": {
       "date": "2026-10-03",
       "race": "MR2",
@@ -185,11 +204,9 @@
       "acceptedPrice": 4.8,
       "totalReturnAud": 1056,
       "cashProfitAud": 836,
-      "stakeVarianceAud": -9780,
-      "acceptedStakePctOfSignal": 2.2,
-      "priceVariance": -0.2,
       "evidence": "USER_RESULT_SCREENSHOT"
-    }
+    },
+    "note": "Signal statistics include every canonical BET NOW signal regardless of execution. Actual cash statistics include only separately confirmed bookmaker executions."
   },
   "safeFloor": {
     "stressLabel": "5% central winning-price stress · fixed A$100K floor",
