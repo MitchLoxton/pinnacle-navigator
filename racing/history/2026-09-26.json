@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 7,
   "date": "2026-09-26",
   "timezone": "Australia/Perth",
   "status": "COMPLETE",
@@ -15,7 +15,7 @@
     "betNowSignalLosses": 2,
     "betNowSignalModelPlAud": -17750
   },
-  "note": "All 21 stream states are verified. MR2 PLUNGER A$7,750 @ $4.00 and MR3 RECUPERATO A$10,000 @ $3.80 were timestamped BET NOW signals. Both signal horses lost. Accepted execution is unconfirmed, so the signals remain audit history and are excluded from cash KPIs.",
+  "note": "Canonical signal history: MR2 and MR3 are permanent BET NOW losses regardless of whether the wagers were actually placed. Cash execution is tracked separately.",
   "races": [
     {
       "race": "PR1",
@@ -127,14 +127,40 @@
       "stateBefore": 4,
       "favourite": "PLUNGER",
       "outcome": "LOSS",
-      "stateAfter": 5
+      "stateAfter": 5,
+      "betNowSignal": true,
+      "signalHorse": "PLUNGER (NZ)",
+      "signalStakeAud": 7750,
+      "signalPrice": 4,
+      "signalOutcome": "LOSS",
+      "signalModelPlAud": -7750,
+      "executionStatus": "UNCONFIRMED",
+      "finalStatus": "BET_NOW_SIGNAL_LOSS_EXECUTION_UNCONFIRMED",
+      "historicalContradictoryNoBetAlert": true,
+      "winner": "TSARINE (NZ) (EM2)",
+      "winnerNumber": 16,
+      "systemBet": false,
+      "cashPlAud": 0
     },
     {
       "race": "MR3",
       "stateBefore": 4,
       "favourite": "RECUPERATO",
       "outcome": "LOSS",
-      "stateAfter": 5
+      "stateAfter": 5,
+      "betNowSignal": true,
+      "signalHorse": "RECUPERATO",
+      "signalStakeAud": 10000,
+      "signalPrice": 3.8,
+      "signalOutcome": "LOSS",
+      "signalModelPlAud": -10000,
+      "executionStatus": "UNCONFIRMED",
+      "finalStatus": "BET_NOW_SIGNAL_LOSS_EXECUTION_UNCONFIRMED",
+      "historicalContradictoryNoBetAlert": true,
+      "winner": "PIASTRI",
+      "winnerNumber": 7,
+      "systemBet": false,
+      "cashPlAud": 0
     },
     {
       "race": "MR4",
@@ -164,5 +190,6 @@
       "outcome": "LOSS",
       "stateAfter": 3
     }
-  ]
+  ],
+  "verification": "All 21 stream states are verified. MR2 PLUNGER (NZ), A$7,750 @ $4.00 and MR3 RECUPERATO, A$10,000 @ $3.80 were genuine BET NOW signals. Both signal horses lost. Later legacy NO BET alerts are diagnostic only and cannot erase either signal. Both executions remain UNCONFIRMED, so confirmed cash P/L is A$0."
 }
