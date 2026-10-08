@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "date": "2026-10-03",
   "timezone": "Australia/Perth",
   "status": "COMPLETE",
   "source": "TABtouch archived final-favourite state history + immutable V11 BET_LOCKED event ledger",
   "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-  "verification": "Sydney and Melbourne's 14 active streams are final. Perth had no metropolitan meeting and its seven states were held. MR2 issued BET NOW for HANKEE ALPHA (NZ) (EM4), signal A$10,000 @ $5.00; the signal horse won. User-provided bookmaker result proof confirms actual execution A$220 @ $4.80, total return A$1,056 and net cash profit A$836.",
+  "verification": "Sydney and Melbourne's 14 active streams are final; Perth had no metropolitan meeting. MR2 emitted BET NOW for HANKEE ALPHA (NZ) (EM4), signal A$10,000 @ $5.00. Signal result = WIN. User result proof confirms actual execution A$220 @ $4.80, total return A$1,056 and net cash P/L +A$836. Signal and actual cash are intentionally separate.",
   "summary": {
     "streamsLogged": 14,
     "inactiveStreams": 7,
@@ -139,7 +139,8 @@
       "acceptedStakeAud": 220,
       "acceptedPrice": 4.8,
       "totalReturnAud": 1056,
-      "executionEvidence": "USER_RESULT_SCREENSHOT"
+      "executionEvidence": "USER_RESULT_SCREENSHOT",
+      "historicalContradictoryNoBetAlert": false
     },
     {
       "race": "MR3",
