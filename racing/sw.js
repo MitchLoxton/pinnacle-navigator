@@ -1,11 +1,11 @@
-const BUILD = '1.11.25';
-const CACHE = 'mitchell-racing-v11125-canonical-bet-now-history';
+const BUILD = '1.11.26';
+const CACHE = 'mitchell-racing-v11126-sat-10-oct-ready';
 const STATIC_SHELL = [
   './styles.css?v=12',
   './simple.css?v=1',
   './production.css?v=190',
   './premium.css?v=111',
-  './app.js?v=130',
+  './app.js?v=131',
   './premium-ui.js?v=122',
   './watchlist-odds.js?v=3',
   './bet-history.js?v=13',
