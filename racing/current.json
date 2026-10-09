@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "appVersion": "1.11.25",
+  "appVersion": "1.11.26",
   "updatedAt": "2026-10-09T14:16:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 10 October 2026",
@@ -638,6 +638,6 @@
     "confirmedExecutionRequiredForSystemHistory": false
   },
   "auditThroughDate": "2026-10-03",
-  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · 10 OCT CARD READY · 21/21 STATES LOADED · 3 CORE WATCH RACES",
+  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · SAT 10 OCT CARD READY · 21/21 STATES VERIFIED · 3 CORE WATCH RACES · BUILD 1.11.26",
   "auditCheckedAt": "2026-10-09T14:16:00+08:00"
 }
