@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
-  "appVersion": "1.11.25",
-  "updatedAt": "2026-10-08T08:12:00+08:00",
+  "appVersion": "1.11.26",
+  "updatedAt": "2026-10-09T14:16:00+08:00",
   "strategy": {
     "name": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
     "status": "PREFERRED CHAMPION",
@@ -33,10 +33,10 @@
   },
   "liveAudit": {
     "throughDate": "2026-10-03",
-    "checkedAt": "2026-10-08T08:12:00+08:00",
-    "checkedThroughCalendarDate": "2026-10-08",
-    "source": "CANONICAL_BET_NOW_SIGNAL_LEDGER",
-    "sourceRule": "UNION_OF_IMMUTABLE_BET_LOCKED_AND_SENT_BET_NOW_PUSHES_DEDUPED_BY_RACE",
+    "checkedAt": "2026-10-09T14:16:00+08:00",
+    "checkedThroughCalendarDate": "2026-10-09",
+    "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
+    "sourceRule": "EVERY_BET_NOW_IS_ONE_SYSTEM_BET__BET_LOCKED_OR_SENT_PUSH__DEDUPED_BY_RACE",
     "immutableBetNowSignals": 6,
     "signalWins": 1,
     "signalLosses": 5,
@@ -206,7 +206,14 @@
       "cashProfitAud": 836,
       "evidence": "USER_RESULT_SCREENSHOT"
     },
-    "note": "Signal statistics include every canonical BET NOW signal regardless of execution. Actual cash statistics include only separately confirmed bookmaker executions."
+    "note": "Primary live performance = every canonical BET NOW instruction at the app's instructed stake and BET NOW odds, regardless of personal execution. Execution fields are retained only as audit metadata.",
+    "systemBets": 6,
+    "systemWins": 1,
+    "systemLosses": 5,
+    "systemPending": 0,
+    "systemTurnoverAud": 49750,
+    "systemPlAud": 250,
+    "systemRoiPct": 0.5025125628140703
   },
   "safeFloor": {
     "stressLabel": "5% central winning-price stress · fixed A$100K floor",
