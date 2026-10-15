@@ -1,16 +1,16 @@
 {
   "schemaVersion": 9,
-  "appVersion": "1.11.26",
-  "updatedAt": "2026-10-09T14:16:00+08:00",
+  "appVersion": "1.11.27",
+  "updatedAt": "2026-10-15T04:35:26.892Z",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 10 October 2026",
+  "weekLabel": "Saturday 17 October 2026",
   "overallStatus": "READY",
-  "overallMessage": "AUSTRALIA V11 READY FOR SATURDAY 10 OCTOBER. All 21 stream states are carried from the latest verified history. Ascot, Rosehill Gardens and Caulfield are active. Frozen V11 CORE watch races are MR3 state 6, MR4 state 7 and MR6 state 4 at Caulfield. These are watchlist possibilities only; a system bet exists only if the live top box turns GREEN and literally says BET NOW.",
-  "productionRule": "Every final green BET NOW is one permanent system bet using the app's instructed stake and BET NOW odds. Personal bookmaker execution does not determine system history. BET NOW can settle WIN, LOSS or PENDING and can never later become NO BET. Live evaluation still fails closed unless the frozen state, sole verified favourite, A$3.00 minimum price, timing and safety gates all pass.",
+  "overallMessage": "SAT 17 OCT 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 10 OCT RESULTS. ASCOT, ROYAL RANDWICK (EVEREST DAY) AND CAULFIELD (CAULFIELD CUP DAY) CONFIRMED. ZERO exact frozen V11 CORE state matches this week; no potential races or advance alarms. Do not carry over 10 Oct MR3/MR4/MR6 possibilities. Every prior BET NOW remains a permanent system bet; 2026: 8 bets, 2W/6L, A$62,750 instructed stakes, -A$1,650 system P/L.",
+  "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. Result settles WIN/LOSS/PENDING, and a later NO BET cannot erase an earlier BET NOW. No static CORE match means zero CORE race candidates, not a promise of future profit. The live engine must still pass all integrity/timing/market gates.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "2026 SYSTEM RECORD · 6 BET NOW BETS · 1W / 5L · A$49,750 TURNOVER · +A$250 P/L · +0.50% ROI",
+    "status": "2026 SYSTEM BET RECORD · 8 BET NOW BETS · 2W/6L · A$62,750 TURNOVER · -A$1,650 SYSTEM P/L · -2.63% ROI",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -22,19 +22,19 @@
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": 836,
     "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, A$1,056 return, +A$836 cash P/L. All other signal executions remain UNCONFIRMED or NOT_PLACED unless separate execution evidence is supplied.",
-    "note": "Every BET NOW counts as a system bet at the instructed stake and BET NOW odds. Personal execution is irrelevant to system performance.",
+    "note": "Only permanent BET NOW system instructions count. System P/L uses the instructed stake and odds and never depends on whether any real bookmaker bet was placed.",
     "liveSignalAudit": {
-      "throughDate": "2026-10-03",
-      "checkedThroughCalendarDate": "2026-10-08",
-      "source": "CANONICAL_BET_NOW_SIGNAL_LEDGER",
-      "sourceRule": "UNION_OF_IMMUTABLE_BET_LOCKED_AND_SENT_BET_NOW_PUSHES_DEDUPED_BY_RACE",
-      "signals": 6,
-      "wins": 1,
-      "losses": 5,
+      "throughDate": "2026-10-10",
+      "checkedThroughCalendarDate": "2026-10-15",
+      "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
+      "sourceRule": "BET_LOCKED_OR_SENT_BET_NOW_DEDUPED_BY_RACE_PERMANENT_SYSTEM_BET",
+      "signals": 8,
+      "wins": 2,
+      "losses": 6,
       "pending": 0,
-      "signalTurnoverAud": 49750,
-      "signalModelPlAud": 250,
-      "signalModelRoiPct": 0.5025125628140703,
+      "signalTurnoverAud": 62750,
+      "signalModelPlAud": -1650,
+      "signalModelRoiPct": -2.6294820717131473,
       "confirmedCashBets": 1,
       "confirmedCashTurnoverAud": 220,
       "confirmedCashPlAud": 836,
@@ -57,13 +57,13 @@
           "signalPrice": 3.3,
           "result": "LOSS",
           "winner": "HAIDA GWAII",
+          "winnerNumber": 5,
           "signalPlAud": -4450,
           "runningStakeAud": 4450,
           "runningSignalPlAud": -4450,
           "runningRoiPct": -100,
           "executionStatus": "UNCONFIRMED",
-          "signalEvidence": "BET_LOCKED_ONLY",
-          "historicalContradictoryNoBetAlert": false
+          "signalEvidence": "BET_LOCKED_ONLY"
         },
         {
           "signalNo": 2,
@@ -76,12 +76,13 @@
           "signalPrice": 3,
           "result": "LOSS",
           "winner": "SOWAR",
+          "winnerNumber": 2,
           "signalPlAud": -10000,
           "runningStakeAud": 14450,
           "runningSignalPlAud": -14450,
           "runningRoiPct": -100,
           "executionStatus": "NOT_PLACED",
-          "signalEvidence": "BET_LOCKED_AND_PUSH",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
           "historicalContradictoryNoBetAlert": true
         },
         {
@@ -95,12 +96,13 @@
           "signalPrice": 3.5,
           "result": "LOSS",
           "winner": "ICELADY",
+          "winnerNumber": 9,
           "signalPlAud": -7550,
           "runningStakeAud": 22000,
           "runningSignalPlAud": -22000,
           "runningRoiPct": -100,
           "executionStatus": "UNCONFIRMED",
-          "signalEvidence": "BET_LOCKED_AND_PUSH",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
           "historicalContradictoryNoBetAlert": true
         },
         {
@@ -114,12 +116,13 @@
           "signalPrice": 4,
           "result": "LOSS",
           "winner": "TSARINE (NZ) (EM2)",
+          "winnerNumber": 16,
           "signalPlAud": -7750,
           "runningStakeAud": 29750,
           "runningSignalPlAud": -29750,
           "runningRoiPct": -100,
           "executionStatus": "UNCONFIRMED",
-          "signalEvidence": "BET_LOCKED_AND_PUSH",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
           "historicalContradictoryNoBetAlert": true
         },
         {
@@ -133,12 +136,13 @@
           "signalPrice": 3.8,
           "result": "LOSS",
           "winner": "PIASTRI",
+          "winnerNumber": 7,
           "signalPlAud": -10000,
           "runningStakeAud": 39750,
           "runningSignalPlAud": -39750,
           "runningRoiPct": -100,
           "executionStatus": "UNCONFIRMED",
-          "signalEvidence": "BET_LOCKED_AND_PUSH",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
           "historicalContradictoryNoBetAlert": true
         },
         {
@@ -152,17 +156,54 @@
           "signalPrice": 5,
           "result": "WIN",
           "winner": "HANKEE ALPHA (NZ) (EM4)",
+          "winnerNumber": 20,
           "signalPlAud": 40000,
           "runningStakeAud": 49750,
           "runningSignalPlAud": 250,
-          "runningRoiPct": 0.5,
+          "runningRoiPct": 0.5025125628140703,
           "executionStatus": "CONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
           "acceptedStakeAud": 220,
           "acceptedPrice": 4.8,
-          "totalReturnAud": 1056,
-          "cashPlAud": 836,
-          "signalEvidence": "BET_LOCKED_AND_PUSH",
-          "historicalContradictoryNoBetAlert": false
+          "cashPlAud": 836
+        },
+        {
+          "signalNo": 7,
+          "date": "2026-10-10",
+          "race": "MR3",
+          "venue": "Caulfield",
+          "horse": "SAVITRI",
+          "stateBefore": 6,
+          "stakeAud": 10000,
+          "signalPrice": 3.6,
+          "result": "LOSS",
+          "winner": "SURFIN' BIRD",
+          "winnerNumber": 1,
+          "signalPlAud": -10000,
+          "runningStakeAud": 59750,
+          "runningSignalPlAud": -9750,
+          "runningRoiPct": -16.317991631799163,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 8,
+          "date": "2026-10-10",
+          "race": "MR4",
+          "venue": "Caulfield",
+          "horse": "PINHOLE (GB)",
+          "stateBefore": 7,
+          "stakeAud": 3000,
+          "signalPrice": 3.7,
+          "result": "WIN",
+          "winner": "PINHOLE (GB)",
+          "winnerNumber": 12,
+          "signalPlAud": 8100,
+          "runningStakeAud": 62750,
+          "runningSignalPlAud": -1650,
+          "runningRoiPct": -2.6294820717131473,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
         }
       ],
       "latestConfirmedExecution": {
@@ -176,143 +217,241 @@
         "totalReturnAud": 1056,
         "cashPlAud": 836,
         "evidence": "USER_RESULT_SCREENSHOT"
-      }
+      },
+      "systemBets": 8,
+      "systemTurnoverAud": 62750,
+      "systemPlAud": -1650,
+      "systemRoiPct": -2.6294820717131473,
+      "ytdSystemBetLedger": [
+        {
+          "signalNo": 1,
+          "date": "2026-08-29",
+          "race": "PR2",
+          "venue": "Belmont Park",
+          "horse": "SEPTEMBER BORN",
+          "stateBefore": 4,
+          "stakeAud": 4450,
+          "signalPrice": 3.3,
+          "result": "LOSS",
+          "winner": "HAIDA GWAII",
+          "winnerNumber": 5,
+          "signalPlAud": -4450,
+          "runningStakeAud": 4450,
+          "runningSignalPlAud": -4450,
+          "runningRoiPct": -100,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_ONLY"
+        },
+        {
+          "signalNo": 2,
+          "date": "2026-09-12",
+          "race": "PR2",
+          "venue": "Belmont Park",
+          "horse": "OLAF THE SNOWMAN",
+          "stateBefore": 6,
+          "stakeAud": 10000,
+          "signalPrice": 3,
+          "result": "LOSS",
+          "winner": "SOWAR",
+          "winnerNumber": 2,
+          "signalPlAud": -10000,
+          "runningStakeAud": 14450,
+          "runningSignalPlAud": -14450,
+          "runningRoiPct": -100,
+          "executionStatus": "NOT_PLACED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "historicalContradictoryNoBetAlert": true
+        },
+        {
+          "signalNo": 3,
+          "date": "2026-09-19",
+          "race": "MR4",
+          "venue": "Caulfield",
+          "horse": "PROFLIGATE",
+          "stateBefore": 4,
+          "stakeAud": 7550,
+          "signalPrice": 3.5,
+          "result": "LOSS",
+          "winner": "ICELADY",
+          "winnerNumber": 9,
+          "signalPlAud": -7550,
+          "runningStakeAud": 22000,
+          "runningSignalPlAud": -22000,
+          "runningRoiPct": -100,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "historicalContradictoryNoBetAlert": true
+        },
+        {
+          "signalNo": 4,
+          "date": "2026-09-26",
+          "race": "MR2",
+          "venue": "Mornington",
+          "horse": "PLUNGER (NZ)",
+          "stateBefore": 4,
+          "stakeAud": 7750,
+          "signalPrice": 4,
+          "result": "LOSS",
+          "winner": "TSARINE (NZ) (EM2)",
+          "winnerNumber": 16,
+          "signalPlAud": -7750,
+          "runningStakeAud": 29750,
+          "runningSignalPlAud": -29750,
+          "runningRoiPct": -100,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "historicalContradictoryNoBetAlert": true
+        },
+        {
+          "signalNo": 5,
+          "date": "2026-09-26",
+          "race": "MR3",
+          "venue": "Mornington",
+          "horse": "RECUPERATO",
+          "stateBefore": 4,
+          "stakeAud": 10000,
+          "signalPrice": 3.8,
+          "result": "LOSS",
+          "winner": "PIASTRI",
+          "winnerNumber": 7,
+          "signalPlAud": -10000,
+          "runningStakeAud": 39750,
+          "runningSignalPlAud": -39750,
+          "runningRoiPct": -100,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "historicalContradictoryNoBetAlert": true
+        },
+        {
+          "signalNo": 6,
+          "date": "2026-10-03",
+          "race": "MR2",
+          "venue": "Flemington",
+          "horse": "HANKEE ALPHA (NZ) (EM4)",
+          "stateBefore": 5,
+          "stakeAud": 10000,
+          "signalPrice": 5,
+          "result": "WIN",
+          "winner": "HANKEE ALPHA (NZ) (EM4)",
+          "winnerNumber": 20,
+          "signalPlAud": 40000,
+          "runningStakeAud": 49750,
+          "runningSignalPlAud": 250,
+          "runningRoiPct": 0.5025125628140703,
+          "executionStatus": "CONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "acceptedStakeAud": 220,
+          "acceptedPrice": 4.8,
+          "cashPlAud": 836
+        },
+        {
+          "signalNo": 7,
+          "date": "2026-10-10",
+          "race": "MR3",
+          "venue": "Caulfield",
+          "horse": "SAVITRI",
+          "stateBefore": 6,
+          "stakeAud": 10000,
+          "signalPrice": 3.6,
+          "result": "LOSS",
+          "winner": "SURFIN' BIRD",
+          "winnerNumber": 1,
+          "signalPlAud": -10000,
+          "runningStakeAud": 59750,
+          "runningSignalPlAud": -9750,
+          "runningRoiPct": -16.317991631799163,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 8,
+          "date": "2026-10-10",
+          "race": "MR4",
+          "venue": "Caulfield",
+          "horse": "PINHOLE (GB)",
+          "stateBefore": 7,
+          "stakeAud": 3000,
+          "signalPrice": 3.7,
+          "result": "WIN",
+          "winner": "PINHOLE (GB)",
+          "winnerNumber": 12,
+          "signalPlAud": 8100,
+          "runningStakeAud": 62750,
+          "runningSignalPlAud": -1650,
+          "runningRoiPct": -2.6294820717131473,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        }
+      ],
+      "latestSignalDate": "2026-10-10",
+      "latestSignalRace": "MR4",
+      "latestSignalHorse": "PINHOLE (GB)",
+      "latestSignalStakeAud": 3000,
+      "latestSignalPrice": 3.7,
+      "latestSignalFinalStatus": "SIGNAL_WIN",
+      "latestSignalModelPlAud": 8100
     }
   },
   "lastWeek": {
-    "date": "2026-10-03",
-    "streamsLogged": 14,
-    "inactiveStreams": 7,
-    "favouriteWins": 4,
-    "favouriteLosses": 10,
-    "confirmedSystemBets": 1,
-    "systemCashPlAud": 836,
-    "historyFile": "./history/2026-10-03.json",
+    "date": "2026-10-10",
+    "streamsLogged": 21,
+    "inactiveStreams": 0,
+    "favouriteWins": 6,
+    "favouriteLosses": 15,
+    "confirmedSystemBets": 0,
+    "systemCashPlAud": 0,
+    "historyFile": "./history/2026-10-10.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "MR2 BET NOW signal: HANKEE ALPHA (NZ) (EM4), A$10,000 @ $5.00 — WIN. Actual bookmaker execution confirmed separately at A$220 @ $4.80, A$1,056 return, +A$836 cash P/L.",
-    "betNowSignals": 1,
+    "note": "2 immutable BET NOW SYSTEM BETS: MR3 SAVITRI $10,000 @ 3.60 LOSS (-$10,000), MR4 PINHOLE (GB) $3,000 @ 3.70 WIN (+$8,100). Weekly system P/L -$1,900; actual cash ignored. MR6 NO BET is not a system bet. All 21 favourite state transitions reconciled.",
+    "betNowSignals": 2,
     "betNowSignalWins": 1,
-    "betNowSignalLosses": 0,
-    "betNowSignalModelPlAud": 40000
+    "betNowSignalLosses": 1,
+    "betNowSignalModelPlAud": -1900,
+    "systemBets": 2,
+    "systemPlAud": -1900
   },
   "meetings": [
     {
       "region": "Perth",
       "code": "PR1-PR7",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "status": "ASCOT OPENING DAY CONFIRMED · LIVE MARKET PENDING",
+      "date": "2026-10-17",
+      "status": "ASCOT SOCIAL DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://perthracing.com.au/racedays-events/",
-      "fieldSourceUrl": "https://perthracing.com.au/season/ascot-racing-carnival/"
+      "programSourceUrl": "https://perthracing.com.au/racedays-events/ascotsocialday/",
+      "fieldSourceUrl": "https://perthracing.com.au/"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "status": "METRO CARD / ACCEPTANCES PUBLISHED · LIVE MARKET PENDING",
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "status": "THE EVEREST DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
-      "fieldSourceUrl": "https://mdata.racingnsw.com.au/FreeFields/RaceProgram.aspx?Key=2026Oct10%2CNSW%2CRosehill+Gardens"
+      "programSourceUrl": "https://www.australianturfclub.com.au/races/everest-day/",
+      "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "status": "CAULFIELD GUINEAS DAY CONFIRMED · LIVE MARKET PENDING",
+      "date": "2026-10-17",
+      "status": "CAULFIELD CUP DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://mrc.racing.com/spring/plan-your-visit",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-10/caulfield"
+      "programSourceUrl": "https://www.racing.com/campaigns/caulfield-cup",
+      "fieldSourceUrl": "https://www.racing.com/form/2026-10-17/caulfield"
     }
   ],
   "lockedBets": [],
-  "watchlist": [
-    {
-      "race": "MR3",
-      "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 6,
-      "qualifyingKey": "MR3|6",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 8000,
-      "histN": 14,
-      "histWins": 5,
-      "histWinRatePct": 35.714285714285715,
-      "histRoiPct": 25.21428571428571,
-      "marketStatus": "OFFICIAL CAULFIELD RACEDAY CONFIRMED · live TABtouch favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-10/caulfield",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-10/mr/3",
-      "why": "CURRENT 10 OCT V11 CORE POTENTIAL. MR3 enters state 6 from the verified 3 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
-    },
-    {
-      "race": "MR4",
-      "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 7,
-      "qualifyingKey": "MR4|7",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 10000,
-      "histN": 12,
-      "histWins": 6,
-      "histWinRatePct": 50,
-      "histRoiPct": 75.41666666666664,
-      "marketStatus": "OFFICIAL CAULFIELD RACEDAY CONFIRMED · live TABtouch favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-10/caulfield",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-10/mr/4",
-      "why": "CURRENT 10 OCT V11 CORE POTENTIAL. MR4 enters state 7 from the verified 3 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
-    },
-    {
-      "race": "MR6",
-      "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 4,
-      "qualifyingKey": "MR6|4",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 4000,
-      "histN": 41,
-      "histWins": 12,
-      "histWinRatePct": 29.268292682926827,
-      "histRoiPct": 18.04878048780488,
-      "marketStatus": "OFFICIAL CAULFIELD RACEDAY CONFIRMED · live TABtouch favourite/price will be verified near jump",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-10/caulfield",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-10/mr/6",
-      "why": "CURRENT 10 OCT V11 CORE POTENTIAL. MR6 enters state 4 from the verified 3 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
-    }
-  ],
+  "watchlist": [],
   "stateTracklist": [
     {
       "race": "PR1",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 1,
+      "date": "2026-10-17",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
@@ -320,8 +459,8 @@
       "race": "PR2",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 9,
+      "date": "2026-10-17",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -329,8 +468,8 @@
       "race": "PR3",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 2,
+      "date": "2026-10-17",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -338,8 +477,8 @@
       "race": "PR4",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 0,
+      "date": "2026-10-17",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -347,8 +486,8 @@
       "race": "PR5",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 0,
+      "date": "2026-10-17",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -356,8 +495,8 @@
       "race": "PR6",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 5,
+      "date": "2026-10-17",
+      "state": 6,
       "corePotential": false,
       "active": true
     },
@@ -365,52 +504,52 @@
       "race": "PR7",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-10",
-      "state": 0,
+      "date": "2026-10-17",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR1",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 2,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR2",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 1,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR3",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 0,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR4",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 5,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR5",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -418,18 +557,18 @@
     {
       "race": "SR6",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 1,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR7",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-10-10",
-      "state": 1,
+      "venue": "Royal Randwick",
+      "date": "2026-10-17",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
@@ -437,8 +576,8 @@
       "race": "MR1",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 0,
+      "date": "2026-10-17",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -446,7 +585,7 @@
       "race": "MR2",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
+      "date": "2026-10-17",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -455,30 +594,26 @@
       "race": "MR3",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 6,
-      "corePotential": true,
-      "active": true,
-      "histN": 14,
-      "histRoiPct": 25.21428571428571
+      "date": "2026-10-17",
+      "state": 7,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR4",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 7,
-      "corePotential": true,
-      "active": true,
-      "histN": 12,
-      "histRoiPct": 75.41666666666664
+      "date": "2026-10-17",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR5",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 2,
+      "date": "2026-10-17",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -486,19 +621,17 @@
       "race": "MR6",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 4,
-      "corePotential": true,
-      "active": true,
-      "histN": 41,
-      "histRoiPct": 18.04878048780488
+      "date": "2026-10-17",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR7",
       "region": "Melbourne",
       "venue": "Caulfield",
-      "date": "2026-10-10",
-      "state": 4,
+      "date": "2026-10-17",
+      "state": 5,
       "corePotential": false,
       "active": true
     }
@@ -506,114 +639,108 @@
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR2",
-      "currentState": 9,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR3",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR4",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR5",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR6",
-      "currentState": 5,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 6,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "PR7",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR1",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR2",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR3",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR4",
-      "currentState": 5,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR5",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR6",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "SR7",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR1",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR2",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR3",
-      "currentState": 6,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 8000,
-      "qualifyingKey": "MR3|6"
+      "currentState": 7,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR4",
-      "currentState": 7,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 10000,
-      "qualifyingKey": "MR4|7"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR5",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR6",
-      "currentState": 4,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "MR6|4"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     },
     {
       "race": "MR7",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
     }
   ],
   "expansionRule": {
@@ -637,7 +764,16 @@
     "personalExecutionIrrelevantToSystemStats": true,
     "confirmedExecutionRequiredForSystemHistory": false
   },
-  "auditThroughDate": "2026-10-03",
-  "auditStatus": "AUSTRALIA STATE-AUDITED THROUGH 3 OCT 2026 · SAT 10 OCT CARD READY · 21/21 STATES VERIFIED · 3 CORE WATCH RACES · BUILD 1.11.26",
-  "auditCheckedAt": "2026-10-09T14:16:00+08:00"
+  "auditThroughDate": "2026-10-10",
+  "auditStatus": "SAT 17 OCT PREPARED · 21/21 STATES MATCH 10 OCT · 0 FROZEN CORE POTENTIALS · 8 IMMUTABLE BET NOW SIGNALS · BUILD 1.11.27",
+  "auditCheckedAt": "2026-10-15T04:35:26.892Z",
+  "alarmPlan": {
+    "enabled": false,
+    "timezone": "Australia/Perth",
+    "date": "2026-10-17",
+    "alarmLeadMinutes": 30,
+    "entries": [],
+    "status": "NO_V11_CORE_POTENTIALS",
+    "note": "No advance race alarms because no current states match frozen CORE evidence. Do not use the 10 Oct alarm times. General meeting schedules remain published by race organisers; live timing is evaluated only for confirmed candidates."
+  }
 }
