@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="./odds-matrix-ui.css?v=1">
   <title>MITCHELL Racing</title>
 </head>
-<body data-build="1.11.26">
+<body data-build="1.11.27">
   <main class="app-shell">
     <header class="topbar">
       <div><div class="brand">MITCHELL RACING</div><div class="week" id="weekLabel">Loading race day…</div></div>
@@ -67,7 +67,7 @@
 
     <details class="watch-details" id="resultsDetails" hidden>
       <summary><div><span class="section-label">TODAY'S RESULTS · OPTIONAL DETAIL</span><strong id="resultsSummary">No results yet</strong></div><span class="not-bet">COMPLETE</span></summary>
-      <div class="watch-body"><p><b>SYSTEM BET</b> tells you whether money counted. <b>STATE RESULT</b> only tracks whether the favourite won or lost for the sequence.</p><div id="resultsList" class="watch-list"></div></div>
+      <div class="watch-body"><p><b>BET NOW SYSTEM BET</b> means a real green instruction was recorded, regardless of whether you personally placed anything. <b>STATE RESULT</b> tracks the favourite for the next loss-state sequence.</p><div id="resultsList" class="watch-list"></div></div>
     </details>
 
     <details class="watch-details" id="lastWeekDetails">
@@ -85,22 +85,22 @@
           <div><span>Maximum model stake</span><strong>A$10,000</strong></div>
         </div>
         <div class="info-row"><span>Feed status</span><strong id="feedStatus">—</strong></div>
-        <div class="info-row"><span>System bet</span><strong>Confirmed accepted bookmaker execution only</strong></div>
+        <div class="info-row"><span>System bet</span><strong>Every permanent green BET NOW signal, irrespective of personal execution</strong></div>
         <div class="info-row"><span>Equal favourites</span><strong>HARD BLOCK · NO BET NOW until one sole favourite is verified</strong></div>
-        <div class="info-row"><span>Cash P/L</span><strong>Only SYSTEM BET = YES</strong></div>
+        <div class="info-row"><span>Bookmaker cash</span><strong>Separate evidence-only audit; never alters system bet totals</strong></div>
         <div class="info-row"><span>State tracking</span><strong>Favourite W/L even with no bet</strong></div>
         <div class="info-row"><span>Closing fixed price</span><strong>Reference only</strong></div>
         <div class="info-row"><span>Official-SP evidence</span><strong>Verified Official SP ≥ $3.00 only</strong></div>
-        <div class="info-row"><span>2026 BET NOW signals</span><strong id="signalRecord">—</strong></div>
-        <div class="info-row"><span>2026 running signal P/L</span><strong id="seasonProfit">—</strong></div>
-        <div class="info-row"><span>Confirmed live cash P/L</span><strong id="cashProfit">—</strong></div>
+        <div class="info-row"><span>2026 BET NOW SYSTEM BETS</span><strong id="signalRecord">—</strong></div>
+        <div class="info-row"><span>2026 running system P/L</span><strong id="seasonProfit">—</strong></div>
+        <div class="info-row"><span>Bookmaker cash P/L (audit only)</span><strong id="cashProfit">—</strong></div>
         <div class="info-row"><span>Historical avg FY</span><strong id="histAvg">—</strong></div>
         <div class="info-row"><span>Historical ROI</span><strong id="histRoi">—</strong></div>
         <p class="small-note">The app fails closed. If state integrity, live price, favourite, timing or execution cannot be verified, the instruction is not to bet.</p>
       </div>
     </details>
 
-    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.11.26 · HK ROBUST 60 ROI30 · LIVE CORE ODDS · AU + HK WATCHLIST</span></footer>
+    <footer><span id="updatedAt">Not updated yet</span><span>Race-Day v1.11.27 · HK ROBUST 60 ROI30 · LIVE CORE ODDS · AU + HK WATCHLIST</span></footer>
   </main>
 
   <div class="bottom-command waiting" id="bottomCommand">
@@ -108,12 +108,12 @@
     <button id="bottomRefresh" type="button">Refresh</button>
   </div>
 
-  <script src="./app.js?v=131" defer></script>
+  <script src="./app.js?v=132" defer></script>
   <script src="./preflight-guard.js?v=1" defer></script>
   <script src="./live-tab.js?v=10" defer></script>
   <script src="./execution-truth.js?v=1" defer></script>
   <script src="./result-truth-simple.js?v=2" defer></script>
-  <script src="./weekly-history.js?v=3" defer></script>
+  <script src="./weekly-history.js?v=4" defer></script>
   <script src="./simple-ui.js?v=2" defer></script>
   <script src="./health-ui.js?v=3" defer></script>
   <script src="./autobet-live-status.js?v=1" defer></script>
@@ -121,7 +121,7 @@
   <script src="./easy-mode.js?v=3" defer></script>
   <script src="./production-ui.js?v=190" defer></script>
   <script src="./stats-link.js?v=2" defer></script>
-  <script src="./premium-ui.js?v=122" defer></script>
+  <script src="./premium-ui.js?v=123" defer></script>
   <script src="./watchlist-odds.js?v=3" defer></script>
   <script src="./bet-history.js?v=13" defer></script>
   <script src="./odds-compare.js?v=3" defer></script>
