@@ -3,7 +3,7 @@
 
   const $ = id => document.getElementById(id);
   const money = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-  const CLIENT_BUILD = '1.11.26';
+  const CLIENT_BUILD = '1.11.27';
   const BUILD_CHECK_MS = 600000;
   const SW_CHECK_MS = 900000;
 
@@ -70,7 +70,7 @@
 
   function skeleton(data) {
     const items = Array.isArray(data?.watchlist) ? data.watchlist : [];
-    $('watchSummary').textContent = items.length ? `${items.length} possible races — wait for green` : 'No V11 CORE possibilities';
+    $('watchSummary').textContent = items.length ? `${items.length} possible races — wait for green` : 'No frozen V11 CORE matches this week';
     $('watchlist').innerHTML = items.map(item => {
       const race = String(item.race || item.code || '').toUpperCase();
       const venue = item.venue || item.region || '';
@@ -86,13 +86,13 @@
     $('weekLabel').textContent = data?.weekLabel || 'Current racing week';
     $('updatedAt').textContent = data?.updatedAt ? 'Base card published ' + fmtUpdated(data.updatedAt) : 'Base card time unavailable';
     const live = stats?.liveAudit || data?.season?.liveSignalAudit || {};
-    const signals = Number(live.immutableBetNowSignals ?? live.signals);
-    const signalWins = Number(live.signalWins ?? live.wins);
-    const signalLosses = Number(live.signalLosses ?? live.losses);
-    const signalPl = Number(live.signalModelPlAud);
+    const signals = Number(live.systemBets ?? live.immutableBetNowSignals ?? live.signals);
+    const signalWins = Number(live.systemWins ?? live.signalWins ?? live.wins);
+    const signalLosses = Number(live.systemLosses ?? live.signalLosses ?? live.losses);
+    const signalPl = Number(live.systemPlAud ?? live.signalModelPlAud);
     const cashPl = Number(live.confirmedCashPlAud);
     if ($('signalRecord')) $('signalRecord').textContent = Number.isFinite(signals)
-      ? `${signals} signals · ${Number.isFinite(signalWins)?signalWins:0}W / ${Number.isFinite(signalLosses)?signalLosses:0}L`
+      ? `${signals} SYSTEM BETS · ${Number.isFinite(signalWins)?signalWins:0}W / ${Number.isFinite(signalLosses)?signalLosses:0}L`
       : '—';
     $('seasonProfit').textContent = Number.isFinite(signalPl) ? money.format(signalPl) : '—';
     if ($('cashProfit')) $('cashProfit').textContent = Number.isFinite(cashPl) ? money.format(cashPl) : '—';
