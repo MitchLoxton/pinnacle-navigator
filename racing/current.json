@@ -24,8 +24,8 @@
     "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, A$1,056 return, +A$836 cash P/L. All other signal executions remain UNCONFIRMED or NOT_PLACED unless separate execution evidence is supplied.",
     "note": "Only permanent BET NOW system instructions count. System P/L uses the instructed stake and odds and never depends on whether any real bookmaker bet was placed.",
     "liveSignalAudit": {
-      "throughDate": "2026-10-10",
-      "checkedThroughCalendarDate": "2026-10-15",
+      "throughDate": "2026-10-17",
+      "checkedThroughCalendarDate": "2026-10-22",
       "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
       "sourceRule": "BET_LOCKED_OR_SENT_BET_NOW_DEDUPED_BY_RACE_PERMANENT_SYSTEM_BET",
       "signals": 8,
