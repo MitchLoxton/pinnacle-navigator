@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 9,
-  "appVersion": "1.11.27",
-  "updatedAt": "2026-10-15T04:35:26.892Z",
+  "schemaVersion": 10,
+  "appVersion": "1.11.28",
+  "updatedAt": "2026-10-22T20:48:00+08:00",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 17 October 2026",
+  "weekLabel": "Saturday 24 October 2026",
   "overallStatus": "READY",
-  "overallMessage": "SAT 17 OCT 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 10 OCT RESULTS. ASCOT, ROYAL RANDWICK (EVEREST DAY) AND CAULFIELD (CAULFIELD CUP DAY) CONFIRMED. ZERO exact frozen V11 CORE state matches this week; no potential races or advance alarms. Do not carry over 10 Oct MR3/MR4/MR6 possibilities. Every prior BET NOW remains a permanent system bet; 2026: 8 bets, 2W/6L, A$62,750 instructed stakes, -A$1,650 system P/L.",
+  "overallMessage": "SAT 24 OCT 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 17 OCT RESULTS. ASCOT (LIQUOR BARONS IRISH DAY), ROYAL RANDWICK (SPRING CHAMPION STAKES DAY) AND FLEMINGTON (COX PLATE DAY) CONFIRMED. ZERO exact frozen V11 CORE state matches this week; no potential races or advance alarms. Every prior BET NOW remains a permanent system bet; 2026 remains 8 bets, 2W/6L, A$62,750 instructed stakes, -A$1,650 system P/L.",
   "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. Result settles WIN/LOSS/PENDING, and a later NO BET cannot erase an earlier BET NOW. No static CORE match means zero CORE race candidates, not a promise of future profit. The live engine must still pass all integrity/timing/market gates.",
   "stakeDefaultAud": 1000,
   "season": {
@@ -393,54 +393,54 @@
     }
   },
   "lastWeek": {
-    "date": "2026-10-10",
+    "date": "2026-10-17",
     "streamsLogged": 21,
     "inactiveStreams": 0,
-    "favouriteWins": 6,
-    "favouriteLosses": 15,
+    "favouriteWins": 5,
+    "favouriteLosses": 16,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-10-10.json",
+    "historyFile": "./history/2026-10-17.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "2 immutable BET NOW SYSTEM BETS: MR3 SAVITRI $10,000 @ 3.60 LOSS (-$10,000), MR4 PINHOLE (GB) $3,000 @ 3.70 WIN (+$8,100). Weekly system P/L -$1,900; actual cash ignored. MR6 NO BET is not a system bet. All 21 favourite state transitions reconciled.",
-    "betNowSignals": 2,
-    "betNowSignalWins": 1,
-    "betNowSignalLosses": 1,
-    "betNowSignalModelPlAud": -1900,
-    "systemBets": 2,
-    "systemPlAud": -1900
+    "note": "No immutable BET NOW system bets were recorded on 17 Oct. All 21 favourite state transitions were reconciled from archived TABtouch favourite/result evidence; official-SP evidence remains unverified.",
+    "betNowSignals": 0,
+    "betNowSignalWins": 0,
+    "betNowSignalLosses": 0,
+    "betNowSignalModelPlAud": 0,
+    "systemBets": 0,
+    "systemPlAud": 0
   },
   "meetings": [
     {
       "region": "Perth",
       "code": "PR1-PR7",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "status": "ASCOT SOCIAL DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "date": "2026-10-24",
+      "status": "LIQUOR BARONS IRISH DAY CONFIRMED · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://perthracing.com.au/racedays-events/ascotsocialday/",
+      "programSourceUrl": "https://perthracing.com.au/racedays-events/irish-day/",
       "fieldSourceUrl": "https://perthracing.com.au/"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "status": "THE EVEREST DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "date": "2026-10-24",
+      "status": "SPRING CHAMPION STAKES DAY CONFIRMED · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://www.australianturfclub.com.au/races/everest-day/",
+      "programSourceUrl": "https://www.australianturfclub.com.au/races/moet-and-chandon-spring-champion-stakes-day/",
       "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "status": "CAULFIELD CUP DAY CONFIRMED · 17 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "status": "COX PLATE DAY CONFIRMED AT FLEMINGTON · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
       "active": true,
-      "programSourceUrl": "https://www.racing.com/campaigns/caulfield-cup",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-17/caulfield"
+      "programSourceUrl": "https://www.racing.com/news/2026/10/21/news-preview-saturday-snapshot-cox-plate-day-2026",
+      "fieldSourceUrl": "https://www.racing.com/form/2026-10-24/flemington"
     }
   ],
   "lockedBets": [],
@@ -450,8 +450,8 @@
       "race": "PR1",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 2,
+      "date": "2026-10-24",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -459,8 +459,8 @@
       "race": "PR2",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 0,
+      "date": "2026-10-24",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -468,8 +468,8 @@
       "race": "PR3",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 3,
+      "date": "2026-10-24",
+      "state": 4,
       "corePotential": false,
       "active": true
     },
@@ -477,8 +477,8 @@
       "race": "PR4",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 1,
+      "date": "2026-10-24",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
@@ -486,8 +486,8 @@
       "race": "PR5",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 1,
+      "date": "2026-10-24",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
@@ -495,8 +495,8 @@
       "race": "PR6",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 6,
+      "date": "2026-10-24",
+      "state": 7,
       "corePotential": false,
       "active": true
     },
@@ -504,8 +504,8 @@
       "race": "PR7",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-17",
-      "state": 1,
+      "date": "2026-10-24",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -513,8 +513,8 @@
       "race": "SR1",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "state": 3,
+      "date": "2026-10-24",
+      "state": 4,
       "corePotential": false,
       "active": true
     },
@@ -522,8 +522,8 @@
       "race": "SR2",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "state": 2,
+      "date": "2026-10-24",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -531,8 +531,8 @@
       "race": "SR3",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "state": 1,
+      "date": "2026-10-24",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -540,7 +540,7 @@
       "race": "SR4",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
+      "date": "2026-10-24",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -549,7 +549,7 @@
       "race": "SR5",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
+      "date": "2026-10-24",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -558,8 +558,8 @@
       "race": "SR6",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "state": 2,
+      "date": "2026-10-24",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -567,61 +567,61 @@
       "race": "SR7",
       "region": "Sydney",
       "venue": "Royal Randwick",
-      "date": "2026-10-17",
-      "state": 2,
+      "date": "2026-10-24",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR1",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 1,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR2",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 0,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR3",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 7,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 8,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR4",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 0,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR5",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 3,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 4,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR6",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
+      "venue": "Flemington",
+      "date": "2026-10-24",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -629,9 +629,9 @@
     {
       "race": "MR7",
       "region": "Melbourne",
-      "venue": "Caulfield",
-      "date": "2026-10-17",
-      "state": 5,
+      "venue": "Flemington",
+      "date": "2026-10-24",
+      "state": 6,
       "corePotential": false,
       "active": true
     }
@@ -639,108 +639,108 @@
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR2",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR3",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 4,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR4",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR5",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR6",
-      "currentState": 6,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 7,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "PR7",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR1",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 4,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR2",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR3",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR4",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR5",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR6",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "SR7",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR1",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR2",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR3",
-      "currentState": 7,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 8,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR4",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR5",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 4,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR6",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     },
     {
       "race": "MR7",
-      "currentState": 5,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 17 OCT"
+      "currentState": 6,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
     }
   ],
   "expansionRule": {
@@ -764,16 +764,16 @@
     "personalExecutionIrrelevantToSystemStats": true,
     "confirmedExecutionRequiredForSystemHistory": false
   },
-  "auditThroughDate": "2026-10-10",
-  "auditStatus": "SAT 17 OCT PREPARED · 21/21 STATES MATCH 10 OCT · 0 FROZEN CORE POTENTIALS · 8 IMMUTABLE BET NOW SIGNALS · BUILD 1.11.27",
-  "auditCheckedAt": "2026-10-15T04:35:26.892Z",
+  "auditThroughDate": "2026-10-17",
+  "auditStatus": "SAT 24 OCT PREPARED · 21/21 STATES MATCH 17 OCT · 0 FROZEN CORE POTENTIALS · 8 IMMUTABLE BET NOW SIGNALS · BUILD 1.11.28",
+  "auditCheckedAt": "2026-10-22T20:48:00+08:00",
   "alarmPlan": {
     "enabled": false,
     "timezone": "Australia/Perth",
-    "date": "2026-10-17",
+    "date": "2026-10-24",
     "alarmLeadMinutes": 30,
     "entries": [],
     "status": "NO_V11_CORE_POTENTIALS",
-    "note": "No advance race alarms because no current states match frozen CORE evidence. Do not use the 10 Oct alarm times. General meeting schedules remain published by race organisers; live timing is evaluated only for confirmed candidates."
+    "note": "No advance race alarms because no current states match frozen CORE evidence. Do not use the 17 Oct race times. General meeting schedules remain published by race organisers; live timing is evaluated only for confirmed candidates."
   }
 }
