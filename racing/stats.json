@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "1.11.27",
-  "updatedAt": "2026-10-15T04:35:55.372Z",
+  "updatedAt": "2026-10-30T19:43:00+08:00",
   "strategy": {
     "name": "V11 CORE + A$100K FIXED SAFE FLOOR + BEST-NET EXECUTION",
     "status": "PREFERRED CHAMPION",
@@ -32,9 +32,9 @@
     "message": "The stored V11 start-around-10-Aug replay falls by about A$27.1K/year when winning prices are 5% worse. Real accepted price and fill quality remain one of the largest practical profit levers."
   },
   "liveAudit": {
-    "throughDate": "2026-10-10",
-    "checkedAt": "2026-10-15T04:35:55.372Z",
-    "checkedThroughCalendarDate": "2026-10-15",
+    "throughDate": "2026-10-24",
+    "checkedAt": "2026-10-30T19:43:00+08:00",
+    "checkedThroughCalendarDate": "2026-10-30",
     "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
     "sourceRule": "EVERY_BET_NOW_IS_ONE_SYSTEM_BET__IMMUTABLE_BET_LOCKED_OR_SENT_BET_NOW__DEDUPED_BY_RACE",
     "immutableBetNowSignals": 8,
