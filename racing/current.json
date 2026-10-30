@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "appVersion": "1.11.28",
-  "updatedAt": "2026-10-22T20:48:00+08:00",
+  "updatedAt": "2026-10-30T19:43:00+08:00",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 24 October 2026",
+  "weekLabel": "Saturday 31 October 2026",
   "overallStatus": "READY",
-  "overallMessage": "SAT 24 OCT 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 17 OCT RESULTS. ASCOT (LIQUOR BARONS IRISH DAY), ROYAL RANDWICK (SPRING CHAMPION STAKES DAY) AND FLEMINGTON (COX PLATE DAY) CONFIRMED. ZERO exact frozen V11 CORE state matches this week; no potential races or advance alarms. Every prior BET NOW remains a permanent system bet; 2026 remains 8 bets, 2W/6L, A$62,750 instructed stakes, -A$1,650 system P/L.",
-  "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. Result settles WIN/LOSS/PENDING, and a later NO BET cannot erase an earlier BET NOW. No static CORE match means zero CORE race candidates, not a promise of future profit. The live engine must still pass all integrity/timing/market gates.",
+  "overallMessage": "SAT 31 OCT 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 24 OCT RESULTS. ASCOT (TABTOUCH DERBY DAY), ROYAL RANDWICK (GOLDEN EAGLE DAY) AND FLEMINGTON (HOWDEN VICTORIA DERBY DAY) CONFIRMED. TWO exact frozen V11 CORE matches this week: SR7 state 4 and MR7 state 7. BOTH ARE POTENTIALS ONLY — no bet exists unless the live top box turns GREEN and literally says BET NOW inside the final execution window.",
+  "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. A CORE match is only a watch race. It is never an early bet; the live engine must still pass identity, sole-favourite, minimum-price, timing, source-freshness and integrity gates.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
@@ -24,8 +24,8 @@
     "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, A$1,056 return, +A$836 cash P/L. All other signal executions remain UNCONFIRMED or NOT_PLACED unless separate execution evidence is supplied.",
     "note": "Only permanent BET NOW system instructions count. System P/L uses the instructed stake and odds and never depends on whether any real bookmaker bet was placed.",
     "liveSignalAudit": {
-      "throughDate": "2026-10-17",
-      "checkedThroughCalendarDate": "2026-10-22",
+      "throughDate": "2026-10-24",
+      "checkedThroughCalendarDate": "2026-10-30",
       "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
       "sourceRule": "BET_LOCKED_OR_SENT_BET_NOW_DEDUPED_BY_RACE_PERMANENT_SYSTEM_BET",
       "signals": 8,
@@ -393,17 +393,17 @@
     }
   },
   "lastWeek": {
-    "date": "2026-10-17",
+    "date": "2026-10-24",
     "streamsLogged": 21,
     "inactiveStreams": 0,
-    "favouriteWins": 5,
-    "favouriteLosses": 16,
+    "favouriteWins": 6,
+    "favouriteLosses": 15,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-10-17.json",
+    "historyFile": "./history/2026-10-24.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "No immutable BET NOW system bets were recorded on 17 Oct. All 21 favourite state transitions were reconciled from archived TABtouch favourite/result evidence; official-SP evidence remains unverified.",
+    "note": "No immutable BET NOW system bets were recorded on 24 Oct. All 21 favourite state transitions were reconciled; official-SP evidence remains unverified.",
     "betNowSignals": 0,
     "betNowSignalWins": 0,
     "betNowSignalLosses": 0,
@@ -416,42 +416,97 @@
       "region": "Perth",
       "code": "PR1-PR7",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "status": "LIQUOR BARONS IRISH DAY CONFIRMED · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "date": "2026-10-31",
+      "status": "TABTOUCH DERBY DAY CONFIRMED · 31 OCT · LIVE RUNNERS/PRICES PENDING",
       "active": true,
-      "programSourceUrl": "https://perthracing.com.au/racedays-events/irish-day/",
-      "fieldSourceUrl": "https://perthracing.com.au/"
+      "programSourceUrl": "https://perthracing.com.au/racedays-events/",
+      "fieldSourceUrl": "https://perthracing.com.au/season/ascot-racing-carnival/"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
       "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "status": "SPRING CHAMPION STAKES DAY CONFIRMED · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "date": "2026-10-31",
+      "status": "GOLDEN EAGLE DAY CONFIRMED · 31 OCT · FINAL RACE TIMES PUBLISHED · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://www.australianturfclub.com.au/races/moet-and-chandon-spring-champion-stakes-day/",
+      "programSourceUrl": "https://www.australianturfclub.com.au/races/golden-eagle-day/",
       "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
       "venue": "Flemington",
-      "date": "2026-10-24",
-      "status": "COX PLATE DAY CONFIRMED AT FLEMINGTON · 24 OCT · LIVE RUNNERS/PRICES NOT YET LOCKED",
+      "date": "2026-10-31",
+      "status": "HOWDEN VICTORIA DERBY DAY CONFIRMED · 31 OCT · FINAL RACE TIMES PUBLISHED · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://www.racing.com/news/2026/10/21/news-preview-saturday-snapshot-cox-plate-day-2026",
-      "fieldSourceUrl": "https://www.racing.com/form/2026-10-24/flemington"
+      "programSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/howden-victoria-derby-day/",
+      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/howden-victoria-derby-day/"
     }
   ],
   "lockedBets": [],
-  "watchlist": [],
+  "watchlist": [
+    {
+      "race": "SR7",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 4,
+      "qualifyingKey": "SR7|4",
+      "modelPath": "V11 CORE",
+      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "fieldsConfirmed": true,
+      "provisionalHorse": null,
+      "currentMarketFavourite": null,
+      "marketSnapshotPriceAud": null,
+      "marketSnapshotAt": null,
+      "priceGate": 3,
+      "coreBaseReferenceAud": 4000,
+      "histN": 53,
+      "histWins": 22,
+      "histWinRatePct": 41.509433962264154,
+      "histRoiPct": 54.9056603773585,
+      "jumpAt": "2026-10-31T13:00:00+08:00",
+      "jumpTimePerth": "1:00pm Perth",
+      "marketStatus": "OFFICIAL RACE TIME VERIFIED · live TABtouch favourite/price will be checked near jump",
+      "fieldSourceUrl": "https://www.racingnsw.com.au/news/latest-racing-news/randwick-preview-tips-for-golden-eagle-day-saturday-31st-october/",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-31/sr/7",
+      "why": "CURRENT 31 OCT V11 CORE POTENTIAL. SR7 enters state 4 from the verified 24 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
+    },
+    {
+      "race": "MR7",
+      "region": "Melbourne",
+      "venue": "Flemington",
+      "date": "2026-10-31",
+      "state": 7,
+      "qualifyingKey": "MR7|7",
+      "modelPath": "V11 CORE",
+      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "fieldsConfirmed": true,
+      "provisionalHorse": null,
+      "currentMarketFavourite": null,
+      "marketSnapshotPriceAud": null,
+      "marketSnapshotAt": null,
+      "priceGate": 3,
+      "coreBaseReferenceAud": 10000,
+      "histN": 19,
+      "histWins": 6,
+      "histWinRatePct": 31.57894736842105,
+      "histRoiPct": 21.05263157894736,
+      "jumpAt": "2026-10-31T13:20:00+08:00",
+      "jumpTimePerth": "1:20pm Perth",
+      "marketStatus": "OFFICIAL RACE TIME VERIFIED · live TABtouch favourite/price will be checked near jump",
+      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/howden-victoria-derby-day/",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-10-31/mr/7",
+      "why": "CURRENT 31 OCT V11 CORE POTENTIAL. MR7 enters state 7 from the verified 24 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
+    }
+  ],
   "stateTracklist": [
     {
       "race": "PR1",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 3,
+      "date": "2026-10-31",
+      "state": 4,
       "corePotential": false,
       "active": true
     },
@@ -459,8 +514,8 @@
       "race": "PR2",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 1,
+      "date": "2026-10-31",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -468,8 +523,8 @@
       "race": "PR3",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 4,
+      "date": "2026-10-31",
+      "state": 5,
       "corePotential": false,
       "active": true
     },
@@ -477,8 +532,8 @@
       "race": "PR4",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 2,
+      "date": "2026-10-31",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -486,8 +541,8 @@
       "race": "PR5",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 2,
+      "date": "2026-10-31",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
@@ -495,116 +550,119 @@
       "race": "PR6",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 7,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "PR7",
-      "region": "Perth",
-      "venue": "Ascot",
-      "date": "2026-10-24",
-      "state": 0,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR1",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 4,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR2",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 3,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR3",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 0,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR4",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 0,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR5",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 0,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR6",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 3,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "SR7",
-      "region": "Sydney",
-      "venue": "Royal Randwick",
-      "date": "2026-10-24",
-      "state": 3,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "MR1",
-      "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-10-24",
-      "state": 2,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "MR2",
-      "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-10-24",
-      "state": 1,
-      "corePotential": false,
-      "active": true
-    },
-    {
-      "race": "MR3",
-      "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-10-24",
+      "date": "2026-10-31",
       "state": 8,
       "corePotential": false,
       "active": true
     },
     {
+      "race": "PR7",
+      "region": "Perth",
+      "venue": "Ascot",
+      "date": "2026-10-31",
+      "state": 0,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR1",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 5,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR2",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 4,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR3",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 1,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR4",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 1,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR5",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 0,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR6",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 0,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "SR7",
+      "region": "Sydney",
+      "venue": "Royal Randwick",
+      "date": "2026-10-31",
+      "state": 4,
+      "corePotential": true,
+      "active": true,
+      "histN": 53,
+      "histWins": 22,
+      "histRoiPct": 54.9056603773585
+    },
+    {
+      "race": "MR1",
+      "region": "Melbourne",
+      "venue": "Flemington",
+      "date": "2026-10-31",
+      "state": 3,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "MR2",
+      "region": "Melbourne",
+      "venue": "Flemington",
+      "date": "2026-10-31",
+      "state": 2,
+      "corePotential": false,
+      "active": true
+    },
+    {
+      "race": "MR3",
+      "region": "Melbourne",
+      "venue": "Flemington",
+      "date": "2026-10-31",
+      "state": 0,
+      "corePotential": false,
+      "active": true
+    },
+    {
       "race": "MR4",
       "region": "Melbourne",
       "venue": "Flemington",
-      "date": "2026-10-24",
-      "state": 1,
+      "date": "2026-10-31",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
@@ -612,8 +670,8 @@
       "race": "MR5",
       "region": "Melbourne",
       "venue": "Flemington",
-      "date": "2026-10-24",
-      "state": 4,
+      "date": "2026-10-31",
+      "state": 5,
       "corePotential": false,
       "active": true
     },
@@ -621,7 +679,7 @@
       "race": "MR6",
       "region": "Melbourne",
       "venue": "Flemington",
-      "date": "2026-10-24",
+      "date": "2026-10-31",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -630,117 +688,124 @@
       "race": "MR7",
       "region": "Melbourne",
       "venue": "Flemington",
-      "date": "2026-10-24",
-      "state": 6,
-      "corePotential": false,
-      "active": true
+      "date": "2026-10-31",
+      "state": 7,
+      "corePotential": true,
+      "active": true,
+      "histN": 19,
+      "histWins": 6,
+      "histRoiPct": 21.05263157894736
     }
   ],
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 4,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR2",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR3",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR4",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR5",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR6",
-      "currentState": 7,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 8,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "PR7",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR1",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR2",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 4,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR3",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR4",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR5",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR6",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "SR7",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 4,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 4000,
+      "qualifyingKey": "SR7|4"
     },
     {
       "race": "MR1",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR2",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR3",
-      "currentState": 8,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR4",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR5",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR6",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 31 OCT"
     },
     {
       "race": "MR7",
-      "currentState": 6,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 24 OCT"
+      "currentState": 7,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 10000,
+      "qualifyingKey": "MR7|7"
     }
   ],
   "expansionRule": {
@@ -764,16 +829,35 @@
     "personalExecutionIrrelevantToSystemStats": true,
     "confirmedExecutionRequiredForSystemHistory": false
   },
-  "auditThroughDate": "2026-10-17",
-  "auditStatus": "SAT 24 OCT PREPARED · 21/21 STATES MATCH 17 OCT · 0 FROZEN CORE POTENTIALS · 8 IMMUTABLE BET NOW SIGNALS · BUILD 1.11.28",
-  "auditCheckedAt": "2026-10-22T20:48:00+08:00",
+  "auditThroughDate": "2026-10-24",
+  "auditStatus": "SAT 31 OCT PREPARED · 21/21 STATES MATCH 24 OCT · 2 FROZEN CORE POTENTIALS (SR7, MR7) · 8 IMMUTABLE BET NOW SIGNALS",
+  "auditCheckedAt": "2026-10-30T19:43:00+08:00",
   "alarmPlan": {
-    "enabled": false,
+    "enabled": true,
     "timezone": "Australia/Perth",
-    "date": "2026-10-24",
+    "date": "2026-10-31",
     "alarmLeadMinutes": 30,
-    "entries": [],
-    "status": "NO_V11_CORE_POTENTIALS",
-    "note": "No advance race alarms because no current states match frozen CORE evidence. Do not use the 17 Oct race times. General meeting schedules remain published by race organisers; live timing is evaluated only for confirmed candidates."
+    "entries": [
+      {
+        "race": "SR7",
+        "venue": "Royal Randwick",
+        "jumpAt": "2026-10-31T13:00:00+08:00",
+        "jumpTimePerth": "1:00pm Perth",
+        "alarmAt": "2026-10-31T12:30:00+08:00",
+        "alarmTimePerth": "12:30pm Perth",
+        "sourceUrl": "https://www.racingnsw.com.au/news/latest-racing-news/randwick-preview-tips-for-golden-eagle-day-saturday-31st-october/"
+      },
+      {
+        "race": "MR7",
+        "venue": "Flemington",
+        "jumpAt": "2026-10-31T13:20:00+08:00",
+        "jumpTimePerth": "1:20pm Perth",
+        "alarmAt": "2026-10-31T12:50:00+08:00",
+        "alarmTimePerth": "12:50pm Perth",
+        "sourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/howden-victoria-derby-day/"
+      }
+    ],
+    "status": "TWO_V11_CORE_POTENTIALS_TIMES_VERIFIED",
+    "note": "Advance alarms are monitoring reminders only. SR7 jumps 1:00pm Perth and MR7 jumps 1:20pm Perth. Neither is a bet unless the live top box turns green and literally says BET NOW."
   }
 }
