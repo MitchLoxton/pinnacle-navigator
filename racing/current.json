@@ -1,7 +1,7 @@
 {
   "schemaVersion": 12,
   "appVersion": "1.11.28",
-  "updatedAt": "2026-11-06T12:39:00+08:00",
+  "updatedAt": "2026-11-06T12:40:00+08:00",
   "timezone": "Australia/Perth",
   "weekLabel": "Saturday 7 November 2026",
   "overallStatus": "READY",
@@ -568,9 +568,9 @@
       "histWins": 9,
       "histWinRatePct": 32.142857142857146,
       "histRoiPct": 15.89285714285715,
-      "jumpAt": "2026-11-07T05:10:00Z",
-      "jumpTimePerth": "1:10pm Perth",
-      "marketStatus": "OFFICIAL RACE TIME VERIFIED · live TABtouch favourite/price will be checked near jump",
+      "jumpAt": null,
+      "jumpTimePerth": "LIVE FEED / FINAL RACE-TIME CONFIRMATION REQUIRED",
+      "marketStatus": "ROSEHILL 7 NOV MEETING CONFIRMED · exact SR7 jump time will be taken from the verified live feed before monitoring",
       "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
       "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-07/sr/7",
       "why": "CURRENT 7 NOV V11 CORE POTENTIAL. SR7 enters state 5 from the verified 31 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
@@ -922,18 +922,9 @@
         "alarmAt": "2026-11-07T01:10:00Z",
         "alarmTimePerth": "9:10am Perth",
         "sourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-champions-stakes-day/"
-      },
-      {
-        "race": "SR7",
-        "venue": "Rosehill Gardens",
-        "jumpAt": "2026-11-07T05:10:00Z",
-        "jumpTimePerth": "1:10pm Perth",
-        "alarmAt": "2026-11-07T04:40:00Z",
-        "alarmTimePerth": "12:40pm Perth",
-        "sourceUrl": "https://www.racingnsw.com.au/race-time-information/"
       }
     ],
-    "status": "TWO_V11_CORE_POTENTIALS_TIMES_VERIFIED",
-    "note": "Advance alarms are monitoring reminders only. MR1 jumps 9:40am Perth and SR7 jumps 1:10pm Perth. Neither is a bet unless the live top box turns green and literally says BET NOW."
+    "status": "MR1_TIME_VERIFIED__SR7_TIME_LIVE_CONFIRM_REQUIRED",
+    "note": "MR1 Flemington is verified for 9:40am Perth. SR7 Rosehill remains a valid frozen CORE watch race, but no static alarm is published until its exact jump time is independently verified from the live race feed. Neither race is a bet unless the live top box turns green and literally says BET NOW."
   }
 }
