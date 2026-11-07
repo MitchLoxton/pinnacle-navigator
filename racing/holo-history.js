@@ -307,6 +307,62 @@
     if (S.view === 'replay') paintView();
   }
 
+  /* ------------------------------------------------------------ gallop engine
+     A stylised gait cycle for the hologram figure. It depicts a horse galloping, nothing
+     about how any race was run: no rivals, positions or margins are ever drawn. */
+  function limb(j){
+    const L = [], Rr = [];
+    for (let i = 0; i < j.length; i++) {
+      const p = j[i], a = j[Math.max(0, i - 1)], b = j[Math.min(j.length - 1, i + 1)];
+      let dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+      const nx = -dy, ny = dx, w = p[2] / 2;
+      L.push([p[0] + nx * w, p[1] + ny * w]); Rr.push([p[0] - nx * w, p[1] - ny * w]);
+    }
+    const pts = [...L, ...Rr.reverse()], n = pts.length, f = v => v.toFixed(1);
+    let d = `M${f(pts[0][0])},${f(pts[0][1])}`;
+    for (let i = 0; i < n; i++) {
+      const p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n], t = .18;
+      d += `C${f(p1[0] + (p2[0] - p0[0]) * t)},${f(p1[1] + (p2[1] - p0[1]) * t)} ${f(p2[0] - (p3[0] - p1[0]) * t)},${f(p2[1] - (p3[1] - p1[1]) * t)} ${f(p2[0])},${f(p2[1])}`;
+    }
+    return d + 'Z';
+  }
+  const GAIT = {
+    fore:{ len:[25, 22.5, 9], w:[12, 7, 5, 4.6], keys:[[0, 48, 35, 62], [.12, 26, 20, 34], [.25, 4, 0, 12], [.40, -24, -18, -6], [.55, -18, -72, -55], [.70, 12, -96, -78], [.85, 40, -32, 2]] },
+    hind:{ len:[29, 24.5, 9], w:[16, 9, 6, 5], keys:[[0, 30, 22, 46], [.15, 12, 12, 26], [.30, -10, 0, 6], [.45, -36, -24, -14], [.60, -44, -62, -48], [.75, -14, -46, -30], [.90, 18, -6, 20]] }
+  };
+  const LEGS = { hhLegNF:[[127, 68], 'fore', .55], hhLegFF:[[119, 70], 'fore', .45], hhLegNH:[[55, 63], 'hind', 0], hhLegFH:[[69, 67], 'hind', .10] };
+  function gaitSample(keys, t){
+    t = ((t % 1) + 1) % 1;
+    let i = keys.length - 1; for (let k = 0; k < keys.length; k++) if (keys[k][0] <= t) i = k;
+    const a = keys[i], b = keys[(i + 1) % keys.length], t1 = b[0] <= a[0] ? b[0] + 1 : b[0];
+    const u = (1 - Math.cos(Math.PI * (t - a[0]) / (t1 - a[0]))) / 2;
+    return [1, 2, 3].map(j => a[j] + (b[j] - a[j]) * u);
+  }
+  function legPath(anchor, spec, t){
+    const ang = gaitSample(spec.keys, t), rad = Math.PI / 180;
+    let x = anchor[0], y = anchor[1]; const pts = [[x, y, spec.w[0]]];
+    for (let s2 = 0; s2 < 3; s2++) { x += spec.len[s2] * Math.sin(ang[s2] * rad); y += spec.len[s2] * Math.cos(ang[s2] * rad); pts.push([x, y, spec.w[s2 + 1]]); }
+    return limb(pts);
+  }
+  const Gallop = (() => {
+    let frames = null, raf = 0, on = false, last = -1, t0 = 0;
+    const N = 12, STEP = 60;
+    const build = () => { frames = Array.from({ length:N }, (_, i) => { const f = {}; Object.entries(LEGS).forEach(([id, [a, kind, ph]]) => { f[id] = legPath(a, GAIT[kind], i / N + ph); }); f.tail = (6 * Math.sin(2 * Math.PI * (i / N + .3))).toFixed(1); return f; }); };
+    const apply = f => { Object.keys(LEGS).forEach(id => document.getElementById(id)?.setAttribute('d', f[id])); document.getElementById('hhTail')?.setAttribute('transform', `rotate(${f.tail} 42 50)`); };
+    const restore = () => {
+      const base = { hhLegNF:HORSE.legNear[0], hhLegNH:HORSE.legNear[1], hhLegFF:HORSE.legFar[0], hhLegFH:HORSE.legFar[1] };
+      Object.entries(base).forEach(([id, d]) => document.getElementById(id)?.setAttribute('d', d));
+      document.getElementById('hhTail')?.removeAttribute('transform');
+    };
+    const loop = now => { if (!on) return; const i = Math.floor((now - t0) / STEP) % N; if (i !== last) { apply(frames[i]); last = i; } raf = requestAnimationFrame(loop); };
+    return {
+      start(){ if (on || REDUCED.matches) return; if (!frames) build(); on = true; t0 = performance.now(); last = -1; raf = requestAnimationFrame(loop); },
+      stop(){ if (!on) return; on = false; cancelAnimationFrame(raf); restore(); }
+    };
+  })();
+  function liveCheck(){ (!document.hidden && document.querySelector('.hh-holo.is-live')) ? Gallop.start() : Gallop.stop(); }
+  document.addEventListener('visibilitychange', liveCheck);
+
   /* ------------------------------------------------------------ hologram */
   const FLOOR = (() => {
     let s = '';
@@ -326,7 +382,7 @@
       <linearGradient id="hhRing" x1="0" x2="1"><stop offset="0" stop-color="#8FF3FF" stop-opacity=".18"/><stop offset=".5" stop-color="#B9A4FF" stop-opacity=".95"/><stop offset="1" stop-color="#FFB0DA" stop-opacity=".18"/></linearGradient>
       <linearGradient id="hhSweep" x1="0" x2="1"><stop offset="0" stop-color="#8FF3FF" stop-opacity="0"/><stop offset=".5" stop-color="#E9FDFF" stop-opacity=".85"/><stop offset="1" stop-color="#8FF3FF" stop-opacity="0"/></linearGradient>
       <linearGradient id="hhPost" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF1FF"/><stop offset="1" stop-color="#EEF1FF" stop-opacity=".12"/></linearGradient>
-      <g id="hhHorse"><path d="${H.legFar[0]}" opacity=".55"/><path d="${H.legFar[1]}" opacity=".55"/><path d="${H.tail}"/><path d="${H.body}"/><path d="${H.legNear[0]}"/><path d="${H.legNear[1]}"/><path d="${H.knee}"/><path d="${H.jockey}"/><path d="${H.arm}"/><path d="${H.helmet}"/></g>
+      <g id="hhHorse"><path id="hhLegFF" d="${H.legFar[0]}" opacity=".55"/><path id="hhLegFH" d="${H.legFar[1]}" opacity=".55"/><path id="hhTail" d="${H.tail}"/><path d="${H.body}"/><path id="hhLegNF" d="${H.legNear[0]}"/><path id="hhLegNH" d="${H.legNear[1]}"/><path d="${H.knee}"/><path d="${H.jockey}"/><path d="${H.arm}"/><path d="${H.helmet}"/></g>
     </defs></svg>`;
     document.body.appendChild(wrap.firstElementChild);
   }
@@ -340,7 +396,8 @@
       <ellipse class="hh-ring r1" cx="170" cy="184" rx="104" ry="13" stroke="url(#hhRing)"/>
       <ellipse class="hh-ring r2" cx="170" cy="184" rx="86" ry="10.5" stroke="url(#hhRing)"/>
       <ellipse class="hh-ring r3" cx="170" cy="184" rx="124" ry="15.5" stroke="url(#hhRing)"/>
-      <g class="hh-post" transform="translate(268 88)" opacity=".78"><rect x="-1.5" y="0" width="3" height="96" rx="1.5" fill="url(#hhPost)"/><circle cx="0" cy="13" r="9.5" fill="#FFB0DA" fill-opacity=".5" stroke="#EEF1FF" stroke-width="1.6"/><circle cx="0" cy="13" r="3.2" fill="#EEF1FF" fill-opacity=".85"/></g>
+      <g class="hh-rails" fill="none" stroke="#B9F6FF" stroke-width="1.2"><path class="hh-rail" d="M-20 170H360"/><path class="hh-rail r2" d="M-20 177H360" stroke-opacity=".6"/></g>
+      <g class="hh-postmove"><g class="hh-post" transform="translate(268 88)" opacity=".8"><rect x="-1.5" y="0" width="3" height="96" rx="1.5" fill="url(#hhPost)"/><circle cx="0" cy="13" r="9.5" fill="#FFB0DA" fill-opacity=".5" stroke="#EEF1FF" stroke-width="1.6"/><circle cx="0" cy="13" r="3.2" fill="#EEF1FF" fill-opacity=".85"/></g></g>
       <rect class="hh-sweep" x="40" y="174" width="260" height="8" fill="url(#hhSweep)"/>
       <g class="hh-fig"><g class="hh-glow" transform="translate(70 42) scale(1.04)">
         <use href="#hhHorse" fill="#8FF3FF" opacity=".32" transform="translate(-1.7 0)"/>
@@ -349,6 +406,8 @@
         <use href="#hhHorse" fill="url(#hhScan)"/>
         ${c ? `<g transform="translate(89 45)"><path d="M0 0H21L19 15.5H-2Z" fill="#F4F6FF"/><text x="9.6" y="11.8" text-anchor="middle" font-size="${fs}" font-weight="800" fill="#0B1130" font-family="-apple-system,BlinkMacSystemFont,Inter,sans-serif">${esc(c)}</text></g>` : ''}
       </g></g>
+      <rect class="hh-pfline" x="252.5" y="14" width="2.4" height="170" fill="#F2FDFF"/>
+      <rect class="hh-flashrect" x="0" y="-18" width="340" height="218" fill="#EAFBFF"/>
       <circle class="hh-spark" cx="118" cy="178" r="1.4" fill="#8FF3FF"/><circle class="hh-spark" cx="206" cy="180" r="1.2" fill="#FFB0DA"/><circle class="hh-spark" cx="160" cy="182" r="1.6" fill="#FFE7A3"/><circle class="hh-spark" cx="232" cy="177" r="1.1" fill="#B9A4FF"/>
     </svg>`;
   }
@@ -367,7 +426,7 @@
   let io = null;
   function observeHolos(scope){
     if (REDUCED.matches || !('IntersectionObserver' in window) || !scope) return;
-    if (!io) io = new IntersectionObserver(entries => entries.forEach(en => en.target.classList.toggle('is-live', en.isIntersecting && en.intersectionRatio >= 0.35)), { threshold:[0, 0.35, 0.75] });
+    if (!io) io = new IntersectionObserver(entries => { entries.forEach(en => en.target.classList.toggle('is-live', en.isIntersecting && en.intersectionRatio >= 0.35)); liveCheck(); }, { threshold:[0, 0.35, 0.75] });
     scope.querySelectorAll('.hh-holo').forEach(el => io.observe(el));
   }
 
@@ -589,18 +648,19 @@
   }
   const ledgerSignal = (date, race) => S.ledger.status === 'ready' ? S.ledger.list.find(s => s.date === date && s.race === race) || null : null;
   const isSignal = (w, r) => r.signal || !!ledgerSignal(w.date, r.race);
-  function cell(w, r){
+  function cell(w, r, idx = 0){
     const o = r.outcome === 'WIN' ? 'win' : r.outcome === 'LOSS' ? 'loss' : '';
     const sg = isSignal(w, r);
     const label = `${r.race}: favourite ${r.outcome === 'WIN' ? 'won' : r.outcome === 'LOSS' ? 'lost' : 'result unknown'}, state ${r.before ?? 'unknown'} to ${r.after ?? 'unknown'}${sg ? ', BET NOW signal' : ''}`;
-    return `<button type="button" class="hh-cell ${o}${sg ? ' signal' : ''}" data-hh-cell="${esc(w.date)}|${esc(r.race)}" aria-label="${esc(label)}"><b>${r.outcome === 'WIN' ? 'W' : r.outcome === 'LOSS' ? 'L' : '?'}</b><span>${esc(r.before ?? '–')}→${esc(r.after ?? '–')}</span></button>`;
+    return `<button type="button" class="hh-cell ${o}${sg ? ' signal' : ''}" style="--i:${idx}" data-hh-cell="${esc(w.date)}|${esc(r.race)}" aria-label="${esc(label)}"><b>${r.outcome === 'WIN' ? 'W' : r.outcome === 'LOSS' ? 'L' : '?'}</b><span>${esc(r.before ?? '–')}→${esc(r.after ?? '–')}</span></button>`;
   }
   function boardRow(w, region){
     const p = PREFIX[region], rows = w.rows.filter(r => r.race.startsWith(p));
     const venue = rows.find(r => r.venue)?.venue || '';
     const off = w.inactive.find(x => String(x?.region || '').toLowerCase() === region.toLowerCase() || String(x?.codes || '').startsWith(p));
     if (!rows.length) return `<div class="hh-row"><div class="hh-row-label">${region}<small>${off ? 'No meeting' : '—'}</small></div><div class="hh-row-off">${esc(off?.reason || 'Not recorded in this audit.')}</div></div>`;
-    const cells = [1, 2, 3, 4, 5, 6, 7].map(k => { const r = rows.find(x => x.race === p + k); return r ? cell(w, r) : '<div class="hh-cell" aria-hidden="true"><span>—</span></div>'; }).join('');
+    const row = ['Perth', 'Sydney', 'Melbourne'].indexOf(region);
+    const cells = [1, 2, 3, 4, 5, 6, 7].map(k => { const r = rows.find(x => x.race === p + k); return r ? cell(w, r, row * 7 + k - 1) : '<div class="hh-cell" aria-hidden="true"><span>—</span></div>'; }).join('');
     return `<div class="hh-row"><div class="hh-row-label">${region}<small>${esc(venue)}</small></div>${cells}</div>`;
   }
   function weekBlock(w){
@@ -676,6 +736,7 @@
     document.querySelector('.hh-sheet')?.remove();
     document.documentElement.classList.remove('hh-lock');
     document.removeEventListener('keydown', sheetKeys);
+    liveCheck();
     if (sheetReturn && document.contains(sheetReturn)) sheetReturn.focus();
     sheetReturn = null;
   }
@@ -730,6 +791,7 @@
     document.documentElement.classList.add('hh-lock');
     document.addEventListener('keydown', sheetKeys);
     if (!REDUCED.matches) el.querySelector('.hh-holo')?.classList.add('is-live');
+    liveCheck();
     el.querySelector('.hh-close')?.focus();
   }
 
@@ -741,7 +803,7 @@
     let root = m.querySelector('#holoHistory');
     if (root) return root;
     m.innerHTML = `<div class="hh" id="holoHistory">
-      <section class="hh-panel hh-foil hh-hero" id="hhHero" aria-live="polite"></section>
+      <section class="hh-panel hh-foil hh-hero" id="hhHero"></section>
       <div class="hh-seg" role="tablist" aria-label="History views" id="hhSeg"></div>
       <div id="hhView" role="tabpanel"></div>
       <p class="hh-foot">Sources: the live ledger is the immutable BET_LOCKED events and sent BET NOW pushes, deduped by race; the stored ledger is history/2026-bet-now-signals.json; Saturdays come from the weekly audit files; the replay is frozen V11 research. History never changes what you bet today. <a href="./stats.html">Open the full stats page</a>.</p>
@@ -750,7 +812,31 @@
     bindRoot(root);
     return root;
   }
-  function paintHero(){ if (!ensureRoot()) return; const el = document.getElementById('hhHero'); if (el) { el.innerHTML = heroHtml(); bindCurve(); } }
+  function paintHero(){
+    if (!ensureRoot()) return;
+    const el = document.getElementById('hhHero'); if (!el) return;
+    el.innerHTML = heroHtml(); bindCurve();
+    if (S.ledger.status === 'ready' && S.ledger.list.length && !S.introDone && !REDUCED.matches) { S.introDone = true; intro(el); }
+  }
+  function intro(el){
+    const line = el.querySelector('.hh-curve .line'), area = el.querySelector('.hh-curve .area'), fig = el.querySelector('.hh-figure-value');
+    if (line && line.getTotalLength) {
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = `${len}`; line.style.strokeDashoffset = `${len}`;
+      line.getBoundingClientRect();
+      line.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.3,.7,.2,1)'; line.style.strokeDashoffset = '0';
+      setTimeout(() => { line.style.strokeDasharray = ''; line.style.strokeDashoffset = ''; line.style.transition = ''; }, 1800);
+    }
+    if (area) { area.style.opacity = '0'; area.style.transition = 'opacity .8s ease 1.1s'; requestAnimationFrame(() => { area.style.opacity = ''; }); }
+    el.querySelectorAll('.hh-curve .pt').forEach((p, i) => { p.style.animation = `hh-pop .45s cubic-bezier(.2,1.6,.4,1) ${(0.12 + i * 0.13).toFixed(2)}s both`; });
+    el.querySelectorAll('.hh-form li').forEach((li, i) => { li.style.animation = `hh-pop .4s cubic-bezier(.2,1.6,.4,1) ${(0.2 + i * 0.07).toFixed(2)}s both`; });
+    const target = totals(S.ledger.list).pl;
+    if (fig && Number.isFinite(target)) {
+      const t0 = performance.now(), dur = 1300;
+      const step = now => { const u = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - u, 3); fig.textContent = signed(u < 1 ? Math.round(target * e) : target); if (u < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }
+  }
   function paintSeg(){
     const el = document.getElementById('hhSeg'); if (!el) return;
     el.innerHTML = [['signals', 'Signals'], ['saturdays', 'Saturdays'], ['replay', '18-yr replay']].map(([k, l]) => `<button type="button" role="tab" id="hhTab-${k}" aria-controls="hhView" aria-selected="${S.view === k}" tabindex="${S.view === k ? 0 : -1}" data-hh-view="${k}">${l}</button>`).join('');
@@ -759,11 +845,19 @@
     if (!ensureRoot()) return;
     const el = document.getElementById('hhView'); if (!el) return;
     if (io) io.disconnect();
+    el.querySelectorAll('.hh-holo.is-live').forEach(h => h.classList.remove('is-live'));
     el.setAttribute('aria-labelledby', 'hhTab-' + S.view);
     if (S.view === 'saturdays') { el.innerHTML = saturdaysView(); if (S.weeks.status === 'idle') loadWeeks(); }
     else if (S.view === 'replay') { el.innerHTML = replayView(); if (S.replay.status === 'idle') loadReplay(); else bindBars(); }
     else el.innerHTML = signalsView();
     observeHolos(el);
+    liveCheck();
+    if (S.view === 'saturdays') el.querySelectorAll('.hh-board:not([hidden])').forEach(flap);
+  }
+  function flap(board){
+    if (REDUCED.matches || !board) return;
+    board.classList.remove('flap'); void board.offsetWidth; board.classList.add('flap');
+    setTimeout(() => board.classList.remove('flap'), 1400);
   }
   function paintAll(){ if (!ensureRoot()) return; paintHero(); paintSeg(); paintView(); }
   function setView(v){
@@ -779,7 +873,7 @@
         S.weeksTouched = true;
         const d = wk.dataset.hhWeek, board = document.getElementById('hhBoard-' + d), open = wk.getAttribute('aria-expanded') !== 'true';
         wk.setAttribute('aria-expanded', String(open));
-        if (board) board.hidden = !open;
+        if (board) { board.hidden = !open; if (open) flap(board); }
         S.weeks.list.forEach(w => { const b = document.getElementById('hhBoard-' + w.date); if (b && !b.hidden) S.openWeeks.add(w.date); else S.openWeeks.delete(w.date); });
         return;
       }
