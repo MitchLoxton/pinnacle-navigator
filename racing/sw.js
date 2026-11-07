@@ -1,14 +1,12 @@
-const BUILD = '1.11.27';
-const CACHE = 'mitchell-racing-v11127-sat-17-oct-zero-core-8-bets';
+const BUILD = '1.12.0';
+const CACHE = 'mitchell-racing-v1120-holo-ui';
 const STATIC_SHELL = [
-  './styles.css?v=12',
-  './simple.css?v=1',
-  './production.css?v=190',
-  './premium.css?v=111',
-  './app.js?v=132',
-  './premium-ui.js?v=123',
+  './holo.css?v=1120',
+  './odds-matrix-ui.css?v=1',
+  './app.js?v=133',
+  './premium-ui.js?v=124',
   './watchlist-odds.js?v=3',
-  './bet-history.js?v=13',
+  './holo-history.js?v=1120',
   './weekly-history.js?v=4',
   './manifest.webmanifest',
   './icon.svg',
@@ -76,7 +74,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const criticalPath = /\/racing\/(?:index\.html|stats\.html|automation\.html|app\.js|preflight-guard\.js|live-tab\.js|execution-truth\.js|result-truth-simple\.js|weekly-history\.js|simple-ui\.js|hk-main-tab\.js|health-ui\.js|autobet-live-status\.js|race-day-assist\.js|easy-mode\.js|production-ui\.js|premium-ui\.js|watchlist-odds\.js|bet-history\.js|stats-link\.js|stats-dashboard\.js|automation\.js|state-tracker-status\.js|autobet-status\.js|simple\.css|production\.css|premium\.css|version\.json|automation-config\.json|current\.json|stats\.json|hong-kong\.json|hong-kong-stats\.json|history\/[^/]+\.json)$/.test(url.pathname);
+  const criticalPath = /\/racing\/(?:index\.html|stats\.html|automation\.html|app\.js|preflight-guard\.js|live-tab\.js|execution-truth\.js|result-truth-simple\.js|weekly-history\.js|simple-ui\.js|hk-main-tab\.js|health-ui\.js|autobet-live-status\.js|race-day-assist\.js|easy-mode\.js|production-ui\.js|premium-ui\.js|watchlist-odds\.js|bet-history\.js|holo-history\.js|holo\.css|v11-replay\.json|stats-link\.js|stats-dashboard\.js|automation\.js|state-tracker-status\.js|autobet-status\.js|simple\.css|production\.css|premium\.css|version\.json|automation-config\.json|current\.json|stats\.json|hong-kong\.json|hong-kong-stats\.json|history\/[^/]+\.json)$/.test(url.pathname);
   const critical = event.request.mode === 'navigate' || criticalPath;
 
   if (critical) {
