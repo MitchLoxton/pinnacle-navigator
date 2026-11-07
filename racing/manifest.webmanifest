@@ -6,8 +6,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#06090d",
-  "theme_color": "#06090d",
+  "background_color": "#070B1F",
+  "theme_color": "#070B1F",
   "orientation": "portrait-primary",
   "categories": ["sports", "finance", "utilities"],
   "shortcuts": [
