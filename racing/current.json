@@ -1,16 +1,16 @@
 {
   "schemaVersion": 12,
   "appVersion": "1.11.28",
-  "updatedAt": "2026-11-06T12:40:00+08:00",
+  "updatedAt": "2026-11-13T06:26:32.141Z",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 7 November 2026",
+  "weekLabel": "Saturday 14 November 2026",
   "overallStatus": "READY",
-  "overallMessage": "SAT 7 NOV 2026 CARD PREPARED AND 21/21 STATES VERIFIED AGAINST 31 OCT RESULTS. ASCOT, ROSEHILL GARDENS (FIVE DIAMONDS DAY) AND FLEMINGTON (TAB CHAMPIONS STAKES DAY) CONFIRMED. TWO exact frozen V11 CORE matches this week: MR1 state 4 and SR7 state 5. BOTH ARE POTENTIALS ONLY — no bet exists unless the live top box turns GREEN and literally says BET NOW inside the final execution window.",
+  "overallMessage": "SAT 14 NOV 2026: 21/21 states reconciled from 7 NOV. ASCOT, NEWCASTLE THE HUNTER, SANDOWN HILLSIDE ZIPPING CLASSIC CONFIRMED. Two exact frozen CORE watch races: SR1 state 7 and MR4 state 4. NO EARLY BET — wait for GREEN BET NOW inside the live window.",
   "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. A CORE match is only a watch race. It is never an early bet; the live engine must still pass identity, sole-favourite, minimum-price, timing, source-freshness and integrity gates.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "2026 SYSTEM BET RECORD · 10 BET NOW BETS · 3W/7L · A$82,750 TURNOVER · +A$26,350 SYSTEM P/L · +31.84% ROI",
+    "status": "2026 SYSTEM BET RECORD · 11 BET NOW BETS · 4W/7L · A$88,950 TURNOVER · +A$40,610 SYSTEM P/L · +45.65% ROI",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -21,25 +21,25 @@
     "modelLosses": 4,
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": 836,
-    "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, A$1,056 return, +A$836 cash P/L. The other 9 system signals remain UNCONFIRMED or NOT_PLACED unless separate execution evidence is supplied.",
+    "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, +A$836 cash P/L. The other 10 BET NOW system signals are UNCONFIRMED/NOT_PLACED until bookmaker execution evidence exists.",
     "note": "Only permanent BET NOW system instructions count. System P/L uses the instructed stake and odds and never depends on whether any real bookmaker bet was placed.",
     "liveSignalAudit": {
-      "throughDate": "2026-10-31",
-      "checkedThroughCalendarDate": "2026-11-06",
+      "throughDate": "2026-11-07",
+      "checkedThroughCalendarDate": "2026-11-13",
       "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
       "sourceRule": "BET_LOCKED_OR_SENT_BET_NOW_DEDUPED_BY_RACE_PERMANENT_SYSTEM_BET",
-      "signals": 10,
+      "signals": 11,
       "wins": 3,
       "losses": 7,
       "pending": 0,
-      "signalTurnoverAud": 82750,
-      "signalModelPlAud": 26350,
-      "signalModelRoiPct": 31.842900302114803,
+      "signalTurnoverAud": 88950,
+      "signalModelPlAud": 40610,
+      "signalModelRoiPct": 45.654862282181,
       "confirmedCashBets": 1,
       "confirmedCashTurnoverAud": 220,
       "confirmedCashPlAud": 836,
       "confirmedCashRoiPct": 380,
-      "unconfirmedSignals": 8,
+      "unconfirmedSignals": 9,
       "notPlacedSignals": 1,
       "historicalContradictoryNoBetAlertsIgnored": 4,
       "duplicateBetNowPushRowsIgnored": 1,
@@ -242,6 +242,25 @@
           "runningRoiPct": 31.842900302114803,
           "executionStatus": "UNCONFIRMED",
           "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 11,
+          "date": "2026-11-07",
+          "race": "MR1",
+          "venue": "Flemington",
+          "horse": "SOLDI",
+          "stateBefore": 4,
+          "stakeAud": 6200,
+          "signalPrice": 3.3,
+          "result": "WIN",
+          "winner": "SOLDI",
+          "winnerNumber": 4,
+          "signalPlAud": 14260,
+          "runningStakeAud": 88950,
+          "runningSignalPlAud": 40610,
+          "runningRoiPct": 45.654862282181,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
         }
       ],
       "latestConfirmedExecution": {
@@ -256,10 +275,10 @@
         "cashPlAud": 836,
         "evidence": "USER_RESULT_SCREENSHOT"
       },
-      "systemBets": 10,
-      "systemTurnoverAud": 82750,
-      "systemPlAud": 26350,
-      "systemRoiPct": 31.842900302114803,
+      "systemBets": 11,
+      "systemTurnoverAud": 88950,
+      "systemPlAud": 40610,
+      "systemRoiPct": 45.654862282181,
       "ytdSystemBetLedger": [
         {
           "signalNo": 1,
@@ -457,77 +476,138 @@
           "runningRoiPct": 31.842900302114803,
           "executionStatus": "UNCONFIRMED",
           "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 11,
+          "date": "2026-11-07",
+          "race": "MR1",
+          "venue": "Flemington",
+          "horse": "SOLDI",
+          "stateBefore": 4,
+          "stakeAud": 6200,
+          "signalPrice": 3.3,
+          "result": "WIN",
+          "winner": "SOLDI",
+          "winnerNumber": 4,
+          "signalPlAud": 14260,
+          "runningStakeAud": 88950,
+          "runningSignalPlAud": 40610,
+          "runningRoiPct": 45.654862282181,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
         }
       ],
-      "latestSignalDate": "2026-10-31",
-      "latestSignalRace": "MR7",
-      "latestSignalHorse": "STORMY MARCO",
-      "latestSignalStakeAud": 10000,
-      "latestSignalPrice": 4.8,
+      "latestSignalDate": "2026-11-07",
+      "latestSignalRace": "MR1",
+      "latestSignalHorse": "SOLDI",
+      "latestSignalStakeAud": 6200,
+      "latestSignalPrice": 3.3,
       "latestSignalFinalStatus": "SIGNAL_WIN",
-      "latestSignalModelPlAud": 38000
+      "latestSignalModelPlAud": 14260,
+      "checkedAt": "2026-11-13T06:26:32.141Z",
+      "immutableBetNowSignals": 11,
+      "signalWins": 4,
+      "signalLosses": 7,
+      "signalPending": 0,
+      "systemWins": 4,
+      "systemLosses": 7,
+      "systemPending": 0,
+      "latestSignalExecutionStatus": "UNCONFIRMED",
+      "latestSignalOutcome": "WIN",
+      "latestSignalWinner": "SOLDI",
+      "latestSignalCashPlAud": 0,
+      "lastWeekSystemBets": 1,
+      "lastWeekSystemPlAud": 14260,
+      "note": "Every immutable BET NOW is a system bet independent of bookmaker execution. 7 Nov SOLDI A$6,200 @ $3.30 won +A$14,260; YTD system P/L +A$40,610. Bookmaker cash remains separate."
     }
   },
   "lastWeek": {
-    "date": "2026-10-31",
+    "date": "2026-11-07",
     "streamsLogged": 21,
     "inactiveStreams": 0,
-    "favouriteWins": 9,
-    "favouriteLosses": 12,
+    "favouriteWins": 10,
+    "favouriteLosses": 11,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-10-31.json",
+    "historyFile": "./history/2026-11-07.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "2 immutable BET NOW SYSTEM BETS: SR7 JIMMYSSTAR (NZ) A$10,000 @ 3.70 LOSS (-A$10,000), MR7 STORMY MARCO A$10,000 @ 4.80 WIN (+A$38,000). Weekly system P/L +A$28,000; actual cash execution remains unconfirmed for both.",
-    "betNowSignals": 2,
+    "note": "MR1 SOLDI $6,200 @ 3.30 WIN +A$14,260 system profit. SR7 NO BET. SOLDI bookmaker execution is UNCONFIRMED.",
+    "betNowSignals": 1,
     "betNowSignalWins": 1,
-    "betNowSignalLosses": 1,
-    "betNowSignalModelPlAud": 28000,
-    "systemBets": 2,
-    "systemPlAud": 28000
+    "betNowSignalLosses": 0,
+    "betNowSignalModelPlAud": 14260,
+    "systemBets": 1,
+    "systemPlAud": 14260
   },
   "meetings": [
     {
       "region": "Perth",
       "code": "PR1-PR7",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "status": "SATURDAY ASCOT METRO CARD CONFIRMED · 7 NOV · LIVE MARKET PENDING",
+      "date": "2026-11-14",
+      "status": "CHAMPION FILLIES DAY VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
       "programSourceUrl": "https://perthracing.com.au/racedays-events/",
-      "fieldSourceUrl": "https://perthracing.com.au/"
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/ascot/2026-11-14"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "status": "FIVE DIAMONDS DAY CONFIRMED · 10 RACES · FINAL TIMES PUBLISHED · LIVE MARKET PENDING",
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "status": "THE HUNTER VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
       "programSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
-      "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/"
+      "fieldSourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "status": "TAB CHAMPIONS STAKES DAY CONFIRMED · 9 RACES · FINAL TIMES PUBLISHED · LIVE MARKET PENDING",
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "status": "ZIPPING CLASSIC VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-champions-stakes-day/",
-      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-champions-stakes-day/"
+      "programSourceUrl": "https://www.racing.com/",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14"
     }
   ],
   "lockedBets": [],
   "watchlist": [
     {
-      "race": "MR1",
+      "race": "SR1",
+      "region": "Sydney",
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 7,
+      "qualifyingKey": "SR1|7",
+      "modelPath": "V11 CORE",
+      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "fieldsConfirmed": true,
+      "provisionalHorse": null,
+      "currentMarketFavourite": null,
+      "marketSnapshotPriceAud": null,
+      "marketSnapshotAt": null,
+      "priceGate": 3,
+      "coreBaseReferenceAud": 10000,
+      "histN": 13,
+      "histWins": 7,
+      "histWinRatePct": 53.84615384615385,
+      "histRoiPct": 88.96153846153845,
+      "jumpAt": "2026-11-14T01:35:00Z",
+      "jumpTimePerth": "9:35am Perth",
+      "marketStatus": "NEWCASTLE R1 12:35pm AEDT VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
+      "fieldSourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-14/sr/1",
+      "why": "14 NOV CORE WATCH only. SR1 reaches state 7 after 7 Nov archived LOSS. No system bet until all V11 live gates pass and BET NOW is issued."
+    },
+    {
+      "race": "MR4",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
       "state": 4,
-      "qualifyingKey": "MR1|4",
+      "qualifyingKey": "MR4|4",
       "modelPath": "V11 CORE",
       "status": "POTENTIAL_PENDING_LIVE_MARKET",
       "fieldsConfirmed": true,
@@ -537,43 +617,16 @@
       "marketSnapshotAt": null,
       "priceGate": 3,
       "coreBaseReferenceAud": 4000,
-      "histN": 40,
-      "histWins": 13,
-      "histWinRatePct": 32.5,
-      "histRoiPct": 19.25,
-      "jumpAt": "2026-11-07T01:40:00Z",
-      "jumpTimePerth": "9:40am Perth",
-      "marketStatus": "OFFICIAL RACE TIME VERIFIED · live TABtouch favourite/price will be checked near jump",
-      "fieldSourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-champions-stakes-day/",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-07/mr/1",
-      "why": "CURRENT 7 NOV V11 CORE POTENTIAL. MR1 enters state 4 from the verified 31 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
-    },
-    {
-      "race": "SR7",
-      "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 5,
-      "qualifyingKey": "SR7|5",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 6000,
-      "histN": 28,
-      "histWins": 9,
-      "histWinRatePct": 32.142857142857146,
-      "histRoiPct": 15.89285714285715,
-      "jumpAt": null,
-      "jumpTimePerth": "LIVE FEED / FINAL RACE-TIME CONFIRMATION REQUIRED",
-      "marketStatus": "ROSEHILL 7 NOV MEETING CONFIRMED · exact SR7 jump time will be taken from the verified live feed before monitoring",
-      "fieldSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-07/sr/7",
-      "why": "CURRENT 7 NOV V11 CORE POTENTIAL. SR7 enters state 5 from the verified 31 Oct result. This is NOT an early bet. It becomes a permanent system bet only if the live top box turns GREEN and literally says BET NOW after every frozen gate passes."
+      "histN": 41,
+      "histWins": 14,
+      "histWinRatePct": 34.146341463414636,
+      "histRoiPct": 22.804878048780488,
+      "jumpAt": "2026-11-14T03:00:00Z",
+      "jumpTimePerth": "11:00am Perth",
+      "marketStatus": "SANDOWN R4 2:00pm AEDT VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-14/mr/4",
+      "why": "14 NOV CORE WATCH only. MR4 reaches state 4 after 7 Nov archived LOSS. No system bet until all V11 live gates pass and BET NOW is issued."
     }
   ],
   "stateTracklist": [
@@ -581,8 +634,8 @@
       "race": "PR1",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "state": 5,
+      "date": "2026-11-14",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -590,7 +643,7 @@
       "race": "PR2",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
+      "date": "2026-11-14",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -599,8 +652,8 @@
       "race": "PR3",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "state": 6,
+      "date": "2026-11-14",
+      "state": 7,
       "corePotential": false,
       "active": true
     },
@@ -608,8 +661,8 @@
       "race": "PR4",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "state": 4,
+      "date": "2026-11-14",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -617,8 +670,8 @@
       "race": "PR5",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "state": 4,
+      "date": "2026-11-14",
+      "state": 5,
       "corePotential": false,
       "active": true
     },
@@ -626,8 +679,8 @@
       "race": "PR6",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
-      "state": 9,
+      "date": "2026-11-14",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
@@ -635,7 +688,7 @@
       "race": "PR7",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-07",
+      "date": "2026-11-14",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -643,26 +696,29 @@
     {
       "race": "SR1",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 6,
-      "corePotential": false,
-      "active": true
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 7,
+      "corePotential": true,
+      "active": true,
+      "histN": 13,
+      "histWins": 7,
+      "histRoiPct": 88.96153846153845
     },
     {
       "race": "SR2",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 0,
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR3",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
+      "venue": "Newcastle",
+      "date": "2026-11-14",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -670,68 +726,62 @@
     {
       "race": "SR4",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 2,
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR5",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 0,
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR6",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 1,
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR7",
       "region": "Sydney",
-      "venue": "Rosehill Gardens",
-      "date": "2026-11-07",
-      "state": 5,
-      "corePotential": true,
-      "active": true,
-      "histN": 28,
-      "histWins": 9,
-      "histRoiPct": 15.89285714285715
+      "venue": "Newcastle",
+      "date": "2026-11-14",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR1",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "state": 4,
-      "corePotential": true,
-      "active": true,
-      "histN": 40,
-      "histWins": 13,
-      "histRoiPct": 19.25
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "state": 0,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR2",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "state": 0,
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR3",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -739,35 +789,38 @@
     {
       "race": "MR4",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "state": 3,
-      "corePotential": false,
-      "active": true
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "state": 4,
+      "corePotential": true,
+      "active": true,
+      "histN": 41,
+      "histWins": 14,
+      "histRoiPct": 22.804878048780488
     },
     {
       "race": "MR5",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "state": 6,
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "state": 7,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR6",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
-      "state": 0,
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR7",
       "region": "Melbourne",
-      "venue": "Flemington",
-      "date": "2026-11-07",
+      "venue": "Sandown Hillside",
+      "date": "2026-11-14",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -776,112 +829,112 @@
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 5,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR2",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR3",
-      "currentState": 6,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 7,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR4",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR5",
-      "currentState": 4,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR6",
-      "currentState": 9,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "PR7",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR1",
-      "currentState": 6,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 7,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 10000,
+      "qualifyingKey": "SR1|7"
     },
     {
       "race": "SR2",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR3",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR4",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR5",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR6",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "SR7",
-      "currentState": 5,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 6000,
-      "qualifyingKey": "SR7|5"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR1",
-      "currentState": 4,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "MR1|4"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR2",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR3",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR4",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 4,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 4000,
+      "qualifyingKey": "MR4|4"
     },
     {
       "race": "MR5",
-      "currentState": 6,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 7,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR6",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     },
     {
       "race": "MR7",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 7 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
     }
   ],
   "expansionRule": {
@@ -905,26 +958,35 @@
     "personalExecutionIrrelevantToSystemStats": true,
     "confirmedExecutionRequiredForSystemHistory": false
   },
-  "auditThroughDate": "2026-10-31",
-  "auditStatus": "SAT 7 NOV PREPARED · 21/21 STATES MATCH 31 OCT · 2 FROZEN CORE POTENTIALS (MR1, SR7) · 10 IMMUTABLE BET NOW SIGNALS",
-  "auditCheckedAt": "2026-11-06T12:39:00+08:00",
+  "auditThroughDate": "2026-11-07",
+  "auditStatus": "SAT 14 NOV PREPARED · 21/21 7 NOV STATES VERIFIED · CORE WATCH SR1/MR4 · 11 IMMUTABLE BET NOW SYSTEM BETS",
+  "auditCheckedAt": "2026-11-13T06:26:32.141Z",
   "alarmPlan": {
     "enabled": true,
     "timezone": "Australia/Perth",
-    "date": "2026-11-07",
+    "date": "2026-11-14",
     "alarmLeadMinutes": 30,
     "entries": [
       {
-        "race": "MR1",
-        "venue": "Flemington",
-        "jumpAt": "2026-11-07T01:40:00Z",
-        "jumpTimePerth": "9:40am Perth",
-        "alarmAt": "2026-11-07T01:10:00Z",
-        "alarmTimePerth": "9:10am Perth",
-        "sourceUrl": "https://www.vrc.com.au/race-days-and-events/2026-2027/tab-champions-stakes-day/"
+        "race": "SR1",
+        "venue": "Newcastle",
+        "jumpAt": "2026-11-14T01:35:00Z",
+        "jumpTimePerth": "9:35am Perth",
+        "alarmAt": "2026-11-14T01:05:00.000Z",
+        "alarmTimePerth": "9:05am Perth",
+        "sourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/"
+      },
+      {
+        "race": "MR4",
+        "venue": "Sandown Hillside",
+        "jumpAt": "2026-11-14T03:00:00Z",
+        "jumpTimePerth": "11:00am Perth",
+        "alarmAt": "2026-11-14T02:30:00.000Z",
+        "alarmTimePerth": "10:30am Perth",
+        "sourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14"
       }
     ],
-    "status": "MR1_TIME_VERIFIED__SR7_TIME_LIVE_CONFIRM_REQUIRED",
-    "note": "MR1 Flemington is verified for 9:40am Perth. SR7 Rosehill remains a valid frozen CORE watch race, but no static alarm is published until its exact jump time is independently verified from the live race feed. Neither race is a bet unless the live top box turns green and literally says BET NOW."
+    "status": "SR1_AND_MR4_TIMES_VERIFIED",
+    "note": "SR1 9:35am Perth, MR4 11:00am Perth. These are frozen CORE watch races only. A system bet requires an actual BET NOW signal."
   }
 }
