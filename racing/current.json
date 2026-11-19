@@ -1,16 +1,16 @@
 {
   "schemaVersion": 12,
   "appVersion": "1.11.28",
-  "updatedAt": "2026-11-13T06:26:32.141Z",
+  "updatedAt": "2026-11-19T13:20:08.530Z",
   "timezone": "Australia/Perth",
-  "weekLabel": "Saturday 14 November 2026",
+  "weekLabel": "Saturday 21 November 2026",
   "overallStatus": "READY",
-  "overallMessage": "SAT 14 NOV 2026: 21/21 states reconciled from 7 NOV. ASCOT, NEWCASTLE THE HUNTER, SANDOWN HILLSIDE ZIPPING CLASSIC CONFIRMED. Two exact frozen CORE watch races: SR1 state 7 and MR4 state 4. NO EARLY BET — wait for GREEN BET NOW inside the live window.",
+  "overallMessage": "SAT 21 NOV 2026: 21/21 states reconciled from 14 NOV. ASCOT RAILWAY STAKES DAY, KEMBLA GRANGE THE GONG DAY, AND CRANBOURNE CUP DAY VERIFIED. Two exact frozen CORE watch races: SR4 state 4 and PR5 state 6. NO EARLY BET — wait for a GREEN BET NOW inside the live execution window.",
   "productionRule": "SYSTEM BET TRUTH: every canonical BET_LOCKED or sent BET NOW instruction permanently counts as one system bet, using the instructed stake and odds regardless of personal execution. A CORE match is only a watch race. It is never an early bet; the live engine must still pass identity, sole-favourite, minimum-price, timing, source-freshness and integrity gates.",
   "stakeDefaultAud": 1000,
   "season": {
     "fy": "2026/27",
-    "status": "2026 SYSTEM BET RECORD · 11 BET NOW BETS · 4W/7L · A$88,950 TURNOVER · +A$40,610 SYSTEM P/L · +45.65% ROI",
+    "status": "2026 SYSTEM BET RECORD · 12 BET NOW BETS · 4W/8L · A$98,400 TURNOVER · +A$31,160 SYSTEM P/L · +31.67% ROI",
     "fyStart": "2026-07-01",
     "liveStart": "2026-08-10",
     "modelThrough": "2026-08-08",
@@ -21,25 +21,25 @@
     "modelLosses": 4,
     "modelRoiPct": -7.6923076923,
     "actualCashProfitAud": 836,
-    "actualCashStatus": "1 confirmed bookmaker execution: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, +A$836 cash P/L. The other 10 BET NOW system signals are UNCONFIRMED/NOT_PLACED until bookmaker execution evidence exists.",
+    "actualCashStatus": "1 confirmed bookmaker execution remains: 3 Oct MR2 HANKEE ALPHA, A$220 @ $4.80, +A$836 cash P/L. The other 11 system BET NOW signals are UNCONFIRMED or NOT_PLACED unless separate bookmaker execution evidence is supplied.",
     "note": "Only permanent BET NOW system instructions count. System P/L uses the instructed stake and odds and never depends on whether any real bookmaker bet was placed.",
     "liveSignalAudit": {
-      "throughDate": "2026-11-07",
-      "checkedThroughCalendarDate": "2026-11-13",
+      "throughDate": "2026-11-14",
+      "checkedThroughCalendarDate": "2026-11-19",
       "source": "CANONICAL_BET_NOW_SYSTEM_BET_LEDGER",
       "sourceRule": "BET_LOCKED_OR_SENT_BET_NOW_DEDUPED_BY_RACE_PERMANENT_SYSTEM_BET",
-      "signals": 11,
+      "signals": 12,
       "wins": 3,
       "losses": 7,
       "pending": 0,
-      "signalTurnoverAud": 88950,
-      "signalModelPlAud": 40610,
-      "signalModelRoiPct": 45.654862282181,
+      "signalTurnoverAud": 98400,
+      "signalModelPlAud": 31160,
+      "signalModelRoiPct": 31.666666666666664,
       "confirmedCashBets": 1,
       "confirmedCashTurnoverAud": 220,
       "confirmedCashPlAud": 836,
       "confirmedCashRoiPct": 380,
-      "unconfirmedSignals": 9,
+      "unconfirmedSignals": 10,
       "notPlacedSignals": 1,
       "historicalContradictoryNoBetAlertsIgnored": 4,
       "duplicateBetNowPushRowsIgnored": 1,
@@ -261,6 +261,25 @@
           "runningRoiPct": 45.654862282181,
           "executionStatus": "UNCONFIRMED",
           "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 12,
+          "race": "MR4",
+          "date": "2026-11-14",
+          "venue": "Sandown Hillside",
+          "horse": "GENEVA (NZ)",
+          "stateBefore": 4,
+          "stakeAud": 9450,
+          "signalPrice": 4.2,
+          "result": "LOSS",
+          "winner": "KILLENAULE (IRE)",
+          "winnerNumber": 12,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "signalPlAud": -9450,
+          "runningStakeAud": 98400,
+          "runningSignalPlAud": 31160,
+          "runningRoiPct": 31.666666666666664
         }
       ],
       "latestConfirmedExecution": {
@@ -275,10 +294,10 @@
         "cashPlAud": 836,
         "evidence": "USER_RESULT_SCREENSHOT"
       },
-      "systemBets": 11,
-      "systemTurnoverAud": 88950,
-      "systemPlAud": 40610,
-      "systemRoiPct": 45.654862282181,
+      "systemBets": 12,
+      "systemTurnoverAud": 98400,
+      "systemPlAud": 31160,
+      "systemRoiPct": 31.666666666666664,
       "ytdSystemBetLedger": [
         {
           "signalNo": 1,
@@ -495,119 +514,111 @@
           "runningRoiPct": 45.654862282181,
           "executionStatus": "UNCONFIRMED",
           "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+        },
+        {
+          "signalNo": 12,
+          "race": "MR4",
+          "date": "2026-11-14",
+          "venue": "Sandown Hillside",
+          "horse": "GENEVA (NZ)",
+          "stateBefore": 4,
+          "stakeAud": 9450,
+          "signalPrice": 4.2,
+          "result": "LOSS",
+          "winner": "KILLENAULE (IRE)",
+          "winnerNumber": 12,
+          "executionStatus": "UNCONFIRMED",
+          "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+          "signalPlAud": -9450,
+          "runningStakeAud": 98400,
+          "runningSignalPlAud": 31160,
+          "runningRoiPct": 31.666666666666664
         }
       ],
-      "latestSignalDate": "2026-11-07",
-      "latestSignalRace": "MR1",
-      "latestSignalHorse": "SOLDI",
-      "latestSignalStakeAud": 6200,
-      "latestSignalPrice": 3.3,
-      "latestSignalFinalStatus": "SIGNAL_WIN",
-      "latestSignalModelPlAud": 14260,
-      "checkedAt": "2026-11-13T06:26:32.141Z",
-      "immutableBetNowSignals": 11,
+      "latestSignalDate": "2026-11-14",
+      "latestSignalRace": "MR4",
+      "latestSignalHorse": "GENEVA (NZ)",
+      "latestSignalStakeAud": 9450,
+      "latestSignalPrice": 4.2,
+      "latestSignalFinalStatus": "SIGNAL_LOSS",
+      "latestSignalModelPlAud": -9450,
+      "checkedAt": "2026-11-19T13:20:08.530Z",
+      "immutableBetNowSignals": 12,
       "signalWins": 4,
-      "signalLosses": 7,
+      "signalLosses": 8,
       "signalPending": 0,
       "systemWins": 4,
-      "systemLosses": 7,
+      "systemLosses": 8,
       "systemPending": 0,
       "latestSignalExecutionStatus": "UNCONFIRMED",
-      "latestSignalOutcome": "WIN",
-      "latestSignalWinner": "SOLDI",
+      "latestSignalOutcome": "LOSS",
+      "latestSignalWinner": "KILLENAULE (IRE)",
       "latestSignalCashPlAud": 0,
       "lastWeekSystemBets": 1,
-      "lastWeekSystemPlAud": 14260,
-      "note": "Every immutable BET NOW is a system bet independent of bookmaker execution. 7 Nov SOLDI A$6,200 @ $3.30 won +A$14,260; YTD system P/L +A$40,610. Bookmaker cash remains separate."
+      "lastWeekSystemPlAud": -9450,
+      "note": "Every immutable BET NOW remains one permanent system bet at instructed stake and odds regardless of personal execution. 14 Nov MR4 GENEVA (NZ) A$9,450 @ $4.20 lost A$9,450 system P/L; 2026 cumulative system P/L is +A$31,160. Bookmaker cash remains separate."
     }
   },
   "lastWeek": {
-    "date": "2026-11-07",
+    "date": "2026-11-14",
     "streamsLogged": 21,
     "inactiveStreams": 0,
-    "favouriteWins": 10,
-    "favouriteLosses": 11,
+    "favouriteWins": 5,
+    "favouriteLosses": 16,
     "confirmedSystemBets": 0,
     "systemCashPlAud": 0,
-    "historyFile": "./history/2026-11-07.json",
+    "historyFile": "./history/2026-11-14.json",
     "officialSpEvidenceStatus": "UNVERIFIED",
     "sourceKind": "TABTOUCH_ARCHIVED_SUBS_FAVOURITE",
-    "note": "MR1 SOLDI $6,200 @ 3.30 WIN +A$14,260 system profit. SR7 NO BET. SOLDI bookmaker execution is UNCONFIRMED.",
+    "note": "1 immutable BET NOW: MR4 GENEVA (NZ) A$9,450 @ $4.20 LOSS (-A$9,450 system P/L). SR1 was NO BET. Bookmaker execution for GENEVA remains unconfirmed.",
     "betNowSignals": 1,
-    "betNowSignalWins": 1,
-    "betNowSignalLosses": 0,
-    "betNowSignalModelPlAud": 14260,
+    "betNowSignalWins": 0,
+    "betNowSignalLosses": 1,
+    "betNowSignalModelPlAud": -9450,
     "systemBets": 1,
-    "systemPlAud": 14260
+    "systemPlAud": -9450
   },
   "meetings": [
     {
       "region": "Perth",
       "code": "PR1-PR7",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "status": "CHAMPION FILLIES DAY VERIFIED · 10 RACES · LIVE MARKET PENDING",
+      "date": "2026-11-21",
+      "status": "SWAN DRAUGHT RAILWAY STAKES DAY VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://perthracing.com.au/racedays-events/",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/ascot/2026-11-14"
+      "programSourceUrl": "https://perthracing.com.au/racedays-events/swan-draught-railway-stakes-day/",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/ascot/2026-11-21"
     },
     {
       "region": "Sydney",
       "code": "SR1-SR7",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "status": "THE HUNTER VERIFIED · 10 RACES · LIVE MARKET PENDING",
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "status": "THE GONG DAY VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://www.racingnsw.com.au/race-time-information/",
-      "fieldSourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/"
+      "programSourceUrl": "https://kemblagrangeracing.com.au/the-gong/",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/kembla-grange/2026-11-21"
     },
     {
       "region": "Melbourne",
       "code": "MR1-MR7",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "status": "ZIPPING CLASSIC VERIFIED · 10 RACES · LIVE MARKET PENDING",
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "status": "LADBROKES CRANBOURNE CUP DAY VERIFIED · 10 RACES · LIVE MARKET PENDING",
       "active": true,
-      "programSourceUrl": "https://www.racing.com/",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14"
+      "programSourceUrl": "https://www.racing.com/en/",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/cranbourne/2026-11-21"
     }
   ],
   "lockedBets": [],
   "watchlist": [
     {
-      "race": "SR1",
+      "race": "SR4",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 7,
-      "qualifyingKey": "SR1|7",
-      "modelPath": "V11 CORE",
-      "status": "POTENTIAL_PENDING_LIVE_MARKET",
-      "fieldsConfirmed": true,
-      "provisionalHorse": null,
-      "currentMarketFavourite": null,
-      "marketSnapshotPriceAud": null,
-      "marketSnapshotAt": null,
-      "priceGate": 3,
-      "coreBaseReferenceAud": 10000,
-      "histN": 13,
-      "histWins": 7,
-      "histWinRatePct": 53.84615384615385,
-      "histRoiPct": 88.96153846153845,
-      "jumpAt": "2026-11-14T01:35:00Z",
-      "jumpTimePerth": "9:35am Perth",
-      "marketStatus": "NEWCASTLE R1 12:35pm AEDT VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
-      "fieldSourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-14/sr/1",
-      "why": "14 NOV CORE WATCH only. SR1 reaches state 7 after 7 Nov archived LOSS. No system bet until all V11 live gates pass and BET NOW is issued."
-    },
-    {
-      "race": "MR4",
-      "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
       "state": 4,
-      "qualifyingKey": "MR4|4",
+      "qualifyingKey": "SR4|4",
       "modelPath": "V11 CORE",
       "status": "POTENTIAL_PENDING_LIVE_MARKET",
       "fieldsConfirmed": true,
@@ -620,13 +631,40 @@
       "histN": 41,
       "histWins": 14,
       "histWinRatePct": 34.146341463414636,
-      "histRoiPct": 22.804878048780488,
-      "jumpAt": "2026-11-14T03:00:00Z",
-      "jumpTimePerth": "11:00am Perth",
-      "marketStatus": "SANDOWN R4 2:00pm AEDT VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
-      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14",
-      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-14/mr/4",
-      "why": "14 NOV CORE WATCH only. MR4 reaches state 4 after 7 Nov archived LOSS. No system bet until all V11 live gates pass and BET NOW is issued."
+      "histRoiPct": 18.78048780487805,
+      "jumpAt": "2026-11-21T03:20:00Z",
+      "jumpTimePerth": "11:20am Perth",
+      "marketStatus": "KEMBLA GRANGE R4 2:20pm AEDT VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/kembla-grange/2026-11-21",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-21/sr/4",
+      "why": "21 NOV CORE WATCH only. SR4 enters state 4 after the 14 Nov archived favourite loss. No system bet until all V11 live gates pass and BET NOW is issued."
+    },
+    {
+      "race": "PR5",
+      "region": "Perth",
+      "venue": "Ascot",
+      "date": "2026-11-21",
+      "state": 6,
+      "qualifyingKey": "PR5|6",
+      "modelPath": "V11 CORE",
+      "status": "POTENTIAL_PENDING_LIVE_MARKET",
+      "fieldsConfirmed": true,
+      "provisionalHorse": null,
+      "currentMarketFavourite": null,
+      "marketSnapshotPriceAud": null,
+      "marketSnapshotAt": null,
+      "priceGate": 3,
+      "coreBaseReferenceAud": 8000,
+      "histN": 20,
+      "histWins": 8,
+      "histWinRatePct": 40,
+      "histRoiPct": 36,
+      "jumpAt": "2026-11-21T06:28:00Z",
+      "jumpTimePerth": "2:28pm Perth",
+      "marketStatus": "ASCOT R5 2:28pm AWST VERIFIED · LIVE TABtouch FAVOURITE/PRICE PENDING",
+      "fieldSourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/ascot/2026-11-21",
+      "marketSourceUrl": "https://www.tabtouch.com.au/racing/2026-11-21/pr/5",
+      "why": "21 NOV CORE WATCH only. PR5 enters state 6 after the 14 Nov archived favourite loss. No system bet until all V11 live gates pass and BET NOW is issued."
     }
   ],
   "stateTracklist": [
@@ -634,8 +672,8 @@
       "race": "PR1",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 0,
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -643,7 +681,7 @@
       "race": "PR2",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
+      "date": "2026-11-21",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -652,8 +690,8 @@
       "race": "PR3",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 7,
+      "date": "2026-11-21",
+      "state": 8,
       "corePotential": false,
       "active": true
     },
@@ -661,8 +699,8 @@
       "race": "PR4",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 0,
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -670,17 +708,20 @@
       "race": "PR5",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 5,
-      "corePotential": false,
-      "active": true
+      "date": "2026-11-21",
+      "state": 6,
+      "corePotential": true,
+      "active": true,
+      "histN": 20,
+      "histWins": 8,
+      "histRoiPct": 36
     },
     {
       "race": "PR6",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 0,
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
@@ -688,100 +729,100 @@
       "race": "PR7",
       "region": "Perth",
       "venue": "Ascot",
-      "date": "2026-11-14",
-      "state": 0,
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR1",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 7,
-      "corePotential": true,
-      "active": true,
-      "histN": 13,
-      "histWins": 7,
-      "histRoiPct": 88.96153846153845
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 8,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "SR2",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 1,
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR3",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 0,
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR4",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 3,
-      "corePotential": false,
-      "active": true
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 4,
+      "corePotential": true,
+      "active": true,
+      "histN": 41,
+      "histWins": 14,
+      "histRoiPct": 18.78048780487805
     },
     {
       "race": "SR5",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 1,
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR6",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 2,
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 3,
       "corePotential": false,
       "active": true
     },
     {
       "race": "SR7",
       "region": "Sydney",
-      "venue": "Newcastle",
-      "date": "2026-11-14",
-      "state": 0,
+      "venue": "Kembla Grange",
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR1",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "state": 0,
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "state": 1,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR2",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "state": 1,
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "state": 0,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR3",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -789,38 +830,35 @@
     {
       "race": "MR4",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "state": 4,
-      "corePotential": true,
-      "active": true,
-      "histN": 41,
-      "histWins": 14,
-      "histRoiPct": 22.804878048780488
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "state": 5,
+      "corePotential": false,
+      "active": true
     },
     {
       "race": "MR5",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "state": 7,
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "state": 8,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR6",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
-      "state": 1,
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
+      "state": 2,
       "corePotential": false,
       "active": true
     },
     {
       "race": "MR7",
       "region": "Melbourne",
-      "venue": "Sandown Hillside",
-      "date": "2026-11-14",
+      "venue": "Cranbourne",
+      "date": "2026-11-21",
       "state": 0,
       "corePotential": false,
       "active": true
@@ -829,112 +867,112 @@
   "streamReview": [
     {
       "race": "PR1",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "PR2",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "PR3",
-      "currentState": 7,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 8,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "PR4",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "PR5",
-      "currentState": 5,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 6,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 8000,
+      "qualifyingKey": "PR5|6"
     },
     {
       "race": "PR6",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "PR7",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR1",
-      "currentState": 7,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 10000,
-      "qualifyingKey": "SR1|7"
+      "currentState": 8,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR2",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR3",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR4",
-      "currentState": 3,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 4,
+      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
+      "currentReferenceStakeAud": 4000,
+      "qualifyingKey": "SR4|4"
     },
     {
       "race": "SR5",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR6",
-      "currentState": 2,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 3,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "SR7",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR1",
-      "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 1,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR2",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 0,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR3",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR4",
-      "currentState": 4,
-      "currentStatus": "V11 CORE POTENTIAL · LIVE MARKET PENDING",
-      "currentReferenceStakeAud": 4000,
-      "qualifyingKey": "MR4|4"
+      "currentState": 5,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR5",
-      "currentState": 7,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 8,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR6",
-      "currentState": 1,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentState": 2,
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     },
     {
       "race": "MR7",
       "currentState": 0,
-      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 14 NOV"
+      "currentStatus": "STATE TRACKING ONLY · NO FROZEN CORE MATCH FOR 21 NOV"
     }
   ],
   "expansionRule": {
@@ -958,35 +996,35 @@
     "personalExecutionIrrelevantToSystemStats": true,
     "confirmedExecutionRequiredForSystemHistory": false
   },
-  "auditThroughDate": "2026-11-07",
-  "auditStatus": "SAT 14 NOV PREPARED · 21/21 7 NOV STATES VERIFIED · CORE WATCH SR1/MR4 · 11 IMMUTABLE BET NOW SYSTEM BETS",
-  "auditCheckedAt": "2026-11-13T06:26:32.141Z",
+  "auditThroughDate": "2026-11-14",
+  "auditStatus": "SAT 21 NOV PREPARED · 21/21 14 NOV STATES VERIFIED · 2 FROZEN CORE POTENTIALS (SR4, PR5) · 12 IMMUTABLE BET NOW SYSTEM BETS",
+  "auditCheckedAt": "2026-11-19T13:20:08.530Z",
   "alarmPlan": {
     "enabled": true,
     "timezone": "Australia/Perth",
-    "date": "2026-11-14",
+    "date": "2026-11-21",
     "alarmLeadMinutes": 30,
     "entries": [
       {
-        "race": "SR1",
-        "venue": "Newcastle",
-        "jumpAt": "2026-11-14T01:35:00Z",
-        "jumpTimePerth": "9:35am Perth",
-        "alarmAt": "2026-11-14T01:05:00.000Z",
-        "alarmTimePerth": "9:05am Perth",
-        "sourceUrl": "https://www.newcastleracecourse.com.au/events/the-newcastle-herald-hunter-race-day/"
+        "race": "SR4",
+        "venue": "Kembla Grange",
+        "jumpAt": "2026-11-21T03:20:00Z",
+        "jumpTimePerth": "11:20am Perth",
+        "alarmAt": "2026-11-21T02:50:00.000Z",
+        "alarmTimePerth": "10:50am Perth",
+        "sourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/kembla-grange/2026-11-21"
       },
       {
-        "race": "MR4",
-        "venue": "Sandown Hillside",
-        "jumpAt": "2026-11-14T03:00:00Z",
-        "jumpTimePerth": "11:00am Perth",
-        "alarmAt": "2026-11-14T02:30:00.000Z",
-        "alarmTimePerth": "10:30am Perth",
-        "sourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/sandown-hillside/2026-11-14"
+        "race": "PR5",
+        "venue": "Ascot",
+        "jumpAt": "2026-11-21T06:28:00Z",
+        "jumpTimePerth": "2:28pm Perth",
+        "alarmAt": "2026-11-21T05:58:00.000Z",
+        "alarmTimePerth": "1:58pm Perth",
+        "sourceUrl": "https://www.racingandsports.com.au/form-guide/thoroughbred/australia/ascot/2026-11-21"
       }
     ],
-    "status": "SR1_AND_MR4_TIMES_VERIFIED",
-    "note": "SR1 9:35am Perth, MR4 11:00am Perth. These are frozen CORE watch races only. A system bet requires an actual BET NOW signal."
+    "status": "SR4_AND_PR5_TIMES_VERIFIED",
+    "note": "SR4 Kembla Grange is verified for 11:20am Perth; PR5 Ascot is verified for 2:28pm Perth. Neither is a bet unless the live top box turns green and literally says BET NOW."
   }
 }
