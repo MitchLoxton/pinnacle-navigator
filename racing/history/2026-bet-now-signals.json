@@ -1,20 +1,20 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-11-13T06:26:32.141Z",
+  "generatedAt": "2026-11-19T13:20:08.530Z",
   "year": 2026,
   "sourceRule": "One permanent system bet per race where earliest immutable BET_LOCKED event OR sent BET NOW push exists. Once recorded, no later NO BET can erase it. P/L calculated from instruction stake and instruction odds, regardless of actual placement.",
   "summary": {
-    "systemBets": 11,
-    "signals": 11,
+    "systemBets": 12,
+    "signals": 12,
     "wins": 4,
-    "losses": 7,
+    "losses": 8,
     "pending": 0,
-    "systemTurnoverAud": 88950,
-    "systemPlAud": 40610,
-    "systemRoiPct": 45.654862282181,
+    "systemTurnoverAud": 98400,
+    "systemPlAud": 31160,
+    "systemRoiPct": 31.666666666666664,
     "historicalContradictoryNoBetAlertsIgnored": 4,
     "lastWeekSystemBets": 1,
-    "lastWeekSystemPlAud": 14260,
+    "lastWeekSystemPlAud": -9450,
     "confirmedCashBetsAuditOnly": 1,
     "confirmedCashTurnoverAudAuditOnly": 220,
     "confirmedCashPlAudAuditOnly": 836
@@ -235,6 +235,25 @@
       "runningRoiPct": 45.654862282181,
       "executionStatus": "UNCONFIRMED",
       "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH"
+    },
+    {
+      "signalNo": 12,
+      "race": "MR4",
+      "date": "2026-11-14",
+      "venue": "Sandown Hillside",
+      "horse": "GENEVA (NZ)",
+      "stateBefore": 4,
+      "stakeAud": 9450,
+      "signalPrice": 4.2,
+      "result": "LOSS",
+      "winner": "KILLENAULE (IRE)",
+      "winnerNumber": 12,
+      "executionStatus": "UNCONFIRMED",
+      "signalEvidence": "BET_LOCKED_AND_SENT_BET_NOW_PUSH",
+      "signalPlAud": -9450,
+      "runningStakeAud": 98400,
+      "runningSignalPlAud": 31160,
+      "runningRoiPct": 31.666666666666664
     }
   ]
 }
